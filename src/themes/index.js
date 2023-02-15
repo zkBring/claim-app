@@ -63,7 +63,7 @@ const themes = {
     additionalBorderColor: '#272727',
     primaryColor: '#FFF', // main color of bg
     secondaryColor: '#363740', // secondary coplor of bg
-    blankColor: '#FFF', // secondary coplor of bg
+    blankColor: '#F7F7FB', // secondary coplor of bg
     menuItemActive: '#3E4049',
     primaryHighlightColor: '#2B32EA',
     loaderPrimaryColor: '#000',
