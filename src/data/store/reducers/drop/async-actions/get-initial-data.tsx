@@ -118,11 +118,11 @@ export default function getData(
         dispatch(actionsDrop.setLoading(false))
         return dispatch(actionsDrop.setStep('set_connector'))
       }
-      console.log({ userChainId, linkChainId })
-      if (userChainId !== Number(linkChainId)) {
-        dispatch(actionsDrop.setLoading(false))
-        return dispatch(actionsDrop.setStep('change_network'))
-      }
+
+      // if (userChainId !== Number(linkChainId)) {
+      //   dispatch(actionsDrop.setLoading(false))
+      //   return dispatch(actionsDrop.setStep('change_network'))
+      // }
 
       dispatch(actionsDrop.setLoading(false))
       dispatch(actionsDrop.setStep('initial'))
