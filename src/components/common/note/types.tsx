@@ -1,0 +1,1 @@
+export type TNoteType = 'default' | 'attention' | 'warning'
