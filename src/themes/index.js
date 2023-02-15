@@ -61,13 +61,13 @@ const themes = {
     primaryBorderColor: '#000',
     secondaryBorderColor: '#000',
     additionalBorderColor: '#272727',
-    primaryColor: '#FFF', // main color of bg
+    primaryColor: '#F7F7FB', // main color of bg
     secondaryColor: '#363740', // secondary coplor of bg
     blankColor: '#F7F7FB', // secondary coplor of bg
     menuItemActive: '#3E4049',
     primaryHighlightColor: '#2B32EA',
     loaderPrimaryColor: '#000',
-    widgetColor: '#FFF',
+    widgetColor: '#F7F7FB',
     loaderColor: '#BBB0FF',
     linkColor: '#3860E6',
 
