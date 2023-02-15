@@ -7,7 +7,7 @@ import {
   NoteStyled,
   ScreenButton
 } from './styled-components'
-import { defineNetworkName, defineAccountsDeeplink, defineLedgerChain } from 'helpers'
+import { defineNetworkName } from 'helpers'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 
@@ -29,7 +29,6 @@ const ChangeNetwork: FC<ReduxType> = ({
   image,
   address
 }) => {
-  let chain = defineLedgerChain({ chainId: String(chainId) })
   const networkName = defineNetworkName(chainId)
   return <Container> 
     <Title>{name}</Title>

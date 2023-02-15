@@ -16,8 +16,6 @@ const ErrorScreen: FC = () => {
   return <Container>
     <Image src={errorImage} />
     <Title>QR not mapped </Title>
-    <Subtitle>Please contact ledger support</Subtitle>
-    <ButtonStyled href='ledgerlive://settings/help'>Support</ButtonStyled>
   </Container>
 }
 

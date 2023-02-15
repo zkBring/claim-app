@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
-import { defineLedgerChain, shortenString } from 'helpers'
+import { shortenString } from 'helpers'
 import { 
   TitleComponent,
   ButtonsContainer,
@@ -41,11 +41,8 @@ type ReduxType = ReturnType<typeof mapStateToProps>
 const ClaimingFinished: FC<ReduxType> = ({
   image,
   name,
-  chainId,
-  hash,
   address
 }) => {
-  let chain = defineLedgerChain({ chainId: String(chainId) })
   const title = <TitleComponent>Successfully claimed</TitleComponent>
   return <Container>
     {image && <TokenImageContainer>

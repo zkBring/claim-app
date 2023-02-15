@@ -2,8 +2,7 @@ import { FC } from 'react'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import {
-  defineExplorerURL,
-  defineLedgerChain
+  defineExplorerURL
 } from 'helpers'
 import { 
   TitleComponent,
@@ -45,7 +44,6 @@ const AlreadyClaimed: FC<ReduxType> = ({
   chainId,
   hash,
 }) => {
-  let chain = defineLedgerChain({ chainId: String(chainId) })
   return <>
     {image && <TokenImageContainer>
       <DoneIcon />

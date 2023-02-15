@@ -18,9 +18,10 @@ const defineServerUrl: TDefineServerUrl = (chainId) => {
     return REACT_APP_API_URL_MUMBAI as string
   } else if (networkName ===  'mainnet') {
     return REACT_APP_API_URL_MAINNET as string
+  } else {
+    alert(`Application is not working with ${networkName} chain`)
+    return REACT_APP_API_URL_MAINNET as string
   }
-  alert(`Application is not working with ${networkName} chain`)
-  return `https://ledger-claim-api-${networkName}.linkdrop.io` 
 }
 
 export default defineServerUrl

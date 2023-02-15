@@ -18,7 +18,6 @@ const ErrorScreen: FC = () => {
     <Image src={errorImage} />
     <Title>Wrong request</Title>
     <Subtitle>Please check the QR code and try again</Subtitle>
-    <ButtonStyled href='ledgerlive://linkdrop-nft-claim/qr-scanning'>Scan again</ButtonStyled>
   </Container>
 }
 

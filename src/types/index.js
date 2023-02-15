@@ -14,7 +14,6 @@ import {
 import { TSystem } from './system'
 import TAccount from './account'
 import TSelectOption from './select-option'
-import TLedgerChain from './ledger-chain'
 import TTheme from './theme'
 import TDropError from './drop-error'
 
@@ -34,6 +33,5 @@ export {
   TClaimResult,
   TSystem,
   TAccount,
-  TLedgerChain,
   TSelectOption
 }

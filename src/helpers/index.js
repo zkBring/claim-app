@@ -13,14 +13,9 @@ import defineServerUrl from './define-server-url'
 import isIframe from './is-iframe'
 import defineSystem from './define-system'
 import resolveENS from './resolve-ens'
-import defineAccounts from './define-accounts'
-import defineApplicationUrl from './define-application-url'
-import defineLedgerChain from './define-ledger-chain'
 import defineNativeTokenSymbol from './define-native-token-symbol'
-import defineAccountsDeeplink from './define-accounts-deeplink'
 import metadataUrlResolve from './metadata-url-resolve'
 import defineRedirectUrl from './define-redirect-url'
-import defineDeeplinkUrl from './define-deeplink-url'
 import throttling from './throttling'
 import handleClaimResponseError from './handle-claim-response-error'
 
@@ -30,7 +25,6 @@ export {
   throttling,
   capitalize,
   parseRecipientsData,
-  defineDeeplinkUrl,
   defineJSONRpcUrl,
   getHashVariables,
   defineExplorerURL,
@@ -45,9 +39,5 @@ export {
   isIframe,
   defineSystem,
   resolveENS,
-  defineAccounts,
-  defineApplicationUrl,
-  defineLedgerChain,
-  defineAccountsDeeplink,
   metadataUrlResolve
 }

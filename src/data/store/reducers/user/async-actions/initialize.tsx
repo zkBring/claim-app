@@ -6,7 +6,6 @@ import contracts from 'configs/contracts'
 import {
   defineServerUrl,
   getHashVariables,
-  defineLedgerChain
 } from 'helpers'
 import { ethers } from 'ethers'
 import checkIfClaimed from '../../drop/async-actions/check-if-claimed'

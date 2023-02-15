@@ -104,7 +104,7 @@ const SetAddress: FC<ReduxType> = ({
   return <Container> 
     <Title>{name}</Title>
     {tokenId && <Subtitle>#{tokenId}</Subtitle>}
-    {!isManual && <NoteStyled type='default' text='Here is a preview of the NFT you’re about to receive. All fees will be handled by Ledger.' />}
+    {!isManual && <NoteStyled type='default' text='Here is a preview of the NFT you’re about to receive' />}
     {image && <TokenImageContainer src={image} alt={name} />}
     <Instructions>
       <Networks src={NetworksImage} />

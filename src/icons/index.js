@@ -17,7 +17,6 @@ import { ReactComponent as CloseIcon } from './close-icon.svg';
 import { ReactComponent as PolygonIcon } from './polygon-matic-icon.svg';
 import { ReactComponent as EthereumIcon } from './ethereum-icon.svg';
 import { ReactComponent as LoaderIcon } from './loader-icon.svg';
-import { ReactComponent as LedgerLogo } from './ledger-logo.svg'
 import { ReactComponent as ExclamationFilledIcon } from './exclamation-filled-icon.svg'
 import { ReactComponent as LinkdropIcon } from './linkdrop-icon.svg'
 
@@ -30,7 +29,6 @@ const Icons = {
   SupportMenuIcon,
   PolygonIcon,
   FaqMenuIcon,
-  LedgerLogo,
   DocsMenuIcon,
   StarMenuIcon,
   BlueArrowIcon,
