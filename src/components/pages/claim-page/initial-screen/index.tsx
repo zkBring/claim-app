@@ -22,10 +22,20 @@ import { shortenString } from 'helpers'
 
 const mapStateToProps = ({
   token: { name, image },
-  user: { address },
-  drop: { tokenId, amount, type, isManual, loading, autoClaim }
+  user: { address, chainId: userChainId },
+  drop: { tokenId, amount, type, isManual, loading, autoClaim, chainId }
 }: RootState) => ({
-  name, image, type, tokenId, amount, isManual, loading, autoClaim, address
+  name,
+  image,
+  type,
+  tokenId,
+  amount,
+  isManual,
+  loading,
+  autoClaim,
+  address,
+  userChainId,
+  chainId
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -39,7 +49,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
     claimERC20: () => dispatch(
       dropAsyncActions.claimERC20()
     ),
-    stepStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
+    setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
 }
 
@@ -63,7 +73,10 @@ const InitialScreen: FC<ReduxType> = ({
   claimERC721,
   claimERC20,
   loading,
-  address
+  address,
+  chainId,
+  userChainId,
+  setStep
 }) => {
 
   const defineButton = () => {
@@ -78,6 +91,9 @@ const InitialScreen: FC<ReduxType> = ({
       appearance={loading ? 'inverted' : 'default'}
       title='Add to my collection'
       onClick={() => {
+        if (Number(userChainId) !== Number(chainId)) {
+          return setStep('change_network')
+        }
         if (type === 'erc1155') {
           return claimERC1155()
         }
@@ -99,7 +115,7 @@ const InitialScreen: FC<ReduxType> = ({
       Claim token to: <UserAddress>{shortenString(address, 3)}</UserAddress>.
     </TextComponent>
     {defineButton()}
-    <Terms>By claiming NFT you agree to <TermsLink href="#">Terms and Conditions</TermsLink></Terms>
+    <Terms>By claiming NFT you agree to <TermsLink target="_blank" href="https://www.notion.so/Terms-and-Privacy-dfa7d9b85698491d9926cbfe3c9a0a58">Terms and Conditions</TermsLink></Terms>
   </Container>
 }
 

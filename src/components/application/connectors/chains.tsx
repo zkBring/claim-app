@@ -5,6 +5,7 @@ interface BasicChainInformation {
   urls: (string | undefined)[]
   name: string
 }
+
 interface ExtendedChainInformation extends BasicChainInformation {
   nativeCurrency: AddEthereumChainParameter['nativeCurrency']
   blockExplorerUrls: AddEthereumChainParameter['blockExplorerUrls']
