@@ -16,10 +16,12 @@ import TAccount from './account'
 import TSelectOption from './select-option'
 import TTheme from './theme'
 import TDropError from './drop-error'
+import IMetamaskError from './metamask-error'
 
 export {
   TMerkleTree,
   TDropStep,
+  IMetamaskError,
   TDropError,
   ISDK,
   TTheme,

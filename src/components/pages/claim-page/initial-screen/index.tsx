@@ -94,9 +94,9 @@ const InitialScreen: FC<ReduxType> = ({
   return <Container> 
     {image && <TokenImageContainer src={image} alt={name} />}
     <Subtitle>{name}{defineTokenId(tokenId)}</Subtitle>
-    <TitleComponent>Zerion ETHDenver 2023</TitleComponent>
+    <TitleComponent>Claim an NFT</TitleComponent>
     <TextComponent>
-      Claim NFT to: <UserAddress>{shortenString(address, 3)}</UserAddress>.
+      Claim token to: <UserAddress>{shortenString(address, 3)}</UserAddress>.
     </TextComponent>
     {defineButton()}
     <Terms>By claiming NFT you agree to <TermsLink href="#">Terms and Conditions</TermsLink></Terms>

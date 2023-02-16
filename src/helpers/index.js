@@ -18,10 +18,14 @@ import metadataUrlResolve from './metadata-url-resolve'
 import defineRedirectUrl from './define-redirect-url'
 import throttling from './throttling'
 import handleClaimResponseError from './handle-claim-response-error'
+import defineRealNetworkName from './define-real-network-name'
+import toHex from './to-hex'
 
 export {
   shortenString,
+  toHex,
   defineNetworkName,
+  defineRealNetworkName,
   throttling,
   capitalize,
   parseRecipientsData,

@@ -28,7 +28,8 @@ class StaticJsonRpcProvider extends ethers.providers.JsonRpcProvider {
 
 const initialize = (
   address?: string,
-  chainId?: number
+  chainId?: number,
+  userProvider?: any
 ) => {
   return async (
     dispatch: Dispatch<UserActions> & Dispatch<DropActions>
@@ -80,6 +81,7 @@ const initialize = (
       dispatch(actions.setHasConnector(true))
       dispatch(actions.setAddress(address))
       dispatch(actions.setChainId(chainId))
+      dispatch(actions.setUserProvider(userProvider))
     }
 
     if (!contract) {

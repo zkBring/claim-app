@@ -16,7 +16,8 @@ import TokenImage from 'images/Token Preview.png'
 
 export default function getData(
   userAddress?: string,
-  userChainId?: number
+  userChainId?: number,
+  userProvider?: any
 ) {
   return async (
     dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch,
@@ -46,7 +47,8 @@ export default function getData(
 
       await dispatch(asyncActionsUser.initialize(
         userAddress,
-        userChainId
+        userChainId,
+        userProvider
       ))
 
       const {
@@ -119,10 +121,10 @@ export default function getData(
         return dispatch(actionsDrop.setStep('set_connector'))
       }
 
-      // if (userChainId !== Number(linkChainId)) {
-      //   dispatch(actionsDrop.setLoading(false))
-      //   return dispatch(actionsDrop.setStep('change_network'))
-      // }
+      if (userChainId !== Number(linkChainId)) {
+        dispatch(actionsDrop.setLoading(false))
+        return dispatch(actionsDrop.setStep('change_network'))
+      }
 
       dispatch(actionsDrop.setLoading(false))
       dispatch(actionsDrop.setStep('initial'))

@@ -43,10 +43,12 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
   return {
       getData: (
         address?: string,
-        chainId?: number
+        chainId?: number,
+        provider?: any
       ) => dispatch(dropAsyncActions.getInitialData(
         address,
-        chainId
+        chainId,
+        provider
       )),
       setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
@@ -99,13 +101,16 @@ const ClaimPage: FC<ReduxType> = ({
 }) => {
 
   const screen = defineCurrentScreen(step)
-  const { connector, account, chainId } = useWeb3React()
+  const web3Data = useWeb3React()
+  console.log({ web3Data })
+  const { connector, account, chainId, provider } = web3Data
   useEffect(() => {
     getData(
       account,
-      chainId
+      chainId,
+      provider
     )
-  }, [account])
+  }, [account, chainId, provider])
   
   return <Page>
     <Container>

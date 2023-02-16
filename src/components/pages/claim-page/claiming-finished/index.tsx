@@ -56,9 +56,6 @@ const ClaimingFinished: FC<ReduxType> = ({
     <Description>
       Your NFT has been sent to this address: <UserAddress>{shortenString(address, 3)}</UserAddress>
     </Description>
-    <Description>
-      Next, sign up for the “Early Access” to Zerion Browser Extension.
-    </Description>
     <ButtonsContainer>
       <ScreenButton>
         Get Early Access

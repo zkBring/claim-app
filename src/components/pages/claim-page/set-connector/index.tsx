@@ -49,9 +49,9 @@ const SetConnector: FC<ReduxType> = ({
   return <Container> 
     {image && <TokenImageContainer src={image} alt={name} />}
     <Subtitle>{name}{defineTokenId(tokenId)}</Subtitle>
-    <TitleComponent>Zerion ETHDenver 2023</TitleComponent>
+    <TitleComponent>-</TitleComponent>
     <TextComponent>
-      Claim this free NFT and get early access to the Zerion Browser Extension.
+      -
     </TextComponent>
     <ScreenButton onClick={() => {
       chooseWallet()

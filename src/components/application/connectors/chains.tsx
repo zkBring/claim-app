@@ -19,8 +19,6 @@ const MATIC: AddEthereumChainParameter['nativeCurrency'] = {
 type ChainConfig = { [chainId: number]: BasicChainInformation | ExtendedChainInformation }
 const infuraUrl = (network: string) => REACT_APP_INFURA_ID ? `https://${network}.infura.io/v3/${REACT_APP_INFURA_ID}` : undefined
 
-
-
 export const MAINNET_CHAINS: ChainConfig = {
   137: {
     urls: [infuraUrl('polygon-mainnet'), 'https://polygon-rpc.com'].filter(Boolean),
