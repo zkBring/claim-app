@@ -69,9 +69,9 @@ const themes = {
     loaderPrimaryColor: '#000',
     widgetColor: '#F7F7FB',
     loaderColor: '#BBB0FF',
-    linkColor: '#3860E6',
+    linkColor: '#0C5EFF',
 
-    buttonDefaultColor: '#3860E6',
+    buttonDefaultColor: '#0C5EFF',
     buttonDisabledColor: '#f5f5f5',
     buttonHoverColor: '#4047EC',
     buttonActiveColor: '#2229DF',

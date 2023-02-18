@@ -22,11 +22,11 @@ export const Button = styled.button.attrs(props => ({
   cursor: pointer;
   padding: 15px 16px;
   display: flex;
-  max-height: 52px;
+  max-height: 56px;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  border-radius: 16px;
+  border-radius: 28px;
   transition: opacity .3s;
   border: 2px solid ${props => props.theme.buttonDefaultColor};
 

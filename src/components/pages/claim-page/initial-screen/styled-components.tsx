@@ -6,10 +6,7 @@ type TScreenButton = {
 }
 
 export const TitleComponent = styled(Title)`
-  font-size: 22px;
-  color: ${props => props.theme.primaryTextColor};
   margin: 0 0 12px;
-  max-width: 343px;
 `
 
 export const Subtitle = styled.h3`
@@ -21,6 +18,7 @@ export const Subtitle = styled.h3`
 
 export const Container = styled.div`
   text-align: center;
+  max-width: 343px;
 `
 
 export const ScreenButton = styled(Button)<TScreenButton>`

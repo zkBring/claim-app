@@ -89,7 +89,7 @@ const InitialScreen: FC<ReduxType> = ({
       }
       loading={loading}
       appearance={loading ? 'inverted' : 'default'}
-      title='Add to my collection'
+      title='Claim'
       onClick={() => {
         if (Number(userChainId) !== Number(chainId)) {
           return setStep('change_network')
@@ -109,10 +109,10 @@ const InitialScreen: FC<ReduxType> = ({
 
   return <Container> 
     {image && <TokenImageContainer src={image} alt={name} />}
-    <Subtitle>{name}{defineTokenId(tokenId)}</Subtitle>
-    <TitleComponent>Claim an NFT</TitleComponent>
+    <Subtitle>{defineTokenId(tokenId)}</Subtitle>
+    <TitleComponent>{name}</TitleComponent>
     <TextComponent>
-      Claim token to: <UserAddress>{shortenString(address, 3)}</UserAddress>.
+      Here is a preview of the NFT you’re about to receive to address: <UserAddress>{shortenString(address, 3)}</UserAddress>
     </TextComponent>
     {defineButton()}
     <Terms>By claiming NFT you agree to <TermsLink target="_blank" href="https://www.notion.so/Terms-and-Privacy-dfa7d9b85698491d9926cbfe3c9a0a58">Terms and Conditions</TermsLink></Terms>
