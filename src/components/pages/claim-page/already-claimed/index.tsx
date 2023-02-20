@@ -44,6 +44,12 @@ const AlreadyClaimed: FC<ReduxType> = ({
   chainId,
   hash,
 }) => {
+  const explorerUrl = chainId && hash ? <ScreenButton
+    href={`${defineExplorerURL(chainId)}/tx/${hash}`}
+    title='View in explorer'
+    target='_blank'
+    appearance='inverted'
+  /> : null
   return <>
     {image && <TokenImageContainer>
       <DoneIcon />
@@ -55,12 +61,7 @@ const AlreadyClaimed: FC<ReduxType> = ({
     <TitleComponent>NFT already claimed</TitleComponent>
     <Subtitle>This NFT has already been claimed. If you did that you can find it in your wallet.</Subtitle>
     <ButtonsContainer>
-      {chainId && hash && <ScreenButton
-        title='View in explorer'
-        appearance='inverted'
-        target='_blank'
-        href={`${defineExplorerURL(chainId)}/tx/${hash}`}
-      />}
+      {explorerUrl}
     </ButtonsContainer>
   </>
 }

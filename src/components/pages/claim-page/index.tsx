@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect } from 'react'
-import { useWeb3React, Web3ReactHooks, Web3ReactProvider } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core'
 
 import InitialScreen from './initial-screen'
 import ChangeNetwork from './change-network'
@@ -16,14 +16,14 @@ import ErrorServerFail from './error-server-fail'
 import ErrorLinkExpired from './error-link-expired'
 import ErrorAlreadyClaimed from './error-already-claimed'
 import ChooseWallet from './choose-wallet'
-
+import LinkdropLogo from 'images/linkdrop-header.png'
 import { Loader } from 'components/common'
 import Page from '../page'
 import { TDropStep } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { Container } from './styled-components'
-import { Dispatch } from 'redux';
+import { Container, LinkdropHeader } from './styled-components'
+import { Dispatch } from 'redux'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
@@ -31,7 +31,7 @@ import { TokenActions } from 'data/store/reducers/token/types'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
-  drop: { step },
+  drop: { step }
 }: RootState) => ({
   address,
   step,
@@ -61,7 +61,7 @@ type TDefineStep = (step: TDropStep) => ReactElement
 const defineCurrentScreen: TDefineStep = step => {
   switch (step) {
     case 'initial':
-      return <InitialScreen />
+      return <ClaimingFinished />
     case 'change_network':
       return <ChangeNetwork />
     case 'claiming_process':
@@ -114,6 +114,7 @@ const ClaimPage: FC<ReduxType> = ({
   
   return <Page>
     <Container>
+      <LinkdropHeader src={LinkdropLogo} alt="Linkdrop" />
       {screen}
     </Container> 
   </Page>

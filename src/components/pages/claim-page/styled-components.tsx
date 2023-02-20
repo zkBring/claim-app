@@ -7,3 +7,8 @@ export const Container = styled.div`
   align-items: center;
   flex-direction: column;
 `
+
+export const LinkdropHeader = styled.img`
+  margin-bottom: 24px;
+  max-width: 123px;
+`

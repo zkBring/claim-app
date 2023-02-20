@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
-import { shortenString } from 'helpers'
 import { 
   TitleComponent,
   ButtonsContainer,
@@ -10,9 +9,9 @@ import {
   TokenImageContainer,
   DoneIcon,
   Container,
-  Description,
-  UserAddress
+  Description
 } from './styled-components'
+import { defineExplorerURL } from 'helpers'
 
 const mapStateToProps = ({
   drop: {
@@ -41,9 +40,16 @@ type ReduxType = ReturnType<typeof mapStateToProps>
 const ClaimingFinished: FC<ReduxType> = ({
   image,
   name,
-  address
+  hash,
+  chainId
 }) => {
   const title = <TitleComponent>Successfully claimed</TitleComponent>
+  const explorerUrl = chainId && hash ? <ScreenButton
+    href={`${defineExplorerURL(chainId)}/tx/${hash}`}
+    title='View in explorer'
+    target='_blank'
+    appearance='inverted'
+  /> : null
   return <Container>
     {image && <TokenImageContainer>
       <DoneIcon />
@@ -54,12 +60,13 @@ const ClaimingFinished: FC<ReduxType> = ({
     </TokenImageContainer>}
     {title}
     <Description>
-      Your NFT has been sent to this address: <UserAddress>{shortenString(address, 3)}</UserAddress>
+      Your NFT will appear in your account in a few minutes
     </Description>
     <ButtonsContainer>
       <ScreenButton>
-        Get Early Access
+        View on OpenSea
       </ScreenButton>
+      {explorerUrl}
     </ButtonsContainer>
   </Container>
 }
