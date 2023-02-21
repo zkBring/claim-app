@@ -1,13 +1,12 @@
 import styled, { css } from 'styled-components'
-import { TNoteType } from './types'
+import {  TProps } from './types'
 
-export const Note = styled.div<{type: TNoteType}>`
+export const Note = styled.div<TProps>`
   background: ${props => props.theme.noteDefaultBgColor};
   color: ${props => props.theme.noteDefaultTextColor};
   padding: 16px;
   border-radius: 8px;
   display: flex;
-  justify-content: space-between;
   font-size: 14px;
   align-items: center;
 
@@ -16,14 +15,25 @@ export const Note = styled.div<{type: TNoteType}>`
     color: ${props => props.theme.noteAttentionTextColor};
   `}
 
-  ${props => props.type === 'warning' && css`
-    background: ${props => props.theme.noteWarningTextColor};
-    color: ${props => props.theme.primaryTextColor};
+  ${props => props.position === 'bottom' && css`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-radius: 0;
+    width: 100%;
+  `}
+
+  ${props => props.onClick && css`
+    cursor: pointer;
+    user-select: none;
   `}
 `
 
 export const NoteIcon = styled.div`
   margin-right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export const NoteText = styled.p`

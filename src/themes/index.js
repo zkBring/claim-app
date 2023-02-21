@@ -83,8 +83,8 @@ const themes = {
     tagInfoColor: '#2B32EA',
     tagSuccessColor: '#21F142',
 
-    noteDefaultBgColor: '#343248',
-    noteDefaultTextColor: '#D4CCFF',
+    noteDefaultBgColor: '#E4EDFF',
+    noteDefaultTextColor: '#0C5EFF',
 
     noteAttentionBgColor: '#272727',
     noteAttentionTextColor: '#C3C3C3',

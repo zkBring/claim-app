@@ -10,7 +10,7 @@ import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import { walletConnect } from 'components/application/connectors/wallet-connect'
 import WalletsImg from 'images/wallets.png'
-import { Popup } from 'components/common'
+import { Popup, Note } from 'components/common'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -34,6 +34,11 @@ const ChooseWallet: FC<ReduxType> = () => {
     }}>
       Choose wallet
     </ScreenButton>
+    <Note
+      text='What is a Wallet?'
+      position='bottom'
+      onClick={() => { setShowPopup(true) }}
+    />
     {showPopup && <Popup
       title='What is a Wallet?'
       onCloseAction={() => { setShowPopup(false) }}

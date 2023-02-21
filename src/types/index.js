@@ -17,6 +17,7 @@ import TSelectOption from './select-option'
 import TTheme from './theme'
 import TDropError from './drop-error'
 import IMetamaskError from './metamask-error'
+import { TLinkParams } from './link-params'
 
 export {
   TMerkleTree,
@@ -35,5 +36,6 @@ export {
   TClaimResult,
   TSystem,
   TAccount,
-  TSelectOption
+  TSelectOption,
+  TLinkParams
 }

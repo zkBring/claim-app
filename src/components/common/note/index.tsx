@@ -1,13 +1,7 @@
 import { FC } from 'react'
 import { Note, NoteIcon, NoteText } from './styled-components'
 import Icons from 'icons'
-import { TNoteType } from './types'
-
-type TProps = {
-  text: string;
-  className?: string;
-  type: TNoteType
-}
+import { TNoteType, TProps } from './types'
 
 const defineIcon = (type: TNoteType) => {
   switch (type) {
@@ -21,8 +15,19 @@ const defineIcon = (type: TNoteType) => {
   }
 }
 
-const NoteComponent: FC<TProps> = ({ text, className, type }) => {
-  return <Note className={className} type={type} >
+const NoteComponent: FC<TProps> = ({
+  text,
+  className,
+  type = 'default',
+  position = 'default',
+  onClick
+}) => {
+  return <Note
+    onClick={onClick}
+    className={className}
+    type={type}
+    position={position}
+  >
     <NoteIcon>
       {defineIcon(type)}
     </NoteIcon>

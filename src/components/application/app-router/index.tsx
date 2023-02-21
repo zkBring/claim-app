@@ -4,7 +4,10 @@ import { useWeb3React } from '@web3-react/core'
 import {
   NotFound,
   ClaimPage,
-  Page
+  Page,
+  QR,
+  HomePage,
+  ShortLinkPage
 } from 'components/pages'
 import { Container } from './styled-components'
 import { Loader } from 'components/common'
@@ -35,6 +38,9 @@ const AppRouter: FC = () => {
   return <HashRouter>
     <Switch>
       <Route path='/receive'><ClaimPage /></Route>
+      <Route path='/claim/:linkKey'><ShortLinkPage /></Route>
+      <Route path='/qr/:qrId'><QR /></Route>
+      <Route exact path='/'><HomePage /></Route>
       <Route path='*'><NotFound /></Route>
     </Switch>
   </HashRouter>
