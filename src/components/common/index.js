@@ -11,6 +11,7 @@ import Widget from './widget'
 import Note from './note'
 import Select from './select'
 import Toast from './toast'
+import Popup from './popup'
 
 export {
   Button,
@@ -25,5 +26,6 @@ export {
   FramedIcon,
   Widget,
   Note,
-  Select
+  Select,
+  Popup
 }

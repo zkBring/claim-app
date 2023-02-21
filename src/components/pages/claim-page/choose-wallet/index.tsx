@@ -1,18 +1,17 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState } from 'react'
 import {
   TitleComponent,
   ScreenButton,
   Container,
   TextComponent,
-  WalletIcon,
-  AdditionalAction
+  WalletIcon
 } from './styled-components'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
-import { hooks as walletConnectHooks, walletConnect } from 'components/application/connectors/wallet-connect'
-import AuthClient, { generateNonce } from "@walletconnect/auth-client"
-const { REACT_APP_WC_PROJECT_ID } = process.env
- console.log({ REACT_APP_WC_PROJECT_ID })
+import { walletConnect } from 'components/application/connectors/wallet-connect'
+import WalletsImg from 'images/wallets.png'
+import { Popup } from 'components/common'
+
 const mapStateToProps = ({
   token: { name, image },
   drop: { tokenId, type }
@@ -23,33 +22,23 @@ const mapStateToProps = ({
 type ReduxType = ReturnType<typeof mapStateToProps>
 
 const ChooseWallet: FC<ReduxType> = () => {
-  const [ client, setClient ] = useState<AuthClient | null>();
-  useEffect(() => {
-    if (!client) { return }
-    client
-      .request({
-        aud: window.location.href,
-        domain: window.location.hostname.split(".").slice(-2).join("."),
-        chainId: "eip155:1",
-        type: "eip4361",
-        nonce: generateNonce(),
-        statement: "Sign in with wallet.",
-      })
-      .then((res) => {
-        console.log({ res })
-      })
-  }, [client])
-  
+  const [ showPopup, setShowPopup ] = useState<boolean>(false)
   return <Container> 
+    <WalletIcon src={WalletsImg} />
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>
-      Claim NFT using your Wallet. Download the app or use another wallet.
+      To claim an NFT, you will need to have a non-custodial crypto-wallet set up and ready to use
     </TextComponent>
     <ScreenButton onClick={async () => {
       walletConnect.activate()
     }}>
       Choose wallet
     </ScreenButton>
+    {showPopup && <Popup
+      title='What is a Wallet?'
+      onCloseAction={() => { setShowPopup(false) }}
+      mainAction={() => { setShowPopup(false) }}
+    />}
   </Container>
 }
 

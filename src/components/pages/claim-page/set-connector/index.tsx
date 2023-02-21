@@ -5,7 +5,9 @@ import {
   Container,
   Subtitle,
   TokenImageContainer,
-  TextComponent
+  TextComponent,
+  Terms,
+  TermsLink
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
@@ -48,16 +50,17 @@ const SetConnector: FC<ReduxType> = ({
 
   return <Container> 
     {image && <TokenImageContainer src={image} alt={name} />}
-    <Subtitle>{name}{defineTokenId(tokenId)}</Subtitle>
-    <TitleComponent>-</TitleComponent>
+    <Subtitle>{defineTokenId(tokenId)}</Subtitle>
+    <TitleComponent>{name}</TitleComponent>
     <TextComponent>
-      -
+      Here is a preview of the NFT you’re about to receive
     </TextComponent>
     <ScreenButton onClick={() => {
       chooseWallet()
     }}>
       Claim
     </ScreenButton>
+    <Terms>By claiming NFT you agree to <TermsLink target="_blank" href="https://www.notion.so/Terms-and-Privacy-dfa7d9b85698491d9926cbfe3c9a0a58">Terms and Conditions</TermsLink></Terms>
   </Container>
 }
 

@@ -39,3 +39,14 @@ export const TokenImageContainer = styled(TokenImage)`
   margin: 0 auto 25px;
   background: ${props => props.theme.widgetColor};
 `
+
+export const Terms = styled.p`
+  margin: 0;
+  font-size: 12px;
+  color: ${props => props.theme.additionalTextColor};
+`
+
+export const TermsLink = styled.a`
+  color: ${props => props.theme.linkColor};
+  text-decoration: none;
+`

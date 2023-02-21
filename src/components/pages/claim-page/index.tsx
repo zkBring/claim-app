@@ -61,7 +61,7 @@ type TDefineStep = (step: TDropStep) => ReactElement
 const defineCurrentScreen: TDefineStep = step => {
   switch (step) {
     case 'initial':
-      return <ClaimingFinished />
+      return <InitialScreen />
     case 'change_network':
       return <ChangeNetwork />
     case 'claiming_process':

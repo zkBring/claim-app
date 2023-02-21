@@ -29,7 +29,7 @@ export const TextComponent = styled(Text)`
 `
 
 export const WalletIcon = styled.img`
-  max-width: 60px;
+  max-width: 140px;
   margin-bottom: 25px;
 `
 

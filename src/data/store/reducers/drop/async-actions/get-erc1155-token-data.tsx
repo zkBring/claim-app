@@ -12,7 +12,7 @@ const getTokenData: TGetTokenERC1155Data = async (provider, tokenAddress, tokenI
   try {
     const contractInstance = await new ethers.Contract(tokenAddress, ERC1155Contract, provider)
     let actualUrl = await contractInstance.uri(tokenId)
-    actualUrl = IPFSRedefineUrl(actualUrl)
+    actualUrl = IPFSRedefineUrl(actualUrl, tokenId)
     const tokenData = await getERC1155TokenData(actualUrl, tokenId)
     const image = await getValidImage(tokenData.data.image)
     return {
