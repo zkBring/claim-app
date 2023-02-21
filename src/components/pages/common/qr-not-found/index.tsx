@@ -6,12 +6,9 @@ import {
   Subtitle,
 } from './styled-components'
 import ErrorImageBlack from 'images/error-black.png'
-import ErrorImageWhite from 'images/error-white.png'
-import { getHashVariables } from 'helpers'
 
 const ErrorScreen: FC = () => {
-  const { theme } = getHashVariables(window.location.href)
-  const errorImage = theme === 'light' ? ErrorImageBlack : ErrorImageWhite
+  const errorImage = ErrorImageBlack
   return <Container>
     <Image src={errorImage} />
     <Title>Asset does not exist</Title>

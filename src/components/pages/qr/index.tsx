@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react'
+import { FC, useEffect } from 'react'
 import ErrorImageBlack from 'images/error-black.png'
 import ErrorImageWhite from 'images/error-white.png'
 import { IAppDispatch, RootState } from 'data/store'
@@ -8,13 +8,17 @@ import {
   Container,
   Image,
   Title,
-  Subtitle
+  Subtitle,
+  IconContainer,
+  LoadingText,
+  LoadingTitle
 } from './styled-components'
 import { Loader } from 'components/common'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
 import { getHashVariables } from 'helpers'
 import { QRNotMapped, QRNotFound, QRNoConnection, QRIncorrectParameter } from 'components/pages/common'
+import Icons from 'icons'
 
 const mapStateToProps = ({
   user: { initialized },
@@ -52,7 +56,11 @@ const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
   if (!error) {
     return <Page>
       <Container>
-        <Loader />
+        <IconContainer>
+          <Icons.LinkdropIcon />
+        </IconContainer>
+        <LoadingTitle>Linkdrop</LoadingTitle>
+        <LoadingText>Safe NFT claims since 2019</LoadingText>
       </Container>
     </Page>
   }

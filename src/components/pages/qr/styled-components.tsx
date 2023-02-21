@@ -7,6 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   max-width: 343px;
   margin: 0 auto;
+  justify-content: center;
 `
 
 export const Image = styled.img`
@@ -29,4 +30,25 @@ export const Subtitle = styled.h3`
 
 export const ButtonStyled = styled(Button)`
   width: 100%;
+`
+
+export const IconContainer = styled.div`
+  margin-bottom: 35px;
+  margin-top: 50px;
+`
+
+export const LoadingTitle = styled.h3`
+  font-size: 24px;
+  line-height: 32px;
+  color: ${props => props.theme.primaryTextColor};
+  margin: 0 0 12px;
+  text-align: center;
+`
+
+export const LoadingText = styled.p`
+  font-size: 14px;
+  line-height: 20px;
+  color: ${props => props.theme.additionalTextColor};
+  margin: 0;
+  text-align: center;
 `
