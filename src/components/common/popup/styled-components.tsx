@@ -6,10 +6,12 @@ export const PopupContainer = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.blankColor};
-  padding: 24px 16px;
+  padding: 24px 16px 80px;
   left: 0;
   top: 0;
   z-index: 2;
+  overflow: scroll;
+
 `
 
 export const PopupHeader = styled.div`
@@ -47,7 +49,7 @@ export const PopupButtons = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  position: absolute;
+  position: fixed;
   padding-bottom: 24px;
   left: 0;
   bottom: 0px;
@@ -56,4 +58,21 @@ export const PopupButtons = styled.div`
 export const ButtonStyled = styled(Button)`
   max-width: 343px;
   width: 100%;
+`
+
+export const PopupParagraph = styled.p`
+  font-size: 14px;
+  margin: 0 0 24px;
+`
+
+export const PopupSubtitle = styled.h4`
+  font-size: 16px;
+  margin: 0 0 8px;
+  font-weight: 600;
+`
+
+export const PopupList = styled.ul`
+  margin: 0 0 24px;
+  padding: 0 0 0 12px;
+  font-size: 14px;
 `

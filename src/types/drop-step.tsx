@@ -14,6 +14,7 @@ type TDropStep = 'loading' |
                  'error_server_fail' |
                  'link_expired' |
                  'error_already_claimed' |
-                 'choose_wallet'
+                 'choose_wallet' |
+                 'wallets_list'
 
 export default TDropStep

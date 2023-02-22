@@ -28,11 +28,6 @@ export const TextComponent = styled(Text)`
   margin-bottom: 32px;
 `
 
-export const WalletIcon = styled.img`
-  max-width: 140px;
-  margin-bottom: 25px;
-`
-
 export const AdditionalAction = styled.div`
   color: ${props => props.theme.additionalTextColor};
   font-size: 16px;

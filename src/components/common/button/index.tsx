@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import {
     Button,
-    ButtonLoader,
+    ButtonLoaderStyled,
     Link
 } from './styled-components'
 
@@ -37,7 +37,7 @@ const ButtonComponent: FC<Props> = ({
     appearance={appearance}
     className={className}
   >
-    {loading && <ButtonLoader size='small' />}{title || children}
+    {loading && <ButtonLoaderStyled size='small' />}{title || children}
   </Button>
   if (href) {
     return <Link href={href} target={target} className={className}>

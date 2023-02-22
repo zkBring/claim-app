@@ -5,7 +5,7 @@ import {
   TitleComponent,
   ButtonsContainer,
   ScreenButton,
-  TokenImageSmall,
+  TokenImageLarge,
   TokenImageContainer,
   DoneIcon,
   Container,
@@ -53,7 +53,7 @@ const ClaimingFinished: FC<ReduxType> = ({
   return <Container>
     {image && <TokenImageContainer>
       <DoneIcon />
-      <TokenImageSmall
+      <TokenImageLarge
         src={image}
         alt={name}
       />

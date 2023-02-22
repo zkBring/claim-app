@@ -18,6 +18,7 @@ const Popup: FC<TProps> = ({
   className,
   onCloseAction,
   mainAction,
+  children,
   mainActionTitle = 'Ok, I understand'
 }) => {
   return <PopupContainer className={className}>
@@ -31,6 +32,7 @@ const Popup: FC<TProps> = ({
     </PopupHeader>
     <PopupContent>
       <PopupTitle>{title}</PopupTitle>
+      {children}
     </PopupContent>
     {mainAction && <PopupButtons>
       <ButtonStyled onClick={mainAction}>

@@ -38,7 +38,7 @@ export const TokenImageContainer = styled.div`
   padding: 12px 12px 0px;
 `
 
-export const TokenImageSmall = styled(TokenImage)`
+export const TokenImageLarge = styled(TokenImage)`
   max-width: 223px;
   max-height: 223px;
   border-radius: 8px;

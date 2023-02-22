@@ -88,7 +88,7 @@ const InitialScreen: FC<ReduxType> = ({
         loading
       }
       loading={loading}
-      appearance={loading ? 'inverted' : 'default'}
+      appearance='default'
       title='Claim'
       onClick={() => {
         if (Number(userChainId) !== Number(chainId)) {

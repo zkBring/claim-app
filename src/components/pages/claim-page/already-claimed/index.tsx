@@ -8,7 +8,7 @@ import {
   TitleComponent,
   ButtonsContainer,
   ScreenButton,
-  TokenImageSmall,
+  TokenImageLarge,
   TokenImageContainer,
   DoneIcon,
   Subtitle,
@@ -53,13 +53,13 @@ const AlreadyClaimed: FC<ReduxType> = ({
   return <>
     {image && <TokenImageContainer>
       <DoneIcon />
-      <TokenImageSmall
+      <TokenImageLarge
         src={image}
         alt={name}
       />
     </TokenImageContainer>}
-    <TitleComponent>NFT already claimed</TitleComponent>
-    <Subtitle>This NFT has already been claimed. If you did that you can find it in your wallet.</Subtitle>
+    <TitleComponent>Already claimed</TitleComponent>
+    <Subtitle>Somebody has already claimed this link. In case it was you, find NFT in your wallet</Subtitle>
     <ButtonsContainer>
       {explorerUrl}
     </ButtonsContainer>

@@ -49,6 +49,8 @@ const themes = {
 
     ethereumLogoColor: '#0EBDCD',
     polygonLogoColor: '#0EBDCD',
+    buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
+
   },
   light: {
     primaryTextColor: '#121212', // main ccolor of text
@@ -98,6 +100,8 @@ const themes = {
     ethereumLogoColor: '#0EBDCD',
     polygonLogoColor: '#0EBDCD',
     toastBackgroundColor: '#2D2A3D',
+    buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
+
   }
 }
 

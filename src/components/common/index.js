@@ -12,6 +12,8 @@ import Note from './note'
 import Select from './select'
 import Toast from './toast'
 import Popup from './popup'
+import ButtonLoader from './button-loader'
+import { PopupParagraph, PopupSubtitle, PopupTitle, PopupList } from './popup/styled-components'
 
 export {
   Button,
@@ -22,10 +24,15 @@ export {
   Title,
   TokenImage,
   ScreenLoader,
+  ButtonLoader,
   Text,
   FramedIcon,
   Widget,
   Note,
   Select,
-  Popup
+  Popup,
+  PopupParagraph,
+  PopupSubtitle,
+  PopupTitle,
+  PopupList
 }

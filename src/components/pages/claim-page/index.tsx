@@ -12,6 +12,7 @@ import SetAddress from './set-address'
 import ErrorPage from './error'
 import ErrorTransactionPage from './error-transaction'
 import ErrorNoConnectionPage from './error-no-connection'
+import WalletsListPage from './wallets-list'
 import ErrorServerFail from './error-server-fail'
 import ErrorLinkExpired from './error-link-expired'
 import ErrorAlreadyClaimed from './error-already-claimed'
@@ -90,6 +91,8 @@ const defineCurrentScreen: TDefineStep = step => {
       return <ErrorAlreadyClaimed />
     case 'choose_wallet':
       return <ChooseWallet />
+    case 'wallets_list':
+      return <WalletsListPage />
     default:
       return <Loader />
   }

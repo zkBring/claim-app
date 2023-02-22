@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import Loader from '../loader'
+import ButtonLoader from '../button-loader'
 
 interface ButtonProps {
   disabled: boolean,
@@ -9,7 +9,7 @@ interface ButtonProps {
   className?: string
 }
 
-export const ButtonLoader = styled(Loader)`
+export const ButtonLoaderStyled = styled(ButtonLoader)`
   margin-right: 8px;
 `
 
@@ -74,6 +74,25 @@ export const Button = styled.button.attrs(props => ({
   ${props => props.disabled && css`
     cursor: not-allowed;
     opacity: 0.6;
+  `}
+
+  ${props => props.loading && css`
+    background: ${props => props.theme.buttonGradient};
+    background-size: 200%;
+    background-position: left top;
+    transition: background-position .3s, transform .3s;
+    border: none;
+    color: ${props => props.theme.secondaryTextColor};
+
+    ${!props.disabled && css`
+      &:hover {
+        background-position: right top;
+      }
+      &:active {
+        background-position: center center;
+        transform: scale(1.01);
+      }
+    `}
   `}
 `;
 
