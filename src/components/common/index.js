@@ -14,6 +14,7 @@ import Toast from './toast'
 import Popup from './popup'
 import ButtonLoader from './button-loader'
 import { PopupParagraph, PopupSubtitle, PopupTitle, PopupList } from './popup/styled-components'
+import OptionsList from './options-list'
 
 export {
   Button,
@@ -24,6 +25,7 @@ export {
   Title,
   TokenImage,
   ScreenLoader,
+  OptionsList,
   ButtonLoader,
   Text,
   FramedIcon,
