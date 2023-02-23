@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button, Text, TokenImage, Note, Title } from 'components/common'
+import { Button, Text, TokenImage, OptionsList, Title } from 'components/common'
 import Icons from 'icons'
 
 type TScreenButton = {
@@ -33,4 +33,8 @@ export const AdditionalAction = styled.div`
   font-size: 16px;
   text-align: center;
   cursor: pointer;
+`
+
+export const OptionsListStyled = styled(OptionsList)`
+  margin-bottom: 20px;;
 `
