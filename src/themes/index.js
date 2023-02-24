@@ -74,10 +74,10 @@ const themes = {
     linkColor: '#0C5EFF',
 
     buttonDefaultColor: '#0C5EFF',
-    buttonDisabledColor: '#f5f5f5',
+    buttonDisabledColor: '#E4E4E4',
     buttonHoverColor: '#4047EC',
     buttonActiveColor: '#2229DF',
-    buttonDisabledTextColor: '#D6D6D6',
+    buttonDisabledTextColor: '#9D9D9D',
     buttonBorderColor: '#E4E4E4',
 
     tagDefaultColor: '#DFE0EB',
@@ -92,10 +92,10 @@ const themes = {
     noteAttentionTextColor: '#C3C3C3',
     noteWarningTextColor: '#3E2909',
 
-    inputBgColor: '#272727',
-    inputBorderColor: '#565656',
+    inputBgColor: '#F7F7FB',
+    inputBorderColor: '#E4E4E4',
     inputBorderHoverColor: '#C3C3C3',
-    inputPlaceholderColor: '#565656',
+    inputPlaceholderColor: '#9D9D9D',
 
     ethereumLogoColor: '#0EBDCD',
     polygonLogoColor: '#0EBDCD',

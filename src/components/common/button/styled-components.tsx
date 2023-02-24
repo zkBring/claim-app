@@ -73,7 +73,6 @@ export const Button = styled.button.attrs(props => ({
 
   ${props => props.disabled && css`
     cursor: not-allowed;
-    opacity: 0.6;
   `}
 
   ${props => props.loading && css`

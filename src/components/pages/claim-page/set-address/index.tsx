@@ -104,8 +104,8 @@ const SetAddress: FC<ReduxType> = ({
   return <Container> 
     <Title>{name}</Title>
     {tokenId && <Subtitle>#{tokenId}</Subtitle>}
-    {!isManual && <NoteStyled type='default' text='Here is a preview of the NFT you’re about to receive' />}
     {image && <TokenImageContainer src={image} alt={name} />}
+    {!isManual && <NoteStyled type='default' text='Here is a preview of the NFT you’re about to receive' />}
     <Instructions>
       <Networks src={NetworksImage} />
       Enter your Ethereum/Polygon address to receive your NFT

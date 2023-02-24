@@ -26,7 +26,7 @@ export const Subtitle = styled.h3`
 `
 
 export const Container = styled.div`
-  padding: 0 0 80px;
+  padding: 0 0 20px;
 `
 
 export const ScreenButton = styled(Button)<TScreenButton>`
@@ -53,6 +53,13 @@ export const Description = styled.p`
 export const TokenImageContainer = styled(TokenImage)`
   margin: 0 auto 45px;
   background: ${props => props.theme.widgetColor};
+  max-width: 343px;
+  max-height: 343px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  width: 40vh;
+  height: 40vh;
 `
 
 export const NoteStyled = styled(Note)`

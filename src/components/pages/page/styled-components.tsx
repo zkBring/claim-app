@@ -13,7 +13,7 @@ export const MainContent = styled.div`
 
 
 export const Content = styled.main`
-  padding: 78px 20px 50px;
+  padding: 48px 20px 50px;
   overflow: scroll;
   height: 100vh;
 `

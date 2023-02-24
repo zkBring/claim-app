@@ -32,6 +32,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
 }
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
+
 const ChooseWallet: FC<ReduxType> = ({
   chooseWallet
 }) => {

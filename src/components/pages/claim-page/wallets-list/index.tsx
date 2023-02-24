@@ -1,14 +1,24 @@
 import { FC, useState } from 'react'
 import {
   TitleComponent,
-  ScreenButton,
   Container,
-  TextComponent
+  TextComponent,
+  OptionsListStyled
 } from './styled-components'
-import { RootState } from 'data/store'
+import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { walletConnect } from 'components/application/connectors/wallet-connect'
-import { Popup, Note, PopupParagraph, PopupSubtitle, PopupTitle, PopupList } from 'components/common'
+import {
+  Popup,
+  Note,
+  PopupParagraph,
+  PopupSubtitle,
+  PopupTitle,
+  PopupList
+} from 'components/common'
+import * as dropActions from 'data/store/reducers/drop/actions'
+import { Dispatch } from 'redux';
+import { DropActions } from 'data/store/reducers/drop/types'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -17,15 +27,37 @@ const mapStateToProps = ({
   name, image, type, tokenId
 })
 
-type ReduxType = ReturnType<typeof mapStateToProps>
+const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
+  return {
+    setAddress: () => dispatch(
+      dropActions.setStep('set_address')
+    )
+  }
+}
 
-const WalletsList: FC<ReduxType> = () => {
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
+
+const WalletsList: FC<ReduxType> = ({
+  setAddress
+}) => {
+  const options = [{
+    title: 'WalletConnect',
+    onClick: () => {
+      walletConnect.activate()
+    },
+    recommended: true
+  }, {
+    title: 'Enter ENS or address',
+    onClick: setAddress
+  }]
+
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   return <Container>
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>
       Choose a wallet from the list
     </TextComponent>
+    <OptionsListStyled options={options}/>
     <Note
       text='Connect your wallet'
       position='bottom'
@@ -63,4 +95,4 @@ const WalletsList: FC<ReduxType> = () => {
   </Container>
 }
 
-export default connect(mapStateToProps)(WalletsList)
+export default connect(mapStateToProps, mapDispatcherToProps)(WalletsList)

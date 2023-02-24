@@ -15,6 +15,7 @@ export const TitleComponent = styled(Title)`
 
 export const Container = styled.div`
   text-align: center;
+  width: 100%;
 `
 
 export const ScreenButton = styled(Button)<TScreenButton>`
@@ -36,5 +37,6 @@ export const AdditionalAction = styled.div`
 `
 
 export const OptionsListStyled = styled(OptionsList)`
-  margin-bottom: 20px;;
+  margin-bottom: 20px;
+  width: 100%;
 `
