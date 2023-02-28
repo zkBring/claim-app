@@ -22,7 +22,6 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
-import wallets from 'configs/wallets'
 
 const mapStateToProps = ({
   token: { name, image },

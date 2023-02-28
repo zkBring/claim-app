@@ -9,10 +9,10 @@ export const TitleComponent = styled(Title)`
 `
 
 export const Subtitle = styled.h3`
-  font-size: 14px;
+  font-size: 16px;
   color: ${props => props.theme.primaryTextColor};
   font-weight: 400;
-  margin: 0 0 36px;
+  margin: 0 0 32px;
 `
 
 export const ScreenButton = styled(Button)`
@@ -28,4 +28,9 @@ export const TextComponent = styled(Text)`
 
 export const Container = styled.div`
   text-align: center;
+`
+
+export const Image = styled.img`
+  max-width: 240px;
+  margin-bottom: 24px;
 `

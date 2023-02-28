@@ -2,12 +2,15 @@ import { FC } from 'react'
 import {
   Container,
   ScreenButton,
-  TitleComponent
+  TitleComponent,
+  Subtitle,
+  Image
 } from './styled-components'
 import { defineRealNetworkName } from 'helpers'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import { switchNetwork } from 'data/store/reducers/user/async-actions'
+import Wrongetwork from 'images/network.png'
 
 const mapStateToProps = ({
   user: { address, chainId: userChainId, userProvider },
@@ -35,8 +38,10 @@ const ChangeNetwork: FC<ReduxType> = ({
   userProvider
 }) => {
   const networkName = defineRealNetworkName(chainId)
-  return <Container> 
-    <TitleComponent>To get an NFT you need to add {networkName} network</TitleComponent>
+  return <Container>
+    <Image src={Wrongetwork} alt='Wrong network' />
+    <TitleComponent>Wrong network</TitleComponent>
+    <Subtitle>To claim an NFT you need to switch your wallet to {networkName} network</Subtitle>
     <ScreenButton onClick={async () => {
       if (chainId) {
         switchNetwork(userProvider, chainId, () => {})
@@ -44,7 +49,7 @@ const ChangeNetwork: FC<ReduxType> = ({
         alert('No chain provided')
       }
     }}>
-      Add Network
+      Switch Network
     </ScreenButton>
   </Container>
 }
