@@ -5,6 +5,7 @@ import getInitialData from './get-initial-data'
 import getLink from './get-link'
 import checkTransactionStatus from './check-transaction-status'
 import retrieveOriginalLink from './retrieve-original-link'
+import getLinkByCode from './get-link-by-code'
 
 export {
   claimERC1155,
@@ -13,5 +14,6 @@ export {
   claimERC20,
   getLink,
   checkTransactionStatus,
-  retrieveOriginalLink
+  retrieveOriginalLink,
+  getLinkByCode
 }

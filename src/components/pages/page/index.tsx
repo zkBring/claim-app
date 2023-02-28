@@ -20,17 +20,15 @@ const PageComponent: FC<PageProps & ReduxType> = ({
   children
 }) => {
   const currentTheme = themes.light
-  return (
-    <ThemeProvider theme={currentTheme}>
-      <Page>
-        <MainContent>
-          <Content>
-            {children}              
-          </Content>
-        </MainContent>
-      </Page>
-    </ThemeProvider>
-  )
+  return <ThemeProvider theme={currentTheme}>
+    <Page>
+      <MainContent>
+        <Content>
+          {children}              
+        </Content>
+      </MainContent>
+    </Page>
+  </ThemeProvider>
 }
 
 

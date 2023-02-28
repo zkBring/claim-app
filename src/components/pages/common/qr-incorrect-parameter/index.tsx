@@ -5,13 +5,11 @@ import {
   Title,
   Subtitle
 } from './styled-components'
-import ErrorImageBlack from 'images/error-black.png'
+import QRError from 'images/qr-error.png'
 
 const ErrorScreen: FC = () => {
-  const errorImage = ErrorImageBlack
-
   return <Container>
-    <Image src={errorImage} />
+    <Image src={QRError} />
     <Title>Wrong request</Title>
     <Subtitle>Please check the QR code and try again</Subtitle>
   </Container>

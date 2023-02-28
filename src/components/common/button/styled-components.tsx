@@ -26,7 +26,7 @@ export const Button = styled.button.attrs(props => ({
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  border-radius: 28px;
+  border-radius: 16px;
   transition: opacity .3s;
   border: 2px solid ${props => props.theme.buttonDefaultColor};
 

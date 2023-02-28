@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { IAppDispatch, RootState } from 'data/store'
+import { IAppDispatch } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
 

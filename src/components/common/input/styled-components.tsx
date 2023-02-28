@@ -44,7 +44,7 @@ export const InputField = styled.input<InputFieldProps>`
   font-size: 14px;
   width: 100%;
   line-height: 1;
-  padding: 16px;
+  padding: 13px;
   border: 1px solid;
   border-color: ${props => props.theme.inputBorderColor};
   border-radius: 8px;

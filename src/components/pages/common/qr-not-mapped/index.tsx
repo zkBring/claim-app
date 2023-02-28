@@ -2,15 +2,18 @@ import { FC } from 'react'
 import {
   Container,
   Image,
-  Title
+  Title,
+  Subtitle,
+  ButtonStyled
 } from './styled-components'
-import ErrorImageBlack from 'images/error-black.png'
+import QRError from 'images/qr-error.png'
 
 const ErrorScreen: FC = () => {
-  const errorImage = ErrorImageBlack
   return <Container>
-    <Image src={errorImage} />
-    <Title>QR not mapped </Title>
+    <Image src={QRError} />
+    <Title>QR not mapped</Title>
+    <Subtitle>Please contact the company that provided you the QR code</Subtitle>
+    <ButtonStyled appearance='inverted'>Learn more</ButtonStyled>
   </Container>
 }
 

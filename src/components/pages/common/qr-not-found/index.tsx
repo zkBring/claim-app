@@ -4,15 +4,16 @@ import {
   Image,
   Title,
   Subtitle,
+  ButtonStyled
 } from './styled-components'
-import ErrorImageBlack from 'images/error-black.png'
+import QRError from 'images/qr-error.png'
 
 const ErrorScreen: FC = () => {
-  const errorImage = ErrorImageBlack
   return <Container>
-    <Image src={errorImage} />
+    <Image src={QRError} />
     <Title>Asset does not exist</Title>
-    <Subtitle>Please check the QR code and try again</Subtitle>
+    <Subtitle>Please contact the company that provided you the QR code</Subtitle>
+    <ButtonStyled appearance='inverted'>Learn more</ButtonStyled>
   </Container>
 }
 

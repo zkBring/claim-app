@@ -40,6 +40,7 @@ const mapStateToProps = ({
   chainId,
   initialized
 })
+
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
   return {
       getData: (

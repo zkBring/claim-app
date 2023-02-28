@@ -1,15 +1,13 @@
 import { FC } from 'react'
 import { Image, Title, Subtitle, ButtonStyled } from './styled-components'
-import ErrorImageBlack from 'images/error-black.png'
-import ErrorImageWhite from 'images/error-white.png'
-import { getHashVariables } from 'helpers'
+import ExpiredError from 'images/expired-error.png'
 
-const ErrorComponent: FC = (props) => {
-  const { theme } = getHashVariables(window.location.href)
-  const errorImage = theme === 'light' ? ErrorImageBlack : ErrorImageWhite
+const ErrorComponent: FC = () => {
   return <>
-    <Image src={errorImage} />
+    <Image src={ExpiredError} />
     <Title>Link has expired</Title>
+    <Subtitle>This claim is not available anymore</Subtitle>
+    <ButtonStyled appearance='inverted'>Learn more</ButtonStyled>
   </>
 }
 
