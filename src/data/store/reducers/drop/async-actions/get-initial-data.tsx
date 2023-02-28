@@ -12,7 +12,6 @@ import getERC20Data from './get-erc20-token-data'
 import { getHashVariables } from 'helpers'
 import { RootState, IAppDispatch } from 'data/store'
 import { TTheme } from 'types'
-import TokenImage from 'images/Token Preview.png'
 
 export default function getData(
   userAddress?: string,
@@ -83,7 +82,7 @@ export default function getData(
         dispatch(actionsDrop.setAmount(tokenAmount))
         dispatch(actionsDrop.setTokenId(tokenId))
         dispatch(actionsToken.setDescription(description))
-        dispatch(actionsToken.setImage(TokenImage))
+        dispatch(actionsToken.setImage(image))
         dispatch(actionsToken.setName(name))
         dispatch(actionsDrop.setType('erc1155'))
       }
@@ -92,7 +91,7 @@ export default function getData(
         const { name, image, description } = await getERC721Data(provider, tokenAddress, tokenId)
         dispatch(actionsDrop.setTokenId(tokenId))
         dispatch(actionsToken.setDescription(description))
-        dispatch(actionsToken.setImage(TokenImage))
+        dispatch(actionsToken.setImage(image))
         dispatch(actionsToken.setName(name))
         dispatch(actionsDrop.setType('erc721'))
       }
@@ -100,7 +99,7 @@ export default function getData(
       if (tokenAmount && !tokenId) {
         const { symbol, decimals, image } = await getERC20Data(provider, tokenAddress)
         dispatch(actionsToken.setName(symbol))
-        dispatch(actionsToken.setImage(TokenImage))
+        dispatch(actionsToken.setImage(image))
         dispatch(actionsToken.setDecimals(decimals))
         dispatch(actionsDrop.setAmount(tokenAmount))
         dispatch(actionsDrop.setType('erc20'))
