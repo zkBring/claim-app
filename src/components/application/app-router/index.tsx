@@ -16,15 +16,16 @@ const AppRouter: FC = () => {
   const { connector } = useWeb3React()
   const [ initialized, setInitialized ] = useState<boolean>(false)
   useEffect(() => {
-    const init = async () => {
-      try {
-        await connector.activate()
-      } catch (error) {
-        console.error({ error })
-      }
-      setInitialized(true)
-    }
-    init()
+    // const init = async () => {
+    //   try {
+    //     await connector.activate()
+    //   } catch (error) {
+    //     console.error({ error })
+    //   }
+    //   setInitialized(true)
+    // }
+    // init()
+    setInitialized(true)
   }, [])
 
   if (!initialized) {

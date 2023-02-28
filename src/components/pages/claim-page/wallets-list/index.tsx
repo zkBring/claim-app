@@ -3,11 +3,17 @@ import {
   TitleComponent,
   Container,
   TextComponent,
-  OptionsListStyled
+  OptionsListStyled,
+  WalletIcon
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { walletConnect } from 'components/application/connectors/wallet-connect'
+import { metamask } from 'components/application/connectors/metamask-connect'
+import MetamaskIcon from 'images/metamask-wallet.png'
+import WalletConnectIcon from 'images/walletconnect-wallet.png'
+import ENSIcon from 'images/ens-logo.png'
+
 import {
   Popup,
   Note
@@ -40,14 +46,24 @@ const WalletsList: FC<ReduxType> = ({
   wallet
 }) => {
   const options = [{
+    title: 'Metamask',
+    onClick: () => {
+      metamask.activate().catch(err => {
+        console.log({ err })
+      })
+    },
+    icon: <WalletIcon src={MetamaskIcon} />,
+    recommended: true
+  }, {
     title: 'WalletConnect',
     onClick: () => {
       walletConnect.activate()
     },
-    recommended: true
+    icon: <WalletIcon src={WalletConnectIcon} />
   }, {
     title: 'Enter ENS or address',
-    onClick: setAddress
+    onClick: setAddress,
+    icon: <WalletIcon src={ENSIcon} />
   }]
 
   const [ showPopup, setShowPopup ] = useState<boolean>(false)

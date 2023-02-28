@@ -40,3 +40,8 @@ export const OptionsListStyled = styled(OptionsList)`
   margin-bottom: 20px;
   width: 100%;
 `
+
+
+export const WalletIcon = styled.img`
+  max-width: 24px;
+`

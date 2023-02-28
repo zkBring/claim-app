@@ -15,7 +15,6 @@ export const OptionsListItem = styled.li`
   display: flex;
   cursor: pointer;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   background-color: ${props => props.theme.blankColor};
   min-height: 56px;
@@ -29,5 +28,13 @@ export const OptionTag = styled.div`
   padding: 4px 8px;
   line-height: 1;
   font-size: 11px;
+  margin-left: auto;
   color: ${props => props.theme.secondaryTextColor};
+`
+
+export const OptionImage = styled.div`
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 `

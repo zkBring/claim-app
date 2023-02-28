@@ -4,7 +4,6 @@ import { ethers } from 'ethers'
 import { IPFSRedefineUrl } from 'helpers'
 import nftPlaceholder from 'images/nft-placeholder.png'
 import { getValidImage } from 'helpers'
-import InfinityImg from 'images/infinity.png'
 
 type TTokenERC721Data = { name: string, image: string, description: string }
 type TGetTokenERC721Data = (provider: any, tokenAddress: string, tokenId: string) => Promise<TTokenERC721Data>
@@ -12,7 +11,7 @@ type TGetTokenERC721Data = (provider: any, tokenAddress: string, tokenId: string
 const getTokenData: TGetTokenERC721Data = async (provider, tokenAddress, tokenId ) => {
   if (tokenAddress.toLocaleLowerCase() === '0xfe399e9a4b0be4087a701ff0b1c89dabe7ce5425') {
     return {
-      name: 'Infinity Pass', image: InfinityImg, description: ''
+      name: 'Infinity Pass', description: ''
     }
   }
   try {

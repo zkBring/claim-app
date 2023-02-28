@@ -1,5 +1,10 @@
 import { FC } from 'react'
-import { OptionsListContainer, OptionsListItem, OptionTag } from './styled-components'
+import {
+  OptionsListContainer,
+  OptionsListItem,
+  OptionTag,
+  OptionImage
+} from './styled-components'
 import { TOption, TProps } from './types'
 
 const OptionsList: FC<TProps> = ({
@@ -12,7 +17,7 @@ const OptionsList: FC<TProps> = ({
       onClick,
       recommended
     }: TOption) => <OptionsListItem onClick={onClick}>
-      {icon}
+      {icon && <OptionImage>{icon}</OptionImage>}
       {title}
       {recommended && <OptionTag>Recommended</OptionTag>}
     </OptionsListItem>)}
