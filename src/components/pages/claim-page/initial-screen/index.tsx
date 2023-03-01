@@ -40,14 +40,29 @@ const mapStateToProps = ({
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
   return {
-    claimERC1155: () => dispatch(
-      dropAsyncActions.claimERC1155()
+    claimERC1155: (
+      checkGasPrice?: boolean
+    ) => dispatch(
+      dropAsyncActions.claimERC1155(
+        undefined,
+        checkGasPrice
+      )
     ),
-    claimERC721: () => dispatch(
-      dropAsyncActions.claimERC721()
+    claimERC721: (
+      checkGasPrice?: boolean
+    ) => dispatch(
+      dropAsyncActions.claimERC721(
+        undefined,
+        checkGasPrice
+      )
     ),
-    claimERC20: () => dispatch(
-      dropAsyncActions.claimERC20()
+    claimERC20: (
+      checkGasPrice?: boolean
+    ) => dispatch(
+      dropAsyncActions.claimERC20(
+        undefined,
+        checkGasPrice
+      )
     ),
     setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
@@ -95,13 +110,19 @@ const InitialScreen: FC<ReduxType> = ({
           return setStep('change_network')
         }
         if (type === 'erc1155') {
-          return claimERC1155()
+          return claimERC1155(
+            true
+          )
         }
         if (type === 'erc721') {
-          return claimERC721()
+          return claimERC721(
+            true
+          )
         }
         if (type === 'erc20') {
-          return claimERC20()
+          return claimERC20(
+            true
+          )
         }
       }}
     />

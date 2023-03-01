@@ -1,7 +1,7 @@
 
 import { Dispatch } from 'redux';
 import { DropActions } from '../types'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import { RootState } from 'data/store'
 import contracts from 'configs/contracts'
 import LinkdropFactory from 'abi/linkdrop-factory.json'
@@ -10,11 +10,14 @@ import * as dropActions from '../actions'
 import * as userActions from '../../user/actions'
 import { UserActions } from '../../user/types'
 import { resolveENS, defineJSONRpcUrl, handleClaimResponseError } from 'helpers'
-import axios, { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
+import gasPriceLimits from 'configs/gas-price-limits'
+
 const { REACT_APP_INFURA_ID = '' } = process.env
 
 export default function claimERC721(
-  manualAddress?: string
+  manualAddress?: string,
+  checkGasPrice?: boolean
 ) {
   return async (
     dispatch: Dispatch<DropActions> & Dispatch<UserActions>,
@@ -92,6 +95,7 @@ export default function claimERC721(
       if (addressResolved) {
         dispatch(userActions.setAddress(addressResolved))
         address = addressResolved
+        dispatch(dropActions.setAddressIsManuallySet(true))
       } else if (addressResolved === null) {
         dispatch(dropActions.setLoading(false))
         return dispatch(dropActions.setStep('error_no_connection'))
@@ -104,7 +108,10 @@ export default function claimERC721(
     let finalTxHash = ''
 
     try {
+      
+
       if (isManual) {
+        
         finalTxHash = await claimManually(
           chainId,
           userProvider,
@@ -120,6 +127,14 @@ export default function claimERC721(
           dispatch
         )    
       } else {
+        if (checkGasPrice) {
+          const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
+          const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
+          const gasPrice = await provider.getGasPrice()
+          if (gasPrice > BigNumber.from(gasPriceLimits[chainId])) {
+            return dispatch(dropActions.setStep('gas_price_high'))
+          }
+        }
         const { success, errors, txHash, message } = await sdk.claimERC721({
           weiAmount,
           nftAddress: tokenAddress,

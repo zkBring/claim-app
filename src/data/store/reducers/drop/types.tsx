@@ -28,7 +28,8 @@ export interface DropState {
 
   autoClaim: boolean,
   theme: TTheme,
-  redirectToOnboarding: boolean
+  redirectToOnboarding: boolean,
+  addressIsManuallySet: boolean
 }
 
 

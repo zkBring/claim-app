@@ -25,7 +25,8 @@ const initialState: DropState = {
   isClaimed: false,
   autoClaim: false,
   redirectToOnboarding: false,
-  theme: 'dark'
+  theme: 'dark',
+  addressIsManuallySet: false
 }
 
 export function dropReducer(
@@ -75,6 +76,8 @@ export function dropReducer(
           return {...state, redirectToOnboarding: action.payload.redirectToOnboarding }
         case Constants.DROP_SET_ERROR:
           return {...state, error: action.payload.error }
+        case Constants.DROP_SET_ADDRESS_MANUALLY_SET:
+          return {...state, addressIsManuallySet: action.payload.addressIsManuallySet }
 
         case Constants.DROP_SET_THEME:
           return {...state, theme: action.payload.theme }

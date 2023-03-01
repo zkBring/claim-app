@@ -1,7 +1,7 @@
 
 import { Dispatch } from 'redux';
 import { DropActions } from '../types'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import { RootState } from 'data/store'
 import contracts from 'configs/contracts'
 import LinkdropFactory from 'abi/linkdrop-factory.json'
@@ -10,12 +10,13 @@ import * as dropActions from '../actions'
 import * as userActions from '../../user/actions'
 import { UserActions } from '../../user/types'
 import { resolveENS, defineJSONRpcUrl, handleClaimResponseError } from 'helpers'
-import axios, { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
+import gasPriceLimits from 'configs/gas-price-limits'
 const { REACT_APP_INFURA_ID = '' } = process.env
 
-
 export default function claimERC20(
-  manualAddress?: string
+  manualAddress?: string,
+  checkGasPrice?: boolean
 ) {
   return async (
     dispatch: Dispatch<DropActions> & Dispatch<UserActions>,
@@ -95,6 +96,7 @@ export default function claimERC20(
       if (addressResolved) {
         dispatch(userActions.setAddress(addressResolved))
         address = addressResolved
+        dispatch(dropActions.setAddressIsManuallySet(true))
       } else if (addressResolved === null) {
         dispatch(dropActions.setLoading(false))
         return dispatch(dropActions.setStep('error_no_connection'))
@@ -124,6 +126,14 @@ export default function claimERC20(
         )
 
       } else {
+        if (checkGasPrice) {
+          const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
+          const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
+          const gasPrice = await provider.getGasPrice()
+          if (gasPrice > BigNumber.from(gasPriceLimits[chainId])) {
+            return dispatch(dropActions.setStep('gas_price_high'))
+          }
+        }
         const res = await sdk.claim({
           weiAmount,
           tokenAddress,
@@ -173,6 +183,7 @@ const claimManually = async (
   linkdropSignerSignature: string,
   dispatch: Dispatch<DropActions> & Dispatch<UserActions>,
 ) => {
+
   try {
     const factoryItem = contracts[chainId]
     const signer = await userProvider.getSigner()

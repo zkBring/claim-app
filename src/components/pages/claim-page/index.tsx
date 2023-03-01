@@ -17,6 +17,7 @@ import ErrorServerFail from './error-server-fail'
 import ErrorLinkExpired from './error-link-expired'
 import ErrorAlreadyClaimed from './error-already-claimed'
 import ChooseWallet from './choose-wallet'
+import HighGasPrice from './high-gas-price'
 import LinkdropLogo from 'images/linkdrop-header.png'
 import { Loader } from 'components/common'
 import Page from '../page'
@@ -94,6 +95,8 @@ const defineCurrentScreen: TDefineStep = step => {
       return <ChooseWallet />
     case 'wallets_list':
       return <WalletsListPage />
+    case 'gas_price_high':
+      return <HighGasPrice />
     default:
       return <Loader />
   }

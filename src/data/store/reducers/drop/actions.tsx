@@ -78,6 +78,10 @@ export function setAutoClaim (autoClaim: boolean) {
   return action(Constants.DROP_SET_AUTO_CLAIM, { autoClaim })
 }
 
+export function setAddressIsManuallySet (addressIsManuallySet: boolean) {
+  return action(Constants.DROP_SET_ADDRESS_MANUALLY_SET, { addressIsManuallySet })
+}
+
 export function setTheme (theme: TTheme) {
   return action(
     Constants.DROP_SET_THEME,
