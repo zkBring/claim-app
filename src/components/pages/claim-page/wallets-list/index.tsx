@@ -48,7 +48,7 @@ const WalletsList: FC<ReduxType> = ({
     title: 'Metamask',
     onClick: () => {
       metamask.activate().catch(err => {
-        console.log({ err })
+        alert('Metamask is not installed!')
       })
     },
     icon: <WalletIcon src={MetamaskIcon} />,
