@@ -38,6 +38,7 @@ export default function getLink(
       }
     } catch (err: any | AxiosError) {
       if (axios.isAxiosError(err)) {
+        console.log({ err })
         if (err.message === 'Network Error') {
           dispatch(actionsDrop.setError('qr_no_connection'))
         } else if (err.response?.status === 404) {
