@@ -38,9 +38,13 @@ export default function getLink(
       }
     } catch (err: any | AxiosError) {
       if (axios.isAxiosError(err)) {
-        console.log({ err })
         if (err.message === 'Network Error') {
-          dispatch(actionsDrop.setError('qr_no_connection'))
+          if (!window.navigator.onLine) {
+            dispatch(actionsDrop.setError('qr_no_connection'))
+          } else {
+            dispatch(actionsDrop.setError('qr_error'))
+          }
+          
         } else if (err.response?.status === 404) {
           dispatch(actionsDrop.setError('qr_not_found'))
         } else if (err.response?.status === 500) {
