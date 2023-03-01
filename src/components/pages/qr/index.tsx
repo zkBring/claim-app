@@ -1,6 +1,5 @@
 import { FC, useEffect } from 'react'
 import ErrorImageBlack from 'images/error-black.png'
-import ErrorImageWhite from 'images/error-white.png'
 import { IAppDispatch, RootState } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
@@ -13,10 +12,8 @@ import {
   LoadingText,
   LoadingTitle
 } from './styled-components'
-import { Loader } from 'components/common'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
-import { getHashVariables } from 'helpers'
 import { QRNotMapped, QRNotFound, QRNoConnection, QRIncorrectParameter } from 'components/pages/common'
 import Icons from 'icons'
 
@@ -41,8 +38,6 @@ type ReduxType = ReturnType<typeof mapDispatcherToProps> & ReturnType<typeof map
 
 const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
   const { qrId } = useParams<{ qrId: string }>()
-  const { theme } = getHashVariables(window.location.href)
-  const errorImage = theme === 'light' ? ErrorImageBlack : ErrorImageWhite
   const history = useHistory()
 
   useEffect(() => {
@@ -91,7 +86,7 @@ const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
 
   return <Page>
     <Container>
-      <Image src={errorImage} />
+      <Image src={ErrorImageBlack} />
       <Title>Something went wrong</Title>
       <Subtitle>Please, try again later</Subtitle>
       {/* <ButtonStyled onClick={() => {}}>Retry</ButtonStyled> */}
