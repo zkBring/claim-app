@@ -1,8 +1,8 @@
-type TChains = {
+type TGasLimits = {
   [chainId: number]: string
 }
 
-const gasPriceLimits: TChains = {
+const gasPriceLimits: TGasLimits = {
   137: '1', // 212406786686
   1: '1',
   5: '1',
