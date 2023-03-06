@@ -1,28 +1,13 @@
-import styled, { css } from 'styled-components';
-
-interface InputContainerProps {
-  disabled: boolean,
-  error?: string,
-  className?: string
-}
-
-interface InputFieldProps {
-  value: string,
-  error?: string
-}
-
-interface InputTitleProps {
-  active: boolean,
-  error?: string
-}
+import styled, { css } from 'styled-components'
+import { IInputContainerProps, IInputFieldProps, IInputTitleProps } from './types'
 
 export const InputContainer = styled.div.attrs(props => ({
   className: props.className
-}))<InputContainerProps>`
+}))<IInputContainerProps>`
   margin-bottom: 24px;
 `
 
-export const InputTitle = styled.h3<InputTitleProps>`
+export const InputTitle = styled.h3<IInputTitleProps>`
   margin-bottom: 4px;
   font-weight: 700;
   font-size: 12px;
@@ -39,7 +24,7 @@ export const InputTitle = styled.h3<InputTitleProps>`
   `}
 `
 
-export const InputField = styled.input<InputFieldProps>`
+export const InputField = styled.input<IInputFieldProps>`
   color: ${props => props.theme.primaryTextColor};
   font-size: 14px;
   width: 100%;

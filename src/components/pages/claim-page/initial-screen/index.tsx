@@ -23,7 +23,7 @@ import { shortenString } from 'helpers'
 const mapStateToProps = ({
   token: { name, image },
   user: { address, chainId: userChainId },
-  drop: { tokenId, amount, type, isManual, loading, autoClaim, chainId }
+  drop: { tokenId, amount, type, isManual, loading, chainId }
 }: RootState) => ({
   name,
   image,
@@ -32,7 +32,6 @@ const mapStateToProps = ({
   amount,
   isManual,
   loading,
-  autoClaim,
   address,
   userChainId,
   chainId
@@ -97,9 +96,9 @@ const InitialScreen: FC<ReduxType> = ({
   const defineButton = () => {
     return <ScreenButton
       disabled={
-        (type === 'erc1155' && (!tokenId || !amount)) ||
-        (type === 'erc721' && (!tokenId)) ||
-        (type === 'erc20' && (!amount)) ||
+        (type === 'ERC1155' && (!tokenId || !amount)) ||
+        (type === 'ERC721' && (!tokenId)) ||
+        (type === 'ERC20' && (!amount)) ||
         loading
       }
       loading={loading}
@@ -109,17 +108,17 @@ const InitialScreen: FC<ReduxType> = ({
         if (Number(userChainId) !== Number(chainId)) {
           return setStep('change_network')
         }
-        if (type === 'erc1155') {
+        if (type === 'ERC1155') {
           return claimERC1155(
             true
           )
         }
-        if (type === 'erc721') {
+        if (type === 'ERC721') {
           return claimERC721(
             true
           )
         }
-        if (type === 'erc20') {
+        if (type === 'ERC20') {
           return claimERC20(
             true
           )

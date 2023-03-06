@@ -1,7 +1,5 @@
 import TMerkleTree from './merkle-tree'
 import TDropStep from './drop-step'
-import TRetroDrop from './retro-drop'
-import TRetroDropType from './retro-drop-type'
 import TDropType from './drop-type'
 import TRecipientsData from './recipients-data'
 import ISDK from './sdk'
@@ -26,8 +24,6 @@ export {
   TDropError,
   ISDK,
   TTheme,
-  TRetroDrop,
-  TRetroDropType,
   TDropType,
   TRecipientsData,
   TClaimLinkERC20,

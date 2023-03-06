@@ -12,7 +12,6 @@ const initialState: DropState = {
   type: null,
   title: null,
   error: null,
-
   wallet: null,
   expirationTime: null,
   linkKey: null,
@@ -23,10 +22,10 @@ const initialState: DropState = {
   version: null,
   weiAmount: null,
   isClaimed: false,
-  autoClaim: false,
-  redirectToOnboarding: false,
   theme: 'dark',
-  addressIsManuallySet: false
+  addressIsManuallySet: false,
+  claimCode: null,
+  linkId: null
 }
 
 export function dropReducer(
@@ -68,16 +67,18 @@ export function dropReducer(
           return {...state, weiAmount: action.payload.weiAmount }
         case Constants.DROP_SET_IS_CLAIMED:
           return {...state, isClaimed: action.payload.isClaimed }
-        case Constants.DROP_SET_AUTO_CLAIM:
-          return {...state, autoClaim: action.payload.autoClaim }
         case Constants.DROP_SET_LOADING:
           return {...state, loading: action.payload.loading }
-        case Constants.DROP_SET_REDIRECT_TO_ONBOARDING:
-          return {...state, redirectToOnboarding: action.payload.redirectToOnboarding }
         case Constants.DROP_SET_ERROR:
           return {...state, error: action.payload.error }
         case Constants.DROP_SET_ADDRESS_MANUALLY_SET:
           return {...state, addressIsManuallySet: action.payload.addressIsManuallySet }
+
+        case Constants.DROP_SET_LINK_ID:
+          return {...state, linkId: action.payload.linkId }
+
+        case Constants.DROP_SET_CLAIM_CODE:
+          return {...state, claimCode: action.payload.claimCode }
 
         case Constants.DROP_SET_THEME:
           return {...state, theme: action.payload.theme }

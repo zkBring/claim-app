@@ -21,10 +21,12 @@ import handleClaimResponseError from './handle-claim-response-error'
 import defineRealNetworkName from './define-real-network-name'
 import toHex from './to-hex'
 import constructLink from './construct-link'
+import defineOpenseaURL from './define-opensea-url'
 
 export {
   shortenString,
   constructLink,
+  defineOpenseaURL,
   toHex,
   defineNetworkName,
   defineRealNetworkName,

@@ -3,8 +3,7 @@ import { Dispatch } from 'redux';
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
-import { gerQRData } from 'data/api'
-import { getHashVariables } from 'helpers'
+import { getQRData } from 'data/api'
 import * as actionsDrop from '../actions'
 import axios, { AxiosError } from 'axios'
 
@@ -15,20 +14,16 @@ export default function getLink(
   return async (
     dispatch: Dispatch<DropActions>
   ) => {
+    dispatch(actionsDrop.setError(null))
     try {
-      const {
-        autoClaim,
-        theme,
-        redirectToOnboarding
-      } = getHashVariables()
 
       const qrId = new ethers.Wallet(qrSecret).address
-      const linkEncrypted = await gerQRData(qrId)
+      const linkEncrypted = await getQRData(qrId)
       const { success, encrypted_claim_link }: { success: boolean, encrypted_claim_link: string } = linkEncrypted.data
       if (success) {
         if (encrypted_claim_link) {
           const decryptedLink = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: qrSecret })
-          callback(`${decryptedLink}${autoClaim ? '&autoClaim=true' : ''}${theme ? `&theme=${theme}` : ''}${redirectToOnboarding ? `&redirectToOnboarding=${redirectToOnboarding}` : ''}`)
+          callback(decryptedLink)
         } else {
           dispatch(actionsDrop.setError('qr_not_mapped'))
         }

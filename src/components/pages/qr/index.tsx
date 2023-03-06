@@ -27,7 +27,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
     getLink: (
         qrId: string, callback: (location: string) => void
       ) => dispatch(
-        dropAsyncActions.getLink(
+        dropAsyncActions.getLinkByQR(
           qrId, callback 
         )
       )

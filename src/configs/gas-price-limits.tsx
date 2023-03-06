@@ -3,10 +3,10 @@ type TGasLimits = {
 }
 
 const gasPriceLimits: TGasLimits = {
-  137: '1', // 212406786686
-  1: '1',
-  5: '1',
-  80001: '1'
+  137: '212406786686', // 212406786686
+  1: '212406786686',
+  5: '212406786686',
+  80001: '212406786686'
 }
 
 export default gasPriceLimits

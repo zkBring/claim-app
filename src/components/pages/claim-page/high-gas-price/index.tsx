@@ -53,13 +53,13 @@ const HighGasPrice: FC<ReduxType> = ({
     </ButtonStyled>
     {!addressIsManuallySet && <AdditionalAction
       onClick={() => {
-        if (type === 'erc1155') {
+        if (type === 'ERC1155') {
           return claimERC1155()
         }
-        if (type === 'erc721') {
+        if (type === 'ERC721') {
           return claimERC721()
         }
-        if (type === 'erc20') {
+        if (type === 'ERC20') {
           return claimERC20()
         }
       }}

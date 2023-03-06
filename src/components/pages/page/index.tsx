@@ -8,10 +8,9 @@ import { PageProps } from './types'
 
 const mapStateToProps = ({
   drop: { theme },
-  user: { address, accounts }
+  user: { address }
 }: RootState) => ({
   address,
-  accounts,
   theme
 })
 type ReduxType = ReturnType<typeof mapStateToProps>

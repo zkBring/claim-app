@@ -9,11 +9,10 @@ import { UserActions } from '../../user/types'
 import getERC1155Data from './get-erc1155-token-data'
 import getERC721Data from './get-erc721-token-data'
 import getERC20Data from './get-erc20-token-data'
-import { getHashVariables } from 'helpers'
 import { RootState, IAppDispatch } from 'data/store'
-import { TTheme } from 'types'
 
 export default function getData(
+  onReload: () => void,
   userAddress?: string,
   userChainId?: number,
   userProvider?: any
@@ -25,26 +24,9 @@ export default function getData(
     
     try {
       dispatch(actionsDrop.setLoading(true))
-      const {
-        weiAmount,
-        nftAddress,
-        tokenId,
-        expirationTime,
-        linkKey,
-        linkdropMasterAddress,
-        linkdropSignerSignature,
-        campaignId,
-        w,
-        manual,
-        tokenAddress: linkTokenAddress,
-        tokenAmount,
-        chainId: linkChainId,
-        autoClaim,
-        theme = 'dark',
-        redirectToOnboarding
-      } = getHashVariables()
-
+      dispatch(actionsDrop.setStep('loading'))
       await dispatch(asyncActionsUser.initialize(
+        onReload,
         userAddress,
         userChainId,
         userProvider
@@ -57,52 +39,36 @@ export default function getData(
           hasConnector
         },
         drop: {
-          isClaimed
+          isClaimed,
+          tokenAddress: linkTokenAddress,
+          chainId: linkChainId,
+          expirationTime,
+          tokenId,
+          amount
         }
       } = getState()
-
-      const tokenAddress = linkTokenAddress || nftAddress
-
-      dispatch(actionsDrop.setChainId(Number(linkChainId)))
-      dispatch(actionsDrop.setTokenAddress(tokenAddress))
-      dispatch(actionsDrop.setWallet(w))
-      dispatch(actionsDrop.setIsManual(Boolean(manual)))
-      dispatch(actionsDrop.setExpirationTime(expirationTime))
-      dispatch(actionsDrop.setLinkdropMasterAddress(linkdropMasterAddress))
-      dispatch(actionsDrop.setLinkdropSignerSignature(linkdropSignerSignature))
-      dispatch(actionsDrop.setCampaignId(campaignId))
-      dispatch(actionsDrop.setWeiAmount(weiAmount))
-      dispatch(actionsDrop.setLinkKey(linkKey))
-      dispatch(actionsDrop.setAutoClaim(Boolean(autoClaim)))
-      dispatch(actionsDrop.setTheme(theme as TTheme))
-      dispatch(actionsDrop.setRedirctToOnboarding(Boolean(redirectToOnboarding)))
+      
   
-      if (tokenId && tokenAmount) {
-        const { name, image, description } = await getERC1155Data(provider, tokenAddress, tokenId)
-        dispatch(actionsDrop.setAmount(tokenAmount))
+      if (tokenId && amount && linkTokenAddress) {
+        const { name, image, description } = await getERC1155Data(provider, linkTokenAddress, tokenId)
+        dispatch(actionsToken.setDescription(description))
+        dispatch(actionsToken.setImage(image))
+        dispatch(actionsToken.setName(name))
+      }
+
+      if (tokenId && !amount && linkTokenAddress) {
+        const { name, image, description } = await getERC721Data(provider, linkTokenAddress, tokenId)
         dispatch(actionsDrop.setTokenId(tokenId))
         dispatch(actionsToken.setDescription(description))
         dispatch(actionsToken.setImage(image))
         dispatch(actionsToken.setName(name))
-        dispatch(actionsDrop.setType('erc1155'))
       }
 
-      if (tokenId && !tokenAmount) {
-        const { name, image, description } = await getERC721Data(provider, tokenAddress, tokenId)
-        dispatch(actionsDrop.setTokenId(tokenId))
-        dispatch(actionsToken.setDescription(description))
-        dispatch(actionsToken.setImage(image))
-        dispatch(actionsToken.setName(name))
-        dispatch(actionsDrop.setType('erc721'))
-      }
-
-      if (tokenAmount && !tokenId) {
-        const { symbol, decimals, image } = await getERC20Data(provider, tokenAddress)
+      if (amount && !tokenId && linkTokenAddress) {
+        const { symbol, decimals, image } = await getERC20Data(provider, linkTokenAddress)
         dispatch(actionsToken.setName(symbol))
         dispatch(actionsToken.setImage(image))
         dispatch(actionsToken.setDecimals(decimals))
-        dispatch(actionsDrop.setAmount(tokenAmount))
-        dispatch(actionsDrop.setType('erc20'))
       }
 
       if (Number(expirationTime) < +new Date()) {
@@ -120,7 +86,7 @@ export default function getData(
         return dispatch(actionsDrop.setStep('set_connector'))
       }
 
-      if (Number(userChainId) !== Number(linkChainId)) {
+      if (userChainId && Number(userChainId) !== Number(linkChainId)) {
         dispatch(actionsDrop.setLoading(false))
         return dispatch(actionsDrop.setStep('change_network'))
       }

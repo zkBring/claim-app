@@ -39,7 +39,7 @@ const AppRouter: FC = () => {
   return <HashRouter>
     <Switch>
       <Route path='/receive'><ClaimPage /></Route>
-      <Route path='/claim/:linkKey'><ShortLinkPage /></Route>
+      <Route path='/claim/:claimCode'><ShortLinkPage /></Route>
       <Route path='/qr/:qrId'><QR /></Route>
       <Route exact path='/'><HomePage /></Route>
       <Route path='*'><NotFound /></Route>

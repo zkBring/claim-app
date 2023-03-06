@@ -74,10 +74,6 @@ export function setIsClaimed (isClaimed: boolean) {
   return action(Constants.DROP_SET_IS_CLAIMED, { isClaimed })
 }
 
-export function setAutoClaim (autoClaim: boolean) {
-  return action(Constants.DROP_SET_AUTO_CLAIM, { autoClaim })
-}
-
 export function setAddressIsManuallySet (addressIsManuallySet: boolean) {
   return action(Constants.DROP_SET_ADDRESS_MANUALLY_SET, { addressIsManuallySet })
 }
@@ -102,11 +98,22 @@ export function setError (error: TDropError | null) {
   )
 }
 
-export function setRedirctToOnboarding (redirectToOnboarding: boolean) {
+export function setClaimCode (claimCode: string) {
   return action(
-    Constants.DROP_SET_REDIRECT_TO_ONBOARDING,
+    Constants.DROP_SET_CLAIM_CODE,
+    // payload
     {
-      redirectToOnboarding
+      claimCode
+    }
+  )
+}
+
+export function setLinkId (linkId: string) {
+  return action(
+    Constants.DROP_SET_LINK_ID,
+    // payload
+    {
+      linkId
     }
   )
 }

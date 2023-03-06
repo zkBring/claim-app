@@ -7,9 +7,10 @@ export const Title = styled.h2`
   color: ${props => props.theme.primaryTextColor};
 `
 
-export const Subtitle = styled.h3`
+export const Subtitle = styled.p`
   color: ${props => props.theme.additionalTextColor};
   font-size: 14px;
+  text-align: center;
   margin: 0 0 40px;
 `
 

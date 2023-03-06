@@ -1,34 +1,14 @@
-import React, { FC } from 'react'
-
+import { FC } from 'react'
 import {
-    InputContainer,
-    InputField,
-    InputTitle,
-    InputError,
-    InputInfo
+  InputContainer,
+  InputField,
+  InputTitle,
+  InputError,
+  InputInfo
 } from './styled-components'
+import { IProps } from './types'
 
-import { ThemeProvider } from 'styled-components'
-import themes from 'themes'
-
-// type InputEvent = React.ChangeEvent<HTMLInputElement>;
-
-
-interface Props {
-  title?: string,
-  placeholder?: string,
-  type?: string,
-  name?: string,
-  disabled?: boolean,
-  onChange: (value: string) => string,
-  error?: string,
-  value: string,
-  className?: string,
-  info?: string,
-  refProp?: React.Ref<HTMLInputElement>;
-}
-
-const InputComponent: FC<Props> = ({
+const InputComponent: FC<IProps> = ({
   placeholder,
   title,
   disabled = false,

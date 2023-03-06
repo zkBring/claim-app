@@ -9,7 +9,6 @@ const initialState: UserState = {
   chainId: null,
   sdk: null,
   initialized: false,
-  accounts: [],
   hasConnector: false,
   account: null
 };
@@ -35,8 +34,6 @@ export function userReducer(
       return {...state, initialized: action.payload.initialized }
     case Constants.USER_SET_HAS_CONNECTOR:
       return {...state, hasConnector: action.payload.hasConnector }
-    case Constants.USER_SET_ACCOUNTS:
-      return {...state, accounts: action.payload.accounts }
     case Constants.USER_SET_ACCOUNT:
       return {...state, account: action.payload.account }
     default:

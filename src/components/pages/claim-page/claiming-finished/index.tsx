@@ -11,13 +11,14 @@ import {
   Container,
   Description
 } from './styled-components'
-import { defineExplorerURL } from 'helpers'
+import { defineExplorerURL, defineOpenseaURL } from 'helpers'
 
 const mapStateToProps = ({
   drop: {
     hash,
     chainId,
-    redirectToOnboarding
+    tokenId,
+    tokenAddress
   },
   user: {
     address
@@ -32,16 +33,34 @@ const mapStateToProps = ({
   name,
   chainId,
   hash,
-  redirectToOnboarding
+  tokenId,
+  tokenAddress
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
+
+const renderWatchTokenButton = (tokenId: string | null, tokenAddress: string | null, chainId: number | null) => {
+  if (!tokenId || !tokenAddress || !chainId) { return null }
+  const watchTokenUrl = defineOpenseaURL(
+    chainId,
+    tokenAddress,
+    tokenId
+  )
+  return <ScreenButton
+    href={watchTokenUrl}
+    target="_blank"
+  >
+    View on OpenSea
+  </ScreenButton>
+}
 
 const ClaimingFinished: FC<ReduxType> = ({
   image,
   name,
   hash,
-  chainId
+  chainId,
+  tokenId,
+  tokenAddress
 }) => {
   const title = <TitleComponent>Successfully claimed</TitleComponent>
   const explorerUrl = chainId && hash ? <ScreenButton
@@ -50,6 +69,11 @@ const ClaimingFinished: FC<ReduxType> = ({
     target='_blank'
     appearance='inverted'
   /> : null
+  const openseaButton = renderWatchTokenButton(
+    tokenId,
+    tokenAddress,
+    chainId
+  )
   return <Container>
     {image && <TokenImageContainer>
       <DoneIcon />
@@ -63,9 +87,7 @@ const ClaimingFinished: FC<ReduxType> = ({
       Your NFT will appear in your account in a few minutes
     </Description>
     <ButtonsContainer>
-      <ScreenButton>
-        View on OpenSea
-      </ScreenButton>
+      {openseaButton}
       {explorerUrl}
     </ButtonsContainer>
   </Container>

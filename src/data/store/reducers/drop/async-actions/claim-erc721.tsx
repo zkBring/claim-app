@@ -41,7 +41,8 @@ export default function claimERC721(
         linkKey,
         linkdropMasterAddress,
         linkdropSignerSignature,
-        chainId
+        chainId,
+        claimCode
       }
     } = getState()
     if (!chainId) {
@@ -135,21 +136,17 @@ export default function claimERC721(
             return dispatch(dropActions.setStep('gas_price_high'))
           }
         }
-        const { success, errors, txHash, message } = await sdk.claimERC721({
-          weiAmount,
-          nftAddress: tokenAddress,
-          tokenId,
-          expirationTime,
-          linkKey,
-          linkdropSignerSignature,
-          receiverAddress: address,
-          campaignId
-        })
+        if (!claimCode) {
+          return 
+        }
+        const res = await sdk?.redeem(claimCode, address)
+        if (!res) {
+          return
+        }
+        const { txHash } = res
   
-        if (success) {
+        if (txHash) {
           finalTxHash = txHash
-        } else {
-          console.log({ errors })
         }
       }
 

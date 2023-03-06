@@ -42,7 +42,8 @@ export default function claimERC1155(
         linkKey,
         linkdropMasterAddress,
         linkdropSignerSignature,
-        chainId
+        chainId,
+        claimCode
       }
     } = getState()
     if (!chainId) {
@@ -139,26 +140,25 @@ export default function claimERC1155(
           const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
           const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
           const gasPrice = await provider.getGasPrice()
+          console.log({ gasPrice })
+
           if (gasPrice > BigNumber.from(gasPriceLimits[chainId])) {
             return dispatch(dropActions.setStep('gas_price_high'))
           }
         }
-        const { success, errors, txHash, message = false } = await sdk.claimERC1155({
-          weiAmount,
-          nftAddress: tokenAddress,
-          tokenId,
-          tokenAmount: amount,
-          expirationTime,
-          linkKey,
-          linkdropSignerSignature,
-          receiverAddress: address,
-          campaignId
-        })
+
+        if (!claimCode) {
+          return 
+        }
+
+        const res = await sdk?.redeem(claimCode, address)
+        if (!res) {
+          return
+        }
+        const { txHash } = res
   
-        if (success) {
+        if (txHash) {
           finalTxHash = txHash
-        } else {
-          console.log({ errors })
         }
       }
 

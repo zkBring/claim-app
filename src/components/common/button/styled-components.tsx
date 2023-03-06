@@ -80,7 +80,7 @@ export const Button = styled.button.attrs(props => ({
     background-size: 200%;
     background-position: left top;
     transition: background-position .3s, transform .3s;
-    border: none;
+    border-color: transparent;
     color: ${props => props.theme.secondaryTextColor};
 
     ${!props.disabled && css`

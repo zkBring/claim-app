@@ -1,34 +1,65 @@
 
 import { Dispatch } from 'redux';
 import { DropActions } from '../types'
+import { UserActions } from '../../user/types'
 import { ethers } from 'ethers'
-import * as wccrypto from '@walletconnect/utils/dist/esm'
-import { getOriginalLink } from 'data/api'
-import { constructLink } from 'helpers'
 import * as actionsDrop from '../actions'
-import axios, { AxiosError } from 'axios'
+import * as actionsUser from '../../user/actions'
+import { TLinkParams, TDropType } from 'types'
+import LinkdropSDK from 'linkdrop-sdk'
 
 export default function getLinkByCode(
-  code: string
+  linkCode: string,
+  callback?: (linkCode: string) => void
 ) {
   return async (
-    dispatch: Dispatch<DropActions>
+    dispatch: Dispatch<DropActions> & Dispatch<UserActions>
   ) => {
     dispatch(actionsDrop.setLoading(true))
-    try {
-      throw new Error()
-      return '/receive?weiAmount=0&nftAddress=0x10ae0a185dd6eaef2a3692c42ae52d4e8b1c4e6d&tokenId=2409411013552593313002637703952938629808311709759033038162736472482696396802&tokenAmount=1&expirationTime=1900000000000&version=2&chainId=137&linkKey=0x8c07f35fac3290a8d502219968e25f5c2fc4a08d5b98c66112994e2500faa63f&linkdropMasterAddress=0x0553aDA5829184A7818dC866367D77334183603E&linkdropSignerSignature=0x8f40df5e130b54dbc1e0926207188a2bd5be268adc68c9a284a533de12c0c8e148ec27dbdb0a27ba616039900438058353860c7b6e412e34129cc4d4b7a5722f1c&campaignId=1&w=metamask'
-    } catch (err: any | AxiosError) {
+    dispatch(actionsDrop.setError(null))
+    const sdk = new LinkdropSDK()
+    dispatch(actionsUser.setSDK(sdk)) 
+    const linkKey = ethers.utils.id(linkCode)
+    const linkId = new ethers.Wallet(linkKey).address
+
+    const data = await sdk.getLinkParams(linkCode)
+    
+    if (data) {
+      const {
+        creator_address,
+        sponsored,
+        chain_id,
+        campaign_number,
+        token_address,
+        token_standard,
+        symbol,
+        claim_pattern,
+        token_id,
+        token_amount,
+        sender_signature,
+        proxy_contract_version,
+        wei_amount,
+        expiration_time,
+        wallet
+      } : TLinkParams = data
+
+      dispatch(actionsDrop.setChainId(Number(chain_id)))
+      dispatch(actionsDrop.setTokenAddress(token_address))
+      dispatch(actionsDrop.setWallet(wallet))
+      dispatch(actionsDrop.setIsManual(!Boolean(sponsored)))
+      dispatch(actionsDrop.setExpirationTime(expiration_time))
+      dispatch(actionsDrop.setLinkdropMasterAddress(creator_address))
+      dispatch(actionsDrop.setLinkdropSignerSignature(sender_signature))
+      dispatch(actionsDrop.setCampaignId(campaign_number))
+      dispatch(actionsDrop.setWeiAmount(wei_amount))
+      dispatch(actionsDrop.setAmount(token_amount))
+      dispatch(actionsDrop.setTokenId(token_id))
+      dispatch(actionsDrop.setType(token_standard as TDropType))
+      dispatch(actionsDrop.setAmount(token_amount))
       dispatch(actionsDrop.setLoading(false))
-      if (axios.isAxiosError(err)) {
-        if (err.response?.status === 404) {
-          return { message: 'Code not found' }
-        } else {
-          return { message: 'Some error occured' }
-        }
-      } else {
-        return { message: 'Some error occured' }
-      }      
-    }
+      dispatch(actionsDrop.setClaimCode(linkCode))
+      dispatch(actionsDrop.setLinkId(linkId))
+      dispatch(actionsDrop.setLinkKey(linkKey))
+      callback && callback(linkCode)
   } 
-}
+}}

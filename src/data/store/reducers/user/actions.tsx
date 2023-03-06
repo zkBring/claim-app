@@ -82,15 +82,6 @@ export function setUserProvider(userProvider: any) {
   )
 }
 
-export function setAccounts(accounts: TAccount[]) {
-  return action(
-    Constants.USER_SET_ACCOUNTS,
-    // payload
-    {
-      accounts
-    }
-  )
-}
 
 export function setAccount (account: TAccount) {
   return action(
@@ -101,7 +92,4 @@ export function setAccount (account: TAccount) {
     }
   )
 }
-
-
-
 

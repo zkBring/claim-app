@@ -123,9 +123,9 @@ const SetAddress: FC<ReduxType> = ({
     />
     <ScreenButton
       disabled={
-        (type === 'erc1155' && (!tokenId || !amount)) ||
-        (type === 'erc721' && (!tokenId)) ||
-        (type === 'erc20' && (!amount)) ||
+        (type === 'ERC1155' && (!tokenId || !amount)) ||
+        (type === 'ERC721' && (!tokenId)) ||
+        (type === 'ERC20' && (!amount)) ||
         !currentAddress ||
         !isValid ||
         loading
@@ -134,13 +134,13 @@ const SetAddress: FC<ReduxType> = ({
       loading={isChecking || loading}
       appearance={!isChecking && !loading ? 'default' : 'inverted'}
       onClick={() => {
-        if (type === 'erc1155') {
+        if (type === 'ERC1155') {
           return claimERC1155(currentAddress)
         }
-        if (type === 'erc721') {
+        if (type === 'ERC721') {
           return claimERC721(currentAddress)
         }
-        if (type === 'erc20') {
+        if (type === 'ERC20') {
           return claimERC20(currentAddress)
         }
       }}

@@ -27,10 +27,12 @@ const mapStateToProps = ({
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
     getLink: (
-        code: string
+        code: string,
+        callback: (claimCode: string) => void
       ) => dispatch(
-        dropAsyncActions.getLinkByCode(
-          code 
+        dropAsyncActions.getLinkFromInput(
+          code,
+          callback
         )
       )
   }
@@ -44,23 +46,26 @@ const HomePage: FC<ReduxType> = ({
 }) => {
   const history = useHistory()
   const [ code, setCode ] = useState<string>('')
-  const [ link, setLink ] = useState<string>('')
   const [ error, setError ] = useState<string | undefined>(undefined)
 
   const onClick = async () => {
-    const link = await getLink(code)
-    console.log({ link })
+    const link = await getLink(code, (claimCode) => {
+      history.push('/receive')
+    })
+    setError(undefined)
     if (link && typeof link === 'string') {
-      setLink(link)
-    } else {
+      history.push(link)
+    } else if (link && typeof link !== 'string') {
       setError(link.message)
+    } else {
+      setError('Some error occured')
     }
   }
   
   return <Page>
     <Container>
       <Title>Enter the code</Title>
-      <Description>Please enter the 8-digit code to continue the claiming process</Description>
+      <Description>Please enter the code to continue the claiming process</Description>
       <InputStyled
         value={code}
         error={error}
@@ -70,15 +75,9 @@ const HomePage: FC<ReduxType> = ({
       <ButtonStyled
         appearance='default'
         loading={loading}
-        onClick={() => {
-          if (link) {
-            history.push(link)
-          } else {
-            onClick()
-          }
-        }}
+        onClick={onClick}
       >
-        Continue
+        {!loading ? 'Get link' : 'Continue'}
       </ButtonStyled>
     </Container>  
   </Page>

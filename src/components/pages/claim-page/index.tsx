@@ -1,6 +1,5 @@
 import { FC, ReactElement, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
-
 import InitialScreen from './initial-screen'
 import ChangeNetwork from './change-network'
 import ClaimingFinished from './claiming-finished'
@@ -30,6 +29,7 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
+import { useHistory } from 'react-router-dom'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -45,10 +45,12 @@ const mapStateToProps = ({
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
   return {
       getData: (
+        onReload: () => void,
         address?: string,
         chainId?: number,
         provider?: any
       ) => dispatch(dropAsyncActions.getInitialData(
+        onReload,
         address,
         chainId,
         provider
@@ -106,13 +108,14 @@ const ClaimPage: FC<ReduxType> = ({
   step,
   getData
 }) => {
-
   const screen = defineCurrentScreen(step)
   const web3Data = useWeb3React()
-  console.log({ web3Data })
-  const { connector, account, chainId, provider } = web3Data
+  const { account, chainId, provider } = web3Data
+  const history = useHistory()
+
   useEffect(() => {
     getData(
+      () => { history.push('/') },
       account,
       chainId,
       provider

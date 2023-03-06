@@ -12,6 +12,7 @@ const getTokenData: TGetTokenERC1155Data = async (provider, tokenAddress, tokenI
   try {
     const contractInstance = await new ethers.Contract(tokenAddress, ERC1155Contract, provider)
     let actualUrl = await contractInstance.uri(tokenId)
+    console.log({ actualUrl })
     actualUrl = IPFSRedefineUrl(actualUrl, tokenId)
     const tokenData = await getERC1155TokenData(actualUrl, tokenId)
     const image = await getValidImage(tokenData.data.image)
@@ -22,6 +23,7 @@ const getTokenData: TGetTokenERC1155Data = async (provider, tokenAddress, tokenI
   } catch (e) {
     // @ts-ignore
     // alert(Object.keys(e.transaction).join(', '))
+    console.log({ e })
     return { name: 'ERC1155', image: nftPlaceholder, description: '' }
   }
 }

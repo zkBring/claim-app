@@ -2,10 +2,6 @@ import styled from 'styled-components'
 import { Button, TokenImage, Title } from 'components/common'
 import Icons from 'icons'
 
-type TScreenButton = {
-  title: string
-}
-
 export const TitleComponent = styled(Title)`
   margin-bottom: 30px;
 `
@@ -24,7 +20,7 @@ export const ButtonsContainer = styled.div`
   padding-bottom: 40px;
 `
 
-export const ScreenButton = styled(Button)<TScreenButton>`
+export const ScreenButton = styled(Button)`
   width: 100%;
   margin-bottom: 24px;
 

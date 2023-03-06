@@ -40,7 +40,8 @@ export default function claimERC20(
         linkKey,
         linkdropMasterAddress,
         linkdropSignerSignature,
-        chainId
+        chainId,
+        claimCode
       }
     } = getState()
     if (!chainId) {
@@ -134,24 +135,17 @@ export default function claimERC20(
             return dispatch(dropActions.setStep('gas_price_high'))
           }
         }
-        const res = await sdk.claim({
-          weiAmount,
-          tokenAddress,
-          tokenAmount: amount,
-          expirationTime,
-          linkKey,
-          linkdropMasterAddress,
-          linkdropSignerSignature,
-          receiverAddress: address,
-          campaignId: campaignId
-        })
-
-        const { success, errors, txHash } = res
+        if (!claimCode) {
+          return 
+        }
+        const res = await sdk?.redeem(claimCode, address)
+        if (!res) {
+          return
+        }
+        const { txHash } = res
   
-        if (success) {
+        if (txHash) {
           finalTxHash = txHash
-        } else {
-          console.log({ errors })
         }
       }
 

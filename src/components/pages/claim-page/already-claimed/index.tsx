@@ -2,7 +2,8 @@ import { FC } from 'react'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import {
-  defineExplorerURL
+  defineExplorerURL,
+  defineOpenseaURL
 } from 'helpers'
 import { 
   TitleComponent,
@@ -18,7 +19,8 @@ const mapStateToProps = ({
   drop: {
     hash,
     chainId,
-    redirectToOnboarding
+    tokenId,
+    tokenAddress
   },
   user: {
     address
@@ -33,16 +35,34 @@ const mapStateToProps = ({
   chainId,
   hash,
   address,
-  redirectToOnboarding
+  tokenId,
+  tokenAddress
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
+
+const renderWatchTokenButton = (tokenId: string | null, tokenAddress: string | null, chainId: number | null) => {
+  if (!tokenId || !tokenAddress || !chainId) { return null }
+  const watchTokenUrl = defineOpenseaURL(
+    chainId,
+    tokenAddress,
+    tokenId
+  )
+  return <ScreenButton
+    href={watchTokenUrl}
+    target="_blank"
+  >
+    View on OpenSea
+  </ScreenButton>
+}
 
 const AlreadyClaimed: FC<ReduxType> = ({
   image,
   name,
   chainId,
   hash,
+  tokenId,
+  tokenAddress
 }) => {
   const explorerUrl = chainId && hash ? <ScreenButton
     href={`${defineExplorerURL(chainId)}/tx/${hash}`}
@@ -50,6 +70,11 @@ const AlreadyClaimed: FC<ReduxType> = ({
     target='_blank'
     appearance='inverted'
   /> : null
+  const openseaButton = renderWatchTokenButton(
+    tokenId,
+    tokenAddress,
+    chainId
+  )
   return <>
     {image && <TokenImageContainer>
       <DoneIcon />
@@ -61,6 +86,7 @@ const AlreadyClaimed: FC<ReduxType> = ({
     <TitleComponent>Already claimed</TitleComponent>
     <Subtitle>Somebody has already claimed this link. In case it was you, find NFT in your wallet</Subtitle>
     <ButtonsContainer>
+      {openseaButton}
       {explorerUrl}
     </ButtonsContainer>
   </>
