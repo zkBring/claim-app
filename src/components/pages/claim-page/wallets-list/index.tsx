@@ -61,9 +61,9 @@ const defineOptionsList = (
     icon: <WalletIcon src={WalletConnectIcon} />
   }
   const injected = connectors.find(connector => connector.id === "injected")
-
+  console.log({ injected })
   if (system === 'desktop') {
-    const injectedOption = injected ? {
+    const injectedOption = injected && injected.ready ? {
       title: 'Injected',
       onClick: () => {
         if (!injected) {
@@ -81,7 +81,7 @@ const defineOptionsList = (
     ]
   }
 
-  const injectedOption = injected ? {
+  const injectedOption = injected && injected.ready ? {
     title: 'Injected',
     onClick: () => {
       if (!injected) {
