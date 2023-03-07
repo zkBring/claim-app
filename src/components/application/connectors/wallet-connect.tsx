@@ -1,38 +1,33 @@
-import { initializeConnector } from '@web3-react/core'
-import { WalletConnect } from '@web3-react/walletconnect'
-import { getHashVariables } from 'helpers'
-import { MAINNET_CHAINS } from './chains'
+import {
+  EthereumClient,
+  modalConnectors,
+  walletConnectProvider,
+} from "@web3modal/ethereum"
+import { configureChains, createClient } from "wagmi"
+import { mainnet, polygon } from "wagmi/chains"
+const { REACT_APP_WC_PROJECT_ID } = process.env
 
-const { chainId = 4 } = getHashVariables()
+const chains = [polygon]
 
-export const URLS = Object.keys(MAINNET_CHAINS).reduce<Record<number, any>>(
-  (accumulator, chainId) => {
-    const validURLs = MAINNET_CHAINS[Number(chainId)].urls
+// Wagmi client
+const { provider } = configureChains(chains, [
+  walletConnectProvider({ projectId: REACT_APP_WC_PROJECT_ID as string }),
+]);
 
-    if (validURLs.length) {
-      accumulator[Number(chainId)] = validURLs
-    }
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors: modalConnectors({
+    projectId: REACT_APP_WC_PROJECT_ID as string,
+    version: "1",
+    appName: "web3Modal",
+    chains
+  }),
+  provider
+})
 
-    return accumulator
-  },
-  {}
-)
-
-const [
-  walletConnect, hooks
-] = initializeConnector<WalletConnect>(
-  (actions) =>
-    new WalletConnect({
-      actions,
-      options: {
-        // projectId: process.env.walletConnectProjectId,
-        // chains: Object.keys(MAINNET_CHAINS).map(Number),
-        rpc: URLS
-      },
-      defaultChainId: Number(chainId)
-    })
-)
+const ethereumClient = new EthereumClient(wagmiClient, chains)
 
 export {
-  walletConnect, hooks
+  wagmiClient,
+  ethereumClient
 }

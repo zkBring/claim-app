@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
+import { useAccount, useConnect, useEnsName, useChainId, useProvider } from 'wagmi'
 import InitialScreen from './initial-screen'
 import ChangeNetwork from './change-network'
 import ClaimingFinished from './claiming-finished'
@@ -109,18 +109,27 @@ const ClaimPage: FC<ReduxType> = ({
   getData
 }) => {
   const screen = defineCurrentScreen(step)
-  const web3Data = useWeb3React()
-  const { account, chainId, provider } = web3Data
+  const { address } = useAccount()
+  const chainId = useChainId()
+  const provider = useProvider()
   const history = useHistory()
 
   useEffect(() => {
+    // if (address && chainId) {
+    //   updateUserData(
+    //     address,
+    //     chainId
+    //   )
+    // } else {
+    //   getData()
+    // }
     getData(
       () => { history.push('/') },
-      account,
+      address,
       chainId,
       provider
     )
-  }, [account, chainId, provider])
+  }, [address, chainId, provider])
   
   return <Page>
     <Container>
