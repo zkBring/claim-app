@@ -23,12 +23,13 @@ import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import { defineSystem } from 'helpers'
+import wallets from 'configs/wallets'
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type, wallet }
+  drop: { tokenId, type, wallet, claimCode }
 }: RootState) => ({
-  name, image, type, tokenId, wallet
+  name, image, type, tokenId, wallet, claimCode
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -45,7 +46,8 @@ const defineOptionsList = (
   setAddress: () => void,
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
-  connectors: Connector<any, any, any>[]
+  connectors: Connector<any, any, any>[],
+  claimCode: string | null
 ) => {
   const system = defineSystem()
   const ensOption = {
@@ -101,8 +103,18 @@ const defineOptionsList = (
     recommended: true
   } : undefined
 
+  const metamaskOption = injectedOption ? {
+    title: 'Metamask',
+    onClick: () => {
+      window.open(wallets.metamask.mobile[system].deepLink(`${window.location.origin}/#/claim/${claimCode}`))
+    },
+    icon: <WalletIcon src={MetamaskIcon} />,
+    recommended: true
+  } : undefined
+
   return [
     injectedOption,
+    metamaskOption,
     walletConnectOption,
     ensOption
   ]
@@ -110,7 +122,7 @@ const defineOptionsList = (
 
 const WalletsList: FC<ReduxType> = ({
   setAddress,
-  wallet
+  claimCode
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -119,7 +131,8 @@ const WalletsList: FC<ReduxType> = ({
     setAddress,
     open,
     connect,
-    connectors
+    connectors,
+    claimCode
   )
 
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
