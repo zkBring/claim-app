@@ -8,8 +8,6 @@ import {
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-// import { walletConnect } from 'components/application/connectors/wallet-connect'
-// walletConnect.activate()
 import WalletsImg from 'images/wallets.png'
 import { Popup, Note, PopupParagraph, PopupSubtitle } from 'components/common'
 import * as dropActions from 'data/store/reducers/drop/actions'

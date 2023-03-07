@@ -8,7 +8,7 @@ import {
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-
+import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
@@ -43,6 +43,7 @@ const WalletsList: FC<ReduxType> = ({
   setAddress,
   wallet
 }) => {
+  const { open } = useWeb3Modal()
   const options = [{
     title: 'Metamask',
     onClick: () => {
@@ -55,7 +56,7 @@ const WalletsList: FC<ReduxType> = ({
   }, {
     title: 'WalletConnect',
     onClick: () => {
-      // walletConnect.activate()
+      open()
     },
     icon: <WalletIcon src={WalletConnectIcon} />
   }, {
