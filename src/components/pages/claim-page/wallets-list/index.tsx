@@ -103,14 +103,14 @@ const defineOptionsList = (
     recommended: true
   } : undefined
 
-  const metamaskOption = injectedOption ? {
+  const metamaskOption = injectedOption ? undefined : {
     title: 'Metamask',
     onClick: () => {
       window.open(wallets.metamask.mobile[system].deepLink(`${window.location.origin}/#/claim/${claimCode}`))
     },
     icon: <WalletIcon src={MetamaskIcon} />,
     recommended: true
-  } : undefined
+  }
 
   return [
     injectedOption,
