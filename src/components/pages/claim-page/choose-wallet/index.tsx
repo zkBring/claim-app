@@ -9,10 +9,11 @@ import {
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import WalletsImg from 'images/wallets.png'
-import { Popup, Note, PopupParagraph, PopupSubtitle } from 'components/common'
+import { Popup, Note } from 'components/common'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
+import { PopupContents } from './components'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -56,17 +57,7 @@ const ChooseWallet: FC<ReduxType> = ({
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >
-      <PopupParagraph>
-        A crypto wallet is needed to store and manage cryptocurrency in a secure and convenient way. It allows users to view their balance, send and receive cryptocurrency, and track their transaction history. In addition, many crypto wallets allow users to connect their wallet to decentralized applications (dApps) and use their cryptocurrency to interact with the dApps in various ways.
-      </PopupParagraph>
-      <PopupSubtitle>A Home for your Digital Assets</PopupSubtitle>
-      <PopupParagraph>
-        Wallets are used to send, receive, store, and display digital assets like Ethereum and NFTs
-      </PopupParagraph>
-      <PopupSubtitle>A New Way to Log In</PopupSubtitle>
-      <PopupParagraph>
-        Instead of creating new accounts and passwords on every website, just connect your wallet
-      </PopupParagraph>
+      <PopupContents />
     </Popup>}
   </Container>
 }

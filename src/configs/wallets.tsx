@@ -1,11 +1,6 @@
 const _withoutProtocol = (url: string) => url.replace(/(^\w+:|^)\/\//, '')
 
 const wallets = {
-  walletconnect: {
-    id: 'walletconnect',
-    name: 'WalletConnect',
-    chains: ['1', '3', '4', '5', '42', '100']
-  },
   metamask: {
     id: 'metamask',
     name: 'MetaMask',
@@ -20,11 +15,6 @@ const wallets = {
         deepLink: (url: string) => `https://metamask.app.link/dapp/${_withoutProtocol(url)}`
       }
     },
-  },
-  fortmatic: {
-    id: 'fortmatic',
-    name: 'Fortmatic',
-    chains: ['1', '3', '4', '5', '42', '100']
   },
   status: {
     id: 'status',
@@ -41,11 +31,6 @@ const wallets = {
         deepLink: (url: string) => `https://get.status.im/browse/${_withoutProtocol(url)}`
       }
     },
-    chains: ['1', '3', '4', '5', '42', '100']
-  },
-  portis: {
-    id: 'portis',
-    name: 'Portis',
     chains: ['1', '3', '4', '5', '42', '100']
   },
   trust: {

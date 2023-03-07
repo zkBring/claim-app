@@ -11,16 +11,20 @@ const OptionsList: FC<TProps> = ({
   options
 }) => {
   return <OptionsListContainer>
-    {options.map(({
-      title,
-      icon,
-      onClick,
-      recommended
-    }: TOption) => <OptionsListItem onClick={onClick}>
-      {icon && <OptionImage>{icon}</OptionImage>}
-      {title}
-      {recommended && <OptionTag>Recommended</OptionTag>}
-    </OptionsListItem>)}
+    {options.map((option: TOption | undefined) => {
+      if (!option) { return null }
+      const {
+        title,
+        icon,
+        onClick,
+        recommended
+      } = option
+      return <OptionsListItem onClick={onClick}>
+        {icon && <OptionImage>{icon}</OptionImage>}
+        {title}
+        {recommended && <OptionTag>Recommended</OptionTag>}
+      </OptionsListItem>
+    })}
   </OptionsListContainer>
 }
 

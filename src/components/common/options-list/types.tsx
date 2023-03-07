@@ -6,5 +6,5 @@ export type TOption = {
 }
 
 export type TProps = {
-  options: TOption[]
+  options: (TOption | undefined)[]
 }
