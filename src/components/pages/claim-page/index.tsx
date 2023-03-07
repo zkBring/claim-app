@@ -127,7 +127,6 @@ const ClaimPage: FC<ReduxType> = ({
   const { connectors } = useConnect()
 
   useEffect(() => {
-    const injected = connectors.find(connector => connector.id === "injected")
     getData(
       () => { history.push('/') },
       address,

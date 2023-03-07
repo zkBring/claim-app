@@ -44,7 +44,7 @@ const WalletsList: FC<ReduxType> = ({
   wallet
 }) => {
   const { open } = useWeb3Modal()
-  const connect = useConnect()
+  const { connect, connectors } = useConnect()
 
   const options = [{
     title: 'Metamask',
@@ -52,6 +52,9 @@ const WalletsList: FC<ReduxType> = ({
       // metamask.activate().catch(err => {
       //   alert('Metamask is not installed!')
       // })
+      const injected = connectors.find(connector => connector.id === "injected")
+      if (!injected) { return }
+      connect(injected)
     },
     icon: <WalletIcon src={MetamaskIcon} />,
     recommended: true
