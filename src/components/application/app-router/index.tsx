@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from 'react'
 import { Route, Switch, HashRouter } from 'react-router-dom'
-import { useWeb3React } from '@web3-react/core'
 import {
   NotFound,
   ClaimPage,
@@ -13,7 +12,6 @@ import { Container } from './styled-components'
 import { Loader } from 'components/common'
 
 const AppRouter: FC = () => {
-  const { connector } = useWeb3React()
   const [ initialized, setInitialized ] = useState<boolean>(false)
   useEffect(() => {
     // const init = async () => {

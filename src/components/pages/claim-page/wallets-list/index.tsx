@@ -8,8 +8,7 @@ import {
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { walletConnect } from 'components/application/connectors/wallet-connect'
-import { metamask } from 'components/application/connectors/metamask-connect'
+
 import MetamaskIcon from 'images/metamask-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
@@ -47,16 +46,16 @@ const WalletsList: FC<ReduxType> = ({
   const options = [{
     title: 'Metamask',
     onClick: () => {
-      metamask.activate().catch(err => {
-        alert('Metamask is not installed!')
-      })
+      // metamask.activate().catch(err => {
+      //   alert('Metamask is not installed!')
+      // })
     },
     icon: <WalletIcon src={MetamaskIcon} />,
     recommended: true
   }, {
     title: 'WalletConnect',
     onClick: () => {
-      walletConnect.activate()
+      // walletConnect.activate()
     },
     icon: <WalletIcon src={WalletConnectIcon} />
   }, {

@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect } from 'react'
-import { useAccount, useConnect, useEnsName, useChainId, useProvider } from 'wagmi'
+import { useAccount, useChainId, useProvider } from 'wagmi'
 import InitialScreen from './initial-screen'
 import ChangeNetwork from './change-network'
 import ClaimingFinished from './claiming-finished'
@@ -26,6 +26,7 @@ import { connect } from 'react-redux'
 import { Container, LinkdropHeader } from './styled-components'
 import { Dispatch } from 'redux'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
+import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
@@ -55,6 +56,15 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         chainId,
         provider
       )),
+      updateUserData: (
+        address: string,
+        chainId: number,
+        provider: any
+      ) => dispatch(userAsyncActions.updateUserData(
+        address,
+        chainId,
+        provider
+      )), 
       setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
 }
@@ -106,7 +116,8 @@ const defineCurrentScreen: TDefineStep = step => {
 
 const ClaimPage: FC<ReduxType> = ({
   step,
-  getData
+  getData,
+  updateUserData
 }) => {
   const screen = defineCurrentScreen(step)
   const { address } = useAccount()
@@ -115,20 +126,17 @@ const ClaimPage: FC<ReduxType> = ({
   const history = useHistory()
 
   useEffect(() => {
-    // if (address && chainId) {
-    //   updateUserData(
-    //     address,
-    //     chainId
-    //   )
-    // } else {
-    //   getData()
-    // }
-    getData(
-      () => { history.push('/') },
-      address,
-      chainId,
-      provider
-    )
+    if (address && chainId) {
+      updateUserData(
+        address,
+        chainId,
+        provider
+      )
+    } else {
+      getData(
+        () => { history.push('/') }
+      )
+    }
   }, [address, chainId, provider])
   
   return <Page>
