@@ -124,7 +124,6 @@ const ClaimPage: FC<ReduxType> = ({
   const chainId = useChainId()
   const provider = useProvider()
   const history = useHistory()
-  const { connectors } = useConnect()
 
   useEffect(() => {
     getData(

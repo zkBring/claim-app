@@ -44,7 +44,8 @@ const initialize = (
     } = getState()
 
     if (!campaignId) {
-      onReload && onReload() 
+      
+      return onReload && onReload() 
     }
 
     if (!REACT_APP_INFURA_ID) {

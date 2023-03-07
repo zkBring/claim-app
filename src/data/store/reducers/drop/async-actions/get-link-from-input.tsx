@@ -19,7 +19,7 @@ export default function getLinkFromInput(
         linkCode,
         callback
       ))
-      console.log({ link })
+      return link
    } catch (err: any | AxiosError) {
       dispatch(actionsDrop.setLoading(false))
       if (axios.isAxiosError(err)) {
