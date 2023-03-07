@@ -10,6 +10,7 @@ import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
+import BrowserWalletIcon from 'images/browser-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
@@ -61,7 +62,7 @@ const defineOptionsList = (
     icon: <WalletIcon src={WalletConnectIcon} />
   }
   const injected = connectors.find(connector => connector.id === "injected")
-  console.log({ injected })
+
   if (system === 'desktop') {
     const injectedOption = injected && injected.ready ? {
       title: 'Injected',
@@ -73,7 +74,14 @@ const defineOptionsList = (
       },
       icon: <WalletIcon src={MetamaskIcon} />,
       recommended: true
-    } : undefined
+    } : {
+      title: 'Browser Wallet',
+      onClick: () => {
+        window.open('https://metamask.io/download/', '_blank')
+      },
+      icon: <WalletIcon src={BrowserWalletIcon} />,
+      recommended: true
+    }
     return [
       injectedOption,
       walletConnectOption,
