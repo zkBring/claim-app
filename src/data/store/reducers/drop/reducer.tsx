@@ -2,7 +2,7 @@ import { DropState, DropActions } from './types';
 import { Constants } from './constants';
 
 const initialState: DropState = {
-  step: 'loading',
+  step: 'short_code_loading',
   loading: false,
   chainId: null,
   tokenAddress: null,

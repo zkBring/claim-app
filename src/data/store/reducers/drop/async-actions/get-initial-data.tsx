@@ -24,7 +24,6 @@ export default function getData(
     
     try {
       dispatch(actionsDrop.setLoading(true))
-      dispatch(actionsDrop.setStep('loading'))
       await dispatch(asyncActionsUser.initialize(
         onReload,
         userAddress,

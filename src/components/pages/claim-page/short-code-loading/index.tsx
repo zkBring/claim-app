@@ -9,19 +9,17 @@ import {
   LoadingText,
   LoadingTitle
 } from './styled-components'
-import Page from '../page'
 import Icons from 'icons'
-import {
-  LinkNotFound,
-  LinkNoConnection,
-  LinkError
-} from 'components/pages/common'
+import { Dispatch } from 'redux'
+import { DropActions } from 'data/store/reducers/drop/types'
+import * as dropActions from 'data/store/reducers/drop/actions'
+import { TDropStep } from 'types'
 
 const mapStateToProps = ({
   drop: { error }
 }: RootState) => ({ error })
 
-const mapDispatcherToProps = (dispatch: IAppDispatch) => {
+const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) => {
   return {
     getLink: (
       code: string,
@@ -31,7 +29,8 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
         code,
         callback
       )
-    )
+    ),
+    setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
 }
 
@@ -39,44 +38,20 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 
 const ShortLinkPage: FC<ReduxType> = ({
   getLink,
-  error
+  setStep
 }) => {
-  const history = useHistory()
   const params = useParams<{claimCode: string}>()
   useEffect(() => {
-    getLink(params.claimCode, (linkCode) => history.push(`/receive`))    
+    getLink(params.claimCode, (linkCode) => setStep('loading'))    
   }, [])
-  if (!error) {
-    return <Page>
-      <Container>
-        <IconContainer>
-          <Icons.LinkdropIcon />
-        </IconContainer>
-        <LoadingTitle>Linkdrop</LoadingTitle>
-        <LoadingText>Safe NFT claims since 2019</LoadingText>
-      </Container>
-    </Page>
-  }
-
-  if (error === 'link_not_found') {
-    return <Page>
-      <LinkNotFound />
-    </Page>
-  }
-
-  if (error === 'link_no_connection') {
-    return <Page>
-      <LinkNoConnection />
-    </Page>
-  }
-
-  if (error === 'link_error') {
-    return <Page>
-      <LinkError />
-    </Page>
-  }
   
-  return null
+  return <Container>
+    <IconContainer>
+      <Icons.LinkdropIcon />
+    </IconContainer>
+    <LoadingTitle>Linkdrop</LoadingTitle>
+    <LoadingText>Safe NFT claims since 2019</LoadingText>
+  </Container>
 }
 
 export default connect(mapStateToProps, mapDispatcherToProps)(ShortLinkPage)

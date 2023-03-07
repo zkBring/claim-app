@@ -15,30 +15,28 @@ export default function getLinkFromURL(
   ) => {
     dispatch(actionsDrop.setError(null))
     try {
-      const link = await dispatch(asyncActionsDrop.getLinkByCode(
+      await dispatch(asyncActionsDrop.getLinkByCode(
         linkCode,
         callback
       ))
-      console.log({ link })
-      
     } catch (err: any | AxiosError) {
       if (axios.isAxiosError(err)) {
         if (err.message === 'Network Error') {
           if (!window.navigator.onLine) {
-            dispatch(actionsDrop.setError('link_no_connection'))
+            dispatch(actionsDrop.setStep('error_link_no_connection'))
           } else {
-            dispatch(actionsDrop.setError('link_error'))
+            dispatch(actionsDrop.setStep('error_link'))
           }
         } else if (err.response?.status === 404) {
-          dispatch(actionsDrop.setError('link_not_found'))
+          dispatch(actionsDrop.setStep('error_link_not_found'))
         } else if (err.response?.status === 500) {
-          dispatch(actionsDrop.setError('link_error'))
+          dispatch(actionsDrop.setStep('error_link'))
         }
       } else {
         if (err && err.code === "INVALID_ARGUMENT") {
-          return dispatch(actionsDrop.setError('link_incorrect_parameter'))
+          return dispatch(actionsDrop.setStep('error_link_incorrect_parameter'))
         }
-        dispatch(actionsDrop.setError('link_error'))
+        dispatch(actionsDrop.setStep('error_link'))
       }      
     }
   } 

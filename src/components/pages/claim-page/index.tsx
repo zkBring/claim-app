@@ -15,7 +15,11 @@ import WalletsListPage from './wallets-list'
 import ErrorServerFail from './error-server-fail'
 import ErrorLinkExpired from './error-link-expired'
 import ErrorAlreadyClaimed from './error-already-claimed'
+import ErrorLinkNotFound from './error-link-not-found'
+import ErrorLinkNoConnection from './error-link-no-connection'
+import ErrorLink from './error-link-error'
 import ChooseWallet from './choose-wallet'
+import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
 import LinkdropLogo from 'images/linkdrop-header.png'
 import { Loader } from 'components/common'
@@ -34,13 +38,14 @@ import { useHistory } from 'react-router-dom'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
-  drop: { step }
+  drop: { step, claimCode }
 }: RootState) => ({
   address,
   step,
   provider,
   chainId,
-  initialized
+  initialized,
+  claimCode
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -109,6 +114,14 @@ const defineCurrentScreen: TDefineStep = step => {
       return <WalletsListPage />
     case 'gas_price_high':
       return <HighGasPrice />
+    case 'error_link_not_found':
+      return <ErrorLinkNotFound />
+    case 'error_link_no_connection':
+      return <ErrorLinkNoConnection />
+    case 'error_link':
+      return <ErrorLink />
+    case 'short_code_loading':
+      return <ShortCodeLoading />
     default:
       return <Loader />
   }
@@ -117,7 +130,7 @@ const defineCurrentScreen: TDefineStep = step => {
 const ClaimPage: FC<ReduxType> = ({
   step,
   getData,
-  updateUserData
+  claimCode
 }) => {
   const screen = defineCurrentScreen(step)
   const { address } = useAccount()
@@ -126,13 +139,14 @@ const ClaimPage: FC<ReduxType> = ({
   const history = useHistory()
 
   useEffect(() => {
+    if (!claimCode) { return }
     getData(
       () => { history.push('/') },
       address,
       chainId,
       provider
     )
-  }, [address, chainId, provider])
+  }, [address, chainId, provider, claimCode])
   
   return <Page>
     <Container>

@@ -16,6 +16,11 @@ type TDropStep = 'loading' |
                  'error_already_claimed' |
                  'choose_wallet' |
                  'wallets_list' |
-                 'gas_price_high'
+                 'gas_price_high' |
+                 'error_link' |
+                 'error_link_not_found' |
+                 'error_link_no_connection' |
+                 'error_link_incorrect_parameter' |
+                 'short_code_loading'
 
 export default TDropStep

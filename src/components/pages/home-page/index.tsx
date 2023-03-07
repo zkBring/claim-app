@@ -50,7 +50,7 @@ const HomePage: FC<ReduxType> = ({
 
   const onClick = async () => {
     const link = await getLink(code, (claimCode) => {
-      history.push('/receive')
+      history.push(`/claim/${claimCode}`)
     })
     setError(undefined)
     if (link && typeof link === 'string') {
