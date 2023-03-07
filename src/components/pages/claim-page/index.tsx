@@ -31,6 +31,7 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { useHistory } from 'react-router-dom'
+import { useWeb3Modal } from "@web3modal/react"
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -124,19 +125,15 @@ const ClaimPage: FC<ReduxType> = ({
   const chainId = useChainId()
   const provider = useProvider()
   const history = useHistory()
-
+  const web3Modal = useWeb3Modal()
+  console.log({ web3Modal })
   useEffect(() => {
-    if (address && chainId) {
-      updateUserData(
-        address,
-        chainId,
-        provider
-      )
-    } else {
-      getData(
-        () => { history.push('/') }
-      )
-    }
+    getData(
+      () => { history.push('/') },
+      address,
+      chainId,
+      provider
+    )
   }, [address, chainId, provider])
   
   return <Page>
