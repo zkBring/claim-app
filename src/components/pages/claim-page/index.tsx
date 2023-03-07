@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect } from 'react'
-import { useAccount, useChainId, useProvider } from 'wagmi'
+import { useAccount, useChainId, useProvider, useConnect } from 'wagmi'
 import InitialScreen from './initial-screen'
 import ChangeNetwork from './change-network'
 import ClaimingFinished from './claiming-finished'
@@ -31,7 +31,6 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { useHistory } from 'react-router-dom'
-import { useWeb3Modal } from "@web3modal/react"
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -125,9 +124,10 @@ const ClaimPage: FC<ReduxType> = ({
   const chainId = useChainId()
   const provider = useProvider()
   const history = useHistory()
-  const web3Modal = useWeb3Modal()
-  console.log({ web3Modal })
+  const { connectors } = useConnect()
+
   useEffect(() => {
+    const injected = connectors.find(connector => connector.id === "injected")
     getData(
       () => { history.push('/') },
       address,

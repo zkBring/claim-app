@@ -12,7 +12,7 @@ import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
-
+import { useConnect } from 'wagmi'
 import {
   Popup,
   Note
@@ -44,6 +44,8 @@ const WalletsList: FC<ReduxType> = ({
   wallet
 }) => {
   const { open } = useWeb3Modal()
+  const connect = useConnect()
+
   const options = [{
     title: 'Metamask',
     onClick: () => {
