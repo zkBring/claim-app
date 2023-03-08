@@ -1,6 +1,31 @@
+import { TWalletName } from 'types'
+
 const _withoutProtocol = (url: string) => url.replace(/(^\w+:|^)\/\//, '')
 
-const wallets = {
+type TWalletDeeplink = (url: string) => string | null
+
+type TWallet = {
+  id: string,
+  name: string,
+  chains: (string | number)[],
+  walletURL?: string | null,
+  dappStoreUrl?: string | null,
+  walletURLIos?: string | null,
+  mobile: {
+    android: {
+      support: boolean,
+      deepLink: TWalletDeeplink
+    },
+    ios: {
+      support: boolean,
+      deepLink: TWalletDeeplink
+    }
+  }
+}
+
+type TWallets = Record<TWalletName, TWallet>
+
+const wallets: TWallets = {
   metamask: {
     id: 'metamask',
     name: 'MetaMask',
@@ -100,40 +125,6 @@ const wallets = {
         support: true,
         deepLink: (url: string) =>
           `imtokenv2://navigate/DappView?url=${encodeURIComponent(url)}`
-      }
-    },
-    chains: ['1', '3', '4', '5', '42', '100']
-  },
-  gowallet: {
-    id: 'gowallet',
-    name: 'GoWallet',
-    walletURL: null,
-    dappStoreUrl: null,
-    mobile: {
-      android: {
-        support: false,
-        deepLink: (url: string) => null
-      },
-      ios: {
-        support: false,
-        deepLink: (url: string) => null
-      }
-    },
-    chains: ['1', '3', '4', '5', '42', '100']
-  },
-  buntoy: {
-    id: 'buntoy',
-    name: 'Buntoy',
-    walletURL: 'https://www.buntoy.com/buntoy.html',
-    dappStoreUrl: null,
-    mobile: {
-      android: {
-        support: false,
-        deepLink: (url: string) => null
-      },
-      ios: {
-        support: false,
-        deepLink: (url: string) => null
       }
     },
     chains: ['1', '3', '4', '5', '42', '100']

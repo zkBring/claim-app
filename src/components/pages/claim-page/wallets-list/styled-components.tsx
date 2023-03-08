@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import { Button, Text, TokenImage, OptionsList, Title } from 'components/common'
-import Icons from 'icons'
+import { Button, Text, OptionsList, Title } from 'components/common'
 
 type TScreenButton = {
   onClick: () => void
@@ -17,6 +16,7 @@ export const Container = styled.div`
   text-align: center;
   width: 100%;
 `
+
 
 export const ScreenButton = styled(Button)<TScreenButton>`
   max-width: 100%;

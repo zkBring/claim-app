@@ -35,6 +35,7 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { useHistory } from 'react-router-dom'
+import DownloadAwait from './download-await'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -122,6 +123,8 @@ const defineCurrentScreen: TDefineStep = step => {
       return <ErrorLink />
     case 'short_code_loading':
       return <ShortCodeLoading />
+    case 'download_await':
+      return <DownloadAwait />
     default:
       return <Loader />
   }

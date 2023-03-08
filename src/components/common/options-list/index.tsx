@@ -17,12 +17,14 @@ const OptionsList: FC<TProps> = ({
         title,
         icon,
         onClick,
-        recommended
+        recommended,
+        tag
       } = option
       return <OptionsListItem onClick={onClick}>
         {icon && <OptionImage>{icon}</OptionImage>}
         {title}
-        {recommended && <OptionTag>Recommended</OptionTag>}
+        {recommended && !tag && <OptionTag>Recommended</OptionTag>}
+        {tag && <OptionTag>{tag}</OptionTag>}
       </OptionsListItem>
     })}
   </OptionsListContainer>

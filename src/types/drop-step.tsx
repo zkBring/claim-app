@@ -21,6 +21,7 @@ type TDropStep = 'loading' |
                  'error_link_not_found' |
                  'error_link_no_connection' |
                  'error_link_incorrect_parameter' |
-                 'short_code_loading'
+                 'short_code_loading' |
+                 'download_await'
 
 export default TDropStep

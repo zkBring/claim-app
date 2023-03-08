@@ -69,7 +69,7 @@ const themes = {
     menuItemActive: '#3E4049',
     primaryHighlightColor: '#2B32EA',
     loaderPrimaryColor: '#000',
-    widgetColor: '#F7F7FB',
+    widgetColor: '#FFF',
     loaderColor: '#BBB0FF',
     linkColor: '#0C5EFF',
 

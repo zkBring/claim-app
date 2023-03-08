@@ -3,6 +3,7 @@ export type TOption = {
   icon?: JSX.Element
   onClick: () => void
   recommended?: boolean
+  tag?: string
 }
 
 export type TProps = {

@@ -16,9 +16,11 @@ import TTheme from './theme'
 import TDropError from './drop-error'
 import IMetamaskError from './metamask-error'
 import { TLinkParams } from './link-params'
+import TWalletName from './wallet-name'
 
 export {
   TMerkleTree,
+  TWalletName,
   TDropStep,
   IMetamaskError,
   TDropError,

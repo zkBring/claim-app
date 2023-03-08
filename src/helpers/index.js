@@ -22,11 +22,13 @@ import defineRealNetworkName from './define-real-network-name'
 import toHex from './to-hex'
 import constructLink from './construct-link'
 import defineOpenseaURL from './define-opensea-url'
+import getWalletDeeplink from './get-wallet-deeplink'
 
 export {
   shortenString,
   constructLink,
   defineOpenseaURL,
+  getWalletDeeplink,
   toHex,
   defineNetworkName,
   defineRealNetworkName,

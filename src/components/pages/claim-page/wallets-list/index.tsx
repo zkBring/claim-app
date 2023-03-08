@@ -10,10 +10,14 @@ import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
+import OperaWalletIcon from 'images/opera-touch-wallet.png'
+import CoinabseWalletIcon from 'images/coinbase-wallet.png'
+
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
+import { TDropStep } from 'types'
 import {
   Popup,
   Note
@@ -22,8 +26,7 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
-import { defineSystem } from 'helpers'
-import wallets from 'configs/wallets'
+import { defineSystem, getWalletDeeplink } from 'helpers'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -36,7 +39,8 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
   return {
     setAddress: () => dispatch(
       dropActions.setStep('set_address')
-    )
+    ),
+    setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
 }
 
@@ -47,7 +51,8 @@ const defineOptionsList = (
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
   connectors: Connector<any, any, any>[],
-  claimCode: string | null
+  claimCode: string | null,
+  downloadStarted: () => void,
 ) => {
   const system = defineSystem()
   const ensOption = {
@@ -67,7 +72,7 @@ const defineOptionsList = (
 
   if (system === 'desktop') {
     const injectedOption = injected && injected.ready ? {
-      title: 'Injected',
+      title: 'Browser Wallet',
       onClick: () => {
         if (!injected) {
           return
@@ -80,10 +85,12 @@ const defineOptionsList = (
       title: 'Browser Wallet',
       onClick: () => {
         window.open('https://metamask.io/download/', '_blank')
+        downloadStarted()
       },
       icon: <WalletIcon src={BrowserWalletIcon} />,
-      recommended: true
+      tag: 'Install MetaMask ->'
     }
+
     return [
       injectedOption,
       walletConnectOption,
@@ -99,30 +106,52 @@ const defineOptionsList = (
       }
       connect({ connector: injected })
     },
-    icon: <WalletIcon src={MetamaskIcon} />,
+    icon: <WalletIcon src={BrowserWalletIcon} />,
     recommended: true
   } : undefined
 
-  const metamaskOption = injectedOption ? undefined : {
+  const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href)
+  const metamaskOption = injectedOption || !metamaskDeeplink ? undefined : {
     title: 'Metamask',
     onClick: () => {
-      window.open(wallets.metamask.mobile[system].deepLink(`${window.location.origin}/#/claim/${claimCode}`))
+      window.open(metamaskDeeplink as string)
     },
     icon: <WalletIcon src={MetamaskIcon} />,
     recommended: true
+  }
+
+  const operaDeeplink = getWalletDeeplink('opera', system, window.location.href)
+  const operaOption = !operaDeeplink ? undefined : {
+    title: 'Opera',
+    onClick: () => {
+      window.open(operaDeeplink as string)
+    },
+    icon: <WalletIcon src={OperaWalletIcon} />
+  }
+
+  const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href)
+  const coinbaseOption = !coinbaseDeeplink ? undefined : {
+    title: 'Coinbase',
+    onClick: () => {
+      window.open(coinbaseDeeplink as string)
+    },
+    icon: <WalletIcon src={CoinabseWalletIcon} />
   }
 
   return [
     injectedOption,
     metamaskOption,
     walletConnectOption,
-    ensOption
+    ensOption,
+    coinbaseOption,
+    operaOption
   ]
 }
 
 const WalletsList: FC<ReduxType> = ({
   setAddress,
-  claimCode
+  claimCode,
+  setStep
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -132,7 +161,8 @@ const WalletsList: FC<ReduxType> = ({
     open,
     connect,
     connectors,
-    claimCode
+    claimCode,
+    () => setStep('download_await')
   )
 
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
