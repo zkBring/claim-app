@@ -22,14 +22,15 @@ const PopupContents: FC = () => {
       <li>Provides access to a wide range of decentralized applications (dApps)</li>
       <li>Offers a desktop browser extension that allows users to access their wallet from within their web browser.</li>
     </PopupList>
-    <PopupSubtitle>Zerion Wallet</PopupSubtitle>
-    <PopupList>
-      <li>Has a simple and user-friendly interface.</li>
-      <li>Offers a feature called Zerion Dashboard that allows users to track their portfolio and manage investments.</li>
-    </PopupList>
     <PopupSubtitle>Trust Wallet</PopupSubtitle>
     <PopupList>
       <li>Supports a wide range of cryptocurrencies and allows users to buy, sell, and manage their cryptocurrency.</li>
+    </PopupList>
+    <PopupSubtitle>Coinbase</PopupSubtitle>
+    <PopupList>
+      <li>Allows easy buying and selling of cryptocurrency.</li>
+      <li>Provides access to professional support and customer service.</li>
+      <li>Supports a limited range of cryptocurrencies.</li>
     </PopupList>
   </>
 }
