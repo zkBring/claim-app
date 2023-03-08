@@ -10,7 +10,7 @@ import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
-import OperaWalletIcon from 'images/opera-touch-wallet.png'
+import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 
 import BrowserWalletIcon from 'images/browser-wallet.png'
@@ -120,13 +120,13 @@ const defineOptionsList = (
     recommended: true
   }
 
-  const operaDeeplink = getWalletDeeplink('opera', system, window.location.href)
-  const operaOption = !operaDeeplink ? undefined : {
-    title: 'Opera',
+  const trustDeeplink = getWalletDeeplink('trust', system, window.location.href)
+  const trustOption = !trustDeeplink ? undefined : {
+    title: 'Trust',
     onClick: () => {
-      window.open(operaDeeplink as string)
+      window.open(trustDeeplink as string)
     },
-    icon: <WalletIcon src={OperaWalletIcon} />
+    icon: <WalletIcon src={TrustWalletIcon} />
   }
 
   const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href)
@@ -144,7 +144,7 @@ const defineOptionsList = (
     walletConnectOption,
     ensOption,
     coinbaseOption,
-    operaOption
+    trustOption
   ]
 }
 
