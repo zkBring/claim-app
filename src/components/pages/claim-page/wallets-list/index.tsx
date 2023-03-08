@@ -26,13 +26,13 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
-import { defineSystem, getWalletDeeplink, getCoinbaseDeeplink } from 'helpers'
+import { defineSystem, getWalletDeeplink } from 'helpers'
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type, wallet, claimCode, chainId }
+  drop: { tokenId, type, wallet, claimCode }
 }: RootState) => ({
-  name, image, type, tokenId, wallet, claimCode, chainId
+  name, image, type, tokenId, wallet, claimCode
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -51,8 +51,7 @@ const defineOptionsList = (
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
   connectors: Connector<any, any, any>[],
-  chainId: number,
-  downloadStarted: () => void
+  downloadStarted: () => void,
 ) => {
   const system = defineSystem()
   const ensOption = {
@@ -129,11 +128,10 @@ const defineOptionsList = (
     icon: <WalletIcon src={TrustWalletIcon} />
   }
 
-  const coinbaseOption = injectedOption ? undefined : {
+  const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href)
+  const coinbaseOption = injectedOption || !coinbaseDeeplink ? undefined : {
     title: 'Coinbase',
-    onClick: async () => {
-      const coinbaseDeeplink = await getCoinbaseDeeplink(chainId, window.location.href)
-      if (!coinbaseDeeplink) { return alert('Error occured with Coinbase wallet deeplink fetch') }
+    onClick: () => {
       window.open(coinbaseDeeplink as string)
     },
     icon: <WalletIcon src={CoinabseWalletIcon} />
@@ -152,8 +150,7 @@ const defineOptionsList = (
 const WalletsList: FC<ReduxType> = ({
   setAddress,
   claimCode,
-  setStep,
-  chainId
+  setStep
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -163,8 +160,7 @@ const WalletsList: FC<ReduxType> = ({
     open,
     connect,
     connectors,
-    chainId as number,
-    () => setStep('download_await'),
+    () => setStep('download_await')
   )
 
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
