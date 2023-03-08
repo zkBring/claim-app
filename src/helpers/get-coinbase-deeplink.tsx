@@ -12,6 +12,7 @@ const getCoinbaseDeeplink: TGetCoinbaseDeeplink = async (chainId, url) => {
     }
   } catch (e) {
     console.error(e)
+    alert(JSON.stringify(e, null, 4))
     return null
   }
 }
