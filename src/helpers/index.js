@@ -23,9 +23,11 @@ import toHex from './to-hex'
 import constructLink from './construct-link'
 import defineOpenseaURL from './define-opensea-url'
 import getWalletDeeplink from './get-wallet-deeplink'
+import getCoinbaseDeeplink from './get-coinbase-deeplink'
 
 export {
   shortenString,
+  getCoinbaseDeeplink,
   constructLink,
   defineOpenseaURL,
   getWalletDeeplink,

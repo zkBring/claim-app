@@ -26,13 +26,13 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
-import { defineSystem, getWalletDeeplink } from 'helpers'
+import { defineSystem, getWalletDeeplink, getCoinbaseDeeplink } from 'helpers'
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type, wallet, claimCode }
+  drop: { tokenId, type, wallet, claimCode, chainId }
 }: RootState) => ({
-  name, image, type, tokenId, wallet, claimCode
+  name, image, type, tokenId, wallet, claimCode, chainId
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -51,8 +51,8 @@ const defineOptionsList = (
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
   connectors: Connector<any, any, any>[],
-  claimCode: string | null,
-  downloadStarted: () => void,
+  chainId: number,
+  downloadStarted: () => void
 ) => {
   const system = defineSystem()
   const ensOption = {
@@ -121,7 +121,7 @@ const defineOptionsList = (
   }
 
   const trustDeeplink = getWalletDeeplink('trust', system, window.location.href)
-  const trustOption = !trustDeeplink ? undefined : {
+  const trustOption = injectedOption || !trustDeeplink ? undefined : {
     title: 'Trust',
     onClick: () => {
       window.open(trustDeeplink as string)
@@ -129,10 +129,11 @@ const defineOptionsList = (
     icon: <WalletIcon src={TrustWalletIcon} />
   }
 
-  const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href)
-  const coinbaseOption = !coinbaseDeeplink ? undefined : {
+  const coinbaseOption = injectedOption ? undefined : {
     title: 'Coinbase',
-    onClick: () => {
+    onClick: async () => {
+      const coinbaseDeeplink = await getCoinbaseDeeplink(chainId, window.location.href)
+      if (!coinbaseDeeplink) { return alert('Error occured with Coinbase wallet deeplink fetch') }
       window.open(coinbaseDeeplink as string)
     },
     icon: <WalletIcon src={CoinabseWalletIcon} />
@@ -151,7 +152,8 @@ const defineOptionsList = (
 const WalletsList: FC<ReduxType> = ({
   setAddress,
   claimCode,
-  setStep
+  setStep,
+  chainId
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -161,8 +163,8 @@ const WalletsList: FC<ReduxType> = ({
     open,
     connect,
     connectors,
-    claimCode,
-    () => setStep('download_await')
+    chainId as number,
+    () => setStep('download_await'),
   )
 
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
