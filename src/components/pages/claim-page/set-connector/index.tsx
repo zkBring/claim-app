@@ -67,8 +67,7 @@ const SetConnector: FC<ReduxType> = ({
       Here is a preview of the NFT you’re about to receive
     </TextComponent>
     <ScreenButton onClick={() => {
-      if (!address && injected && injected.ready && system !== 'desktop') {
-        alert(JSON.stringify(injected, null, 4))
+      if (!address && injected && injected.ready && system !== 'desktop' && injected.name !== 'Brave Wallet') {
         return connect({ connector: injected })
       }
       chooseWallet()
