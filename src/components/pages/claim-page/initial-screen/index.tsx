@@ -18,8 +18,7 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { TDropStep } from 'types'
-import { shortenString, defineSystem } from 'helpers'
-import { useConnect } from 'wagmi'
+import { shortenString } from 'helpers'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -93,10 +92,6 @@ const InitialScreen: FC<ReduxType> = ({
   userChainId,
   setStep
 }) => {
-  const { connect, connectors } = useConnect()
-  const injected = connectors.find(connector => connector.id === "injected")
-  const system = defineSystem()
-
   const defineButton = () => {
     
     return <ScreenButton
@@ -110,12 +105,6 @@ const InitialScreen: FC<ReduxType> = ({
       appearance='default'
       title='Claim'
       onClick={() => {
-        if (injected) {
-          alert(injected.ready)
-        }
-        if (!address && injected && injected.ready && system !== 'desktop') {
-          return connect({ connector: injected })
-        }
         if (Number(userChainId) !== Number(chainId)) {
           return setStep('change_network')
         }

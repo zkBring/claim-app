@@ -11,16 +11,22 @@ import {
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { shortenString } from 'helpers'
+import { shortenString, defineSystem } from 'helpers'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
+import { useConnect } from 'wagmi'
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type }
+  drop: { tokenId, type },
+  user: { address }
 }: RootState) => ({
-  name, image, type, tokenId
+  name,
+  image,
+  type,
+  tokenId,
+  address
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -45,8 +51,13 @@ const SetConnector: FC<ReduxType> = ({
   name,
   tokenId,
   image,
-  chooseWallet
+  chooseWallet,
+  address
 }) => {
+
+  const { connect, connectors } = useConnect()
+  const injected = connectors.find(connector => connector.id === "injected")
+  const system = defineSystem()
 
   return <Container> 
     {image && <TokenImageContainer src={image} alt={name} />}
@@ -56,6 +67,9 @@ const SetConnector: FC<ReduxType> = ({
       Here is a preview of the NFT you’re about to receive
     </TextComponent>
     <ScreenButton onClick={() => {
+      if (!address && injected && injected.ready && system !== 'desktop') {
+        return connect({ connector: injected })
+      }
       chooseWallet()
     }}>
       Claim
