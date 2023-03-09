@@ -110,6 +110,9 @@ const InitialScreen: FC<ReduxType> = ({
       appearance='default'
       title='Claim'
       onClick={() => {
+        if (injected) {
+          alert(injected.ready)
+        }
         if (!address && injected && injected.ready && system !== 'desktop') {
           return connect({ connector: injected })
         }
