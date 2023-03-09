@@ -68,11 +68,12 @@ const SetConnector: FC<ReduxType> = ({
     </TextComponent>
     <ScreenButton onClick={() => {
       if (!address && injected && injected.ready && system !== 'desktop') {
+        alert(JSON.stringify(injected, null, 4))
         return connect({ connector: injected })
       }
       chooseWallet()
     }}>
-      Claim
+      Connect Wallet
     </ScreenButton>
     <Terms>By claiming NFT you agree to <TermsLink target="_blank" href="https://www.notion.so/Terms-and-Privacy-dfa7d9b85698491d9926cbfe3c9a0a58">Terms and Conditions</TermsLink></Terms>
   </Container>
