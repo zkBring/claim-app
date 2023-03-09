@@ -109,8 +109,10 @@ const defineOptionsList = (
     recommended: true
   } : undefined
 
+  const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
+
   const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href)
-  const metamaskOption = injectedOption || !metamaskDeeplink ? undefined : {
+  const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
     title: 'Metamask',
     onClick: () => {
       window.open(metamaskDeeplink as string)
@@ -120,7 +122,7 @@ const defineOptionsList = (
   }
 
   const trustDeeplink = getWalletDeeplink('trust', system, window.location.href)
-  const trustOption = injectedOption || !trustDeeplink ? undefined : {
+  const trustOption = (injectedOption && !injectedOptionIsBrave) || !trustDeeplink ? undefined : {
     title: 'Trust',
     onClick: () => {
       window.open(trustDeeplink as string)
@@ -129,7 +131,7 @@ const defineOptionsList = (
   }
 
   const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href)
-  const coinbaseOption = injectedOption || !coinbaseDeeplink ? undefined : {
+  const coinbaseOption = (injectedOption && !injectedOptionIsBrave) || !coinbaseDeeplink ? undefined : {
     title: 'Coinbase',
     onClick: () => {
       window.open(coinbaseDeeplink as string)
