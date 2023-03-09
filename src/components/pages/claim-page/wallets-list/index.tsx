@@ -12,6 +12,8 @@ import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
+import ImtokenWalletIcon from 'images/imtoken-wallet.png'
+import StatusWalletIcon from 'images/status-wallet.png'
 
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
@@ -51,6 +53,7 @@ const defineOptionsList = (
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
   connectors: Connector<any, any, any>[],
+  wallet: string | null,
   downloadStarted: () => void,
 ) => {
   const system = defineSystem()
@@ -65,7 +68,8 @@ const defineOptionsList = (
     onClick: () => {
       open()
     },
-    icon: <WalletIcon src={WalletConnectIcon} />
+    icon: <WalletIcon src={WalletConnectIcon} />,
+    recommended: wallet === 'walletconnect'
   }
   const injected = connectors.find(connector => connector.id === "injected")
 
@@ -78,8 +82,8 @@ const defineOptionsList = (
         }
         connect({ connector: injected })
       },
-      icon: <WalletIcon src={MetamaskIcon} />,
-      recommended: true
+      icon: <WalletIcon src={BrowserWalletIcon} />,
+      recommended: wallet && wallet !== 'walletconnect'
     } : {
       title: 'Browser Wallet',
       onClick: () => {
@@ -97,6 +101,8 @@ const defineOptionsList = (
     ]
   }
 
+  const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
+
   const injectedOption = injected && injected.ready ? {
     title: 'Injected',
     onClick: () => {
@@ -106,10 +112,8 @@ const defineOptionsList = (
       connect({ connector: injected })
     },
     icon: <WalletIcon src={BrowserWalletIcon} />,
-    recommended: true
+    recommended: !injectedOptionIsBrave
   } : undefined
-
-  const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
 
   const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href)
   const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
@@ -118,7 +122,7 @@ const defineOptionsList = (
       window.open(metamaskDeeplink as string)
     },
     icon: <WalletIcon src={MetamaskIcon} />,
-    recommended: true
+    recommended: wallet === 'metamask'
   }
 
   const trustDeeplink = getWalletDeeplink('trust', system, window.location.href)
@@ -127,7 +131,8 @@ const defineOptionsList = (
     onClick: () => {
       window.open(trustDeeplink as string)
     },
-    icon: <WalletIcon src={TrustWalletIcon} />
+    icon: <WalletIcon src={TrustWalletIcon} />,
+    recommended: wallet === 'trust'
   }
 
   const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href)
@@ -136,7 +141,28 @@ const defineOptionsList = (
     onClick: () => {
       window.open(coinbaseDeeplink as string)
     },
-    icon: <WalletIcon src={CoinabseWalletIcon} />
+    icon: <WalletIcon src={CoinabseWalletIcon} />,
+    recommended: wallet === 'coinbase_wallet'
+  }
+
+  const imtokenDeeplink = getWalletDeeplink('imtoken', system, window.location.href)
+  const imtokenOption = (injectedOption && !injectedOptionIsBrave) || !imtokenDeeplink ? undefined : {
+    title: 'Imtoken',
+    onClick: () => {
+      window.open(imtokenDeeplink as string)
+    },
+    icon: <WalletIcon src={ImtokenWalletIcon} />,
+    recommended: wallet === 'imtoken'
+  }
+
+  const statusDeeplink = getWalletDeeplink('status', system, window.location.href)
+  const statusOption = (injectedOption && !injectedOptionIsBrave) || !statusDeeplink ? undefined : {
+    title: 'Status',
+    onClick: () => {
+      window.open(statusDeeplink as string)
+    },
+    icon: <WalletIcon src={StatusWalletIcon} />,
+    recommended: wallet === 'status'
   }
 
   return [
@@ -144,15 +170,17 @@ const defineOptionsList = (
     metamaskOption,
     walletConnectOption,
     ensOption,
+    imtokenOption,
     coinbaseOption,
-    trustOption
+    trustOption,
+    statusOption
   ]
 }
 
 const WalletsList: FC<ReduxType> = ({
   setAddress,
-  claimCode,
-  setStep
+  setStep,
+  wallet
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -162,6 +190,7 @@ const WalletsList: FC<ReduxType> = ({
     open,
     connect,
     connectors,
+    wallet,
     () => setStep('download_await')
   )
 
