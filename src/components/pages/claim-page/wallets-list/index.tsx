@@ -145,35 +145,35 @@ const defineOptionsList = (
     recommended: wallet === 'coinbase_wallet'
   }
 
-  const imtokenDeeplink = getWalletDeeplink('imtoken', system, window.location.href)
-  const imtokenOption = (injectedOption && !injectedOptionIsBrave) || !imtokenDeeplink ? undefined : {
-    title: 'Imtoken',
-    onClick: () => {
-      window.open(imtokenDeeplink as string)
-    },
-    icon: <WalletIcon src={ImtokenWalletIcon} />,
-    recommended: wallet === 'imtoken'
-  }
+  // const imtokenDeeplink = getWalletDeeplink('imtoken', system, window.location.href)
+  // const imtokenOption = (injectedOption && !injectedOptionIsBrave) || !imtokenDeeplink ? undefined : {
+  //   title: 'Imtoken',
+  //   onClick: () => {
+  //     window.open(imtokenDeeplink as string)
+  //   },
+  //   icon: <WalletIcon src={ImtokenWalletIcon} />,
+  //   recommended: wallet === 'imtoken'
+  // }
 
-  const statusDeeplink = getWalletDeeplink('status', system, window.location.href)
-  const statusOption = (injectedOption && !injectedOptionIsBrave) || !statusDeeplink ? undefined : {
-    title: 'Status',
-    onClick: () => {
-      window.open(statusDeeplink as string)
-    },
-    icon: <WalletIcon src={StatusWalletIcon} />,
-    recommended: wallet === 'status'
-  }
+  // const statusDeeplink = getWalletDeeplink('status', system, window.location.href)
+  // const statusOption = (injectedOption && !injectedOptionIsBrave) || !statusDeeplink ? undefined : {
+  //   title: 'Status',
+  //   onClick: () => {
+  //     window.open(statusDeeplink as string)
+  //   },
+  //   icon: <WalletIcon src={StatusWalletIcon} />,
+  //   recommended: wallet === 'status'
+  // }
 
   return [
     injectedOption,
     metamaskOption,
     walletConnectOption,
     ensOption,
-    imtokenOption,
+    // imtokenOption,
     coinbaseOption,
     trustOption,
-    statusOption
+    // statusOption
   ]
 }
 

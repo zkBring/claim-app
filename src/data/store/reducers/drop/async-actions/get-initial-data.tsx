@@ -43,19 +43,20 @@ export default function getData(
           chainId: linkChainId,
           expirationTime,
           tokenId,
-          amount
+          amount,
+          type
         }
       } = getState()
       
   
-      if (tokenId && amount && linkTokenAddress) {
+      if (type === 'ERC1155' && linkTokenAddress && tokenId) {
         const { name, image, description } = await getERC1155Data(provider, linkTokenAddress, tokenId)
         dispatch(actionsToken.setDescription(description))
         dispatch(actionsToken.setImage(image))
         dispatch(actionsToken.setName(name))
       }
 
-      if (tokenId && !amount && linkTokenAddress) {
+      if (type === 'ERC721' && linkTokenAddress && tokenId) {
         const { name, image, description } = await getERC721Data(provider, linkTokenAddress, tokenId)
         dispatch(actionsDrop.setTokenId(tokenId))
         dispatch(actionsToken.setDescription(description))
@@ -63,7 +64,7 @@ export default function getData(
         dispatch(actionsToken.setName(name))
       }
 
-      if (amount && !tokenId && linkTokenAddress) {
+      if (type === 'ERC20' && linkTokenAddress) {
         const { symbol, decimals, image } = await getERC20Data(provider, linkTokenAddress)
         dispatch(actionsToken.setName(symbol))
         dispatch(actionsToken.setImage(image))
