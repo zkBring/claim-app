@@ -128,7 +128,7 @@ export default function claimERC721(
           dispatch
         )    
       } else {
-        if (checkGasPrice) {
+        if (checkGasPrice || !checkGasPrice) {
           const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
           const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
           const gasPrice = await provider.getGasPrice()

@@ -118,7 +118,7 @@ export default function claimERC1155(
     let finalTxHash = ''
 
     try {
-      if (isManual) {
+      if (isManual || !checkGasPrice) {
         finalTxHash = await claimManually(
           chainId,
           userProvider,

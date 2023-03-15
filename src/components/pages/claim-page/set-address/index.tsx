@@ -44,13 +44,13 @@ const mapStateToProps = ({
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
   return {
     claimERC1155: (address: string) => dispatch(
-      dropAsyncActions.claimERC1155(address)
+      dropAsyncActions.claimERC1155(address, true)
     ),
     claimERC721: (address: string) => dispatch(
-      dropAsyncActions.claimERC721(address)
+      dropAsyncActions.claimERC721(address, true)
     ),
     claimERC20: (address: string) => dispatch(
-      dropAsyncActions.claimERC20(address)
+      dropAsyncActions.claimERC20(address, true)
     )
   }
 }
