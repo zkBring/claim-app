@@ -13,24 +13,22 @@ import {
 } from 'helpers'
 const { REACT_APP_INFURA_ID } = process.env
 
-class StaticJsonRpcProvider extends ethers.providers.JsonRpcProvider {
-  async getNetwork(): Promise<any> {
-      if (this._network) { return Promise.resolve(this._network); }
-      return super.getNetwork();
-  }
-}
-
 const initialize = (
   onReload: () => void,
-  address?: string,
-  chainId?: number,
-  userProvider?: any
+  connector: any,
+  userChainId?: number,
+  userAddress?: string
 ) => {
   return async (
     dispatch: Dispatch<UserActions> & Dispatch<DropActions>,
     getState: () => RootState
   ) => {
-    
+
+    console.log({
+      connector,
+      userChainId,
+      userAddress
+    })
 
     dispatch(actions.setInitialized(false))
 
@@ -70,7 +68,7 @@ const initialize = (
 
     const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(linkChainId), infuraPk: REACT_APP_INFURA_ID })
     const contract = contracts[linkChainId]
-    const provider = new StaticJsonRpcProvider(jsonRpcUrl)
+    const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
     dispatch(actions.setProvider(provider))
 
     const claimed = await checkIfClaimed(
@@ -93,13 +91,18 @@ const initialize = (
       dispatch(actionsDrop.setIsClaimed(claimed))
     }
 
-    if (!chainId || !address) {
+    if (!userChainId || !userAddress || !connector) {
       dispatch(actions.setHasConnector(false))
     } else {
       dispatch(actions.setHasConnector(true))
-      dispatch(actions.setAddress(address))
-      dispatch(actions.setChainId(chainId))
-      dispatch(actions.setUserProvider(userProvider))
+      dispatch(actions.setAddress(userAddress))
+      dispatch(actions.setChainId(userChainId))
+
+      const provider = await connector.getProvider()
+      const signer = await connector.getSigner()
+      
+      dispatch(actions.setUserProvider(provider))
+      dispatch(actions.setSigner(signer))
     }
 
     if (!contract) {

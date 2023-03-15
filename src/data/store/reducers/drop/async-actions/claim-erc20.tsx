@@ -26,8 +26,9 @@ export default function claimERC20(
     let {
       user: {
         sdk,
-        userProvider,
-        address
+        address,
+        provider,
+        signer
       },
       drop: {
         campaignId,
@@ -113,7 +114,7 @@ export default function claimERC20(
       if (isManual || !checkGasPrice) {
         finalTxHash = await claimManually(
           chainId,
-          userProvider,
+          signer,
           linkKey,
           address,
           weiAmount || '0',
@@ -128,8 +129,6 @@ export default function claimERC20(
 
       } else {
         if (checkGasPrice) {
-          const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
-          const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
           const gasPrice = await provider.getGasPrice()
           if (gasPrice > BigNumber.from(gasPriceLimits[chainId])) {
             return dispatch(dropActions.setStep('gas_price_high'))
@@ -165,7 +164,7 @@ export default function claimERC20(
 
 const claimManually = async (
   chainId: number,
-  userProvider: any,
+  signer: any,
   linkKey: string,
   address: string,
   weiAmount: string,
@@ -180,7 +179,6 @@ const claimManually = async (
 
   try {
     const factoryItem = contracts[chainId]
-    const signer = await userProvider.getSigner()
     const linkId = new ethers.Wallet(linkKey).address
     const receiverSignature = await signReceiverAddress(linkKey, address)
     const contract = new ethers.Contract(

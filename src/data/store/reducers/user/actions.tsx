@@ -22,6 +22,16 @@ export function setLoading(loading: boolean) {
   )
 }
 
+export function setSigner(signer: any) {
+  return action(
+    Constants.USER_SET_SIGNER,
+    // payload
+    {
+      signer
+    }
+  )
+}
+
 export function setProvider(provider: any) {
   return action(
     Constants.USER_SET_PROVIDER,

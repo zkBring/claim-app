@@ -27,8 +27,9 @@ export default function claimERC1155(
     let {
       user: {
         sdk,
-        userProvider,
-        address
+        signer,
+        address,
+        provider
       },
       drop: {
         campaignId,
@@ -121,7 +122,7 @@ export default function claimERC1155(
       if (isManual || !checkGasPrice) {
         finalTxHash = await claimManually(
           chainId,
-          userProvider,
+          signer,
           linkKey,
           address,
           weiAmount || '0',
@@ -137,8 +138,6 @@ export default function claimERC1155(
     
       } else {
         if (checkGasPrice) {
-          const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
-          const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
           const gasPrice = await provider.getGasPrice()
           console.log({ gasPrice })
 
@@ -176,7 +175,7 @@ export default function claimERC1155(
 
 const claimManually = async (
   chainId: number,
-  userProvider: any,
+  signer: any,
   linkKey: string,
   address: string,
   weiAmount: string,
@@ -191,9 +190,22 @@ const claimManually = async (
 ) => {
   try {
     const factoryItem = contracts[chainId]
-    const signer = await userProvider.getSigner()
     const linkId = new ethers.Wallet(linkKey).address
     const receiverSignature = await signReceiverAddress(linkKey, address)
+    console.log({ signer })
+    console.log({
+      weiAmount,
+      nftAddress,
+      tokenId,
+      amount,
+      expirationTime,
+      linkId,
+      linkdropMasterAddress,
+      campaignId,
+      linkdropSignerSignature,
+      address,
+      receiverSignature
+    })
     const contract = new ethers.Contract(
       factoryItem.factory,
       LinkdropFactory.abi,

@@ -9,8 +9,9 @@ async function switchNetwork (
   chainId: number,
   callback: () => void
 ) {
+  console.log({ chainId: toHex(chainId) })
   try {
-    await provider.provider.request({
+    await provider.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: toHex(chainId) }],
     })
@@ -18,6 +19,7 @@ async function switchNetwork (
     callback && callback()
     
   } catch (err) {
+      console.log({ err })
       const switchError = err as IMetamaskError
       console.log(switchError.code)
       if (switchError.code && switchError.code === 4902) {
@@ -32,7 +34,7 @@ async function switchNetwork (
               chainId: toHex(chainId)
             }
 
-            await provider.provider.request({
+            await provider.request({
               method: 'wallet_addEthereumChain',
               params: [data],
             })

@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect } from 'react'
-import { useAccount, useChainId, useProvider, useConnect } from 'wagmi'
+import { useAccount, useChainId, useProvider, useSigner, useConnect } from 'wagmi'
 import InitialScreen from './initial-screen'
 import ChangeNetwork from './change-network'
 import ClaimingFinished from './claiming-finished'
@@ -53,24 +53,16 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
   return {
       getData: (
         onReload: () => void,
-        address?: string,
+        connector: any,
         chainId?: number,
-        provider?: any
+        address?: string,
+        
       ) => dispatch(dropAsyncActions.getInitialData(
         onReload,
-        address,
+        connector,
         chainId,
-        provider
+        address
       )),
-      updateUserData: (
-        address: string,
-        chainId: number,
-        provider: any
-      ) => dispatch(userAsyncActions.updateUserData(
-        address,
-        chainId,
-        provider
-      )), 
       setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
 }
@@ -136,20 +128,22 @@ const ClaimPage: FC<ReduxType> = ({
   claimCode
 }) => {
   const screen = defineCurrentScreen(step)
-  const { address } = useAccount()
+  const { address, connector } = useAccount()
   const chainId = useChainId()
-  const provider = useProvider()
   const history = useHistory()
 
   useEffect(() => {
+    console.log('running')
     if (!claimCode) { return }
+    console.log(address, chainId)
     getData(
       () => { history.push('/') },
-      address,
+      connector,
       chainId,
-      provider
+      address,
+      
     )
-  }, [address, chainId, provider, claimCode])
+  }, [address, chainId, connector, claimCode])
   
   return <Page>
     <Container>

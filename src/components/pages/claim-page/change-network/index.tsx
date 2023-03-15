@@ -30,7 +30,6 @@ const mapStateToProps = ({
   userProvider
 })
 
-
 type ReduxType = ReturnType<typeof mapStateToProps>
 
 const ChangeNetwork: FC<ReduxType> = ({

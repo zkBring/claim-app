@@ -13,9 +13,9 @@ import { RootState, IAppDispatch } from 'data/store'
 
 export default function getData(
   onReload: () => void,
-  userAddress?: string,
+  connector: any,
   userChainId?: number,
-  userProvider?: any
+  userAddress?: string
 ) {
   return async (
     dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch,
@@ -24,11 +24,12 @@ export default function getData(
     
     try {
       dispatch(actionsDrop.setLoading(true))
+      console.log({ userChainId, userAddress, connector })
       await dispatch(asyncActionsUser.initialize(
         onReload,
-        userAddress,
+        connector,
         userChainId,
-        userProvider
+        userAddress
       ))
 
       const {

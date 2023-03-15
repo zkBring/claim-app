@@ -10,6 +10,7 @@ export interface UserState {
   sdk: LinkdropSDK | null
   initialized: boolean
   userProvider: any
+  signer: any
   provider: any
   hasConnector: boolean
   account: TAccount | null

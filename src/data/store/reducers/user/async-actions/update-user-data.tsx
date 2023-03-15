@@ -7,7 +7,7 @@ import * as actionsDrop from '../../drop/actions';
 const updateUserData = (
   address: string,
   chainId: number,
-  provider: any
+  signer: any
 ) => {
   return async (
     dispatch: Dispatch<UserActions> & Dispatch<DropActions>
@@ -15,7 +15,7 @@ const updateUserData = (
     dispatch(actions.setHasConnector(true))
     dispatch(actions.setAddress(address))
     dispatch(actions.setChainId(chainId))
-    dispatch(actions.setUserProvider(provider))
+    dispatch(actions.setSigner(signer))
     dispatch(actionsDrop.setStep('initial'))
   }
 }
