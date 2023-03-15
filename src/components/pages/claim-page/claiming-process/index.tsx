@@ -34,6 +34,7 @@ const ClaimingProcess: FC<ReduxType> = ({ hash, chainId, checkTransactionStatus 
     title='View in explorer'
     target='_blank'
     appearance='inverted'
+    loading
   /> : null
   return <Container>
     <IconContainer>

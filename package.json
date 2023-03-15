@@ -23,6 +23,7 @@
     "ansi-html": "^0.0.8",
     "axios": "^0.24.0",
     "browserslist": "^4.16.5",
+    "detect-browser": "^5.3.0",
     "ejs": "^3.1.7",
     "ethers": "^5.5.1",
     "glob-parent": "^5.1.2",

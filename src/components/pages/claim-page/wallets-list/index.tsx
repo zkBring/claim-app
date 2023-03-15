@@ -12,8 +12,6 @@ import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
-import ImtokenWalletIcon from 'images/imtoken-wallet.png'
-import StatusWalletIcon from 'images/status-wallet.png'
 
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
@@ -29,6 +27,7 @@ import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import { defineSystem, getWalletDeeplink } from 'helpers'
+import { detect } from 'detect-browser'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -74,7 +73,8 @@ const defineOptionsList = (
   const injected = connectors.find(connector => connector.id === "injected")
 
   if (system === 'desktop') {
-    const injectedOption = injected && injected.ready ? {
+    const browser = detect()
+    const injectedOption = browser?.name !== 'safari' ? (injected && injected.ready ? {
       title: 'Browser Wallet',
       onClick: () => {
         if (!injected) {
@@ -92,7 +92,7 @@ const defineOptionsList = (
       },
       icon: <WalletIcon src={BrowserWalletIcon} />,
       tag: 'Install MetaMask ->'
-    }
+    }) : undefined
 
     return [
       injectedOption,

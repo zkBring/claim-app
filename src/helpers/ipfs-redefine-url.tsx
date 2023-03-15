@@ -4,7 +4,10 @@ const ipfsPinataGatewayUrl = 'https://gateway.pinata.cloud/ipfs'
 const addTokenIdToIPFS = (url: string, tokenId?: string) => {
   if (url.indexOf('{id}') > -1) {
     if (tokenId !== undefined) {
-      return url.replace('{id}', tokenId).replace(ipfsPinataGatewayUrl, ipfsGatewayUrl)
+      return url
+        .replace('0x{id}', tokenId)
+        .replace('{id}', tokenId)
+        .replace(ipfsPinataGatewayUrl, ipfsGatewayUrl)
     }
     return url.replace(ipfsPinataGatewayUrl, ipfsGatewayUrl)
   } else {
