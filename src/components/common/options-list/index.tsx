@@ -23,7 +23,7 @@ const OptionsList: FC<TProps> = ({
         href
       } = option
       if (href) {
-        return <OptionsListItemLink href={href}>
+        return <OptionsListItemLink href={href} target="_self">
           {icon && <OptionImage>{icon}</OptionImage>}
           {title}
           {recommended && !tag && <OptionTag>Recommended</OptionTag>}
