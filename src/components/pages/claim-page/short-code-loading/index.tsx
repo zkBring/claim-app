@@ -41,6 +41,7 @@ const ShortLinkPage: FC<ReduxType> = ({
   setStep
 }) => {
   const params = useParams<{claimCode: string}>()
+
   useEffect(() => {
     getLink(params.claimCode, (linkCode) => setStep('loading'))    
   }, [])

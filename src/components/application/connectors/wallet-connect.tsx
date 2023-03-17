@@ -17,7 +17,7 @@ const { provider } = configureChains(chains, [
 const wagmiClient = createClient({
   connectors: modalConnectors({
     projectId: REACT_APP_WC_PROJECT_ID as string,
-    version: "1",
+    version: "2",
     appName: "web3Modal",
     chains
   }),
