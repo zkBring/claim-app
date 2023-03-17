@@ -1,7 +1,7 @@
 import {
   EthereumClient,
-  modalConnectors,
-  walletConnectProvider,
+  w3mConnectors,
+  w3mProvider
 } from "@web3modal/ethereum"
 import { configureChains, createClient } from "wagmi"
 import { mainnet, polygon } from "wagmi/chains"
@@ -10,15 +10,12 @@ const { REACT_APP_WC_PROJECT_ID } = process.env
 const chains = [polygon, mainnet]
 
 // Wagmi client
-const { provider } = configureChains(chains, [
-  walletConnectProvider({ projectId: REACT_APP_WC_PROJECT_ID as string }),
-]);
+const { provider } = configureChains(chains, [w3mProvider({ projectId: REACT_APP_WC_PROJECT_ID as string })]);
 
 const wagmiClient = createClient({
-  connectors: modalConnectors({
+  connectors: w3mConnectors({
     projectId: REACT_APP_WC_PROJECT_ID as string,
-    version: "1",
-    appName: "web3Modal",
+    version: 1,
     chains
   }),
   provider
