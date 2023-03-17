@@ -3,7 +3,8 @@ import {
   OptionsListContainer,
   OptionsListItem,
   OptionTag,
-  OptionImage
+  OptionImage,
+  OptionsListItemLink
 } from './styled-components'
 import { TOption, TProps } from './types'
 
@@ -18,8 +19,17 @@ const OptionsList: FC<TProps> = ({
         icon,
         onClick,
         recommended,
-        tag
+        tag,
+        href
       } = option
+      if (href) {
+        return <OptionsListItemLink href={href}>
+          {icon && <OptionImage>{icon}</OptionImage>}
+          {title}
+          {recommended && !tag && <OptionTag>Recommended</OptionTag>}
+          {tag && <OptionTag>{tag}</OptionTag>}
+        </OptionsListItemLink>
+      }
       return <OptionsListItem onClick={onClick}>
         {icon && <OptionImage>{icon}</OptionImage>}
         {title}

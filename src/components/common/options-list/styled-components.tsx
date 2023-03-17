@@ -22,6 +22,22 @@ export const OptionsListItem = styled.li`
   user-select: none;
 `
 
+export const OptionsListItemLink = styled.a`
+  margin: 0 0 24px;
+  padding: 16px;
+  border-radius: 8px;
+  list-style: none;
+  font-size: 14px;
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
+  align-items: center;
+  background-color: ${props => props.theme.blankColor};
+  min-height: 56px;
+  box-shadow: 0px 2px 4px rgba(40, 41, 61, 0.04), 0px 8px 16px rgba(96, 97, 112, 0.16);
+  user-select: none;
+`
+
 export const OptionTag = styled.div`
   border-radius: 8px;
   background-color: ${props => props.theme.buttonDefaultColor};

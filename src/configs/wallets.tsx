@@ -33,11 +33,11 @@ const wallets: TWallets = {
     mobile: {
       android: {
         support: true,
-        deepLink: (url: string) => `https://metamask.app.link/dapp/${encodeURIComponent(url)}`
+        deepLink: (url: string) => `https://metamask.app.link/dapp/${_withoutProtocol(url)}`
       },
       ios: {
         support: true,
-        deepLink: (url: string) => `https://metamask.app.link/dapp/${encodeURIComponent(url)}`
+        deepLink: (url: string) => `https://metamask.app.link/dapp/${_withoutProtocol(url)}`
       }
     },
   },
@@ -49,11 +49,11 @@ const wallets: TWallets = {
     mobile: {
       android: {
         support: true,
-        deepLink: (url: string) => `https://get.status.im/browse/${encodeURIComponent(url)}`
+        deepLink: (url: string) => `https://get.status.im/browse/${_withoutProtocol(url)}`
       },
       ios: {
         support: true,
-        deepLink: (url: string) => `https://get.status.im/browse/${encodeURIComponent(url)}`
+        deepLink: (url: string) => `https://get.status.im/browse/${_withoutProtocol(url)}`
       }
     },
     chains: ['1', '3', '4', '5', '42', '100']

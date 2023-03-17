@@ -1,9 +1,10 @@
 export type TOption = {
   title: string
   icon?: JSX.Element
-  onClick: () => void
+  onClick?: () => void
   recommended?: boolean
   tag?: string
+  href?: string
 }
 
 export type TProps = {

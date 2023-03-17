@@ -118,9 +118,7 @@ const defineOptionsList = (
   const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href)
   const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
     title: 'Metamask',
-    onClick: () => {
-      window.open(metamaskDeeplink as string)
-    },
+    href: metamaskDeeplink,
     icon: <WalletIcon src={MetamaskIcon} />,
     recommended: wallet === 'metamask'
   }
@@ -128,9 +126,7 @@ const defineOptionsList = (
   const trustDeeplink = getWalletDeeplink('trust', system, window.location.href)
   const trustOption = (injectedOption && !injectedOptionIsBrave) || !trustDeeplink ? undefined : {
     title: 'Trust',
-    onClick: () => {
-      window.open(trustDeeplink as string)
-    },
+    href: trustDeeplink,
     icon: <WalletIcon src={TrustWalletIcon} />,
     recommended: wallet === 'trust'
   }
@@ -138,9 +134,7 @@ const defineOptionsList = (
   const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href)
   const coinbaseOption = (injectedOption && !injectedOptionIsBrave) || !coinbaseDeeplink ? undefined : {
     title: 'Coinbase',
-    onClick: () => {
-      window.open(coinbaseDeeplink as string)
-    },
+    href: coinbaseDeeplink,
     icon: <WalletIcon src={CoinabseWalletIcon} />,
     recommended: wallet === 'coinbase_wallet'
   }
