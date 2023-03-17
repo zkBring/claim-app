@@ -116,6 +116,7 @@ const defineOptionsList = (
   } : undefined
 
   const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href)
+  alert(metamaskDeeplink)
   const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
     title: 'Metamask',
     href: metamaskDeeplink,
