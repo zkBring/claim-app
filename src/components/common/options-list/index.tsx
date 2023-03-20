@@ -6,13 +6,13 @@ import {
   OptionImage,
   OptionsListItemLink
 } from './styled-components'
-import { TOption, TProps } from './types'
-
+import { TProps } from './types'
+import { TWalletOption } from 'types'
 const OptionsList: FC<TProps> = ({
   options
 }) => {
   return <OptionsListContainer>
-    {options.map((option: TOption | undefined) => {
+    {options.map((option: TWalletOption | undefined) => {
       if (!option) { return null }
       const {
         title,
