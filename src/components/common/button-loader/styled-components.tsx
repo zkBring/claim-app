@@ -9,10 +9,6 @@ const pulse = keyframes`
   }
 `
 
-interface LoaderProps {
-  size: 'default' | 'large' | 'small'
-}
-
 export const LoaderContainer = styled.div`
   display: inline-block;
   position: relative;

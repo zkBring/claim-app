@@ -70,7 +70,7 @@ const themes = {
     primaryHighlightColor: '#2B32EA',
     loaderPrimaryColor: '#000',
     widgetColor: '#FFF',
-    loaderColor: '#BBB0FF',
+    loaderColor: '#0C5EFF',
     linkColor: '#0C5EFF',
 
     buttonDefaultColor: '#0C5EFF',
@@ -101,7 +101,6 @@ const themes = {
     polygonLogoColor: '#0EBDCD',
     toastBackgroundColor: '#2D2A3D',
     buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
-
   }
 }
 
