@@ -11,7 +11,6 @@ export const PopupContainer = styled.div`
   top: 0;
   z-index: 2;
   overflow: scroll;
-
 `
 
 export const PopupHeader = styled.div`
@@ -75,4 +74,9 @@ export const PopupList = styled.ul`
   margin: 0 0 24px;
   padding: 0 0 0 12px;
   font-size: 14px;
+`
+
+export const PopupBody = styled.div`
+  max-width: 343px;
+  margin: 0 auto;
 `

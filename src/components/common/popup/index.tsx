@@ -7,7 +7,8 @@ import {
   CloseButton,
   PopupTitle,
   PopupButtons,
-  ButtonStyled
+  ButtonStyled,
+  PopupBody
 } from './styled-components'
 import TProps from './types'
 import LinkdropLogo from 'images/linkdrop-header.png'
@@ -22,23 +23,27 @@ const Popup: FC<TProps> = ({
   mainActionTitle = 'Ok, I understand'
 }) => {
   return <PopupContainer className={className}>
-    <PopupHeader>
-      <LinkdropHeaderLogo src={LinkdropLogo} alt="Linkdrop" />
-      <CloseButton
-        src={PopupClose}
-        alt="close button"
-        onClick={onCloseAction}
-      />
-    </PopupHeader>
-    <PopupContent>
-      <PopupTitle>{title}</PopupTitle>
-      {children}
-    </PopupContent>
-    {mainAction && <PopupButtons>
-      <ButtonStyled onClick={mainAction}>
-        {mainActionTitle}
-      </ButtonStyled>
-    </PopupButtons>}
+    <PopupBody>
+      <PopupHeader>
+        <LinkdropHeaderLogo src={LinkdropLogo} alt="Linkdrop" />
+        <CloseButton
+          src={PopupClose}
+          alt="close button"
+          onClick={onCloseAction}
+        />
+      </PopupHeader>
+      <PopupContent>
+        <PopupTitle>{title}</PopupTitle>
+        {children}
+      </PopupContent>
+      {mainAction && <PopupButtons>
+        <ButtonStyled onClick={mainAction}>
+          {mainActionTitle}
+        </ButtonStyled>
+      </PopupButtons>}
+      
+    </PopupBody>
+    
   </PopupContainer>
 }
 
