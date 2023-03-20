@@ -128,7 +128,24 @@ const wallets: TWallets = {
       }
     },
     chains: ['1', '3', '4', '5', '42', '100']
-  }
+  },
+  zerion: {
+    id: 'zerion',
+    name: 'Zerion',
+    walletURL: 'https://zerion.io/',
+    dappStoreUrl: 'https://zerion.io/',
+    mobile: {
+      android: {
+        support: false,
+        deepLink: (url: string) => null
+      },
+      ios: {
+        support: false,
+        deepLink: (url: string) => null
+      }
+    },
+    chains: ['1', '3', '4', '5', '42', '100']
+  },
 }
 
 export default wallets

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import {
   TitleComponent,
   Container,
@@ -12,7 +12,7 @@ import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
-
+import AuthClient, { generateNonce } from "@walletconnect/auth-client"
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import ZerionWalletIcon from 'images/zerion-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
@@ -29,12 +29,13 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import { defineSystem, getWalletDeeplink } from 'helpers'
 import { detect } from 'detect-browser'
+const { REACT_APP_WC_PROJECT_ID } = process.env
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type, wallet, claimCode }
+  drop: { tokenId, type, wallet, claimCode, chainId }
 }: RootState) => ({
-  name, image, type, tokenId, wallet, claimCode
+  name, image, type, tokenId, wallet, claimCode, chainId
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -55,6 +56,11 @@ const defineOptionsList = (
   connectors: Connector<any, any, any>[],
   wallet: string | null,
   downloadStarted: () => void,
+  setClient: (client: AuthClient) => void,
+  updateUserData: (
+    address: string,
+    chainId: number
+  ) => void
 ) => {
   const system = defineSystem()
   const ensOption = {
@@ -142,8 +148,35 @@ const defineOptionsList = (
 
   const zerionOption = (injectedOption && !injectedOptionIsBrave) ? undefined : {
     title: 'Zerion',
-    onClick: () => {
-      
+    onClick: async () => {
+      const authClient = await AuthClient.init({
+        projectId: REACT_APP_WC_PROJECT_ID as string,
+        metadata: {
+          name: "Linkdrop-Test",
+          description: "A dapp using WalletConnect AuthClient",
+          url: window.location.host,
+          icons: ["https://jazzy-donut-086baa.netlify.app/zerion.png"],
+        }
+      })
+  
+      setClient(authClient)
+      authClient.on("auth_response", ({ params }) => {
+        // @ts-ignore
+        if (Boolean(params && params.result && params.result.p)) {
+          // @ts-ignore
+          const { iss } = params.result.p
+          const walletData = iss.split(":")
+          const walletAddress = walletData[4]
+          const walletChainId = walletData[3]
+          updateUserData(
+            walletAddress,
+            walletChainId
+          )
+        } else {
+          // @ts-ignore
+          console.error(params.message)
+        }
+      })
     },
     icon: <WalletIcon src={ZerionWalletIcon} />,
     recommended: wallet === 'zerion'
@@ -163,10 +196,35 @@ const defineOptionsList = (
 const WalletsList: FC<ReduxType> = ({
   setAddress,
   setStep,
-  wallet
+  wallet,
+  chainId
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
+  const [ showPopup, setShowPopup ] = useState<boolean>(false)
+  const [ client, setClient ] = useState<AuthClient | null>(null)
+  const [ loading, setLoading ] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (!client) { return }
+    client
+      .request({
+        aud: window.location.href,
+        domain: window.location.hostname.split(".").slice(-2).join("."),
+        chainId: `eip155:${chainId}`,
+        nonce: generateNonce(),
+        statement: "Sign in with Zerion Wallet"
+      })
+      .then(({ uri }) => {
+        if (!uri) { return }
+        setLoading(true)
+        const href = `zerion://wc?uri=${encodeURIComponent(uri)}`
+        window.location.href = href
+      })
+      .catch(err => {
+        setLoading(false)
+      })
+  }, [client])
 
   const options = defineOptionsList(
     setAddress,
@@ -174,10 +232,18 @@ const WalletsList: FC<ReduxType> = ({
     connect,
     connectors,
     wallet,
-    () => setStep('download_await')
-  )
+    () => setStep('download_await'),
+    setClient,
+    (
+      address,
+      chainId
+    ) => {
+      alert(`${chainId}: ${address}`)
+    }
+ )
 
-  const [ showPopup, setShowPopup ] = useState<boolean>(false)
+  
+
   return <Container>
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>
