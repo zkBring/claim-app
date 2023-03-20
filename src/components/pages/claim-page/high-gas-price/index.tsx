@@ -11,10 +11,12 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { TDropStep } from 'types'
 
 const mapStateToProps = ({
-  drop: { type, addressIsManuallySet }
+  drop: { type, addressIsManuallySet },
+  user: { signer }
 }: RootState) => ({
   type,
-  addressIsManuallySet
+  addressIsManuallySet,
+  signer
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -39,7 +41,8 @@ const HighGasPrice: FC<ReduxType> = ({
   type,
   claimERC1155,
   claimERC721,
-  claimERC20
+  claimERC20,
+  signer
 }) => {
   return <>
     <Image src={GasPrice} />
@@ -51,7 +54,7 @@ const HighGasPrice: FC<ReduxType> = ({
     >
       Learn more
     </ButtonStyled>
-    {!addressIsManuallySet && <AdditionalAction
+    {!addressIsManuallySet && signer && <AdditionalAction
       onClick={() => {
         if (type === 'ERC1155') {
           return claimERC1155()

@@ -24,6 +24,7 @@ import {
   Note
 } from 'components/common'
 import * as dropActions from 'data/store/reducers/drop/actions'
+import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
@@ -43,7 +44,11 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
     setAddress: () => dispatch(
       dropActions.setStep('set_address')
     ),
-    setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
+    setStep: (step: TDropStep) => dispatch(dropActions.setStep(step)),
+    updateUserData: (
+      address: string,
+      chainId: number
+    ) => dispatch(userAsyncActions.updateUserData(address, chainId))
   }
 }
 
@@ -197,7 +202,8 @@ const WalletsList: FC<ReduxType> = ({
   setAddress,
   setStep,
   wallet,
-  chainId
+  chainId,
+  updateUserData
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -238,7 +244,10 @@ const WalletsList: FC<ReduxType> = ({
       address,
       chainId
     ) => {
-      alert(`${chainId}: ${address}`)
+      updateUserData(
+        address,
+        chainId
+      )
     }
  )
 
