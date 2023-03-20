@@ -23,8 +23,10 @@ import toHex from './to-hex'
 import constructLink from './construct-link'
 import defineOpenseaURL from './define-opensea-url'
 import getWalletDeeplink from './get-wallet-deeplink'
+import sortWallets from './sort-wallets'
 
 export {
+  sortWallets,
   shortenString,
   constructLink,
   defineOpenseaURL,

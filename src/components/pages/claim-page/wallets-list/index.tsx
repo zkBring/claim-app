@@ -28,7 +28,7 @@ import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
-import { defineSystem, getWalletDeeplink } from 'helpers'
+import { defineSystem, getWalletDeeplink, sortWallets } from 'helpers'
 import { detect } from 'detect-browser'
 const { REACT_APP_WC_PROJECT_ID } = process.env
 
@@ -187,7 +187,7 @@ const defineOptionsList = (
     recommended: wallet === 'zerion'
   }
 
-  return [
+  const wallets = [
     injectedOption,
     metamaskOption,
     zerionOption,
@@ -196,6 +196,8 @@ const defineOptionsList = (
     coinbaseOption,
     trustOption
   ]
+
+  return wallets
 }
 
 const WalletsList: FC<ReduxType> = ({
@@ -249,9 +251,7 @@ const WalletsList: FC<ReduxType> = ({
         chainId
       )
     }
- )
-
-  
+  )
 
   return <Container>
     <TitleComponent>Connect your wallet</TitleComponent>

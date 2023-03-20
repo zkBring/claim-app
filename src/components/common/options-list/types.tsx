@@ -1,12 +1,5 @@
-export type TOption = {
-  title: string
-  icon?: JSX.Element
-  onClick?: () => void
-  recommended?: boolean
-  tag?: string
-  href?: string
-}
+import { TWalletOption } from 'types'
 
 export type TProps = {
-  options: (TOption | undefined)[]
+  options: (TWalletOption | undefined)[]
 }

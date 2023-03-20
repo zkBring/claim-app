@@ -17,6 +17,7 @@ import TDropError from './drop-error'
 import IMetamaskError from './metamask-error'
 import { TLinkParams } from './link-params'
 import TWalletName from './wallet-name'
+import { TWalletOption } from './wallet-option'
 
 export {
   TMerkleTree,
@@ -35,5 +36,6 @@ export {
   TSystem,
   TAccount,
   TSelectOption,
-  TLinkParams
+  TLinkParams,
+  TWalletOption
 }
