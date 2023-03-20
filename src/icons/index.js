@@ -6,7 +6,7 @@ import { ReactComponent as FaqMenuIcon } from './faq-menu-icon.svg';
 import { ReactComponent as DocsMenuIcon } from './docs-menu-icon.svg';
 import { ReactComponent as StarMenuIcon } from './star-menu-icon.svg';
 import { ReactComponent as BlueArrowIcon } from './blue-arrow-icon.svg';
-import { ReactComponent as ArrowIcon } from './arrow-icon.svg';
+import { ReactComponent as ArrowLeftIcon } from './arrow-left-icon.svg';
 import { ReactComponent as DoneIcon } from './done-icon.svg';
 import { ReactComponent as ExclamationIcon } from './exclamation-icon.svg';
 import { ReactComponent as SecureIcon } from './secure-icon.svg';
@@ -32,7 +32,7 @@ const Icons = {
   DocsMenuIcon,
   StarMenuIcon,
   BlueArrowIcon,
-  ArrowIcon,
+  ArrowLeftIcon,
   DoneIcon,
   ExclamationIcon,
   SecureIcon,

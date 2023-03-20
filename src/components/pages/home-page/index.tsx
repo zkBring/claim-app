@@ -5,12 +5,15 @@ import {
   Title,
   Description,
   InputStyled,
-  ButtonStyled
+  ButtonStyled,
+  LinkdropHeader,
+  LinkdropHeaderLogo
 }  from './styled-components'
 import Page from '../page'
 import { IAppDispatch, RootState } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
+import LinkdropLogo from 'images/linkdrop-header.png'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -64,6 +67,9 @@ const HomePage: FC<ReduxType> = ({
   
   return <Page>
     <Container>
+      <LinkdropHeader>
+        <LinkdropHeaderLogo src={LinkdropLogo} alt="Linkdrop Logo" />
+      </LinkdropHeader>
       <Title>Enter the code</Title>
       <Description>Please enter the code to continue the claiming process</Description>
       <InputStyled

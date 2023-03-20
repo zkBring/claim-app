@@ -30,3 +30,16 @@ export const InputStyled = styled(Input)`
 export const ButtonStyled = styled(Button)`
   width: 100%;
 `
+
+export const LinkdropHeader = styled.header`
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+`
+
+export const LinkdropHeaderLogo = styled.img`
+  max-width: 120px;
+`

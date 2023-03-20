@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect } from 'react'
-import { useAccount, useChainId, useProvider, useSigner, useConnect } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
 import InitialScreen from './initial-screen'
 import ChangeNetwork from './change-network'
 import ClaimingFinished from './claiming-finished'
@@ -27,15 +27,15 @@ import Page from '../page'
 import { TDropStep } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { Container, LinkdropHeader } from './styled-components'
+import { Container, LinkdropHeaderLogo, LinkdropHeader, LinkdropHeaderBack } from './styled-components'
 import { Dispatch } from 'redux'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
-import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { useHistory } from 'react-router-dom'
 import DownloadAwait from './download-await'
+import Icons from 'icons'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -122,10 +122,30 @@ const defineCurrentScreen: TDefineStep = step => {
   }
 }
 
+const defineBackAction = (step: TDropStep, action: (prevoiusStep: TDropStep) => void) => {
+  switch (step) {
+    case 'set_address':
+      return () => action('initial')
+    default:
+      return null
+  }
+}
+
+const defineHeader = (step: TDropStep, action: (prevoiusStep: TDropStep) => void) => {
+  const backAction = defineBackAction(step, action)
+  return <LinkdropHeader>
+    {backAction && <LinkdropHeaderBack onClick={() => backAction()}>
+      <Icons.ArrowLeftIcon />
+    </LinkdropHeaderBack>}
+    <LinkdropHeaderLogo src={LinkdropLogo} alt="Linkdrop Logo" />
+  </LinkdropHeader>
+}
+
 const ClaimPage: FC<ReduxType> = ({
   step,
   getData,
-  claimCode
+  claimCode,
+  setStep
 }) => {
   const screen = defineCurrentScreen(step)
   const { address, connector } = useAccount()
@@ -133,21 +153,18 @@ const ClaimPage: FC<ReduxType> = ({
   const history = useHistory()
 
   useEffect(() => {
-    console.log('running')
     if (!claimCode) { return }
-    console.log(address, chainId)
     getData(
       () => { history.push('/') },
       connector,
       chainId,
-      address,
-      
+      address
     )
   }, [address, chainId, connector, claimCode])
   
   return <Page>
     <Container>
-      <LinkdropHeader src={LinkdropLogo} alt="Linkdrop" />
+      {defineHeader(step, setStep)}
       {screen}
     </Container> 
   </Page>

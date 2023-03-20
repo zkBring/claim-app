@@ -14,6 +14,7 @@ import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 
 import BrowserWalletIcon from 'images/browser-wallet.png'
+import ZerionWalletIcon from 'images/zerion-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
@@ -139,35 +140,23 @@ const defineOptionsList = (
     recommended: wallet === 'coinbase_wallet'
   }
 
-  // const imtokenDeeplink = getWalletDeeplink('imtoken', system, window.location.href)
-  // const imtokenOption = (injectedOption && !injectedOptionIsBrave) || !imtokenDeeplink ? undefined : {
-  //   title: 'Imtoken',
-  //   onClick: () => {
-  //     window.open(imtokenDeeplink as string)
-  //   },
-  //   icon: <WalletIcon src={ImtokenWalletIcon} />,
-  //   recommended: wallet === 'imtoken'
-  // }
-
-  // const statusDeeplink = getWalletDeeplink('status', system, window.location.href)
-  // const statusOption = (injectedOption && !injectedOptionIsBrave) || !statusDeeplink ? undefined : {
-  //   title: 'Status',
-  //   onClick: () => {
-  //     window.open(statusDeeplink as string)
-  //   },
-  //   icon: <WalletIcon src={StatusWalletIcon} />,
-  //   recommended: wallet === 'status'
-  // }
+  const zerionOption = (injectedOption && !injectedOptionIsBrave) ? undefined : {
+    title: 'Zerion',
+    onClick: () => {
+      
+    },
+    icon: <WalletIcon src={ZerionWalletIcon} />,
+    recommended: wallet === 'zerion'
+  }
 
   return [
     injectedOption,
     metamaskOption,
+    zerionOption,
     walletConnectOption,
     ensOption,
-    // imtokenOption,
     coinbaseOption,
-    trustOption,
-    // statusOption
+    trustOption
   ]
 }
 
