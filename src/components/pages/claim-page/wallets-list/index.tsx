@@ -203,7 +203,7 @@ const defineOptionsList = (
     zerionOption,
     walletConnectOption,
     ensOption,
-    rainbowOption,
+    // rainbowOption,
     coinbaseOption,
     trustOption
   ]
