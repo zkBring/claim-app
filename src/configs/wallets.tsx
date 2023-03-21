@@ -7,7 +7,7 @@ type TWalletDeeplink = (url: string) => string | null
 type TWallet = {
   id: string,
   name: string,
-  chains: (string | number)[],
+  chains: number[],
   walletURL?: string | null,
   dappStoreUrl?: string | null,
   walletURLIos?: string | null,
@@ -29,7 +29,7 @@ const wallets: TWallets = {
   metamask: {
     id: 'metamask',
     name: 'MetaMask',
-    chains: ['1', '3', '4', '5', '42', '100'],
+    chains: [1, 5, 137, 80001],
     mobile: {
       android: {
         support: true,
@@ -56,7 +56,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://get.status.im/browse/${_withoutProtocol(url)}`
       }
     },
-    chains: ['1', '3', '4', '5', '42', '100']
+    chains: [1, 5, 137, 80001]
   },
   trust: {
     id: 'trust',
@@ -73,7 +73,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(url)}`
       }
     },
-    chains: ['1', '3', '4', '5', '42', '100']
+    chains: [1, 5, 137, 80001]
   },
   opera: {
     id: 'opera',
@@ -91,7 +91,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://operacrypto.page.link/?link=${encodeURIComponent(url)}&efr=1&ibi=com.opera.OperaTouch&isi=1411869974`
       }
     },
-    chains: ['1', '3', '4', '5', '42', '100']
+    chains: [1, 5, 137, 80001]
   },
   coinbase: {
     id: 'coinbase_wallet',
@@ -108,7 +108,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
       }
     },
-    chains: ['1', '3', '4', '5', '42', '100']
+    chains: [1, 5, 137, 80001]
   },
   imtoken: {
     id: 'imtoken',
@@ -127,7 +127,7 @@ const wallets: TWallets = {
           `imtokenv2://navigate/DappView?url=${encodeURIComponent(url)}`
       }
     },
-    chains: ['1', '3', '4', '5', '42', '100']
+    chains: [1, 5, 137, 80001]
   },
   zerion: {
     id: 'zerion',
@@ -144,7 +144,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => null
       }
     },
-    chains: ['1', '3', '4', '5', '42', '100']
+    chains: [1, 5, 137, 80001]
   },
   rainbow: {
     id: 'rainbow',
@@ -161,7 +161,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://rnbwapp.com/wc?uri=${encodeURIComponent(url)}`
       }
     },
-    chains: ['1', '3', '4', '5', '42', '100']
+    chains: [1]
   }
 }
 

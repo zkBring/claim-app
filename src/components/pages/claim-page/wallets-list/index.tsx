@@ -67,7 +67,8 @@ const defineOptionsList = (
     address: string,
     chainId: number
   ) => void,
-  isManual: boolean
+  isManual: boolean,
+  chainId: number
 ) => {
   const system = defineSystem()
   const ensOption = {
@@ -129,7 +130,7 @@ const defineOptionsList = (
     recommended: !injectedOptionIsBrave
   } : undefined
 
-  const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href)
+  const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href, chainId)
   const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
     title: 'Metamask',
     href: metamaskDeeplink,
@@ -137,7 +138,7 @@ const defineOptionsList = (
     recommended: wallet === 'metamask'
   }
 
-  const trustDeeplink = getWalletDeeplink('trust', system, window.location.href)
+  const trustDeeplink = getWalletDeeplink('trust', system, window.location.href, chainId)
   const trustOption = (injectedOption && !injectedOptionIsBrave) || !trustDeeplink ? undefined : {
     title: 'Trust',
     href: trustDeeplink,
@@ -145,7 +146,7 @@ const defineOptionsList = (
     recommended: wallet === 'trust'
   }
 
-  const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href)
+  const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href, chainId)
   const coinbaseOption = (injectedOption && !injectedOptionIsBrave) || !coinbaseDeeplink ? undefined : {
     title: 'Coinbase',
     href: coinbaseDeeplink,
@@ -189,7 +190,7 @@ const defineOptionsList = (
     recommended: wallet === 'zerion'
   }
 
-  const rainbowDeeplink = getWalletDeeplink('rainbow', system, window.location.href)
+  const rainbowDeeplink = getWalletDeeplink('rainbow', system, window.location.href, chainId)
   const rainbowOption = (injectedOption && !injectedOptionIsBrave) || !rainbowDeeplink ? undefined : {
     title: 'Rainbow',
     href: rainbowDeeplink,
@@ -203,7 +204,7 @@ const defineOptionsList = (
     zerionOption,
     walletConnectOption,
     ensOption,
-    // rainbowOption,
+    rainbowOption,
     coinbaseOption,
     trustOption
   ]
@@ -263,7 +264,8 @@ const WalletsList: FC<ReduxType> = ({
         chainId
       )
     },
-    isManual
+    isManual,
+    chainId as number
   )
 
   return <Container>
