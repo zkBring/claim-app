@@ -128,7 +128,7 @@ export default function claimERC721(
       } else {
         if (checkGasPrice) {
           const gasPrice = await provider.getGasPrice()
-          if (gasPrice > BigNumber.from(gasPriceLimits[chainId])) {
+          if (gasPrice.gte(BigNumber.from(gasPriceLimits[chainId]))) {
             return dispatch(dropActions.setStep('gas_price_high'))
           }
         }

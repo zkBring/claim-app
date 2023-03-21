@@ -130,7 +130,7 @@ export default function claimERC20(
       } else {
         if (checkGasPrice) {
           const gasPrice = await provider.getGasPrice()
-          if (gasPrice > BigNumber.from(gasPriceLimits[chainId])) {
+          if (gasPrice.gte(BigNumber.from(gasPriceLimits[chainId]))) {
             return dispatch(dropActions.setStep('gas_price_high'))
           }
         }
