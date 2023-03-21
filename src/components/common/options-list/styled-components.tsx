@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const OptionsListContainer = styled.ul`
-  margin: 0 0 50px;
+  margin: 0;
   padding: 0;
   list-style: none;
 `

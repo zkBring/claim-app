@@ -37,7 +37,7 @@ export const AdditionalAction = styled.div`
 `
 
 export const OptionsListStyled = styled(OptionsList)`
-  margin-bottom: 20px;
+  margin-bottom: 80px;
   width: 100%;
 `
 
