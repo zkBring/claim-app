@@ -110,10 +110,7 @@ export default function claimERC721(
     let finalTxHash = ''
 
     try {
-      
-
-      if (isManual) {
-        
+      if (isManual || !checkGasPrice) {
         finalTxHash = await claimManually(
           chainId,
           signer,
@@ -129,7 +126,7 @@ export default function claimERC721(
           dispatch
         )    
       } else {
-        if (checkGasPrice || !checkGasPrice) {
+        if (checkGasPrice) {
           const gasPrice = await provider.getGasPrice()
           if (gasPrice > BigNumber.from(gasPriceLimits[chainId])) {
             return dispatch(dropActions.setStep('gas_price_high'))

@@ -16,7 +16,6 @@ const handleError = (
     }
     
   } else {
-    console.log({ error })
     if(error.statusCode === 0) {
       dispatch(dropActions.setStep('error_no_connection'))
     } else {
