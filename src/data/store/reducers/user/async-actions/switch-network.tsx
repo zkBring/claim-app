@@ -41,6 +41,7 @@ async function switchNetwork (
             callback && callback()
           }
         } catch (addError) {
+          alert(JSON.stringify(addError, null, 4))
           console.error({
             addError
           })
