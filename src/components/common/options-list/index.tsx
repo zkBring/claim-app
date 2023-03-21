@@ -9,9 +9,10 @@ import {
 import { TProps } from './types'
 import { TWalletOption } from 'types'
 const OptionsList: FC<TProps> = ({
-  options
+  options,
+  className
 }) => {
-  return <OptionsListContainer>
+  return <OptionsListContainer className={className}>
     {options.map((option: TWalletOption | undefined) => {
       if (!option) { return null }
       const {
