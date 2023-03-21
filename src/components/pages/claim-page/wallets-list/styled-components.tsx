@@ -15,7 +15,6 @@ export const TitleComponent = styled(Title)`
 export const Container = styled.div`
   text-align: center;
   width: 100%;
-  overflow-y: scroll;
 `
 
 
