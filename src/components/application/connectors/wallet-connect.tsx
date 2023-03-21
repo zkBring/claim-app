@@ -15,7 +15,7 @@ const { provider } = configureChains(chains, [w3mProvider({ projectId: REACT_APP
 const wagmiClient = createClient({
   connectors: w3mConnectors({
     projectId: REACT_APP_WC_PROJECT_ID as string,
-    version: 1,
+    version: 2,
     chains
   }),
   provider
