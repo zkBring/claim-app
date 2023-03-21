@@ -22,8 +22,7 @@ async function switchNetwork (
       alert(JSON.stringify(err, null, 4))
       
       const switchError = err as IMetamaskError
-      alert(switchError.code)
-      if (switchError.code && switchError.code === 4902) {
+      if (switchError.code && (switchError.code === 4902 || switchError.code === -32603)) { // 4902 for regular cases, -32603 for metamask
         try {
           const chainObj = chains[chainId]
           if (chainObj) {
