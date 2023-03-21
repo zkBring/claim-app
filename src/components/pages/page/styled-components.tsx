@@ -2,11 +2,10 @@ import styled from 'styled-components'
 
 export const Page = styled.div`
   display: flex;
-  height: 100%;
+  min-height: 100vh;
   position: relative;
   background: ${props => props.theme.blankColor};
   overflow-y: scroll;
-  padding-bottom: 40px;
 `;
 
 export const MainContent = styled.div`
