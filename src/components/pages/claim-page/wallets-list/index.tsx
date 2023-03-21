@@ -34,9 +34,9 @@ const { REACT_APP_WC_PROJECT_ID } = process.env
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type, wallet, claimCode, chainId }
+  drop: { tokenId, type, wallet, claimCode, chainId, isManual }
 }: RootState) => ({
-  name, image, type, tokenId, wallet, claimCode, chainId
+  name, image, type, tokenId, wallet, claimCode, chainId, isManual
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -65,7 +65,8 @@ const defineOptionsList = (
   updateUserData: (
     address: string,
     chainId: number
-  ) => void
+  ) => void,
+  isManual: boolean
 ) => {
   const system = defineSystem()
   const ensOption = {
@@ -151,13 +152,13 @@ const defineOptionsList = (
     recommended: wallet === 'coinbase_wallet'
   }
 
-  const zerionOption = (injectedOption && !injectedOptionIsBrave) ? undefined : {
+  const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
     title: 'Zerion',
     onClick: async () => {
       const authClient = await AuthClient.init({
         projectId: REACT_APP_WC_PROJECT_ID as string,
         metadata: {
-          name: "Linkdrop-Test",
+          name: "Linkdrop-Claim",
           description: "A dapp using WalletConnect AuthClient",
           url: window.location.host,
           icons: ["https://jazzy-donut-086baa.netlify.app/zerion.png"],
@@ -205,7 +206,8 @@ const WalletsList: FC<ReduxType> = ({
   setStep,
   wallet,
   chainId,
-  updateUserData
+  updateUserData,
+  isManual
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -250,7 +252,8 @@ const WalletsList: FC<ReduxType> = ({
         address,
         chainId
       )
-    }
+    },
+    isManual
   )
 
   return <Container>
@@ -260,7 +263,7 @@ const WalletsList: FC<ReduxType> = ({
     </TextComponent>
     <OptionsListStyled options={options}/>
     <Note
-      text='Connect your wallet'
+      text='Don’t know what to choose?'
       position='bottom'
       onClick={() => { setShowPopup(true) }}
     />

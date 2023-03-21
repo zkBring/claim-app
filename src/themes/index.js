@@ -1,3 +1,5 @@
+import applicationOptions from 'configs/application'
+
 const themes = {
   dark: {
     primaryTextColor: '#FFF', // main color of text
@@ -52,8 +54,9 @@ const themes = {
     buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
 
   },
+
   light: {
-    primaryTextColor: '#121212', // main ccolor of text
+    primaryTextColor: applicationOptions.primaryTextColor, // main ccolor of text
     secondaryTextColor: '#FFF', // secondary color of text
     additionalTextColor: '#9D9D9D', // secondary color of text
     extraTextColor: '#6A6A6A', // secondary color of text
@@ -63,36 +66,32 @@ const themes = {
     primaryBorderColor: '#000',
     secondaryBorderColor: '#000',
     additionalBorderColor: '#272727',
-    primaryColor: '#F7F7FB', // main color of bg
+    primaryColor: applicationOptions.backgroundColor, // main color of bg
     secondaryColor: '#363740', // secondary coplor of bg
-    blankColor: '#F7F7FB', // secondary coplor of bg
+    blankColor: applicationOptions.backgroundColor, // secondary coplor of bg
     menuItemActive: '#3E4049',
     primaryHighlightColor: '#2B32EA',
     loaderPrimaryColor: '#000',
     widgetColor: '#FFF',
-    loaderColor: '#0C5EFF',
-    linkColor: '#0C5EFF',
-
-    buttonDefaultColor: '#0C5EFF',
+    loaderColor: applicationOptions.highlightColor,
+    linkColor: applicationOptions.highlightColor,
+    buttonDefaultColor: applicationOptions.highlightColor,
     buttonDisabledColor: '#E4E4E4',
     buttonHoverColor: '#4047EC',
     buttonActiveColor: '#2229DF',
     buttonDisabledTextColor: '#9D9D9D',
     buttonBorderColor: '#E4E4E4',
-
     tagDefaultColor: '#DFE0EB',
     tagErrorColor: '#FF2C2C',
     tagInfoColor: '#2B32EA',
     tagSuccessColor: '#21F142',
-
     noteDefaultBgColor: '#E4EDFF',
-    noteDefaultTextColor: '#0C5EFF',
-
+    noteDefaultTextColor: applicationOptions.highlightColor,
     noteAttentionBgColor: '#272727',
     noteAttentionTextColor: '#C3C3C3',
     noteWarningTextColor: '#3E2909',
 
-    inputBgColor: '#F7F7FB',
+    inputBgColor: applicationOptions.backgroundColor,
     inputBorderColor: '#E4E4E4',
     inputBorderHoverColor: '#C3C3C3',
     inputPlaceholderColor: '#9D9D9D',

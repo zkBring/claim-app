@@ -6,8 +6,8 @@ import {
   Subtitle,
   TokenImageContainer,
   TextComponent,
-  Terms,
-  TermsLink
+  PoweredBy,
+  PoweredByImage
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
@@ -16,6 +16,7 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
 import { useConnect } from 'wagmi'
+import LinkdropLogo from 'images/linkdrop-header.png'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -74,7 +75,10 @@ const SetConnector: FC<ReduxType> = ({
     }}>
       Connect Wallet
     </ScreenButton>
-    <Terms>By claiming NFT you agree to <TermsLink target="_blank" href="https://www.notion.so/Terms-and-Privacy-dfa7d9b85698491d9926cbfe3c9a0a58">Terms and Conditions</TermsLink></Terms>
+    <PoweredBy href='https://linkdrop.io' target='_blank'>
+      Powered by
+      <PoweredByImage src={LinkdropLogo} alt="Linkdrop Logo"/>
+    </PoweredBy>
   </Container>
 }
 

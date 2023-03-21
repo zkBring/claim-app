@@ -40,13 +40,18 @@ export const TokenImageContainer = styled(TokenImage)`
   background: ${props => props.theme.widgetColor};
 `
 
-export const Terms = styled.p`
+export const PoweredBy = styled.a`
   margin: 0;
-  font-size: 12px;
-  color: ${props => props.theme.additionalTextColor};
+  font-size: 13px;
+  color: ${props => props.theme.primaryTextColor};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-decoration: none;
 `
 
-export const TermsLink = styled.a`
-  color: ${props => props.theme.linkColor};
-  text-decoration: none;
+export const PoweredByImage = styled.img`
+  max-width: 86px;
+  margin-left: 6px;
 `

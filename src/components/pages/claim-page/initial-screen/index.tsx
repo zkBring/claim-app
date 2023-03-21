@@ -7,8 +7,8 @@ import {
   TokenImageContainer,
   TextComponent,
   UserAddress,
-  Terms,
-  TermsLink
+  PoweredBy,
+  PoweredByImage
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
@@ -19,6 +19,7 @@ import { Dispatch } from 'redux'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { TDropStep } from 'types'
 import { shortenString } from 'helpers'
+import LinkdropLogo from 'images/linkdrop-header.png'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -123,7 +124,10 @@ const InitialScreen: FC<ReduxType> = ({
       Here is a preview of the NFT you’re about to receive to address: <UserAddress>{shortenString(address, 3)}</UserAddress>
     </TextComponent>
     {defineButton()}
-    <Terms>By claiming NFT you agree to <TermsLink target="_blank" href="https://www.notion.so/Terms-and-Privacy-dfa7d9b85698491d9926cbfe3c9a0a58">Terms and Conditions</TermsLink></Terms>
+    <PoweredBy href='https://linkdrop.io' target='_blank'>
+      Powered by
+      <PoweredByImage src={LinkdropLogo} alt="Linkdrop Logo"/>
+    </PoweredBy>
   </Container>
 }
 
