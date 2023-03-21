@@ -15,6 +15,7 @@ import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 import AuthClient, { generateNonce } from "@walletconnect/auth-client"
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import ZerionWalletIcon from 'images/zerion-wallet.png'
+import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
@@ -188,12 +189,21 @@ const defineOptionsList = (
     recommended: wallet === 'zerion'
   }
 
+  const rainbowDeeplink = getWalletDeeplink('rainbow', system, window.location.href)
+  const rainbowOption = (injectedOption && !injectedOptionIsBrave) || !rainbowDeeplink ? undefined : {
+    title: 'Rainbow',
+    href: rainbowDeeplink,
+    icon: <WalletIcon src={RainbowWalletIcon} />,
+    recommended: wallet === 'rainbow'
+  }
+
   const wallets = [
     injectedOption,
     metamaskOption,
     zerionOption,
     walletConnectOption,
     ensOption,
+    rainbowOption,
     coinbaseOption,
     trustOption
   ]

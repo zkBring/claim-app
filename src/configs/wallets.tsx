@@ -146,6 +146,23 @@ const wallets: TWallets = {
     },
     chains: ['1', '3', '4', '5', '42', '100']
   },
+  rainbow: {
+    id: 'rainbow',
+    name: 'Rainbow',
+    walletURL: 'https://rainbow.me/',
+    dappStoreUrl: 'https://rainbow.me/',
+    mobile: {
+      android: {
+        support: true,
+        deepLink: (url: string) => `https://rnbwapp.com/wc?uri=${encodeURIComponent(url)}`
+      },
+      ios: {
+        support: true,
+        deepLink: (url: string) => `https://rnbwapp.com/wc?uri=${encodeURIComponent(url)}`
+      }
+    },
+    chains: ['1', '3', '4', '5', '42', '100']
+  }
 }
 
 export default wallets
