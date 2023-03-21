@@ -19,9 +19,8 @@ async function switchNetwork (
     callback && callback()
     
   } catch (err) {
-      console.log({ err })
+      alert(JSON.stringify(err, null, 4))
       const switchError = err as IMetamaskError
-      console.log(switchError.code)
       if (switchError.code && switchError.code === 4902) {
         try {
           const chainObj = chains[chainId]
