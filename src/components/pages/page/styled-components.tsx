@@ -5,6 +5,7 @@ export const Page = styled.div`
   height: 100%;
   position: relative;
   background: ${props => props.theme.blankColor};
+  overflow-y: scroll;
 `;
 
 export const MainContent = styled.div`
