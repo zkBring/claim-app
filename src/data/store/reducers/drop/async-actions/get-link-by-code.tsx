@@ -7,6 +7,7 @@ import * as actionsDrop from '../actions'
 import * as actionsUser from '../../user/actions'
 import { TLinkParams, TDropType } from 'types'
 import LinkdropSDK from 'linkdrop-sdk'
+const { REACT_APP_DASHBOARD_SERVER_URL } = process.env
 
 export default function getLinkByCode(
   linkCode: string,
@@ -17,7 +18,9 @@ export default function getLinkByCode(
   ) => {
     dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
-    const sdk = new LinkdropSDK()
+    const sdk = new LinkdropSDK({
+      apiHost: REACT_APP_DASHBOARD_SERVER_URL
+    })
     dispatch(actionsUser.setSDK(sdk)) 
     const linkKey = ethers.utils.id(linkCode)
     const linkId = new ethers.Wallet(linkKey).address
