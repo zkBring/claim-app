@@ -12,6 +12,7 @@ export const Title = styled.h2`
   margin: 0 0 8px;
   font-size: 24px;
   text-align: center;
+  font-weight: 600;
   color: ${props => props.theme.primaryTextColor};
 `
 

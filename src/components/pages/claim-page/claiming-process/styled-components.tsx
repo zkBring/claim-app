@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { Title, Text, Button } from 'components/common'
 
 export const Container = styled.div`
-  padding-top: 100px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -12,6 +11,7 @@ export const Container = styled.div`
 
 export const ScreenTitle = styled(Title)`
   margin-bottom: 30px;
+  font-weight: 600;
 `
 
 export const ScreenSubtitle = styled(Text)`

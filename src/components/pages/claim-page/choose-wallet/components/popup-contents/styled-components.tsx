@@ -7,5 +7,7 @@ export const PopupContentWithImage = styled.div`
 
 export const ImageStyled = styled.img`
   max-width: 71px;
+  width: 100%;
+  object-fit: contain;
   margin-right: 8px;
 `

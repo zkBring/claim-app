@@ -45,7 +45,7 @@ const ChooseWallet: FC<ReduxType> = ({
     <ScreenButton onClick={async () => {
       chooseWallet()
     }}>
-      Choose wallet
+      Connect
     </ScreenButton>
     <Note
       text='What is a Wallet?'

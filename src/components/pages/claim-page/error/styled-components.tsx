@@ -9,6 +9,7 @@ export const Image = styled.img`
 export const Title = styled.h2`
   margin: 0 0 8px;
   font-size: 24px;
+  font-weight: 600;
   color: ${props => props.theme.primaryTextColor};
 `
 

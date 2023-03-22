@@ -3,7 +3,6 @@ import { Widget, Button } from 'components/common'
 
 export const ContainerWidget = styled(Widget)`
   text-align: center;
-
 `
 
 export const WidgetTitle = styled.h2`

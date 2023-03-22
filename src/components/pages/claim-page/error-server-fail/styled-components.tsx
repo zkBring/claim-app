@@ -4,6 +4,7 @@ import { Button } from 'components/common'
 export const Image = styled.img`
   max-width: 240px;
   margin-bottom: 24px;
+  font-weight: 600;
 `
 
 export const Title = styled.h2`

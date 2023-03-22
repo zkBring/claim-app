@@ -4,6 +4,7 @@ import Icons from 'icons'
 
 export const TitleComponent = styled(Title)`
   margin-bottom: 30px;
+  font-weight: 600;
 `
 
 export const Subtitle = styled.h3`
@@ -12,7 +13,7 @@ export const Subtitle = styled.h3`
   margin: 0 0 40px;
   text-align: center;
   color: ${props => props.theme.additionalTextColor};
-  font-weight: 400;
+  font-weight: 500;
 `
 
 export const ButtonsContainer = styled.div`

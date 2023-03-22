@@ -6,12 +6,13 @@ export const TitleComponent = styled(Title)`
   color: ${props => props.theme.primaryTextColor};
   margin: 0 0 12px;
   max-width: 343px;
+  font-weight: 600;
 `
 
 export const Subtitle = styled.h3`
   font-size: 16px;
   color: ${props => props.theme.primaryTextColor};
-  font-weight: 400;
+  font-weight: 500;
   margin: 0 0 32px;
 `
 

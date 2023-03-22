@@ -16,7 +16,7 @@ export const OptionsListItem = styled.li`
   cursor: pointer;
   flex-direction: row;
   align-items: center;
-  background-color: ${props => props.theme.blankColor};
+  background-color: ${props => props.theme.widgetColor};
   min-height: 56px;
   box-shadow: 0px 2px 4px rgba(40, 41, 61, 0.04), 0px 8px 16px rgba(96, 97, 112, 0.16);
   user-select: none;
@@ -54,6 +54,15 @@ export const OptionImage = styled.div`
   margin-right: 16px;
   display: flex;
   align-items: center;
-  max-width: 18px;
+  
+  overflow: hidden;
+  
   justify-content: flex-start;
+
+  img {
+    width: 18px;
+    height: 18px;
+    border-radius: 18px;
+    object-fit: contain;
+  }
 `

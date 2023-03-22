@@ -9,7 +9,7 @@ export const InputContainer = styled.div.attrs(props => ({
 
 export const InputTitle = styled.h3<IInputTitleProps>`
   margin-bottom: 4px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
   line-height: 16px;
   margin-top: 0px;
@@ -59,7 +59,7 @@ export const InputField = styled.input<IInputFieldProps>`
 
 export const InputError = styled.div`
   margin-top: 6px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
   line-height: 16px;
   color: ${props => props.theme.dangerTextColor};
@@ -67,7 +67,7 @@ export const InputError = styled.div`
 
 export const InputInfo = styled.div`
   margin-top: 6px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
   line-height: 16px;
   color: ${props => props.theme.noteTextColor};

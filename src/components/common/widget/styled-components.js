@@ -7,7 +7,6 @@ export const WidgetContainer = styled.div`
   width: 100%;
 `
 
-
 export const WidgetBody = styled.div`
   padding: 24px 16px;
 `

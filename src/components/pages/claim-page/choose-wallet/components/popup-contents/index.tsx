@@ -15,7 +15,7 @@ const PopupContents: FC = () => {
       A crypto wallet is needed to store and manage cryptocurrency in a secure and convenient way. It allows users to view their balance, send and receive cryptocurrency, and track their transaction history. In addition, many crypto wallets allow users to connect their wallet to decentralized applications (dApps) and use their cryptocurrency to interact with the dApps in various ways.
     </PopupParagraph>
     <PopupContentWithImage>
-      <ImageStyled src={WalletSmall} />
+      <ImageStyled src={BoxSmall} />
       <div>
         <PopupSubtitle>A Home for your Digital Assets</PopupSubtitle>
         <PopupParagraph>
@@ -25,7 +25,7 @@ const PopupContents: FC = () => {
     </PopupContentWithImage>
 
     <PopupContentWithImage>
-      <ImageStyled src={BoxSmall} />
+      <ImageStyled src={WalletSmall} />
       <div>
         <PopupSubtitle>A New Way to Log In</PopupSubtitle>
         <PopupParagraph>

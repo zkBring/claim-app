@@ -25,7 +25,7 @@ export const Button = styled.button.attrs(props => ({
   max-height: 56px;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 600;
   border-radius: 16px;
   transition: opacity .3s;
   border: 2px solid ${props => props.theme.buttonDefaultColor};

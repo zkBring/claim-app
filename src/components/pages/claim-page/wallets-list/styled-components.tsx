@@ -10,13 +10,13 @@ export const TitleComponent = styled(Title)`
   color: ${props => props.theme.primaryTextColor};
   margin: 0 0 12px;
   max-width: 343px;
+  font-weight: 600;
 `
 
 export const Container = styled.div`
   text-align: center;
   width: 100%;
 `
-
 
 export const ScreenButton = styled(Button)<TScreenButton>`
   max-width: 100%;
@@ -40,7 +40,6 @@ export const OptionsListStyled = styled(OptionsList)`
   margin: 0 0 150px;
   width: 100%;
 `
-
 
 export const WalletIcon = styled.img`
   max-width: 24px;

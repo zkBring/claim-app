@@ -79,4 +79,5 @@ export const PopupList = styled.ul`
 export const PopupBody = styled.div`
   max-width: 343px;
   margin: 0 auto;
+  line-height: 20px;
 `

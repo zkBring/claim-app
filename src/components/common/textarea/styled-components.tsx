@@ -14,7 +14,7 @@ export const TextareaContainer = styled.div.attrs(props => ({
 
 export const TextareaTitle = styled.h3`
   margin-bottom: 4px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
   line-height: 16px;
   color: ${props => props.theme.primaryHighlightColor};
@@ -37,7 +37,7 @@ export const TextareaField = styled.textarea`
 
 export const TextareaError = styled.div`
   margin-top: 6px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
   line-height: 16px;
   color: ${props => props.theme.dangerTextColor};

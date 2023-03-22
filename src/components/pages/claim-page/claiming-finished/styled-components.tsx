@@ -4,6 +4,7 @@ import Icons from 'icons'
 
 export const TitleComponent = styled(Title)`
   margin-bottom: 40px;
+  font-weight: 600;
 `
 
 export const Description = styled(Text)`

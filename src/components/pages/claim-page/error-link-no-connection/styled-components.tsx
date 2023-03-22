@@ -10,6 +10,7 @@ export const Container = styled.div`
 
 export const Title = styled.h2`
   margin: 0 0 8px;
+  font-weight: 600;
   font-size: 24px;
   text-align: center;
   color: ${props => props.theme.primaryTextColor};

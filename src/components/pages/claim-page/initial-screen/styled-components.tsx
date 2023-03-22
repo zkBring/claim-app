@@ -7,12 +7,13 @@ type TScreenButton = {
 
 export const TitleComponent = styled(Title)`
   margin: 0 0 12px;
+  font-weight: 600;
 `
 
 export const Subtitle = styled.h3`
   font-size: 14px;
   color: ${props => props.theme.primaryTextColor};
-  font-weight: 400;
+  font-weight: 500;
   margin: 0 0 36px;
 `
 

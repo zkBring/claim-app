@@ -280,7 +280,7 @@ const WalletsList: FC<ReduxType> = ({
       onClick={() => { setShowPopup(true) }}
     />
     {showPopup && <Popup
-      title='Don’t know what to choose?'
+      title='Connecting your wallet'
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >

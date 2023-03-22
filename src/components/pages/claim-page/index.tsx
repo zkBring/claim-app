@@ -125,7 +125,11 @@ const defineCurrentScreen: TDefineStep = step => {
 const defineBackAction = (step: TDropStep, action: (prevoiusStep: TDropStep) => void) => {
   switch (step) {
     case 'set_address':
-      return () => action('initial')
+      return () => action('set_connector')
+    case 'wallets_list':
+      return () => action('choose_wallet')
+    case 'choose_wallet':
+      return () => action('set_connector')
     default:
       return null
   }
