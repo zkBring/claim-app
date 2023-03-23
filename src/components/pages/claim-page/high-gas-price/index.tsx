@@ -42,17 +42,18 @@ const HighGasPrice: FC<ReduxType> = ({
   claimERC1155,
   claimERC721,
   claimERC20,
-  signer
+  signer,
+  setStep
 }) => {
   return <>
     <Image src={GasPrice} />
     <Title>Gas price is high</Title>
-    <Subtitle>Cannot sponsor transaction now, try later or cover gas yourself</Subtitle>
+    <Subtitle>Network is busy. Carry gas cost by yourself or try a bit later</Subtitle>
     <ButtonStyled
-      href="https://www.notion.so/linkdrop-docs/Linkdrop-FAQ-0c371b449fc34084b59bb88104a00069"
-      target='_blank'
+      appearance='default'
+      onClick={() => { setStep('initial') }}
     >
-      Learn more
+      Claim later
     </ButtonStyled>
     {!addressIsManuallySet && signer && <AdditionalAction
       onClick={() => {
@@ -67,7 +68,7 @@ const HighGasPrice: FC<ReduxType> = ({
         }
       }}
     >
-      Never mind, I will cover gas costs
+      Nevermind, I pay for gas
     </AdditionalAction>}
   </>
 }

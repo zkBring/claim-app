@@ -5,6 +5,7 @@ export const InputContainer = styled.div.attrs(props => ({
   className: props.className
 }))<IInputContainerProps>`
   margin-bottom: 24px;
+  text-align: left;
 `
 
 export const InputTitle = styled.h3<IInputTitleProps>`
@@ -39,7 +40,7 @@ export const InputField = styled.input<IInputFieldProps>`
 
   &:focus {
     ${props => !props.error && css`
-      border-color: ${props => props.theme.inputBorderHoverColor};
+      border-color: ${props => props.theme.inputBorderFocusColor};
       outline: none;
     `}
   }
@@ -49,7 +50,8 @@ export const InputField = styled.input<IInputFieldProps>`
   `}
 
   ${props => props.error && css`
-    border-color: ${props =>  props.theme.tagErrorColor}; 
+    border-color: ${props =>  props.theme.tagErrorColor};
+    color: ${props =>  props.theme.tagErrorColor};
   `}
 
   &::placeholder {

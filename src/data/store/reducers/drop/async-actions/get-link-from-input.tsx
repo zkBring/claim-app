@@ -24,7 +24,7 @@ export default function getLinkFromInput(
       dispatch(actionsDrop.setLoading(false))
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 404) {
-          return { message: 'Code not found' }
+          return { message: 'Code not found. Please fill it again carefully' }
         } else {
           return { message: 'Some error occured' }
         }

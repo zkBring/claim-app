@@ -17,7 +17,7 @@ import { TokenActions } from 'data/store/reducers/token/types'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import NetworksImage from 'images/networks.png'
-import { resolveENS, throttling, defineJSONRpcUrl } from 'helpers'
+import { resolveENS, throttling, defineJSONRpcUrl, shortenString } from 'helpers'
 import { ethers } from 'ethers'
 
 const { REACT_APP_INFURA_ID = '' } = process.env
@@ -103,12 +103,12 @@ const SetAddress: FC<ReduxType> = ({
 
   return <Container> 
     <Title>{name}</Title>
-    {tokenId && <Subtitle>#{tokenId}</Subtitle>}
+    {tokenId && <Subtitle>#{shortenString(tokenId)}</Subtitle>}
     {image && <TokenImageContainer src={image} alt={name} />}
-    {!isManual && <NoteStyled type='default' text='Here is a preview of the NFT you’re about to receive' />}
+    {!isManual && <NoteStyled type='default' text="Preview of the NFT you're about to receive. All fees will be handled by Sponsor" />}
     <Instructions>
       <Networks src={NetworksImage} />
-      Enter your Ethereum/Polygon address to receive your NFT
+      Enter your Ethereum/Polygon address or ENS to receive your NFT
     </Instructions>
 
     <InputStyled
@@ -119,7 +119,7 @@ const SetAddress: FC<ReduxType> = ({
         setCurrentAddress(value);
         return value
       }}
-      placeholder='0x… address or ENS name'
+      placeholder='0xAdd6e33... or ENS'
     />
     <ScreenButton
       disabled={

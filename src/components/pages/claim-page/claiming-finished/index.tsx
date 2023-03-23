@@ -65,7 +65,7 @@ const ClaimingFinished: FC<ReduxType> = ({
   const title = <TitleComponent>Successfully claimed</TitleComponent>
   const explorerUrl = chainId && hash ? <ScreenButton
     href={`${defineExplorerURL(chainId)}/tx/${hash}`}
-    title='View in explorer'
+    title='View in Explorer'
     target='_blank'
     appearance='inverted'
   /> : null
