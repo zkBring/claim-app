@@ -71,11 +71,11 @@ const defineOptionsList = (
   chainId: number
 ) => {
   const system = defineSystem()
-  const ensOption = {
+  const ensOption = !isManual ? {
     title: 'Enter ENS or address',
     onClick: setAddress,
     icon: <WalletIcon src={ENSIcon} />
-  }
+  } : undefined
 
   const walletConnectOption = {
     title: 'WalletConnect',
