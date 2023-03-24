@@ -2,7 +2,7 @@ import { ERC721Contract } from 'abi'
 import { getERC721TokenData } from 'data/api'
 import { ethers } from 'ethers'
 import { IPFSRedefineUrl } from 'helpers'
-import nftPlaceholder from 'images/nft-placeholder.png'
+import tokenPlaceholder from 'images/token-placeholder.png'
 import { getValidImage } from 'helpers'
 
 type TTokenERC721Data = { name: string, image: string, description: string }
@@ -32,7 +32,7 @@ const getTokenData: TGetTokenERC721Data = async (provider, tokenAddress, tokenId
     // @ts-ignore
     // alert(Object.values(e).join(', '))
     console.log({ e })
-    return { name: 'ERC721', image: nftPlaceholder, description: '' }
+    return { name: 'ERC721', image: tokenPlaceholder, description: '' }
   }
 }
 

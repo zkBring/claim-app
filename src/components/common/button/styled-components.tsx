@@ -28,7 +28,7 @@ export const Button = styled.button.attrs(props => ({
   font-weight: 600;
   border-radius: 16px;
   transition: opacity .3s;
-  border: 2px solid ${props => props.theme.buttonDefaultColor};
+  border: 1px solid ${props => props.theme.buttonDefaultColor};
 
   ${props => props.size && props.size === 'small' && css`
     font-size: 12px;
@@ -43,8 +43,10 @@ export const Button = styled.button.attrs(props => ({
   `}
 
   ${props => !props.disabled && props.appearance === 'inverted' && css`
-    &:hover, &:active {
-      opacity: 0.3;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        opacity: 0.3;
+      }
     }
   `}
 
@@ -66,8 +68,10 @@ export const Button = styled.button.attrs(props => ({
 
 
   ${props => !props.disabled && props.appearance === 'default' && css`
-    &:hover, &:active {
-      opacity: 0.3;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        opacity: 0.3;
+      }
     }
   `}
 

@@ -1,9 +1,9 @@
 import { IPFSRedefineUrl } from 'helpers'
-import nftPlaceholder from 'images/nft-placeholder.png'
+import tokenPlaceholder from 'images/token-placeholder.png'
 
 const getValidImage = async (imageUrl: string) => {
   if (!imageUrl) {
-    return nftPlaceholder
+    return tokenPlaceholder
   }
   try {
     const redefinedURL = IPFSRedefineUrl(imageUrl)
@@ -11,7 +11,7 @@ const getValidImage = async (imageUrl: string) => {
     if (checkImage.status === 404) { throw new Error() }
     return redefinedURL
   } catch (err) {
-    return nftPlaceholder
+    return tokenPlaceholder
   }
 }
 export default getValidImage

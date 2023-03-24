@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 import { Button, Text, OptionsList, Title } from 'components/common'
 
-type TScreenButton = {
-  onClick: () => void
-}
-
 export const TitleComponent = styled(Title)`
   font-size: 22px;
   color: ${props => props.theme.primaryTextColor};
@@ -18,10 +14,14 @@ export const Container = styled.div`
   width: 100%;
 `
 
-export const ScreenButton = styled(Button)<TScreenButton>`
+export const ScreenButton = styled(Button)`
   max-width: 100%;
   width: 100%;
   margin-bottom: 20px;
+
+  svg {
+    margin-right: 10px;
+  }
 `
 
 export const TextComponent = styled(Text)`
@@ -37,10 +37,21 @@ export const AdditionalAction = styled.div`
 `
 
 export const OptionsListStyled = styled(OptionsList)`
-  margin: 0 0 150px;
   width: 100%;
+  margin: 0 0 36px;
+  @media (max-width: 500px) {
+    margin: 0 0 150px;
+  }    
 `
 
 export const WalletIcon = styled.img`
   max-width: 24px;
+`
+
+export const LinkButton = styled.div`
+  cursor: pointer;
+  color: ${props => props.theme.linkColor};
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 36px;
 `

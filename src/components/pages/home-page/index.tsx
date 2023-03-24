@@ -82,8 +82,9 @@ const HomePage: FC<ReduxType> = ({
         appearance='default'
         loading={loading}
         onClick={onClick}
+        disabled={!code || code.length === 0}
       >
-        {!loading ? 'Get link' : 'Continue'}
+        {!loading ? 'Continue' : 'Checking code...'}
       </ButtonStyled>
     </Container>  
   </Page>

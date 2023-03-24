@@ -48,7 +48,7 @@ const ChangeNetwork: FC<ReduxType> = ({
         alert('No chain provided')
       }
     }}>
-      Switch Network
+      Switch network
     </ScreenButton>
   </Container>
 }

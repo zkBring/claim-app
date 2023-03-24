@@ -91,9 +91,10 @@ const themes = {
     noteAttentionTextColor: '#C3C3C3',
     noteWarningTextColor: '#3E2909',
 
-    inputBgColor: applicationOptions.backgroundColor,
+    inputBgColor: '#FFF',
     inputBorderColor: '#E4E4E4',
     inputBorderHoverColor: '#C3C3C3',
+    inputBorderFocusColor: applicationOptions.highlightColor,
     inputPlaceholderColor: '#9D9D9D',
 
     ethereumLogoColor: '#0EBDCD',

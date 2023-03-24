@@ -7,16 +7,25 @@ import * as actionsDrop from '../../drop/actions';
 const updateUserData = (
   address: string,
   chainId: number,
-  signer?: any
+  connector?: any
 ) => {
   return async (
     dispatch: Dispatch<UserActions> & Dispatch<DropActions>
   ) => {
-    dispatch(actions.setHasConnector(true))
-    dispatch(actions.setAddress(address))
-    dispatch(actions.setChainId(chainId))
-    signer && dispatch(actions.setSigner(signer))
-    dispatch(actionsDrop.setStep('initial'))
+    try {
+      dispatch(actions.setHasConnector(true))
+      dispatch(actions.setAddress(address))
+      dispatch(actions.setChainId(chainId))
+      if (connector) {
+        const provider = await connector.getProvider()
+        const signer = await connector.getSigner()
+        dispatch(actions.setSigner(signer))
+        dispatch(actions.setUserProvider(provider))
+      }
+      dispatch(actionsDrop.setStep('initial'))
+    } catch (err) {
+      alert('Error occured with connector update')
+    }
   }
 }
 
