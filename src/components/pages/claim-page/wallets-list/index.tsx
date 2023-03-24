@@ -5,8 +5,7 @@ import {
   TextComponent,
   OptionsListStyled,
   WalletIcon,
-  LinkButton,
-  ScreenButton
+  LinkButton
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
@@ -230,6 +229,7 @@ const WalletsList: FC<ReduxType> = ({
   const [ client, setClient ] = useState<AuthClient | null>(null)
   const [ loading, setLoading ] = useState<boolean>(false)
   const system = defineSystem()
+  const injected = connectors.find(connector => connector.id === "injected")
 
   useEffect(() => {
     if (!client) { return }
@@ -279,8 +279,7 @@ const WalletsList: FC<ReduxType> = ({
       Choose a wallet from the list
     </TextComponent>
     <OptionsListStyled options={options} />
-    {system === 'desktop' && <LinkButton onClick={() => { setShowPopup(true) }}>What is browser wallet?</LinkButton>}
-    {system === 'desktop' && <ScreenButton onClick={() => { window.location.reload() }} appearance='inverted'><Icons.RefreshIcon />Refresh</ScreenButton>}
+    {system === 'desktop' && !injected && <LinkButton onClick={() => { setShowPopup(true) }}>What is browser wallet?</LinkButton>}
     {system !== 'desktop' && <Note
       text='Don’t know what to choose?'
       position='bottom'
