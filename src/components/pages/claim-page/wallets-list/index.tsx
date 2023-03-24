@@ -167,7 +167,7 @@ const defineOptionsList = (
           name: "Linkdrop-Claim",
           description: "A dapp using WalletConnect AuthClient",
           url: window.location.host,
-          icons: ["https://jazzy-donut-086baa.netlify.app/zerion.png"],
+          icons: ["/favicon.png"],
         }
       })
   
