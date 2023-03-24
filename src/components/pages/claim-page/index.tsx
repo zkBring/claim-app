@@ -141,6 +141,8 @@ const defineBackAction = (step: TDropStep, action: (prevoiusStep: TDropStep) => 
       return () => action('choose_wallet')
     case 'choose_wallet':
       return () => action('set_connector')
+    case 'download_await':
+      return () => action('wallets_list')
     default:
       return null
   }
