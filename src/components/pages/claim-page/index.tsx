@@ -172,7 +172,6 @@ const ClaimPage: FC<ReduxType> = ({
   useEffect(() => {
     if (!claimCode) { return }
     if (!initialized) {
-      console.log('initial load')
       getData(
         () => { history.push('/') },
         connector,
@@ -181,7 +180,6 @@ const ClaimPage: FC<ReduxType> = ({
       )
     } else {
       if (address && chainId) {
-        console.log('update')
         updateUserData(
           address,
           chainId,
