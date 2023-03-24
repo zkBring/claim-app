@@ -43,8 +43,10 @@ export const Button = styled.button.attrs(props => ({
   `}
 
   ${props => !props.disabled && props.appearance === 'inverted' && css`
-    &:hover {
-      opacity: 0.3;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        opacity: 0.3;
+      }
     }
   `}
 
@@ -66,8 +68,10 @@ export const Button = styled.button.attrs(props => ({
 
 
   ${props => !props.disabled && props.appearance === 'default' && css`
-    &:hover {
-      opacity: 0.3;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        opacity: 0.3;
+      }
     }
   `}
 
