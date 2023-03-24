@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux';
 import * as actions from '../actions';
 import { UserActions } from '../types';
-import contracts from 'configs/contracts'
 import { RootState } from 'data/store'
 import { ethers } from 'ethers'
 import checkIfClaimed from '../../drop/async-actions/check-if-claimed'
@@ -42,7 +41,6 @@ const initialize = (
     } = getState()
 
     if (!campaignId) {
-      
       return onReload && onReload() 
     }
 
@@ -67,7 +65,6 @@ const initialize = (
     }
 
     const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(linkChainId), infuraPk: REACT_APP_INFURA_ID })
-    const contract = contracts[linkChainId]
     const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
     dispatch(actions.setProvider(provider))
 
@@ -105,9 +102,6 @@ const initialize = (
       dispatch(actions.setSigner(signer))
     }
 
-    if (!contract) {
-      return dispatch(actions.setInitialized(true))
-    }
     dispatch(actions.setInitialized(true))
   }
 }

@@ -14,6 +14,7 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
+import { defineSystem } from 'helpers'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -35,6 +36,7 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 const ChooseWallet: FC<ReduxType> = ({
   chooseWallet
 }) => {
+  const system = defineSystem()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   return <Container> 
     <WalletIcon src={WalletsImg} />
@@ -47,11 +49,11 @@ const ChooseWallet: FC<ReduxType> = ({
     }}>
       Connect
     </ScreenButton>
-    <Note
+    {system !== 'desktop' && <Note
       text='What is a Wallet?'
       position='bottom'
       onClick={() => { setShowPopup(true) }}
-    />
+    />}
     {showPopup && <Popup
       title='What is a Wallet?'
       onCloseAction={() => { setShowPopup(false) }}

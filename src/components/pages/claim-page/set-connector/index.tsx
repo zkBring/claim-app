@@ -17,6 +17,7 @@ import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
 import { useConnect } from 'wagmi'
 import LinkdropLogo from 'images/linkdrop-header.png'
+import { TDropType } from 'types'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -40,8 +41,8 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
-const defineTokenId = (tokenId?: string | null) => {
-  if (!tokenId) { return '' }
+const defineTokenId = (type: TDropType | null, tokenId?: string | null) => {
+  if (type === 'ERC20' || !tokenId) { return '' }
   if (tokenId.length > 5) {
     return ` #${shortenString(tokenId, 3)}`
   }
@@ -53,7 +54,8 @@ const SetConnector: FC<ReduxType> = ({
   tokenId,
   image,
   chooseWallet,
-  address
+  address,
+  type
 }) => {
 
   const { connect, connectors } = useConnect()
@@ -62,10 +64,10 @@ const SetConnector: FC<ReduxType> = ({
 
   return <Container> 
     {image && <TokenImageContainer src={image} alt={name} />}
-    <Subtitle>{defineTokenId(tokenId)}</Subtitle>
+    <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
     <TitleComponent>{name}</TitleComponent>
     <TextComponent>
-      Here is a preview of the NFT you’re about to receive
+      {type === 'ERC20' ? 'Please proceed to receive tokens' : 'Here is a preview of the NFT you’re about to receive'}
     </TextComponent>
     <ScreenButton onClick={() => {
       if (!address && injected && injected.ready && system !== 'desktop' && injected.name !== 'Brave Wallet') {
@@ -73,7 +75,7 @@ const SetConnector: FC<ReduxType> = ({
       }
       chooseWallet()
     }}>
-      Connect Wallet
+      Claim
     </ScreenButton>
     <PoweredBy href='https://linkdrop.io' target='_blank'>
       Powered by

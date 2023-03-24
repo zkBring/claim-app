@@ -29,10 +29,12 @@ import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { Container, LinkdropHeaderLogo, LinkdropHeader, LinkdropHeaderBack } from './styled-components'
 import { Dispatch } from 'redux'
+import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
+import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
 import DownloadAwait from './download-await'
 import Icons from 'icons'
@@ -49,7 +51,7 @@ const mapStateToProps = ({
   claimCode
 })
 
-const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
+const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch) => {
   return {
       getData: (
         onReload: () => void,
@@ -62,6 +64,15 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         connector,
         chainId,
         address
+      )),
+      updateUserData: (
+        address: string,
+        chainId: number,
+        connector: any,
+      ) => dispatch(userAsyncActions.updateUserData(
+        address,
+        chainId,
+        connector
       )),
       setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
@@ -149,7 +160,9 @@ const ClaimPage: FC<ReduxType> = ({
   step,
   getData,
   claimCode,
-  setStep
+  setStep,
+  initialized,
+  updateUserData
 }) => {
   const screen = defineCurrentScreen(step)
   const { address, connector } = useAccount()
@@ -158,12 +171,25 @@ const ClaimPage: FC<ReduxType> = ({
 
   useEffect(() => {
     if (!claimCode) { return }
-    getData(
-      () => { history.push('/') },
-      connector,
-      chainId,
-      address
-    )
+    if (!initialized) {
+      console.log('initial load')
+      getData(
+        () => { history.push('/') },
+        connector,
+        chainId,
+        address
+      )
+    } else {
+      if (address && chainId) {
+        console.log('update')
+        updateUserData(
+          address,
+          chainId,
+          connector
+        )
+      }
+    }
+    
   }, [address, chainId, connector, claimCode])
   
   return <Page>

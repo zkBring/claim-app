@@ -19,10 +19,12 @@ import { ReactComponent as EthereumIcon } from './ethereum-icon.svg';
 import { ReactComponent as LoaderIcon } from './loader-icon.svg';
 import { ReactComponent as ExclamationFilledIcon } from './exclamation-filled-icon.svg'
 import { ReactComponent as LinkdropIcon } from './linkdrop-icon.svg'
+import { ReactComponent as RefreshIcon } from './refresh-icon.svg'
 
 const Icons = {
   EthereumLogo,
   DroplistLogo,
+  RefreshIcon,
   LinkdropIcon,
   DashboardMenuIcon,
   ExclamationFilledIcon,

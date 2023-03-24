@@ -3,7 +3,7 @@ import { getERC1155TokenData } from 'data/api'
 import { ethers } from 'ethers'
 import { IPFSRedefineUrl } from 'helpers'
 import { getValidImage } from 'helpers'
-import nftPlaceholder from 'images/nft-placeholder.png'
+import tokenPlaceholder from 'images/token-placeholder.png'
 
 type TTokenERC1155Data = { name: string, image: string, description: string }
 type TGetTokenERC1155Data = (provider: any, tokenAddress: string, tokenId: string) => Promise<TTokenERC1155Data>
@@ -24,7 +24,7 @@ const getTokenData: TGetTokenERC1155Data = async (provider, tokenAddress, tokenI
     // @ts-ignore
     // alert(Object.keys(e.transaction).join(', '))
     console.log({ e })
-    return { name: 'ERC1155', image: nftPlaceholder, description: '' }
+    return { name: 'ERC1155', image: tokenPlaceholder, description: '' }
   }
 }
 

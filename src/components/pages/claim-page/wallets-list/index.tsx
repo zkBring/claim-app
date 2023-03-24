@@ -4,7 +4,9 @@ import {
   Container,
   TextComponent,
   OptionsListStyled,
-  WalletIcon
+  WalletIcon,
+  LinkButton,
+  ScreenButton
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
@@ -29,6 +31,8 @@ import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
+import DesktopPopupContents from '../choose-wallet/components/popup-contents'
+import Icons from 'icons'
 import { defineSystem, getWalletDeeplink, sortWallets } from 'helpers'
 import { detect } from 'detect-browser'
 const { REACT_APP_WC_PROJECT_ID } = process.env
@@ -225,6 +229,7 @@ const WalletsList: FC<ReduxType> = ({
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const [ client, setClient ] = useState<AuthClient | null>(null)
   const [ loading, setLoading ] = useState<boolean>(false)
+  const system = defineSystem()
 
   useEffect(() => {
     if (!client) { return }
@@ -273,18 +278,20 @@ const WalletsList: FC<ReduxType> = ({
     <TextComponent>
       Choose a wallet from the list
     </TextComponent>
-    <OptionsListStyled options={options}/>
-    <Note
+    <OptionsListStyled options={options} />
+    {system === 'desktop' && <LinkButton onClick={() => { setShowPopup(true) }}>What is browser wallet?</LinkButton>}
+    {system === 'desktop' && <ScreenButton onClick={() => { window.location.reload() }} appearance='inverted'><Icons.RefreshIcon />Refresh</ScreenButton>}
+    {system !== 'desktop' && <Note
       text='Don’t know what to choose?'
       position='bottom'
       onClick={() => { setShowPopup(true) }}
-    />
+    />}
     {showPopup && <Popup
-      title='Connecting your wallet'
+      title={system === 'desktop' ? 'What is a Wallet?' : 'Connecting your wallet'}
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >
-      <PopupContents />
+      {system === 'desktop' ? <DesktopPopupContents /> : <PopupContents />}
     </Popup>}
   </Container>
 }
