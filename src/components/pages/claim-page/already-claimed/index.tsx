@@ -14,13 +14,15 @@ import {
   DoneIcon,
   Subtitle,
 } from './styled-components'
+import { plausibleApi } from 'data/api'
 
 const mapStateToProps = ({
   drop: {
     hash,
     chainId,
     tokenId,
-    tokenAddress
+    tokenAddress,
+    campaignId
   },
   user: {
     address
@@ -36,12 +38,18 @@ const mapStateToProps = ({
   hash,
   address,
   tokenId,
-  tokenAddress
+  tokenAddress,
+  campaignId
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
 
-const renderWatchTokenButton = (tokenId: string | null, tokenAddress: string | null, chainId: number | null) => {
+const renderWatchTokenButton = (
+  tokenId: string | null,
+  tokenAddress: string | null,
+  chainId: number | null,
+  campaignId: string
+) => {
   if (!tokenId || !tokenAddress || !chainId) { return null }
   const watchTokenUrl = defineOpenseaURL(
     chainId,
@@ -49,7 +57,15 @@ const renderWatchTokenButton = (tokenId: string | null, tokenAddress: string | n
     tokenId
   )
   return <ScreenButton
-    href={watchTokenUrl}
+  onClick={() => {
+    plausibleApi.invokeEvent({
+      eventName: 'click_redirect_button',
+      data: {
+        campaignId: campaignId,
+      }
+    })
+    window.open(watchTokenUrl, '_blank')
+  }}
     target="_blank"
   >
     View on OpenSea
@@ -62,18 +78,27 @@ const AlreadyClaimed: FC<ReduxType> = ({
   chainId,
   hash,
   tokenId,
-  tokenAddress
+  tokenAddress,
+  campaignId
 }) => {
   const explorerUrl = chainId && hash ? <ScreenButton
-    href={`${defineExplorerURL(chainId)}/tx/${hash}`}
+    onClick={() => {
+      plausibleApi.invokeEvent({
+        eventName: 'click_explorer',
+        data: {
+          campaignId: campaignId as string,
+        }
+      })
+      window.open(`${defineExplorerURL(chainId)}/tx/${hash}`, '_blank')
+    }}
     title='View in Explorer'
-    target='_blank'
     appearance='inverted'
   /> : null
   const openseaButton = renderWatchTokenButton(
     tokenId,
     tokenAddress,
-    chainId
+    chainId,
+    campaignId as string
   )
   return <>
     {image && <TokenImageContainer>

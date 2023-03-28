@@ -3,10 +3,12 @@ import {
   toHex,
 } from 'helpers'
 import chains from 'configs/chains'
+import { plausibleApi } from 'data/api'
 
 async function switchNetwork (
 	provider: any,
   chainId: number,
+  campaignId: string,
   callback: () => void
 ) {
   console.log({ chainId: toHex(chainId) })
@@ -14,6 +16,13 @@ async function switchNetwork (
     await provider.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: toHex(chainId) }],
+    })
+
+    plausibleApi.invokeEvent({
+      eventName: 'netw_switch',
+      data: {
+        campaignId: campaignId,
+      }
     })
 
     callback && callback()
@@ -34,6 +43,13 @@ async function switchNetwork (
             await provider.request({
               method: 'wallet_addEthereumChain',
               params: [data],
+            })
+
+            plausibleApi.invokeEvent({
+              eventName: 'netw_switch',
+              data: {
+                campaignId: campaignId,
+              }
             })
 
             callback && callback()

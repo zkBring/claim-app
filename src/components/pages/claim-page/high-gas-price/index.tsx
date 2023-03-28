@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Image, Title, Subtitle, ButtonStyled, AdditionalAction } from './styled-components'
 import GasPrice from 'images/gas-price.png'
 import { RootState, IAppDispatch } from 'data/store'
@@ -9,14 +9,16 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { TDropStep } from 'types'
+import { plausibleApi } from 'data/api'
 
 const mapStateToProps = ({
-  drop: { type, addressIsManuallySet },
+  drop: { type, addressIsManuallySet, campaignId },
   user: { signer }
 }: RootState) => ({
   type,
   addressIsManuallySet,
-  signer
+  signer,
+  campaignId
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -43,8 +45,19 @@ const HighGasPrice: FC<ReduxType> = ({
   claimERC721,
   claimERC20,
   signer,
-  setStep
+  setStep,
+  campaignId
 }) => {
+
+  useEffect(() => {
+    plausibleApi.invokeEvent({
+      eventName: 'gas_price_high',
+      data: {
+        campaignId: campaignId as string,
+      }
+    })
+  }, [])
+
   return <>
     <Image src={GasPrice} />
     <Title>Gas price is high</Title>
@@ -57,6 +70,12 @@ const HighGasPrice: FC<ReduxType> = ({
     </ButtonStyled>
     {!addressIsManuallySet && signer && <AdditionalAction
       onClick={() => {
+        plausibleApi.invokeEvent({
+          eventName: 'user_covered_gas',
+          data: {
+            campaignId: campaignId as string,
+          }
+        })
         if (type === 'ERC1155') {
           return claimERC1155()
         }

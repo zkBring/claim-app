@@ -51,7 +51,6 @@ const ShortLinkPage: FC<ReduxType> = ({
       <Icons.LinkdropIcon />
     </IconContainer>
     <LoadingTitle>Linkdrop</LoadingTitle>
-    <LoadingText>Safe NFT claims since 2019</LoadingText>
   </Container>
 }
 

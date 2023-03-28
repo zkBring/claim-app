@@ -5,6 +5,7 @@ import * as actionsDrop from '../actions'
 import * as asyncActionsDrop from '.'
 import axios, { AxiosError } from 'axios'
 import { IAppDispatch } from 'data/store'
+import { plausibleApi } from 'data/api'
 
 export default function getLinkFromInput(
   linkCode: string,
@@ -19,8 +20,21 @@ export default function getLinkFromInput(
         linkCode,
         callback
       ))
+      plausibleApi.invokeEvent({
+        eventName: 'enter_code',
+        data: {
+          correct: 'yes'
+        }
+      })
+
       return link
    } catch (err: any | AxiosError) {
+      plausibleApi.invokeEvent({
+        eventName: 'enter_code',
+        data: {
+          correct: 'no'
+        }
+      })
       dispatch(actionsDrop.setLoading(false))
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 404) {
@@ -31,7 +45,6 @@ export default function getLinkFromInput(
       } else {
         return { message: 'Some error occured' }
       }
-      
     }
   } 
 }
