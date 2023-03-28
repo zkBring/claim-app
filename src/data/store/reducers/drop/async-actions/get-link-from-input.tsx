@@ -5,6 +5,7 @@ import * as actionsDrop from '../actions'
 import * as asyncActionsDrop from '.'
 import axios, { AxiosError } from 'axios'
 import { IAppDispatch } from 'data/store'
+import { plausibleApi } from 'data/api'
 
 export default function getLinkFromInput(
   linkCode: string,
@@ -19,6 +20,10 @@ export default function getLinkFromInput(
         linkCode,
         callback
       ))
+      await plausibleApi.invokeEvent({
+        eventName: 'view_docs'
+      })
+
       return link
    } catch (err: any | AxiosError) {
       dispatch(actionsDrop.setLoading(false))
