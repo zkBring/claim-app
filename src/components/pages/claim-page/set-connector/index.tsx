@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import {
   TitleComponent,
   ScreenButton,
@@ -18,17 +18,19 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { useConnect } from 'wagmi'
 import LinkdropLogo from 'images/linkdrop-header.png'
 import { TDropType } from 'types'
+import { plausibleApi } from 'data/api'
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type },
+  drop: { tokenId, type, campaignId },
   user: { address }
 }: RootState) => ({
   name,
   image,
   type,
   tokenId,
-  address
+  address,
+  campaignId
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -55,12 +57,23 @@ const SetConnector: FC<ReduxType> = ({
   image,
   chooseWallet,
   address,
-  type
+  type,
+  campaignId
 }) => {
 
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === "injected")
   const system = defineSystem()
+
+  useEffect(() => {
+    plausibleApi.invokeEvent({
+      eventName: 'claimpage_open',
+      data: {
+        campaignId: campaignId as string,
+        status: 'loaded'
+      }
+    })
+  }, [])
 
   return <Container> 
     {image && <TokenImageContainer src={image} alt={name} />}
@@ -70,6 +83,12 @@ const SetConnector: FC<ReduxType> = ({
       {type === 'ERC20' ? 'Please proceed to receive tokens' : 'Here is a preview of the NFT you’re about to receive'}
     </TextComponent>
     <ScreenButton onClick={() => {
+      plausibleApi.invokeEvent({
+        eventName: 'claimpage_click',
+        data: {
+          campaignId: campaignId as string
+        }
+      })
       if (!address && injected && injected.ready && system !== 'desktop' && injected.name !== 'Brave Wallet') {
         return connect({ connector: injected })
       }

@@ -11,6 +11,7 @@ const getValidImage = async (imageUrl: string) => {
     if (checkImage.status === 404) { throw new Error() }
     return redefinedURL
   } catch (err) {
+    
     return tokenPlaceholder
   }
 }

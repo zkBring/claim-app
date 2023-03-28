@@ -31,16 +31,17 @@ import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import DesktopPopupContents from '../choose-wallet/components/popup-contents'
-import Icons from 'icons'
-import { defineSystem, getWalletDeeplink, sortWallets } from 'helpers'
+import { defineSystem, getWalletDeeplink } from 'helpers'
 import { detect } from 'detect-browser'
+import { plausibleApi } from 'data/api'
+
 const { REACT_APP_WC_PROJECT_ID } = process.env
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type, wallet, claimCode, chainId, isManual }
+  drop: { tokenId, type, wallet, claimCode, chainId, isManual, campaignId }
 }: RootState) => ({
-  name, image, type, tokenId, wallet, claimCode, chainId, isManual
+  name, image, type, tokenId, wallet, claimCode, chainId, isManual, campaignId
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -221,7 +222,8 @@ const WalletsList: FC<ReduxType> = ({
   wallet,
   chainId,
   updateUserData,
-  isManual
+  isManual,
+  campaignId
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -279,11 +281,29 @@ const WalletsList: FC<ReduxType> = ({
       Choose a wallet from the list
     </TextComponent>
     <OptionsListStyled options={options} />
-    {system === 'desktop' && !injected && <LinkButton onClick={() => { setShowPopup(true) }}>What is browser wallet?</LinkButton>}
+    {system === 'desktop' && !injected && <LinkButton onClick={() => {
+      plausibleApi.invokeEvent({
+        eventName: 'educate_me',
+        data: {
+          campaignId: campaignId as string,
+          screen: 'what_is_a_wallet'
+        }
+      })
+      setShowPopup(true)
+    }}>What is browser wallet?</LinkButton>}
     {system !== 'desktop' && <Note
       text='Don’t know what to choose?'
       position='bottom'
-      onClick={() => { setShowPopup(true) }}
+      onClick={() => {
+        plausibleApi.invokeEvent({
+          eventName: 'educate_me',
+          data: {
+            campaignId: campaignId as string,
+            screen: 'what_is_connection'
+          }
+        })
+        setShowPopup(true)
+      }}
     />}
     {showPopup && <Popup
       title={system === 'desktop' ? 'What is a Wallet?' : 'Connecting your wallet'}

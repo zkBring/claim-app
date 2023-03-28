@@ -26,7 +26,6 @@ export default function getLinkByCode(
     const linkId = new ethers.Wallet(linkKey).address
 
     const data = await sdk.getLinkParams(linkCode)
-    console.log({ data })
     if (data) {
       const {
         creator_address,

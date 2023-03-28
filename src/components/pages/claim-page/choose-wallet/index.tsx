@@ -15,12 +15,13 @@ import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import { defineSystem } from 'helpers'
+import { plausibleApi } from 'data/api'
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type }
+  drop: { tokenId, type, campaignId }
 }: RootState) => ({
-  name, image, type, tokenId
+  name, image, type, tokenId, campaignId
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -34,7 +35,8 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const ChooseWallet: FC<ReduxType> = ({
-  chooseWallet
+  chooseWallet,
+  campaignId
 }) => {
   const system = defineSystem()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
@@ -45,6 +47,12 @@ const ChooseWallet: FC<ReduxType> = ({
       To claim an NFT, you will need to have a non-custodial crypto-wallet set up and ready to use
     </TextComponent>
     <ScreenButton onClick={async () => {
+      plausibleApi.invokeEvent({
+        eventName: 'goto_choose_wallet',
+        data: {
+          campaignId: campaignId as string
+        }
+      })
       chooseWallet()
     }}>
       Connect
@@ -52,7 +60,16 @@ const ChooseWallet: FC<ReduxType> = ({
     {system !== 'desktop' && <Note
       text='What is a Wallet?'
       position='bottom'
-      onClick={() => { setShowPopup(true) }}
+      onClick={() => {
+        plausibleApi.invokeEvent({
+          eventName: 'educate_me',
+          data: {
+            campaignId: campaignId as string,
+            screen: 'what_is_a_wallet '
+          }
+        })
+        setShowPopup(true)
+      }}
     />}
     {showPopup && <Popup
       title='What is a Wallet?'

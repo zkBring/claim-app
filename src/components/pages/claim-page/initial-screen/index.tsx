@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import {
   TitleComponent,
   ScreenButton,
@@ -20,11 +20,12 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { TDropStep, TDropType } from 'types'
 import { shortenString } from 'helpers'
 import LinkdropLogo from 'images/linkdrop-header.png'
+import { plausibleApi } from 'data/api'
 
 const mapStateToProps = ({
   token: { name, image },
   user: { address, chainId: userChainId },
-  drop: { tokenId, amount, type, isManual, loading, chainId }
+  drop: { tokenId, amount, type, isManual, loading, chainId, campaignId }
 }: RootState) => ({
   name,
   image,
@@ -35,7 +36,8 @@ const mapStateToProps = ({
   loading,
   address,
   userChainId,
-  chainId
+  chainId,
+  campaignId
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -85,10 +87,20 @@ const InitialScreen: FC<ReduxType> = ({
   address,
   chainId,
   userChainId,
-  setStep
+  setStep,
+  campaignId
 }) => {
+
+  useEffect(() => {
+    plausibleApi.invokeEvent({
+      eventName: 'success_connect_wallet',
+      data: {
+        campaignId: campaignId as string
+      }
+    })
+  }, [])
+
   const defineButton = () => {
-    
     return <ScreenButton
       disabled={
         (type === 'ERC1155' && (!tokenId || !amount)) ||
@@ -103,6 +115,14 @@ const InitialScreen: FC<ReduxType> = ({
         if (Number(userChainId) !== Number(chainId)) {
           return setStep('change_network')
         }
+
+        plausibleApi.invokeEvent({
+          eventName: 'claim_initiated',
+          data: {
+            campaignId: campaignId as string,
+          }
+        })
+
         if (type === 'ERC1155') {
           return claimERC1155()
         }

@@ -14,7 +14,7 @@ const getTokenData: TGetTokenERC721Data = async (provider, tokenAddress, tokenId
     let actualUrl = await contractInstance.tokenURI(tokenId)
     actualUrl = IPFSRedefineUrl(actualUrl, tokenId)
     const tokenData = await getERC721TokenData(actualUrl)
-    const image = await getValidImage(tokenData.data.image)
+    const image = await getValidImage(tokenData.data.animation_url || tokenData.data.image)
     console.log({
       ...tokenData.data,
       image

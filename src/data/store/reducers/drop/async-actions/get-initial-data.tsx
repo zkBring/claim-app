@@ -48,8 +48,7 @@ export default function getData(
           type
         }
       } = getState()
-      
-  
+
       if (type === 'ERC1155' && linkTokenAddress && tokenId) {
         const { name, image, description } = await getERC1155Data(provider, linkTokenAddress, tokenId)
         dispatch(actionsToken.setDescription(description))

@@ -15,7 +15,7 @@ import Wrongetwork from 'images/network.png'
 const mapStateToProps = ({
   user: { address, chainId: userChainId, userProvider },
   token: { name, image },
-  drop: { tokenId, amount, type, isManual, loading, chainId }
+  drop: { tokenId, amount, type, isManual, loading, chainId, campaignId }
 }: RootState) => ({
   name,
   image,
@@ -27,14 +27,16 @@ const mapStateToProps = ({
   loading,
   chainId,
   userChainId,
-  userProvider
+  userProvider,
+  campaignId
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
 
 const ChangeNetwork: FC<ReduxType> = ({
   chainId,
-  userProvider
+  userProvider,
+  campaignId
 }) => {
   const networkName = defineRealNetworkName(chainId)
   return <Container>
@@ -43,7 +45,7 @@ const ChangeNetwork: FC<ReduxType> = ({
     <Subtitle>To claim an NFT you need to switch your wallet to {networkName} network</Subtitle>
     <ScreenButton onClick={async () => {
       if (chainId) {
-        switchNetwork(userProvider, chainId, () => {})
+        switchNetwork(userProvider, chainId, campaignId as string, () => {})
       } else {
         alert('No chain provided')
       }
