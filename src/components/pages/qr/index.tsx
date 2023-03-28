@@ -55,7 +55,6 @@ const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
           <Icons.LinkdropIcon />
         </IconContainer>
         <LoadingTitle>Linkdrop</LoadingTitle>
-        <LoadingText>Safe NFT claims since 2019</LoadingText>
       </Container>
     </Page>
   }
