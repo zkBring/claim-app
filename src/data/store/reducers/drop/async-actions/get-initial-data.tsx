@@ -46,7 +46,8 @@ export default function getData(
           expirationTime,
           tokenId,
           amount,
-          type
+          type,
+          campaignId
         }
       } = getState()
 
@@ -77,7 +78,8 @@ export default function getData(
         plausibleApi.invokeEvent({
           eventName: 'error',
           data: {
-            err_name: 'link_expired'
+            err_name: 'link_expired',
+            campaignId: campaignId as string
           }
         })
         return dispatch(actionsDrop.setStep('link_expired'))

@@ -104,7 +104,8 @@ export default function claimERC721(
         plausibleApi.invokeEvent({
           eventName: 'error',
           data: {
-            err_name: 'error_no_connection'
+            err_name: 'error_no_connection',
+            campaignId
           }
         })
         return dispatch(dropActions.setStep('error_no_connection'))
@@ -159,7 +160,7 @@ export default function claimERC721(
       }
       
     } catch (error: any | AxiosError) {
-      handleClaimResponseError(dispatch, error)
+      handleClaimResponseError(dispatch, campaignId, error)
     }
     dispatch(dropActions.setLoading(false))
   } 
@@ -208,7 +209,8 @@ const claimManually = async (
     plausibleApi.invokeEvent({
       eventName: 'error',
       data: {
-        err_name: 'error'
+        err_name: 'error',
+        campaignId
       }
     })
     dispatch(dropActions.setStep('error'))

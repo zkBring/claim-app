@@ -75,7 +75,8 @@ export default function getData() {
                 plausibleApi.invokeEvent({
                   eventName: 'error',
                   data: {
-                    err_name: 'error_transaction'
+                    err_name: 'error_transaction',
+                    campaignId
                   }
                 })
                 return dispatch(actionsDrop.setStep('error_transaction'))

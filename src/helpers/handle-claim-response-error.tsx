@@ -7,6 +7,7 @@ import { plausibleApi } from 'data/api'
 
 const handleError = (
   dispatch: Dispatch<DropActions> & Dispatch<UserActions>,
+  campaignId: string,
   error: any | AxiosError
 ) => {
   if (axios.isAxiosError(error)) {
@@ -14,7 +15,8 @@ const handleError = (
       plausibleApi.invokeEvent({
         eventName: 'error',
         data: {
-          err_name: 'error_already_claimed'
+          err_name: 'error_already_claimed',
+          campaignId
         }
       })
       dispatch(dropActions.setStep('error_already_claimed'))
@@ -22,7 +24,8 @@ const handleError = (
       plausibleApi.invokeEvent({
         eventName: 'error',
         data: {
-          err_name: 'error_server_fail'
+          err_name: 'error_server_fail',
+          campaignId
         }
       })
       dispatch(dropActions.setStep('error_server_fail'))
@@ -33,7 +36,8 @@ const handleError = (
       plausibleApi.invokeEvent({
         eventName: 'error',
         data: {
-          err_name: 'error_no_connection'
+          err_name: 'error_no_connection',
+          campaignId
         }
       })
       dispatch(dropActions.setStep('error_no_connection'))
@@ -41,7 +45,8 @@ const handleError = (
       plausibleApi.invokeEvent({
         eventName: 'error',
         data: {
-          err_name: 'error'
+          err_name: 'error',
+          campaignId
         }
       })
       dispatch(dropActions.setStep('error'))
