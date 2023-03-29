@@ -6,7 +6,7 @@ const getLastTxHash = (
   linkdropMasterAddress: string,
   linkId: string
 ) => {
-  return axios(`${defineServerUrl(Number(chainId))}/api/v1/linkdrops/getLastTxHash/${linkdropMasterAddress}/${linkId}`)
+  return axios(`${defineServerUrl(Number(chainId))}/api/v2/linkdrops/getLastTxHash/${linkdropMasterAddress}/${linkId}`)
 }
 
 export default getLastTxHash
