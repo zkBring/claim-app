@@ -7,6 +7,7 @@ import checkIfClaimed from './check-if-claimed'
 import { getLastTxHash } from 'data/api'
 import { ethers } from 'ethers'
 import { RootState } from 'data/store'
+import { plausibleApi } from 'data/api'
 
 export default function getData() {
   return async (
@@ -71,6 +72,12 @@ export default function getData() {
               const receipt = await provider.getTransactionReceipt(txHash)
               if (receipt && receipt.status !== undefined && receipt.status === 0) {
                 window.clearInterval(interval)
+                plausibleApi.invokeEvent({
+                  eventName: 'error',
+                  data: {
+                    err_name: 'error_transaction'
+                  }
+                })
                 return dispatch(actionsDrop.setStep('error_transaction'))
               }
             }
