@@ -10,6 +10,7 @@ import getERC1155Data from './get-erc1155-token-data'
 import getERC721Data from './get-erc721-token-data'
 import getERC20Data from './get-erc20-token-data'
 import { RootState, IAppDispatch } from 'data/store'
+import { plausibleApi } from 'data/api'
 
 export default function getData(
   onReload: () => void,
@@ -45,7 +46,8 @@ export default function getData(
           expirationTime,
           tokenId,
           amount,
-          type
+          type,
+          campaignId
         }
       } = getState()
 
@@ -73,6 +75,13 @@ export default function getData(
 
       if (Number(expirationTime) < +new Date()) {
         dispatch(actionsDrop.setLoading(false))
+        plausibleApi.invokeEvent({
+          eventName: 'error',
+          data: {
+            err_name: 'link_expired',
+            campaignId: campaignId as string
+          }
+        })
         return dispatch(actionsDrop.setStep('link_expired'))
       }
 

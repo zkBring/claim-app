@@ -12,6 +12,7 @@ import { UserActions } from '../../user/types'
 import { resolveENS, defineJSONRpcUrl, handleClaimResponseError } from 'helpers'
 import { AxiosError } from 'axios'
 import gasPriceLimits from 'configs/gas-price-limits'
+import { plausibleApi } from 'data/api'
 
 const { REACT_APP_INFURA_ID = '' } = process.env
 
@@ -100,6 +101,13 @@ export default function claimERC721(
         dispatch(dropActions.setAddressIsManuallySet(true))
       } else if (addressResolved === null) {
         dispatch(dropActions.setLoading(false))
+        plausibleApi.invokeEvent({
+          eventName: 'error',
+          data: {
+            err_name: 'error_no_connection',
+            campaignId
+          }
+        })
         return dispatch(dropActions.setStep('error_no_connection'))
       } else {
         dispatch(dropActions.setLoading(false))
@@ -152,7 +160,7 @@ export default function claimERC721(
       }
       
     } catch (error: any | AxiosError) {
-      handleClaimResponseError(dispatch, error)
+      handleClaimResponseError(dispatch, campaignId, error)
     }
     dispatch(dropActions.setLoading(false))
   } 
@@ -198,6 +206,13 @@ const claimManually = async (
 
     return hash
   } catch (err) {
+    plausibleApi.invokeEvent({
+      eventName: 'error',
+      data: {
+        err_name: 'error',
+        campaignId
+      }
+    })
     dispatch(dropActions.setStep('error'))
     console.log({ err })
   }

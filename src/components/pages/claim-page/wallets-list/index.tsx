@@ -91,27 +91,29 @@ const defineOptionsList = (
   }
   const injected = connectors.find(connector => connector.id === "injected")
 
+  const installMetamask = {
+    title: 'Browser Wallet',
+    onClick: () => {
+      window.open('https://metamask.io/download/', '_blank')
+      downloadStarted()
+    },
+    icon: <WalletIcon src={BrowserWalletIcon} />,
+    tag: 'Install MetaMask ->'
+  }
+
   if (system === 'desktop') {
     const browser = detect()
     const injectedOption = browser?.name !== 'safari' ? (injected && injected.ready ? {
       title: 'Browser Wallet',
       onClick: () => {
         if (!injected) {
-          return
+          return alert('Cannot connect to injected')
         }
         connect({ connector: injected })
       },
       icon: <WalletIcon src={BrowserWalletIcon} />,
       recommended: wallet && wallet !== 'walletconnect'
-    } : {
-      title: 'Browser Wallet',
-      onClick: () => {
-        window.open('https://metamask.io/download/', '_blank')
-        downloadStarted()
-      },
-      icon: <WalletIcon src={BrowserWalletIcon} />,
-      tag: 'Install MetaMask ->'
-    }) : undefined
+    } : installMetamask) : installMetamask
 
     return [
       injectedOption,
@@ -126,7 +128,7 @@ const defineOptionsList = (
     title: 'Injected',
     onClick: () => {
       if (!injected) {
-        return
+        return alert('Cannot connect to injected')
       }
       connect({ connector: injected })
     },

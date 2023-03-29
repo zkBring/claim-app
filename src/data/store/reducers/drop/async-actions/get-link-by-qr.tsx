@@ -6,6 +6,7 @@ import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { getQRData } from 'data/api'
 import * as actionsDrop from '../actions'
 import axios, { AxiosError } from 'axios'
+import { plausibleApi } from 'data/api'
 
 export default function getLink(
   qrSecret: string,
@@ -26,9 +27,21 @@ export default function getLink(
           callback(decryptedLink)
         } else {
           dispatch(actionsDrop.setError('qr_not_mapped'))
+          plausibleApi.invokeEvent({
+            eventName: 'error',
+            data: {
+              err_name: 'qr_not_mapped'
+            }
+          })
         }
       } else {
         dispatch(actionsDrop.setError('qr_error'))
+        plausibleApi.invokeEvent({
+          eventName: 'error',
+          data: {
+            err_name: 'qr_error'
+          }
+        })
         alert('Some error occured')
       }
     } catch (err: any | AxiosError) {
@@ -36,20 +49,56 @@ export default function getLink(
         if (err.message === 'Network Error') {
           if (!window.navigator.onLine) {
             dispatch(actionsDrop.setError('qr_no_connection'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_no_connection'
+              }
+            })
           } else {
             dispatch(actionsDrop.setError('qr_error'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_error'
+              }
+            })
           }
           
         } else if (err.response?.status === 404) {
           dispatch(actionsDrop.setError('qr_not_found'))
+          plausibleApi.invokeEvent({
+            eventName: 'error',
+            data: {
+              err_name: 'qr_not_found'
+            }
+          })
         } else if (err.response?.status === 500) {
           dispatch(actionsDrop.setError('qr_error'))
+          plausibleApi.invokeEvent({
+            eventName: 'error',
+            data: {
+              err_name: 'qr_error'
+            }
+          })
         }
       } else {
         if (err && err.code === "INVALID_ARGUMENT") {
-          return dispatch(actionsDrop.setError('qr_incorrect_parameter'))
+          dispatch(actionsDrop.setError('qr_incorrect_parameter'))
+          return plausibleApi.invokeEvent({
+            eventName: 'error',
+            data: {
+              err_name: 'qr_incorrect_parameter'
+            }
+          })
         }
         dispatch(actionsDrop.setError('qr_error'))
+        plausibleApi.invokeEvent({
+          eventName: 'error',
+          data: {
+            err_name: 'qr_error'
+          }
+        })
       }      
     }
   } 

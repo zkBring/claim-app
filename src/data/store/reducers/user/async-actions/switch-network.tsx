@@ -46,7 +46,7 @@ async function switchNetwork (
             })
 
             plausibleApi.invokeEvent({
-              eventName: 'netw_switch',
+              eventName: 'netw_add',
               data: {
                 campaignId: campaignId,
               }
