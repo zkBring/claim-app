@@ -146,7 +146,7 @@ const defineOptionsList = (
 
   const trustDeeplink = getWalletDeeplink('trust', system, window.location.href, chainId)
   const trustOption = (injectedOption && !injectedOptionIsBrave) || !trustDeeplink ? undefined : {
-    title: 'Trust',
+    title: 'Trust Wallet',
     href: trustDeeplink,
     icon: <WalletIcon src={TrustWalletIcon} />,
     recommended: wallet === 'trust'
@@ -154,47 +154,47 @@ const defineOptionsList = (
 
   const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href, chainId)
   const coinbaseOption = (injectedOption && !injectedOptionIsBrave) || !coinbaseDeeplink ? undefined : {
-    title: 'Coinbase',
+    title: 'Coinbase Wallet',
     href: coinbaseDeeplink,
     icon: <WalletIcon src={CoinabseWalletIcon} />,
     recommended: wallet === 'coinbase_wallet'
   }
 
-  const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
-    title: 'Zerion',
-    onClick: async () => {
-      const authClient = await AuthClient.init({
-        projectId: REACT_APP_WC_PROJECT_ID as string,
-        metadata: {
-          name: "Linkdrop-Claim",
-          description: "A dapp using WalletConnect AuthClient",
-          url: window.location.host,
-          icons: ["/favicon.png"],
-        }
-      })
+  // const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
+  //   title: 'Zerion',
+  //   onClick: async () => {
+  //     const authClient = await AuthClient.init({
+  //       projectId: REACT_APP_WC_PROJECT_ID as string,
+  //       metadata: {
+  //         name: "Linkdrop-Claim",
+  //         description: "A dapp using WalletConnect AuthClient",
+  //         url: window.location.host,
+  //         icons: ["/favicon.png"],
+  //       }
+  //     })
   
-      setClient(authClient)
-      authClient.on("auth_response", ({ params }) => {
-        // @ts-ignore
-        if (Boolean(params && params.result && params.result.p)) {
-          // @ts-ignore
-          const { iss } = params.result.p
-          const walletData = iss.split(":")
-          const walletAddress = walletData[4]
-          const walletChainId = walletData[3]
-          updateUserData(
-            walletAddress,
-            walletChainId
-          )
-        } else {
-          // @ts-ignore
-          console.error(params.message)
-        }
-      })
-    },
-    icon: <WalletIcon src={ZerionWalletIcon} />,
-    recommended: wallet === 'zerion'
-  }
+  //     setClient(authClient)
+  //     authClient.on("auth_response", ({ params }) => {
+  //       // @ts-ignore
+  //       if (Boolean(params && params.result && params.result.p)) {
+  //         // @ts-ignore
+  //         const { iss } = params.result.p
+  //         const walletData = iss.split(":")
+  //         const walletAddress = walletData[4]
+  //         const walletChainId = walletData[3]
+  //         updateUserData(
+  //           walletAddress,
+  //           walletChainId
+  //         )
+  //       } else {
+  //         // @ts-ignore
+  //         console.error(params.message)
+  //       }
+  //     })
+  //   },
+  //   icon: <WalletIcon src={ZerionWalletIcon} />,
+  //   recommended: wallet === 'zerion'
+  // }
 
   const rainbowDeeplink = getWalletDeeplink('rainbow', system, window.location.href, chainId)
   const rainbowOption = (injectedOption && !injectedOptionIsBrave) || !rainbowDeeplink ? undefined : {
@@ -207,7 +207,7 @@ const defineOptionsList = (
   const wallets = [
     injectedOption,
     metamaskOption,
-    zerionOption,
+    // zerionOption,
     walletConnectOption,
     ensOption,
     rainbowOption,
@@ -248,7 +248,7 @@ const WalletsList: FC<ReduxType> = ({
       .then(({ uri }) => {
         if (!uri) { return }
         setLoading(true)
-        const href = `zerion://wc?uri=${encodeURIComponent(uri)}`
+        const href = `https://wallet.zerion.io/wc?uri=${encodeURIComponent(uri)}`
         window.location.href = href
       })
       .catch(err => {
