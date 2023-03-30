@@ -37,9 +37,9 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<UserAct
 
 const mapStateToProps = ({
   token: { name, image },
-  drop: { tokenId, type }
+  drop: { tokenId, type, chainId }
 }: RootState) => ({
-  name, image, type, tokenId
+  name, image, type, tokenId, chainId
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
@@ -68,7 +68,7 @@ const defineButton = (
         name: "Linkdrop-Test",
         description: "A dapp using WalletConnect AuthClient",
         url: window.location.host,
-        icons: ["https://jazzy-donut-086baa.netlify.app/zerion.png"],
+        icons: ["/zerion.png"],
       }
     })
 
@@ -106,9 +106,9 @@ const renderTexts = () => {
 }
 
 const ChooseWallet: FC<ReduxType> = ({
-  updateUserData
+  updateUserData,
+  chainId
 }) => {
-  const { chainId } = getHashVariables()
   const [ client, setClient ] = useState<AuthClient | null>()
   const [ loading, setLoading ] = useState<boolean>(false)
   useEffect(() => {
@@ -117,7 +117,7 @@ const ChooseWallet: FC<ReduxType> = ({
       .request({
         aud: window.location.href,
         domain: window.location.hostname.split(".").slice(-2).join("."),
-        chainId: `eip155:${chainId}`,
+        chainId: `eip155:${chainId as number}`,
         nonce: generateNonce(),
         statement: "Sign in with Zerion Wallet"
       })
