@@ -146,6 +146,8 @@ const defineBackAction = (step: TDropStep, action: (prevoiusStep: TDropStep) => 
       return () => action('set_connector')
     case 'download_await':
       return () => action('wallets_list')
+    case 'zerion_connection':
+      return () => action('zerion_connection')
     default:
       return null
   }
