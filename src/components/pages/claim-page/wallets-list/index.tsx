@@ -61,6 +61,7 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 
 const defineOptionsList = (
   setAddress: () => void,
+  setStep: (step: TDropStep) => void,
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
   connectors: Connector<any, any, any>[],
@@ -158,7 +159,7 @@ const defineOptionsList = (
   const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
     title: 'Zerion',
     onClick: async () => {
-      
+      setStep('zerion_connection')
     },
     icon: <WalletIcon src={ZerionWalletIcon} />,
     recommended: wallet === 'zerion'
@@ -203,6 +204,7 @@ const WalletsList: FC<ReduxType> = ({
 
   const options = defineOptionsList(
     setAddress,
+    setStep,
     open,
     connect,
     connectors,
