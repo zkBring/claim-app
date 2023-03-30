@@ -22,6 +22,7 @@ type TDropStep = 'loading' |
                  'error_link_no_connection' |
                  'error_link_incorrect_parameter' |
                  'short_code_loading' |
-                 'download_await'
+                 'download_await' |
+                 'zerion_connection'
 
 export default TDropStep
