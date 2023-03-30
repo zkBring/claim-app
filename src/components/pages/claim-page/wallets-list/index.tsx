@@ -61,16 +61,12 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 
 const defineOptionsList = (
   setAddress: () => void,
+  setStep: (step: TDropStep) => void,
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
   connectors: Connector<any, any, any>[],
   wallet: string | null,
   downloadStarted: () => void,
-  setClient: (client: AuthClient) => void,
-  updateUserData: (
-    address: string,
-    chainId: number
-  ) => void,
   isManual: boolean,
   chainId: number
 ) => {
@@ -160,41 +156,14 @@ const defineOptionsList = (
     recommended: wallet === 'coinbase_wallet'
   }
 
-  // const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
-  //   title: 'Zerion',
-  //   onClick: async () => {
-  //     const authClient = await AuthClient.init({
-  //       projectId: REACT_APP_WC_PROJECT_ID as string,
-  //       metadata: {
-  //         name: "Linkdrop-Claim",
-  //         description: "A dapp using WalletConnect AuthClient",
-  //         url: window.location.host,
-  //         icons: ["/favicon.png"],
-  //       }
-  //     })
-  
-  //     setClient(authClient)
-  //     authClient.on("auth_response", ({ params }) => {
-  //       // @ts-ignore
-  //       if (Boolean(params && params.result && params.result.p)) {
-  //         // @ts-ignore
-  //         const { iss } = params.result.p
-  //         const walletData = iss.split(":")
-  //         const walletAddress = walletData[4]
-  //         const walletChainId = walletData[3]
-  //         updateUserData(
-  //           walletAddress,
-  //           walletChainId
-  //         )
-  //       } else {
-  //         // @ts-ignore
-  //         console.error(params.message)
-  //       }
-  //     })
-  //   },
-  //   icon: <WalletIcon src={ZerionWalletIcon} />,
-  //   recommended: wallet === 'zerion'
-  // }
+  const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
+    title: 'Zerion',
+    onClick: async () => {
+      setStep('zerion_connection')
+    },
+    icon: <WalletIcon src={ZerionWalletIcon} />,
+    recommended: wallet === 'zerion'
+  }
 
   const rainbowDeeplink = getWalletDeeplink('rainbow', system, window.location.href, chainId)
   const rainbowOption = (injectedOption && !injectedOptionIsBrave) || !rainbowDeeplink ? undefined : {
@@ -207,7 +176,7 @@ const defineOptionsList = (
   const wallets = [
     injectedOption,
     metamaskOption,
-    // zerionOption,
+    zerionOption,
     walletConnectOption,
     ensOption,
     rainbowOption,
@@ -230,49 +199,17 @@ const WalletsList: FC<ReduxType> = ({
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
-  const [ client, setClient ] = useState<AuthClient | null>(null)
-  const [ loading, setLoading ] = useState<boolean>(false)
   const system = defineSystem()
   const injected = connectors.find(connector => connector.id === "injected")
 
-  useEffect(() => {
-    if (!client) { return }
-    client
-      .request({
-        aud: window.location.href,
-        domain: window.location.hostname.split(".").slice(-2).join("."),
-        chainId: `eip155:${chainId}`,
-        nonce: generateNonce(),
-        statement: "Sign in with Zerion Wallet"
-      })
-      .then(({ uri }) => {
-        if (!uri) { return }
-        setLoading(true)
-        const href = `https://wallet.zerion.io/wc?uri=${encodeURIComponent(uri)}`
-        window.location.href = href
-      })
-      .catch(err => {
-        setLoading(false)
-      })
-  }, [client])
-
   const options = defineOptionsList(
     setAddress,
+    setStep,
     open,
     connect,
     connectors,
     wallet,
     () => setStep('download_await'),
-    setClient,
-    (
-      address,
-      chainId
-    ) => {
-      updateUserData(
-        address,
-        chainId
-      )
-    },
     isManual,
     chainId as number
   )

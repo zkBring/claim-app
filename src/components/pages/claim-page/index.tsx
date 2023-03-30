@@ -21,6 +21,7 @@ import ErrorLink from './error-link'
 import ChooseWallet from './choose-wallet'
 import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
+import ZerionConnection from './zerion-connection'
 import LinkdropLogo from 'images/linkdrop-header.png'
 import { Loader } from 'components/common'
 import Page from '../page'
@@ -128,6 +129,8 @@ const defineCurrentScreen: TDefineStep = step => {
       return <ShortCodeLoading />
     case 'download_await':
       return <DownloadAwait />
+    case 'zerion_connection':
+      return <ZerionConnection />
     default:
       return <Loader />
   }
@@ -142,6 +145,8 @@ const defineBackAction = (step: TDropStep, action: (prevoiusStep: TDropStep) => 
     case 'choose_wallet':
       return () => action('set_connector')
     case 'download_await':
+      return () => action('wallets_list')
+    case 'zerion_connection':
       return () => action('wallets_list')
     default:
       return null
