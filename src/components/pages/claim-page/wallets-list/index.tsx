@@ -248,7 +248,7 @@ const WalletsList: FC<ReduxType> = ({
       .then(({ uri }) => {
         if (!uri) { return }
         setLoading(true)
-        const href = `zerion://wc?uri=${encodeURIComponent(uri)}`
+        const href = `https://wallet.zerion.io/wc?uri=${encodeURIComponent(uri)}`
         window.location.href = href
       })
       .catch(err => {
