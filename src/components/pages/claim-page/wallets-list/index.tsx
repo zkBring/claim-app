@@ -237,6 +237,7 @@ const WalletsList: FC<ReduxType> = ({
 
   useEffect(() => {
     if (!client) { return }
+    const windowReference = window.open;
     client
       .request({
         aud: window.location.href,
@@ -249,11 +250,9 @@ const WalletsList: FC<ReduxType> = ({
         if (!uri) { return }
         setLoading(true)
         const href = `https://wallet.zerion.io/wc?uri=${encodeURIComponent(uri)}`
-        const a = document.createElement("a")
-        a.setAttribute('href', href)
-        a.setAttribute('target', '_blank')
-        a.click()
-        a.remove()
+        if (windowReference) {
+          windowReference.call(this, href, '_blank')
+        }
       })
       .catch(err => {
         setLoading(false)
