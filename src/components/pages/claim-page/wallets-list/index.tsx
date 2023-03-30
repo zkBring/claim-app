@@ -237,7 +237,7 @@ const WalletsList: FC<ReduxType> = ({
 
   useEffect(() => {
     if (!client) { return }
-    const windowReference = window.open()
+    const windowReference = window.open("about:blank","_blank")
     client
       .request({
         aud: window.location.href,
