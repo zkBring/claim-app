@@ -19,7 +19,7 @@ const ErrorComponent: FC<ReduxType> = ({
 }) => {
   return <>
     <Image src={ExpiredError} />
-    <Title>NFT already claimed</Title>
+    <Title>{type === 'ERC20' ? 'Tokens' : 'NFT'} already claimed</Title>
     <Subtitle>Please check your wallet</Subtitle>
   </>
 }

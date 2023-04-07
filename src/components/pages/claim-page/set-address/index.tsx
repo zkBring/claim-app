@@ -118,7 +118,7 @@ const SetAddress: FC<ReduxType> = ({
 
   return <Container> 
     {content}
-    {!isManual && <NoteStyled type='default' text="Preview of the NFT you're about to receive. All fees will be handled by Sponsor" />}
+    {!isManual && <NoteStyled type='default' text={`Preview of ${type === 'ERC20' ? 'tokens' : 'the NFT'} you're about to receive. All fees will be handled by Sponsor`} />}
     <Instructions>
       <Networks src={NetworksImage} />
       Enter your Ethereum/Polygon address or ENS to receive your NFT
@@ -143,7 +143,7 @@ const SetAddress: FC<ReduxType> = ({
         !isValid ||
         loading
       }
-      title={isChecking ? 'Resolving ENS' : 'Receive my NFT'}
+      title={isChecking ? 'Resolving ENS' : `Receive ${type === 'ERC20' ? 'tokens' : 'my NFT'}`}
       loading={isChecking || loading}
       appearance={!isChecking && !loading ? 'default' : 'inverted'}
       onClick={() => {
