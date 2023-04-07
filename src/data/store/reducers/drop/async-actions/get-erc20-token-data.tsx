@@ -12,7 +12,6 @@ const getTokenData: TGetTokenERC20Data = async (provider, tokenAddress, chainId)
       throw new Error('No Alchemy instance is created')
     }
     const tokenData = await alchemy.core.getTokenMetadata(tokenAddress)
-    console.log({ tokenData })
     return { symbol: tokenData.symbol || 'ERC20 Token', decimals: tokenData.decimals, description: '', image: tokenData.logo || tokenSymbol } 
   } catch (err) {
     try {
