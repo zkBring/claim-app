@@ -21,6 +21,7 @@ export const Subtitle = styled.h3`
 
 export const Container = styled.div`
   text-align: center;
+  width: 100%;
 `
 
 export const ButtonsContainer = styled.div`
