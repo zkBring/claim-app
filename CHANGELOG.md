@@ -1,6 +1,6 @@
 # Linkdrop Claim app
 
-## 2.2.1-rc.1
+## 2.2.1
 - Alchemy API added
 - ERC20 claim flow
 - Updates for error handling
