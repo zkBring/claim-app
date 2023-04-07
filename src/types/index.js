@@ -19,8 +19,10 @@ import { TLinkParams } from './link-params'
 import TWalletName from './wallet-name'
 import { TWalletOption } from './wallet-option'
 import TTokenERC20Data from './token-erc20-data'
+import { TAlchemyNFTData } from './alchemy-nft-data'
 
 export {
+  TAlchemyNFTData,
   TTokenERC20Data,
   TMerkleTree,
   TWalletName,
