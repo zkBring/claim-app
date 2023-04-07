@@ -100,7 +100,7 @@ export default function claimERC20(
         dispatch(userActions.setAddress(addressResolved))
         address = addressResolved
         dispatch(dropActions.setAddressIsManuallySet(true))
-      } else if (addressResolved === null) {
+      } else if (!window.navigator.onLine) {
         dispatch(dropActions.setLoading(false))
         plausibleApi.invokeEvent({
           eventName: 'error',
