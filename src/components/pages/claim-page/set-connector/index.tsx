@@ -7,8 +7,9 @@ import {
   TokenImageContainer,
   TextComponent,
   PoweredBy,
-  PoweredByImage
+  PoweredByImage,
 } from './styled-components'
+import { ERC20TokenPreview } from 'components/pages/common'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { shortenString, defineSystem } from 'helpers'
@@ -21,8 +22,8 @@ import { TDropType } from 'types'
 import { plausibleApi } from 'data/api'
 
 const mapStateToProps = ({
-  token: { name, image },
-  drop: { tokenId, type, campaignId },
+  token: { name, image, decimals },
+  drop: { tokenId, type, campaignId, amount },
   user: { address }
 }: RootState) => ({
   name,
@@ -30,7 +31,9 @@ const mapStateToProps = ({
   type,
   tokenId,
   address,
-  campaignId
+  campaignId,
+  amount,
+  decimals
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -58,7 +61,10 @@ const SetConnector: FC<ReduxType> = ({
   chooseWallet,
   address,
   type,
-  campaignId
+  campaignId,
+  amount,
+  decimals,
+  
 }) => {
 
   const { connect, connectors } = useConnect()
@@ -75,13 +81,22 @@ const SetConnector: FC<ReduxType> = ({
     })
   }, [])
 
-  return <Container> 
+  const content = type === 'ERC20' ? <ERC20TokenPreview
+    name={name}
+    image={image as string}
+    amount={amount as string}
+    decimals={decimals}
+  /> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
     <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
     <TitleComponent>{name}</TitleComponent>
     <TextComponent>
-      {type === 'ERC20' ? 'Please proceed to receive tokens' : 'Here is a preview of the NFT you’re about to receive'}
+      Here is a preview of the NFT you’re about to receive
     </TextComponent>
+  </>
+
+  return <Container> 
+    {content}
     <ScreenButton onClick={() => {
       plausibleApi.invokeEvent({
         eventName: 'claimpage_click',

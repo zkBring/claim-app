@@ -1,8 +1,22 @@
 import { FC } from 'react'
 import { Image, Title, Subtitle } from './styled-components'
 import ExpiredError from 'images/expired-error.png'
+import { RootState } from 'data/store'
+import { connect } from 'react-redux'
 
-const ErrorComponent: FC = () => {
+const mapStateToProps = ({
+  drop: {
+    type
+  },
+}: RootState) => ({
+  type
+})
+
+type ReduxType = ReturnType<typeof mapStateToProps>
+
+const ErrorComponent: FC<ReduxType> = ({
+  type
+}) => {
   return <>
     <Image src={ExpiredError} />
     <Title>NFT already claimed</Title>
@@ -10,4 +24,4 @@ const ErrorComponent: FC = () => {
   </>
 }
 
-export default ErrorComponent
+export default connect(mapStateToProps)(ErrorComponent)

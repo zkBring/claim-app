@@ -1,37 +1,40 @@
 import { ERC20Contract } from 'abi'
 import { ethers } from 'ethers'
-import tokenSymbol from 'images/erc20-placeholder.png'
-type TTokenERC20Data = { symbol: string, decimals: number, description: string, image: string }
-type TGetTokenERC20Data = (provider: any, tokenAddress: string) => Promise<TTokenERC20Data>
+import tokenSymbol from 'images/erc20-token-placeholder.png'
+import { createAlchemyInstance } from 'helpers'
+import { TTokenERC20Data } from 'types'
 
-const getTokenData: TGetTokenERC20Data = async (provider, tokenAddress) => {
+type TGetTokenERC20Data = (provider: any, tokenAddress: string, chainId: number | null) => Promise<TTokenERC20Data>
+const getTokenData: TGetTokenERC20Data = async (provider, tokenAddress, chainId) => {
   try {
-    const contractInstance = await new ethers.Contract(tokenAddress, ERC20Contract, provider)
-    let symbol = await contractInstance.symbol()
-    let decimals = await contractInstance.decimals()
-    const image = await getImage(tokenAddress)
-    return {
-      symbol,
-      decimals,
-      description: '',
-      image
+    const alchemy = createAlchemyInstance(chainId)
+    if (!alchemy) {
+      throw new Error('No Alchemy instance is created')
     }
+    const tokenData = await alchemy.core.getTokenMetadata(tokenAddress)
+    console.log({ tokenData })
+    return { symbol: tokenData.symbol || 'ERC20 Token', decimals: tokenData.decimals, description: '', image: tokenData.logo || tokenSymbol } 
   } catch (err) {
-    // @ts-ignore
-    console.log({ err })
-    return { symbol: 'ERC20', decimals: 18, description: '', image: tokenSymbol }
-  }
+    try {
+      const contractInstance = await new ethers.Contract(tokenAddress, ERC20Contract, provider)
+      let symbol = await contractInstance.symbol()
+      let decimals = await contractInstance.decimals()
+      const image = await getImage(tokenAddress)
+      return {
+        symbol,
+        decimals,
+        description: '',
+        image
+      }
+    } catch (err) {
+      // @ts-ignore
+      console.log({ err })
+      return { symbol: 'ERC20 Token', decimals: 18, description: '', image: tokenSymbol }
+    }
+  }  
 }
 
 const getImage = async (tokenAddress: string) => {
-  // try {
-  //   const imageUrl = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${tokenAddress}/logo.png`
-  //   const checkImage = await fetch(imageUrl)
-  //   if (checkImage.status === 404) { throw new Error() }
-  //   return imageUrl
-  // } catch (err) {
-  //   return tokenSymbol
-  // }
   return tokenSymbol
 }
 

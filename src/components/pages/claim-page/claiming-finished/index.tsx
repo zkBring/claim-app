@@ -9,10 +9,14 @@ import {
   TokenImageContainer,
   DoneIcon,
   Container,
-  Description
+  Subtitle,
+  DoneIconERC20
 } from './styled-components'
 import { defineExplorerURL, defineOpenseaURL } from 'helpers'
 import { plausibleApi } from 'data/api'
+import { ERC20TokenPreview } from 'components/pages/common'
+import { TDropType } from 'types'
+import ClaimingFinishedERC20 from 'images/claiming-finished-erc20.png'
 
 const mapStateToProps = ({
   drop: {
@@ -20,14 +24,17 @@ const mapStateToProps = ({
     chainId,
     tokenId,
     tokenAddress,
-    campaignId
+    campaignId,
+    type,
+    amount
   },
   user: {
     address
   },
   token: {
     image,
-    name
+    name,
+    decimals
   }
 }: RootState) => ({
   image,
@@ -36,8 +43,11 @@ const mapStateToProps = ({
   chainId,
   hash,
   tokenId,
+  type,
   tokenAddress,
-  campaignId
+  campaignId,
+  amount,
+  decimals
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
@@ -46,8 +56,12 @@ const renderWatchTokenButton = (
   tokenId: string | null,
   tokenAddress: string | null,
   chainId: number | null,
-  campaignId: string
+  campaignId: string,
+  type: TDropType
 ) => {
+  if (type === 'ERC20') {
+    return null
+  }
   if (!tokenId || !tokenAddress || !chainId) { return null }
   const watchTokenUrl = defineOpenseaURL(
     chainId,
@@ -77,7 +91,10 @@ const ClaimingFinished: FC<ReduxType> = ({
   chainId,
   tokenId,
   tokenAddress,
-  campaignId
+  campaignId,
+  type,
+  amount,
+  decimals
 }) => {
 
   useEffect(() => {
@@ -88,7 +105,6 @@ const ClaimingFinished: FC<ReduxType> = ({
       }
     })
   }, [])
-  const title = <TitleComponent>Successfully claimed</TitleComponent>
   const explorerUrl = chainId && hash ? <ScreenButton
     onClick={() => {
       plausibleApi.invokeEvent({
@@ -106,9 +122,17 @@ const ClaimingFinished: FC<ReduxType> = ({
     tokenId,
     tokenAddress,
     chainId,
-    campaignId as string
+    campaignId as string,
+    type as TDropType
   )
-  return <Container>
+
+  const content = type === 'ERC20' ? <ERC20TokenPreview
+    name={name}
+    image={image as string}
+    amount={amount as string}
+    decimals={decimals}
+    status='finished'
+  /> : <>
     {image && <TokenImageContainer>
       <DoneIcon />
       <TokenImageLarge
@@ -116,10 +140,17 @@ const ClaimingFinished: FC<ReduxType> = ({
         alt={name}
       />
     </TokenImageContainer>}
-    {title}
-    <Description>
-      Your NFT will appear in your account in a few minutes
-    </Description>
+  </>
+
+  return <Container>
+    {content}
+    <TitleComponent>
+      {type === 'ERC20' && <DoneIconERC20 src={ClaimingFinishedERC20} />}
+        Successfully claimed
+      </TitleComponent>
+    <Subtitle>
+      Your {type === 'ERC20' ? 'tokens' : 'NFT'} will appear in your account in a few minutes
+    </Subtitle>
     <ButtonsContainer>
       {openseaButton}
       {explorerUrl}
