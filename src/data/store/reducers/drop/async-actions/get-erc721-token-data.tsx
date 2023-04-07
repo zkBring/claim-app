@@ -16,7 +16,6 @@ const getTokenData: TGetTokenERC721Data = async (provider, tokenAddress, tokenId
     const tokenData = await alchemy.nft.getNftMetadata(tokenAddress, tokenId)
     const image = await getAlchemyTokenImage(tokenData)
     return { name: tokenData.title || 'ERC721 Token', image, description: tokenData.description }
-    
   } catch (err) {
     try {
       const contractInstance = await new ethers.Contract(tokenAddress, ERC721Contract, provider)
