@@ -15,7 +15,6 @@ const getTokenData: TGetTokenERC1155Data = async (provider, tokenAddress, tokenI
     }
     const tokenData = await alchemy.nft.getNftMetadata(tokenAddress, tokenId)
     const image = await getAlchemyTokenImage(tokenData)
-    console.log({ image })
     return { name: tokenData.title || 'ERC1155 Token', image, description: tokenData.description }
   } catch (err) {
     try {
