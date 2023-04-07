@@ -86,6 +86,7 @@ const SetConnector: FC<ReduxType> = ({
     image={image as string}
     amount={amount as string}
     decimals={decimals}
+    status='initial'
   /> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
     <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
