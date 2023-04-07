@@ -20,18 +20,19 @@ import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { ScreenLoader } from './components'
+import { TDropType } from 'types'
 
 const { REACT_APP_WC_PROJECT_ID } = process.env
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<UserActions> & IAppDispatch) => {
   return {
-      updateUserData: (
-        address: string,
-        chainId: number
-      ) => dispatch(userAsyncActions.updateUserData(
-        address,
-        chainId
-      ))
+    updateUserData: (
+      address: string,
+      chainId: number
+    ) => dispatch(userAsyncActions.updateUserData(
+      address,
+      chainId
+    ))
   }
 }
 
@@ -95,19 +96,22 @@ const defineButton = (
   </ScreenButton>
 }
 
-const renderTexts = () => {
+const renderTexts = (
+  type: TDropType
+) => {
   return <>
     <WalletIcon src={ZerionLogo} /> 
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>
-      Claim NFT using your Zerion Wallet. <Link target="_blank" href={defineUrlHref()}>Download the app</Link> or use another wallet.
+      Claim {type === 'ERC20' ? 'tokens' : 'NFT'} using your Zerion Wallet. <Link target="_blank" href={defineUrlHref()}>Download the app</Link> or use another wallet.
     </TextComponent>
   </>
 }
 
 const ChooseWallet: FC<ReduxType> = ({
   updateUserData,
-  chainId
+  chainId,
+  type
 }) => {
   const [ client, setClient ] = useState<AuthClient | null>()
   const [ loading, setLoading ] = useState<boolean>(false)
@@ -140,13 +144,13 @@ const ChooseWallet: FC<ReduxType> = ({
     }}/>
   }
   return <Container> 
-    {renderTexts()}
+    {renderTexts(type as TDropType)}
     {defineButton(
       setClient,
       updateUserData
     )}
     <Hr />
-    <AdditionalTextComponent>Once you approve the connection with your wallet, return to this page to claim the NFT.</AdditionalTextComponent>
+    <AdditionalTextComponent>Once you approve the connection with your wallet, return to this page to claim {type === 'ERC20' ? 'tokens' : 'the NFT'}.</AdditionalTextComponent>
   </Container>
 }
 
