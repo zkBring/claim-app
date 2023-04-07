@@ -52,14 +52,14 @@ export default function getData(
       } = getState()
 
       if (type === 'ERC1155' && linkTokenAddress && tokenId) {
-        const { name, image, description } = await getERC1155Data(provider, linkTokenAddress, tokenId)
+        const { name, image, description } = await getERC1155Data(provider, linkTokenAddress, tokenId, linkChainId)
         dispatch(actionsToken.setDescription(description))
         dispatch(actionsToken.setImage(image))
         dispatch(actionsToken.setName(name))
       }
 
       if (type === 'ERC721' && linkTokenAddress && tokenId) {
-        const { name, image, description } = await getERC721Data(provider, linkTokenAddress, tokenId)
+        const { name, image, description } = await getERC721Data(provider, linkTokenAddress, tokenId, linkChainId)
         dispatch(actionsDrop.setTokenId(tokenId))
         dispatch(actionsToken.setDescription(description))
         dispatch(actionsToken.setImage(image))
@@ -67,7 +67,7 @@ export default function getData(
       }
 
       if (type === 'ERC20' && linkTokenAddress) {
-        const { symbol, decimals, image } = await getERC20Data(provider, linkTokenAddress)
+        const { symbol, decimals, image } = await getERC20Data(provider, linkTokenAddress, linkChainId)
         dispatch(actionsToken.setName(symbol))
         dispatch(actionsToken.setImage(image))
         dispatch(actionsToken.setDecimals(decimals))

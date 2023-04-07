@@ -13,8 +13,12 @@ import {
   TokenImageContainer,
   DoneIcon,
   Subtitle,
+  DoneIconERC20
 } from './styled-components'
 import { plausibleApi } from 'data/api'
+import { ERC20TokenPreview } from 'components/pages/common'
+import { TDropType } from 'types'
+import AlreadyClaimedERC20 from 'images/already-claimed-erc20.png'
 
 const mapStateToProps = ({
   drop: {
@@ -22,14 +26,17 @@ const mapStateToProps = ({
     chainId,
     tokenId,
     tokenAddress,
-    campaignId
+    campaignId,
+    type,
+    amount
   },
   user: {
     address
   },
   token: {
     image,
-    name
+    name,
+    decimals
   }
 }: RootState) => ({
   image,
@@ -39,7 +46,10 @@ const mapStateToProps = ({
   address,
   tokenId,
   tokenAddress,
-  campaignId
+  campaignId,
+  type,
+  decimals,
+  amount
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
@@ -48,8 +58,12 @@ const renderWatchTokenButton = (
   tokenId: string | null,
   tokenAddress: string | null,
   chainId: number | null,
-  campaignId: string
+  campaignId: string,
+  type: TDropType
 ) => {
+  if (type === 'ERC20') {
+    return null
+  }
   if (!tokenId || !tokenAddress || !chainId) { return null }
   const watchTokenUrl = defineOpenseaURL(
     chainId,
@@ -79,8 +93,12 @@ const AlreadyClaimed: FC<ReduxType> = ({
   hash,
   tokenId,
   tokenAddress,
-  campaignId
+  campaignId,
+  type,
+  amount,
+  decimals
 }) => {
+
   const explorerUrl = chainId && hash ? <ScreenButton
     onClick={() => {
       plausibleApi.invokeEvent({
@@ -94,13 +112,21 @@ const AlreadyClaimed: FC<ReduxType> = ({
     title='View in Explorer'
     appearance='inverted'
   /> : null
+
   const openseaButton = renderWatchTokenButton(
     tokenId,
     tokenAddress,
     chainId,
-    campaignId as string
+    campaignId as string,
+    type as TDropType
   )
-  return <>
+
+  const content = type === 'ERC20' ? <ERC20TokenPreview
+    name={name}
+    image={image as string}
+    amount={amount as string}
+    decimals={decimals}
+  /> : <>
     {image && <TokenImageContainer>
       <DoneIcon />
       <TokenImageLarge
@@ -108,8 +134,15 @@ const AlreadyClaimed: FC<ReduxType> = ({
         alt={name}
       />
     </TokenImageContainer>}
-    <TitleComponent>Already claimed</TitleComponent>
-    <Subtitle>Somebody has already claimed this link. In case it was you, find NFT in your wallet</Subtitle>
+  </>
+
+  return <>
+    {content}
+    <TitleComponent>
+      {type === 'ERC20' && <DoneIconERC20 src={AlreadyClaimedERC20} />}
+      Already claimed
+    </TitleComponent>
+    <Subtitle>Somebody has already claimed this link. In case it was you, find {type === 'ERC20' ? 'tokens' : 'NFT'} in your wallet</Subtitle>
     <ButtonsContainer>
       {openseaButton}
       {explorerUrl}

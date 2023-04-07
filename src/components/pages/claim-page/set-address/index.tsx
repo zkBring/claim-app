@@ -18,6 +18,7 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import NetworksImage from 'images/networks.png'
 import { resolveENS, throttling, defineJSONRpcUrl, shortenString } from 'helpers'
+import {  ERC20TokenPreview } from 'components/pages/common'
 import { ethers } from 'ethers'
 
 const { REACT_APP_INFURA_ID = '' } = process.env
@@ -26,9 +27,9 @@ const jsonRpcUrl = defineJSONRpcUrl({ chainId: 1, infuraPk: REACT_APP_INFURA_ID 
 const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
 
 const mapStateToProps = ({
-  token: { name, image },
+  token: { name, image, decimals },
   user: { address, provider },
-  drop: { tokenId, amount, type, isManual, loading }
+  drop: { tokenId, amount, type, isManual, loading,  }
 }: RootState) => ({
   name,
   image,
@@ -38,7 +39,8 @@ const mapStateToProps = ({
   amount,
   provider,
   isManual,
-  loading
+  loading,
+  decimals
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -67,7 +69,8 @@ const SetAddress: FC<ReduxType> = ({
   claimERC721,
   claimERC20,
   isManual,
-  loading
+  loading,
+  decimals
 }) => {
 
   const [ currentAddress, setCurrentAddress ] = useState<string>('')
@@ -101,10 +104,20 @@ const SetAddress: FC<ReduxType> = ({
     
   }, [currentAddress])
 
-  return <Container> 
+  const content = type === 'ERC20' ? <ERC20TokenPreview
+    name={name}
+    image={image as string}
+    amount={amount as string}
+    decimals={decimals}
+    status='initial'
+  /> : <>
     <Title>{name}</Title>
     {tokenId && <Subtitle>#{shortenString(tokenId)}</Subtitle>}
     {image && <TokenImageContainer src={image} alt={name} />}
+  </>
+
+  return <Container> 
+    {content}
     {!isManual && <NoteStyled type='default' text="Preview of the NFT you're about to receive. All fees will be handled by Sponsor" />}
     <Instructions>
       <Networks src={NetworksImage} />

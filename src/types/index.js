@@ -18,8 +18,10 @@ import IMetamaskError from './metamask-error'
 import { TLinkParams } from './link-params'
 import TWalletName from './wallet-name'
 import { TWalletOption } from './wallet-option'
+import TTokenERC20Data from './token-erc20-data'
 
 export {
+  TTokenERC20Data,
   TMerkleTree,
   TWalletName,
   TDropStep,

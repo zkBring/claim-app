@@ -11,7 +11,6 @@ import {
   PoweredByImage
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
-import { connect } from 'react-redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
@@ -21,9 +20,11 @@ import { TDropStep, TDropType } from 'types'
 import { shortenString } from 'helpers'
 import LinkdropLogo from 'images/linkdrop-header.png'
 import { plausibleApi } from 'data/api'
+import { ERC20TokenPreview } from 'components/pages/common'
+import { connect } from 'react-redux'
 
 const mapStateToProps = ({
-  token: { name, image },
+  token: { name, image, decimals },
   user: { address, chainId: userChainId },
   drop: { tokenId, amount, type, isManual, loading, chainId, campaignId }
 }: RootState) => ({
@@ -37,7 +38,8 @@ const mapStateToProps = ({
   address,
   userChainId,
   chainId,
-  campaignId
+  campaignId,
+  decimals
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -88,7 +90,8 @@ const InitialScreen: FC<ReduxType> = ({
   chainId,
   userChainId,
   setStep,
-  campaignId
+  campaignId,
+  decimals
 }) => {
 
   useEffect(() => {
@@ -136,13 +139,28 @@ const InitialScreen: FC<ReduxType> = ({
     />
   }
 
-  return <Container> 
+  const content = type === 'ERC20' ? <>
+    <ERC20TokenPreview
+      name={name}
+      image={image as string}
+      amount={amount as string}
+      decimals={decimals}
+      status='initial'
+    />
+    <TextComponent>
+      Please proceed to receive tokens to address: <UserAddress>{shortenString(address, 3)}</UserAddress>
+    </TextComponent>
+  </> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
     <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
     <TitleComponent>{name}</TitleComponent>
     <TextComponent>
       Here is a preview of the NFT you’re about to receive to address: <UserAddress>{shortenString(address, 3)}</UserAddress>
     </TextComponent>
+  </>
+
+  return <Container> 
+    {content}
     {defineButton()}
     <PoweredBy href='https://linkdrop.io' target='_blank'>
       Powered by
