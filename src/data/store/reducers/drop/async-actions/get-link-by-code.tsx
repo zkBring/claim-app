@@ -34,15 +34,15 @@ export default function getLinkByCode(
         campaign_number,
         token_address,
         token_standard,
-        symbol,
-        claim_pattern,
         token_id,
         token_amount,
         sender_signature,
-        proxy_contract_version,
         wei_amount,
         expiration_time,
-        wallet
+        wallet,
+        claiming_finished_description,
+        claiming_finished_button_title, 
+        claiming_finished_button_url
       } : TLinkParams = data
 
       dispatch(actionsDrop.setChainId(Number(chain_id)))
@@ -62,6 +62,13 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setClaimCode(linkCode))
       dispatch(actionsDrop.setLinkId(linkId))
       dispatch(actionsDrop.setLinkKey(linkKey))
+      if (claiming_finished_button_title && claiming_finished_button_url) {
+        dispatch(actionsDrop.setClaimingFinishedButtonTitle(claiming_finished_button_title))
+        dispatch(actionsDrop.setClaimingFinishedButtonURL(claiming_finished_button_url))
+      }
+      if (claiming_finished_description) {
+        dispatch(actionsDrop.setClaimingFinishedDescription(claiming_finished_description))
+      }
       callback && callback(linkCode)
   } 
 }}

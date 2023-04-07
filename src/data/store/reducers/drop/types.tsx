@@ -26,7 +26,10 @@ export interface DropState {
   theme: TTheme
   addressIsManuallySet: boolean,
   claimCode: string | null,
-  linkId: string | null
+  linkId: string | null,
+  claiming_finished_description: string,
+  claiming_finished_button_title: string,
+  claiming_finished_button_url: string
 }
 
 

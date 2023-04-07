@@ -39,6 +39,7 @@ import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
 import DownloadAwait from './download-await'
 import Icons from 'icons'
+import applicationOptions from 'configs/application'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -159,7 +160,7 @@ const defineHeader = (step: TDropStep, action: (prevoiusStep: TDropStep) => void
     {backAction && <LinkdropHeaderBack onClick={() => backAction()}>
       <Icons.ArrowLeftIcon />
     </LinkdropHeaderBack>}
-    <LinkdropHeaderLogo src={LinkdropLogo} alt="Linkdrop Logo" />
+    <LinkdropHeaderLogo src={applicationOptions.logo} alt="Application Logo" />
   </LinkdropHeader>
 }
 

@@ -25,7 +25,10 @@ const initialState: DropState = {
   theme: 'dark',
   addressIsManuallySet: false,
   claimCode: null,
-  linkId: null
+  linkId: null,
+  claiming_finished_description: '',
+  claiming_finished_button_title: '',
+  claiming_finished_button_url: ''
 }
 
 export function dropReducer(
@@ -73,9 +76,14 @@ export function dropReducer(
           return {...state, error: action.payload.error }
         case Constants.DROP_SET_ADDRESS_MANUALLY_SET:
           return {...state, addressIsManuallySet: action.payload.addressIsManuallySet }
-
         case Constants.DROP_SET_LINK_ID:
           return {...state, linkId: action.payload.linkId }
+        case Constants.DROP_SET_CLAIMING_FINISHED_DESCRIPTION:
+          return {...state, claiming_finished_description: action.payload.claiming_finished_description }
+        case Constants.DROP_SET_CLAIMING_FINISHED_BUTTON_TITLE:
+          return {...state, claiming_finished_button_title: action.payload.claiming_finished_button_title }
+        case Constants.DROP_SET_CLAIMING_FINISHED_BUTTON_URL:
+          return {...state, claiming_finished_button_url: action.payload.claiming_finished_button_url }
 
         case Constants.DROP_SET_CLAIM_CODE:
           return {...state, claimCode: action.payload.claimCode }
