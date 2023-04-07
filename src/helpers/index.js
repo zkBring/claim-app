@@ -24,9 +24,13 @@ import constructLink from './construct-link'
 import defineOpenseaURL from './define-opensea-url'
 import getWalletDeeplink from './get-wallet-deeplink'
 import sortWallets from './sort-wallets'
+import defineAlchemyNetwork from './define-alchemy-network'
+import createAlchemyInstance from './create-alchemy-instance'
 
 export {
   sortWallets,
+  createAlchemyInstance,
+  defineAlchemyNetwork,
   shortenString,
   constructLink,
   defineOpenseaURL,

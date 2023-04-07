@@ -9,77 +9,53 @@ import {
   TokenImageContainer,
   DoneIcon,
   Container,
-  Description
+  Subtitle,
+  DoneIconERC20
 } from './styled-components'
-import { defineExplorerURL, defineOpenseaURL } from 'helpers'
+import { defineExplorerURL } from 'helpers'
 import { plausibleApi } from 'data/api'
+import { ERC20TokenPreview, ClaimingFinishedButton } from 'components/pages/common'
+import ClaimingFinishedERC20 from 'images/claiming-finished-erc20.png'
 
 const mapStateToProps = ({
   drop: {
     hash,
     chainId,
-    tokenId,
-    tokenAddress,
-    campaignId
-  },
-  user: {
-    address
+    campaignId,
+    type,
+    amount,
+    claiming_finished_description
   },
   token: {
     image,
-    name
+    name,
+    decimals
   }
 }: RootState) => ({
   image,
-  address,
   name,
   chainId,
   hash,
-  tokenId,
-  tokenAddress,
-  campaignId
+  type,
+  campaignId,
+  amount,
+  decimals,
+  claiming_finished_description
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
-
-const renderWatchTokenButton = (
-  tokenId: string | null,
-  tokenAddress: string | null,
-  chainId: number | null,
-  campaignId: string
-) => {
-  if (!tokenId || !tokenAddress || !chainId) { return null }
-  const watchTokenUrl = defineOpenseaURL(
-    chainId,
-    tokenAddress,
-    tokenId
-  )
-  return <ScreenButton
-    onClick={() => {
-      plausibleApi.invokeEvent({
-        eventName: 'click_redirect_button',
-        data: {
-          campaignId: campaignId,
-        }
-      })
-      window.open(watchTokenUrl, '_blank')
-    }}
-    target="_blank"
-  >
-    View on OpenSea
-  </ScreenButton>
-}
 
 const ClaimingFinished: FC<ReduxType> = ({
   image,
   name,
   hash,
   chainId,
-  tokenId,
-  tokenAddress,
-  campaignId
+  campaignId,
+  type,
+  amount,
+  decimals,
+  claiming_finished_description
 }) => {
-
   useEffect(() => {
     plausibleApi.invokeEvent({
       eventName: 'claim_finished',
@@ -88,7 +64,6 @@ const ClaimingFinished: FC<ReduxType> = ({
       }
     })
   }, [])
-  const title = <TitleComponent>Successfully claimed</TitleComponent>
   const explorerUrl = chainId && hash ? <ScreenButton
     onClick={() => {
       plausibleApi.invokeEvent({
@@ -102,13 +77,14 @@ const ClaimingFinished: FC<ReduxType> = ({
     title='View in Explorer'
     appearance='inverted'
   /> : null
-  const openseaButton = renderWatchTokenButton(
-    tokenId,
-    tokenAddress,
-    chainId,
-    campaignId as string
-  )
-  return <Container>
+
+  const content = type === 'ERC20' ? <ERC20TokenPreview
+    name={name}
+    image={image as string}
+    amount={amount as string}
+    decimals={decimals}
+    status='finished'
+  /> : <>
     {image && <TokenImageContainer>
       <DoneIcon />
       <TokenImageLarge
@@ -116,12 +92,19 @@ const ClaimingFinished: FC<ReduxType> = ({
         alt={name}
       />
     </TokenImageContainer>}
-    {title}
-    <Description>
-      Your NFT will appear in your account in a few minutes
-    </Description>
+  </>
+
+  return <Container>
+    {content}
+    <TitleComponent>
+      {type === 'ERC20' && <DoneIconERC20 src={ClaimingFinishedERC20} />}
+        Successfully claimed
+      </TitleComponent>
+    <Subtitle>
+      {claiming_finished_description || `Your ${type === 'ERC20' ? 'tokens' : 'NFT'} will appear in your account in a few minutes`}
+    </Subtitle>
     <ButtonsContainer>
-      {openseaButton}
+      <ClaimingFinishedButton />
       {explorerUrl}
     </ButtonsContainer>
   </Container>

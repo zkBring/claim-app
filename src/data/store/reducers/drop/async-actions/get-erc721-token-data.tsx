@@ -4,30 +4,37 @@ import { ethers } from 'ethers'
 import { IPFSRedefineUrl } from 'helpers'
 import tokenPlaceholder from 'images/token-placeholder.png'
 import { getValidImage } from 'helpers'
+import { createAlchemyInstance } from 'helpers'
 
 type TTokenERC721Data = { name: string, image: string, description: string }
-type TGetTokenERC721Data = (provider: any, tokenAddress: string, tokenId: string) => Promise<TTokenERC721Data>
+type TGetTokenERC721Data = (provider: any, tokenAddress: string, tokenId: string, chainId: number | null) => Promise<TTokenERC721Data>
 
-const getTokenData: TGetTokenERC721Data = async (provider, tokenAddress, tokenId ) => {
+const getTokenData: TGetTokenERC721Data = async (provider, tokenAddress, tokenId, chainId) => {
   try {
-    const contractInstance = await new ethers.Contract(tokenAddress, ERC721Contract, provider)
-    let actualUrl = await contractInstance.tokenURI(tokenId)
-    actualUrl = IPFSRedefineUrl(actualUrl, tokenId)
-    const tokenData = await getERC721TokenData(actualUrl)
-    const image = await getValidImage(tokenData.data.animation_url || tokenData.data.image)
-    console.log({
-      ...tokenData.data,
-      image
-    })
-    return {
-      ...tokenData.data,
-      image
+    const alchemy = createAlchemyInstance(chainId)
+    if (!alchemy) {
+      throw new Error('No Alchemy instance is created')
     }
-  } catch (e) {
-    // @ts-ignore
-    // alert(Object.values(e).join(', '))
-    console.log({ e })
-    return { name: 'ERC721', image: tokenPlaceholder, description: '' }
+    const tokenData = await alchemy.nft.getNftMetadata(tokenAddress, tokenId)
+    const image = tokenData.media && tokenData.media[0] && tokenData.media[0].raw && await getValidImage(tokenData.media[0].raw)
+    return { name: tokenData.title || 'ERC721 Token', image: image || tokenPlaceholder, description: tokenData.description }
+  } catch (err) {
+    try {
+      const contractInstance = await new ethers.Contract(tokenAddress, ERC721Contract, provider)
+      let actualUrl = await contractInstance.tokenURI(tokenId)
+      actualUrl = IPFSRedefineUrl(actualUrl, tokenId)
+      const tokenData = await getERC721TokenData(actualUrl)
+      const image = await getValidImage(tokenData.data.animation_url || tokenData.data.image)
+      return {
+        ...tokenData.data,
+        image
+      }
+    } catch (e) {
+      // @ts-ignore
+      // alert(Object.values(e).join(', '))
+      console.log({ e })
+      return { name: 'ERC721 Token', image: tokenPlaceholder, description: '' }
+    }
   }
 }
 

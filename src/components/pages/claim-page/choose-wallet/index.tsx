@@ -36,7 +36,8 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 
 const ChooseWallet: FC<ReduxType> = ({
   chooseWallet,
-  campaignId
+  campaignId,
+  type
 }) => {
   const system = defineSystem()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
@@ -44,7 +45,7 @@ const ChooseWallet: FC<ReduxType> = ({
     <WalletIcon src={WalletsImg} />
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>
-      To claim an NFT, you will need to have a non-custodial crypto-wallet set up and ready to use
+      To claim {type === 'ERC20' ? 'tokens' : 'an NFT'} you will need to have a non-custodial crypto-wallet set up and ready to use
     </TextComponent>
     <ScreenButton onClick={async () => {
       plausibleApi.invokeEvent({

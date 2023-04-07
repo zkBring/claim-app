@@ -1,4 +1,5 @@
 import LinkdropLogo from 'images/linkdrop-header.png'
+
 type TApplicationParams = {
   highlightColor: string
   primaryTextColor: string

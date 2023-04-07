@@ -81,7 +81,6 @@ export function setAddressIsManuallySet (addressIsManuallySet: boolean) {
 export function setTheme (theme: TTheme) {
   return action(
     Constants.DROP_SET_THEME,
-    // payload
     {
       theme
     }
@@ -91,7 +90,6 @@ export function setTheme (theme: TTheme) {
 export function setError (error: TDropError | null) {
   return action(
     Constants.DROP_SET_ERROR,
-    // payload
     {
       error
     }
@@ -101,7 +99,6 @@ export function setError (error: TDropError | null) {
 export function setClaimCode (claimCode: string) {
   return action(
     Constants.DROP_SET_CLAIM_CODE,
-    // payload
     {
       claimCode
     }
@@ -111,9 +108,35 @@ export function setClaimCode (claimCode: string) {
 export function setLinkId (linkId: string) {
   return action(
     Constants.DROP_SET_LINK_ID,
-    // payload
     {
       linkId
+    }
+  )
+}
+
+export function setClaimingFinishedDescription (claiming_finished_description: string) {
+  return action(
+    Constants.DROP_SET_CLAIMING_FINISHED_DESCRIPTION,
+    {
+      claiming_finished_description
+    }
+  )
+}
+
+export function setClaimingFinishedButtonTitle (claiming_finished_button_title: string) {
+  return action(
+    Constants.DROP_SET_CLAIMING_FINISHED_BUTTON_TITLE,
+    {
+      claiming_finished_button_title
+    }
+  )
+}
+
+export function setClaimingFinishedButtonURL (claiming_finished_button_url: string) {
+  return action(
+    Constants.DROP_SET_CLAIMING_FINISHED_BUTTON_URL,
+    {
+      claiming_finished_button_url
     }
   )
 }

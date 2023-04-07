@@ -36,13 +36,14 @@ type ReduxType = ReturnType<typeof mapStateToProps>
 const ChangeNetwork: FC<ReduxType> = ({
   chainId,
   userProvider,
-  campaignId
+  campaignId,
+  type
 }) => {
   const networkName = defineRealNetworkName(chainId)
   return <Container>
     <Image src={Wrongetwork} alt='Wrong network' />
     <TitleComponent>Wrong network</TitleComponent>
-    <Subtitle>To claim an NFT you need to switch your wallet to {networkName} network</Subtitle>
+    <Subtitle>To claim {type === 'ERC20' ? 'tokens' : 'an NFT'} you need to switch your wallet to {networkName} network</Subtitle>
     <ScreenButton onClick={async () => {
       if (chainId) {
         switchNetwork(userProvider, chainId, campaignId as string, () => {})

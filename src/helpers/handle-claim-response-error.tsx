@@ -32,7 +32,7 @@ const handleError = (
     }
     
   } else {
-    if(error.statusCode === 0) {
+    if(!window.navigator.onLine) {
       plausibleApi.invokeEvent({
         eventName: 'error',
         data: {

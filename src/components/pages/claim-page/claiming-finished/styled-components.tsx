@@ -3,16 +3,25 @@ import { Button, TokenImage, Title, Text } from 'components/common'
 import Icons from 'icons'
 
 export const TitleComponent = styled(Title)`
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
-export const Description = styled(Text)`
+export const Subtitle = styled.h3`
+  font-size: 16px;
+  line-height: 23px;
   margin: 0 0 30px;
+  text-align: center;
+  color: ${props => props.theme.additionalTextColor};
+  font-weight: 500;
 `
 
 export const Container = styled.div`
   text-align: center;
+  width: 100%;
 `
 
 export const ButtonsContainer = styled.div`
@@ -58,4 +67,9 @@ export const DoneIcon = styled(Icons.DoneIcon)`
 
 export const UserAddress = styled.span`
   color: ${props => props.theme.linkColor};
+`
+
+export const DoneIconERC20 = styled.img`
+  max-width: 24px;
+  margin-right: 8px;
 `

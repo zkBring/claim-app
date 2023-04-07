@@ -3,14 +3,17 @@ import { Button, TokenImage, Title } from 'components/common'
 import Icons from 'icons'
 
 export const TitleComponent = styled(Title)`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export const Subtitle = styled.h3`
-  font-size: 14px;
+  font-size: 16px;
   line-height: 23px;
-  margin: 0 0 40px;
+  margin: 0 0 30px;
   text-align: center;
   color: ${props => props.theme.additionalTextColor};
   font-weight: 500;
@@ -50,4 +53,9 @@ export const DoneIcon = styled(Icons.OrangeExclamationIcon)`
   top: 0px;
   right: 0px;
   background: ${props => props.theme.blankColor};
+`
+
+export const DoneIconERC20 = styled.img`
+  max-width: 24px;
+  margin-right: 8px;
 `

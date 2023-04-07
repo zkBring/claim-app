@@ -3,7 +3,6 @@ import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import {
   defineExplorerURL,
-  defineOpenseaURL
 } from 'helpers'
 import { 
   TitleComponent,
@@ -13,74 +12,52 @@ import {
   TokenImageContainer,
   DoneIcon,
   Subtitle,
+  DoneIconERC20
 } from './styled-components'
 import { plausibleApi } from 'data/api'
+import { ERC20TokenPreview, ClaimingFinishedButton } from 'components/pages/common'
+import AlreadyClaimedERC20 from 'images/already-claimed-erc20.png'
 
 const mapStateToProps = ({
   drop: {
     hash,
     chainId,
-    tokenId,
-    tokenAddress,
-    campaignId
-  },
-  user: {
-    address
+    campaignId,
+    type,
+    amount,
+    claiming_finished_description
   },
   token: {
     image,
-    name
+    name,
+    decimals
   }
 }: RootState) => ({
   image,
   name,
   chainId,
   hash,
-  address,
-  tokenId,
-  tokenAddress,
-  campaignId
+  campaignId,
+  type,
+  decimals,
+  amount,
+  claiming_finished_description
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
-
-const renderWatchTokenButton = (
-  tokenId: string | null,
-  tokenAddress: string | null,
-  chainId: number | null,
-  campaignId: string
-) => {
-  if (!tokenId || !tokenAddress || !chainId) { return null }
-  const watchTokenUrl = defineOpenseaURL(
-    chainId,
-    tokenAddress,
-    tokenId
-  )
-  return <ScreenButton
-  onClick={() => {
-    plausibleApi.invokeEvent({
-      eventName: 'click_redirect_button',
-      data: {
-        campaignId: campaignId,
-      }
-    })
-    window.open(watchTokenUrl, '_blank')
-  }}
-    target="_blank"
-  >
-    View on OpenSea
-  </ScreenButton>
-}
 
 const AlreadyClaimed: FC<ReduxType> = ({
   image,
   name,
   chainId,
   hash,
-  tokenId,
-  tokenAddress,
-  campaignId
+  campaignId,
+  type,
+  amount,
+  decimals,
+  claiming_finished_description
 }) => {
+
   const explorerUrl = chainId && hash ? <ScreenButton
     onClick={() => {
       plausibleApi.invokeEvent({
@@ -94,13 +71,13 @@ const AlreadyClaimed: FC<ReduxType> = ({
     title='View in Explorer'
     appearance='inverted'
   /> : null
-  const openseaButton = renderWatchTokenButton(
-    tokenId,
-    tokenAddress,
-    chainId,
-    campaignId as string
-  )
-  return <>
+
+  const content = type === 'ERC20' ? <ERC20TokenPreview
+    name={name}
+    image={image as string}
+    amount={amount as string}
+    decimals={decimals}
+  /> : <>
     {image && <TokenImageContainer>
       <DoneIcon />
       <TokenImageLarge
@@ -108,10 +85,20 @@ const AlreadyClaimed: FC<ReduxType> = ({
         alt={name}
       />
     </TokenImageContainer>}
-    <TitleComponent>Already claimed</TitleComponent>
-    <Subtitle>Somebody has already claimed this link. In case it was you, find NFT in your wallet</Subtitle>
+  </>
+
+  return <>
+    {content}
+    <TitleComponent>
+      {type === 'ERC20' && <DoneIconERC20 src={AlreadyClaimedERC20} />}
+      Already claimed
+    </TitleComponent>
+    <Subtitle>
+      {claiming_finished_description || `Somebody has already claimed this link. In case it was you, find ${type === 'ERC20' ? 'tokens' : 'NFT'} in your wallet`}
+     
+    </Subtitle>
     <ButtonsContainer>
-      {openseaButton}
+      <ClaimingFinishedButton />
       {explorerUrl}
     </ButtonsContainer>
   </>
