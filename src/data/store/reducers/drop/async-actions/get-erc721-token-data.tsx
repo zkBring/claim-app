@@ -1,10 +1,8 @@
 import { ERC721Contract } from 'abi'
 import { getERC721TokenData } from 'data/api'
 import { ethers } from 'ethers'
-import { IPFSRedefineUrl } from 'helpers'
 import tokenPlaceholder from 'images/token-placeholder.png'
-import { getValidImage } from 'helpers'
-import { createAlchemyInstance } from 'helpers'
+import { getValidImage, getAlchemyTokenImage, createAlchemyInstance, IPFSRedefineUrl } from 'helpers'
 
 type TTokenERC721Data = { name: string, image: string, description: string }
 type TGetTokenERC721Data = (provider: any, tokenAddress: string, tokenId: string, chainId: number | null) => Promise<TTokenERC721Data>
@@ -16,8 +14,8 @@ const getTokenData: TGetTokenERC721Data = async (provider, tokenAddress, tokenId
       throw new Error('No Alchemy instance is created')
     }
     const tokenData = await alchemy.nft.getNftMetadata(tokenAddress, tokenId)
-    const image = tokenData.media && tokenData.media[0] && tokenData.media[0].raw && await getValidImage(tokenData.media[0].raw)
-    return { name: tokenData.title || 'ERC721 Token', image: image || tokenPlaceholder, description: tokenData.description }
+    const image = await getAlchemyTokenImage(tokenData)
+    return { name: tokenData.title || 'ERC721 Token', image, description: tokenData.description }
   } catch (err) {
     try {
       const contractInstance = await new ethers.Contract(tokenAddress, ERC721Contract, provider)
