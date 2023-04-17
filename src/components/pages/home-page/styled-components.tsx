@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { Input, Button } from 'components/common'
+import { Button } from 'components/common'
+import { Input } from 'linkdrop-ui'
 
 export const Container = styled.div`
   max-width: 342px;

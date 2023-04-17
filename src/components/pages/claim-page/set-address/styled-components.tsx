@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { Button, Text, TokenImage, Note, Input } from 'components/common'
+import { Button, Text, TokenImage, Note } from 'components/common'
 import Icons from 'icons'
+import { Input } from 'linkdrop-ui'
 
 type TScreenButton = {
   title: string,

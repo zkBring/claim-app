@@ -47,15 +47,18 @@ const ChooseWallet: FC<ReduxType> = ({
     <TextComponent>
       To claim {type === 'ERC20' ? 'tokens' : 'an NFT'} you will need to have a non-custodial crypto-wallet set up and ready to use
     </TextComponent>
-    <ScreenButton onClick={async () => {
-      plausibleApi.invokeEvent({
-        eventName: 'goto_choose_wallet',
-        data: {
-          campaignId: campaignId as string
-        }
-      })
-      chooseWallet()
-    }}>
+    <ScreenButton
+      appearance='action'
+      onClick={async () => {
+        plausibleApi.invokeEvent({
+          eventName: 'goto_choose_wallet',
+          data: {
+            campaignId: campaignId as string
+          }
+        })
+        chooseWallet()
+      }
+    }>
       Connect
     </ScreenButton>
     {system !== 'desktop' && <Note
