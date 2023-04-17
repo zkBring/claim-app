@@ -42,6 +42,7 @@ const ClaimingFinishedButton: FC<ReduxType> = ({
     return <ButtonStyled
       href={claiming_finished_button_url}
       target="_blank"
+      appearance='action'
     >
       {claiming_finished_button_title}
     </ButtonStyled>
@@ -65,6 +66,7 @@ const ClaimingFinishedButton: FC<ReduxType> = ({
         })
         window.open(watchTokenUrl, '_blank')
       }}
+      appearance='action'
       target="_blank"
     >
       View on OpenSea

@@ -31,7 +31,10 @@ const DownloadAwait: FC<ReduxType> = ({
       <ListItem>Download web3 extension, we recommend <Link href='https://metamask.io/download/' target='_blank'>Metamask</Link></ListItem>
       <ListItem>Once you completed refresh this page by clicking on button below</ListItem>
     </List>
-    <ButtonStyled onClick={() => window.location.reload()}>
+    <ButtonStyled
+      onClick={() => window.location.reload()}
+      appearance='action'
+    >
       Refresh page
     </ButtonStyled>
   </ContainerWidget>

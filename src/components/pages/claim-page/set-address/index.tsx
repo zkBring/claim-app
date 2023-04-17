@@ -89,6 +89,7 @@ const SetAddress: FC<ReduxType> = ({
       return
     }
     setIsChecking(true)
+    console.log('here')
     const resolved = await resolveENS(inputRef.current.value, provider)
     setIsChecking(false)
     setIsInputErrored(resolved === null)
@@ -145,7 +146,7 @@ const SetAddress: FC<ReduxType> = ({
       }
       title={isChecking ? 'Resolving ENS' : `Receive ${type === 'ERC20' ? 'tokens' : 'my NFT'}`}
       loading={isChecking || loading}
-      appearance={!isChecking && !loading ? 'default' : 'inverted'}
+      appearance={!isChecking && !loading ? 'action' : 'action-inverted'}
       onClick={() => {
         if (type === 'ERC1155') {
           return claimERC1155(currentAddress)

@@ -20,9 +20,11 @@ import TWalletName from './wallet-name'
 import { TWalletOption } from './wallet-option'
 import TTokenERC20Data from './token-erc20-data'
 import { TAlchemyNFTData } from './alchemy-nft-data'
+import TButtonAppearance from './button-appearance'
 
 export {
   TAlchemyNFTData,
+  TButtonAppearance,
   TTokenERC20Data,
   TMerkleTree,
   TWalletName,

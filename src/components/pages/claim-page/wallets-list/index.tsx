@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState } from 'react'
 import {
   TitleComponent,
   Container,
@@ -13,7 +13,6 @@ import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
-import AuthClient, { generateNonce } from "@walletconnect/auth-client"
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import ZerionWalletIcon from 'images/zerion-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
