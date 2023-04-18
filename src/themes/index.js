@@ -24,12 +24,28 @@ const themes = {
     loaderColor: '#BBB0FF',
     linkColor: '#BBB0FF',
   
-    buttonDefaultColor: '#FFF',
-    buttonDisabledColor: '#272727',
-    buttonHoverColor: '#4047EC',
-    buttonActiveColor: '#2229DF',
-    buttonDisabledTextColor: '#C5C7CD',
-    buttonBorderColor: '#565656',
+    // buttons
+    buttonActionBackgroundColor: '#0C5EFF',
+    buttonActionBackgroundHoverColor: '#357AFF',
+    buttonActionBackgroundActiveColor: '#095AF5',
+
+    buttonDisabledBackgroundColor: '#E4E4E4',
+
+    buttonDefaultBackgroundColor: 'transparent',
+    buttonDefaultBackgroundHoverColor: 'transparent',
+    buttonDefaultBackgroundActiveColor: 'transparent',
+    buttonDefaultBorderHoverColor: '#121212',
+    buttonDefaultBorderActiveColor: '#121212',
+    buttonDefaultDisabledBorderColor: '#E4E4E4',
+    buttonDefaultDisabledTextColor: '#9D9D9D',
+
+    buttonAdditionalBackgroundColor: '#E4EDFF',
+    buttonAdditionalBackgroundHoverColor: '#E4EDFF',
+    buttonAdditionalTextHoverColor: '#357AFF',
+    buttonAdditionalBackgroundActiveColor: '#E4EDFF',
+    buttonAdditionalTextActiveColor: '#095AF5',
+
+    buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
 
     tagDefaultColor: '#DFE0EB',
     tagErrorColor: '#FF2C2C',
@@ -51,8 +67,6 @@ const themes = {
 
     ethereumLogoColor: '#0EBDCD',
     polygonLogoColor: '#0EBDCD',
-    buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
-
   },
 
   light: {
@@ -75,12 +89,33 @@ const themes = {
     widgetColor: '#FFF',
     loaderColor: applicationOptions.highlightColor,
     linkColor: applicationOptions.highlightColor,
-    buttonDefaultColor: applicationOptions.highlightColor,
-    buttonDisabledColor: '#E4E4E4',
-    buttonHoverColor: '#4047EC',
-    buttonActiveColor: '#2229DF',
-    buttonDisabledTextColor: '#9D9D9D',
-    buttonBorderColor: '#E4E4E4',
+
+
+
+    // buttons
+    buttonActionBackgroundColor: '#0C5EFF',
+    buttonActionBackgroundHoverColor: '#357AFF',
+    buttonActionBackgroundActiveColor: '#095AF5',
+
+    buttonDisabledBackgroundColor: '#E4E4E4',
+
+    buttonDefaultBackgroundColor: 'transparent',
+    buttonDefaultBackgroundHoverColor: 'transparent',
+    buttonDefaultBackgroundActiveColor: 'transparent',
+    buttonDefaultBorderHoverColor: '#121212',
+    buttonDefaultBorderActiveColor: '#121212',
+    buttonDefaultDisabledBorderColor: '#E4E4E4',
+    buttonDefaultDisabledTextColor: '#9D9D9D',
+
+    buttonAdditionalBackgroundColor: '#E4EDFF',
+    buttonAdditionalBackgroundHoverColor: '#E4EDFF',
+    buttonAdditionalTextHoverColor: '#357AFF',
+    buttonAdditionalBackgroundActiveColor: '#E4EDFF',
+    buttonAdditionalTextActiveColor: '#095AF5',
+
+    buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
+
+
     tagDefaultColor: '#DFE0EB',
     tagErrorColor: '#FF2C2C',
     tagInfoColor: '#2B32EA',
@@ -100,7 +135,6 @@ const themes = {
     ethereumLogoColor: '#0EBDCD',
     polygonLogoColor: '#0EBDCD',
     toastBackgroundColor: '#2D2A3D',
-    buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
   }
 }
 

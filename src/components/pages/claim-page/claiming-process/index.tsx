@@ -33,7 +33,7 @@ const ClaimingProcess: FC<ReduxType> = ({ hash, chainId, checkTransactionStatus 
     href={`${defineExplorerURL(chainId)}/tx/${hash}`}
     title='View in explorer'
     target='_blank'
-    appearance='action-inverted'
+    appearance='default'
   /> : null
   return <Container>
     <IconContainer>
