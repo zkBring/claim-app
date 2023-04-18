@@ -37,7 +37,9 @@ const Popup: FC<TProps> = ({
         {children}
       </PopupContent>
       {mainAction && <PopupButtons>
-        <ButtonStyled onClick={mainAction}>
+        <ButtonStyled
+          onClick={mainAction}
+        >
           {mainActionTitle}
         </ButtonStyled>
       </PopupButtons>}

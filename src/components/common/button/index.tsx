@@ -19,7 +19,7 @@ const ButtonComponent: FC<TProps> = (props) => {
       </ButtonLink>
     )
   }
-  return <Button {...props} />
+  return <Button {...props} size='large' />
 }
 
 export default ButtonComponent
