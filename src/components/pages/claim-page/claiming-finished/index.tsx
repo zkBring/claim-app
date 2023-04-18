@@ -75,7 +75,7 @@ const ClaimingFinished: FC<ReduxType> = ({
       window.open(`${defineExplorerURL(chainId)}/tx/${hash}`, '_blank')
     }}
     title='View in Explorer'
-    appearance='action-inverted'
+    appearance='default'
   /> : null
 
   const content = type === 'ERC20' ? <ERC20TokenPreview
