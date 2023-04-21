@@ -9,13 +9,15 @@ import {
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import WalletsImg from 'images/wallets.png'
-import { Popup, Note } from 'components/common'
+import { AdditionalNoteComponent } from 'linkdrop-ui'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import { defineSystem } from 'helpers'
 import { plausibleApi } from 'data/api'
+import { OverlayScreen } from 'linkdrop-ui'
+import LinkdropLogo from 'images/linkdrop-header.png'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -61,7 +63,7 @@ const ChooseWallet: FC<ReduxType> = ({
     }>
       Connect
     </ScreenButton>
-    {system !== 'desktop' && <Note
+    {system !== 'desktop' && <AdditionalNoteComponent
       text='What is a Wallet?'
       position='bottom'
       onClick={() => {
@@ -75,13 +77,14 @@ const ChooseWallet: FC<ReduxType> = ({
         setShowPopup(true)
       }}
     />}
-    {showPopup && <Popup
+    {showPopup && <OverlayScreen
       title='What is a Wallet?'
+      headerLogo={LinkdropLogo}
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >
       <PopupContents />
-    </Popup>}
+    </OverlayScreen>}
   </Container>
 }
 

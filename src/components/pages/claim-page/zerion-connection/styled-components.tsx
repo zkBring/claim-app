@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import { Button, Text, TokenImage, Note, Title } from 'components/common'
-import Icons from 'icons'
+import { Button, Text, Title } from 'components/common'
 
 type TScreenButton = {
   onClick: () => void

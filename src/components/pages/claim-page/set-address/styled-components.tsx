@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { Button, Text, TokenImage, Note } from 'components/common'
+import { Button, Text, TokenImage } from 'components/common'
 import Icons from 'icons'
-import { Input } from 'linkdrop-ui'
+import { Input, AdditionalNoteComponent } from 'linkdrop-ui'
 
 type TScreenButton = {
   title: string,
@@ -63,7 +63,7 @@ export const TokenImageContainer = styled(TokenImage)`
   height: 40vh;
 `
 
-export const NoteStyled = styled(Note)`
+export const NoteStyled = styled(AdditionalNoteComponent)`
   margin-bottom: 24px;
 `
 

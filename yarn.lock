@@ -9582,10 +9582,10 @@ linkdrop-sdk@^2.0.2:
     typescript "^4.8.2"
     uint8arrays "^3.1.1"
 
-linkdrop-ui@^0.0.22:
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/linkdrop-ui/-/linkdrop-ui-0.0.22.tgz#ec5bf7f3589f9ad04e20981334e22b15de97752b"
-  integrity sha512-v0SxFDzp3Nk9DDmSIFCugO/29PIYMraVrcopcPgZI/GZqCL8qMWAyvgXcJNJB7S+8DksmGd8U3Upr6YeiLWWeQ==
+linkdrop-ui@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/linkdrop-ui/-/linkdrop-ui-0.0.27.tgz#11919fb420f370e645b2c0850a7460bd91dfb103"
+  integrity sha512-JXxksE0QQwwsSq6Yt3YgG77Z2LlXHp61MwufOgG/fEsbDR5hGX0u9nIRL3gu65Ly3/OQdz3/yrmO1ytxvad3Uw==
   dependencies:
     react-router-dom "^6.10.0"
     react-select "^5.7.2"

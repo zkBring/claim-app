@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { Button, Text, OptionsList, Title } from 'components/common'
+import { Button, Text, Title } from 'components/common'
+import { OptionsList } from 'linkdrop-ui'
 
 export const TitleComponent = styled(Title)`
   font-size: 22px;
