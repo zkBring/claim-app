@@ -17,7 +17,6 @@ export default function getLink(
   ) => {
     dispatch(actionsDrop.setError(null))
     try {
-
       const qrId = new ethers.Wallet(qrSecret).address
       const linkEncrypted = await getQRData(qrId)
       const { success, encrypted_claim_link }: { success: boolean, encrypted_claim_link: string } = linkEncrypted.data

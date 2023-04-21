@@ -13,7 +13,7 @@ const ErrorScreen: FC = () => {
     <Image src={QRError} />
     <Title>Asset does not exist</Title>
     <Subtitle>Please contact the company that provided you the QR code</Subtitle>
-    <ButtonStyled appearance='inverted'>Learn more</ButtonStyled>
+    <ButtonStyled appearance='default'>Learn more</ButtonStyled>
   </Container>
 }
 

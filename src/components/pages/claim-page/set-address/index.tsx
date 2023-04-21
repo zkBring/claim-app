@@ -145,7 +145,7 @@ const SetAddress: FC<ReduxType> = ({
       }
       title={isChecking ? 'Resolving ENS' : `Receive ${type === 'ERC20' ? 'tokens' : 'my NFT'}`}
       loading={isChecking || loading}
-      appearance={!isChecking && !loading ? 'default' : 'inverted'}
+      appearance={!isChecking && !loading ? 'action' : 'default'}
       onClick={() => {
         if (type === 'ERC1155') {
           return claimERC1155(currentAddress)

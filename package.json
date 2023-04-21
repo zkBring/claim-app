@@ -1,6 +1,6 @@
 {
   "name": "app-claim",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.0",
@@ -31,6 +31,7 @@
     "is-android": "^1.0.1",
     "is-ios": "^2.1.0",
     "linkdrop-sdk": "^2.0.2",
+    "linkdrop-ui": "^0.0.27",
     "minimatch": "^3.0.5",
     "node-forge": "^1.3.0",
     "nth-check": "^2.0.1",

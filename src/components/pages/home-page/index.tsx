@@ -79,7 +79,7 @@ const HomePage: FC<ReduxType> = ({
         onChange={value => { setCode(value); return value }}
       />
       <ButtonStyled
-        appearance='default'
+        appearance='action'
         loading={loading}
         onClick={onClick}
         disabled={!code || code.length === 0}

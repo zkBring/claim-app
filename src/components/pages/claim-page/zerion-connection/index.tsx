@@ -62,36 +62,39 @@ const defineButton = (
     chainId: number
   ) => void
 ) => {
-  return <ScreenButton onClick={async () => {
-    const authClient = await AuthClient.init({
-      projectId: REACT_APP_WC_PROJECT_ID as string,
-      metadata: {
-        name: "Linkdrop-Test",
-        description: "A dapp using WalletConnect AuthClient",
-        url: window.location.host,
-        icons: ["/zerion.png"],
-      }
-    })
+  return <ScreenButton
+    appearance='action'
+    onClick={async () => {
+      const authClient = await AuthClient.init({
+        projectId: REACT_APP_WC_PROJECT_ID as string,
+        metadata: {
+          name: "Linkdrop-Test",
+          description: "A dapp using WalletConnect AuthClient",
+          url: window.location.host,
+          icons: ["/zerion.png"],
+        }
+      })
 
-    setClient(authClient)
-    authClient.on("auth_response", ({ params }) => {
-      // @ts-ignore
-      if (Boolean(params && params.result && params.result.p)) {
+      setClient(authClient)
+      authClient.on("auth_response", ({ params }) => {
         // @ts-ignore
-        const { iss } = params.result.p
-        const walletData = iss.split(":")
-        const walletAddress = walletData[4]
-        const walletChainId = walletData[3]
-        updateUserData(
-          walletAddress,
-          walletChainId
-        )
-      } else {
-        // @ts-ignore
-        console.error(params.message)
-      }
-    })
-  }}>
+        if (Boolean(params && params.result && params.result.p)) {
+          // @ts-ignore
+          const { iss } = params.result.p
+          const walletData = iss.split(":")
+          const walletAddress = walletData[4]
+          const walletChainId = walletData[3]
+          updateUserData(
+            walletAddress,
+            walletChainId
+          )
+        } else {
+          // @ts-ignore
+          console.error(params.message)
+        }
+      })
+    }
+  }>
     Use Zerion
   </ScreenButton>
 }

@@ -98,18 +98,21 @@ const SetConnector: FC<ReduxType> = ({
 
   return <Container> 
     {content}
-    <ScreenButton onClick={() => {
-      plausibleApi.invokeEvent({
-        eventName: 'claimpage_click',
-        data: {
-          campaignId: campaignId as string
+    <ScreenButton
+      appearance='action'
+      onClick={() => {
+        plausibleApi.invokeEvent({
+          eventName: 'claimpage_click',
+          data: {
+            campaignId: campaignId as string
+          }
+        })
+        if (!address && injected && injected.ready && system !== 'desktop' && injected.name !== 'Brave Wallet') {
+          return connect({ connector: injected })
         }
-      })
-      if (!address && injected && injected.ready && system !== 'desktop' && injected.name !== 'Brave Wallet') {
-        return connect({ connector: injected })
+        chooseWallet()
       }
-      chooseWallet()
-    }}>
+    }>
       Claim
     </ScreenButton>
     <PoweredBy href='https://linkdrop.io' target='_blank'>

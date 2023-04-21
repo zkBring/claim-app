@@ -7,7 +7,7 @@ const ErrorComponent: FC = () => {
     <Image src={ExpiredError} />
     <Title>Link has expired</Title>
     <Subtitle>This claim is not available anymore</Subtitle>
-    <ButtonStyled appearance='inverted'>Learn more</ButtonStyled>
+    <ButtonStyled appearance='default'>Learn more</ButtonStyled>
   </>
 }
 

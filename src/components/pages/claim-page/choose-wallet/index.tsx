@@ -9,13 +9,15 @@ import {
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import WalletsImg from 'images/wallets.png'
-import { Popup, Note } from 'components/common'
+import { AdditionalNoteComponent } from 'linkdrop-ui'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import { defineSystem } from 'helpers'
 import { plausibleApi } from 'data/api'
+import { OverlayScreen } from 'linkdrop-ui'
+import LinkdropLogo from 'images/linkdrop-header.png'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -47,18 +49,21 @@ const ChooseWallet: FC<ReduxType> = ({
     <TextComponent>
       To claim {type === 'ERC20' ? 'tokens' : 'an NFT'} you will need to have a non-custodial crypto-wallet set up and ready to use
     </TextComponent>
-    <ScreenButton onClick={async () => {
-      plausibleApi.invokeEvent({
-        eventName: 'goto_choose_wallet',
-        data: {
-          campaignId: campaignId as string
-        }
-      })
-      chooseWallet()
-    }}>
+    <ScreenButton
+      appearance='action'
+      onClick={async () => {
+        plausibleApi.invokeEvent({
+          eventName: 'goto_choose_wallet',
+          data: {
+            campaignId: campaignId as string
+          }
+        })
+        chooseWallet()
+      }
+    }>
       Connect
     </ScreenButton>
-    {system !== 'desktop' && <Note
+    {system !== 'desktop' && <AdditionalNoteComponent
       text='What is a Wallet?'
       position='bottom'
       onClick={() => {
@@ -72,13 +77,14 @@ const ChooseWallet: FC<ReduxType> = ({
         setShowPopup(true)
       }}
     />}
-    {showPopup && <Popup
+    {showPopup && <OverlayScreen
       title='What is a Wallet?'
+      headerLogo={LinkdropLogo}
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >
       <PopupContents />
-    </Popup>}
+    </OverlayScreen>}
   </Container>
 }
 
