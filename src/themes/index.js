@@ -18,7 +18,7 @@ const themes = {
     secondaryColor: '#363740', // secondary coplor of bg
     blankColor: applicationOptions.backgroundColor, // secondary coplor of bg
     menuItemActive: '#3E4049',
-    primaryHighlightColor: '#2B32EA',
+    primaryHighlightColor: applicationOptions.highlightColor,
     loaderPrimaryColor: '#000',
     widgetColor: '#FFF',
   
@@ -55,11 +55,11 @@ const themes = {
     tagErrorColor: '#FF2C2C',
     tagInfoColor: '#2B32EA',
     tagSuccessColor: '#21F142',
+
     noteDefaultBgColor: '#E4EDFF',
     noteDefaultTextColor: applicationOptions.highlightColor,
     noteAttentionBgColor: '#272727',
     noteAttentionTextColor: '#C3C3C3',
-    noteWarningTextColor: '#3E2909',
 
     inputHoverBorderColor: '#121212',
     inputDisabledBackgroundColor: '#E4E4E4',
