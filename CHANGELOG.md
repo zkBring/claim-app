@@ -2,6 +2,7 @@
 
 ## 2.2.3-rc.0
 - Integration of external UI-kit library
+- Sorting wallets
 
 ## 2.2.2
 - Added helper to resolve metadata image for ERC1155/ERC721
