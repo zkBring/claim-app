@@ -1,8 +1,8 @@
 # Linkdrop Claim app
 
-## 2.2.3-rc.0
+## 2.2.3
 - Integration of external UI-kit library
-- Sorting wallets
+- Sorting wallets on "Select wallet" page according to "recommended" label
 
 ## 2.2.2
 - Added helper to resolve metadata image for ERC1155/ERC721
