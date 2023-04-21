@@ -28,7 +28,7 @@ import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import DesktopPopupContents from '../choose-wallet/components/popup-contents'
-import { defineSystem, getWalletDeeplink } from 'helpers'
+import { defineSystem, getWalletDeeplink, sortWallets } from 'helpers'
 import { detect } from 'detect-browser'
 import { plausibleApi } from 'data/api'
 import LinkdropLogo from 'images/linkdrop-header.png'
@@ -172,15 +172,15 @@ const defineOptionsList = (
   const wallets = [
     injectedOption,
     metamaskOption,
+    coinbaseOption,
     zerionOption,
     walletConnectOption,
     ensOption,
-    rainbowOption,
-    coinbaseOption,
-    trustOption
+    trustOption,
+    rainbowOption
   ]
 
-  return wallets
+  return sortWallets(wallets)
 }
 
 const WalletsList: FC<ReduxType> = ({
