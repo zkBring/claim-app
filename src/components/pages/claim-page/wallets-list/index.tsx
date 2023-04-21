@@ -20,10 +20,8 @@ import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
 import { TDropStep } from 'types'
-import {
-  Popup,
-  Note
-} from 'components/common'
+import { AdditionalNoteComponent } from 'linkdrop-ui'
+import {  OverlayScreen } from 'linkdrop-ui'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import { Dispatch } from 'redux'
@@ -33,8 +31,7 @@ import DesktopPopupContents from '../choose-wallet/components/popup-contents'
 import { defineSystem, getWalletDeeplink } from 'helpers'
 import { detect } from 'detect-browser'
 import { plausibleApi } from 'data/api'
-
-const { REACT_APP_WC_PROJECT_ID } = process.env
+import LinkdropLogo from 'images/linkdrop-header.png'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -191,7 +188,6 @@ const WalletsList: FC<ReduxType> = ({
   setStep,
   wallet,
   chainId,
-  updateUserData,
   isManual,
   campaignId
 }) => {
@@ -229,7 +225,7 @@ const WalletsList: FC<ReduxType> = ({
       })
       setShowPopup(true)
     }}>What is browser wallet?</LinkButton>}
-    {system !== 'desktop' && <Note
+    {system !== 'desktop' && <AdditionalNoteComponent
       text='Don’t know what to choose?'
       position='bottom'
       onClick={() => {
@@ -243,13 +239,14 @@ const WalletsList: FC<ReduxType> = ({
         setShowPopup(true)
       }}
     />}
-    {showPopup && <Popup
+    {showPopup && <OverlayScreen
+      headerLogo={LinkdropLogo}
       title={system === 'desktop' ? 'What is a Wallet?' : 'Connecting your wallet'}
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >
       {system === 'desktop' ? <DesktopPopupContents /> : <PopupContents />}
-    </Popup>}
+    </OverlayScreen>}
   </Container>
 }
 
