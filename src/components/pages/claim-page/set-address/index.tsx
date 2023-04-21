@@ -89,7 +89,6 @@ const SetAddress: FC<ReduxType> = ({
       return
     }
     setIsChecking(true)
-    console.log('here')
     const resolved = await resolveENS(inputRef.current.value, provider)
     setIsChecking(false)
     setIsInputErrored(resolved === null)
