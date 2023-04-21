@@ -27,7 +27,7 @@ const themes = {
 
 
     // buttons
-    buttonActionBackgroundColor: '#0C5EFF',
+    buttonActionBackgroundColor: applicationOptions.highlightColor,
     buttonActionBackgroundHoverColor: '#357AFF',
     buttonActionBackgroundActiveColor: '#095AF5',
 
