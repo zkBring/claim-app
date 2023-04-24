@@ -63,6 +63,7 @@ const defineOptionsList = (
   connectors: Connector<any, any, any>[],
   wallet: string | null,
   downloadStarted: () => void,
+  walletRedirectAwait: () => void,
   isManual: boolean,
   chainId: number
 ) => {
@@ -131,7 +132,10 @@ const defineOptionsList = (
   const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href, chainId)
   const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
     title: 'Metamask',
-    href: metamaskDeeplink,
+    onClick: () => {
+      walletRedirectAwait()
+      window.open(metamaskDeeplink, '_blank')
+    },
     icon: <WalletIcon src={MetamaskIcon} />,
     recommended: wallet === 'metamask'
   }
@@ -139,7 +143,10 @@ const defineOptionsList = (
   const trustDeeplink = getWalletDeeplink('trust', system, window.location.href, chainId)
   const trustOption = (injectedOption && !injectedOptionIsBrave) || !trustDeeplink ? undefined : {
     title: 'Trust Wallet',
-    href: trustDeeplink,
+    onClick: () => {
+      walletRedirectAwait()
+      window.open(trustDeeplink, '_blank')
+    },
     icon: <WalletIcon src={TrustWalletIcon} />,
     recommended: wallet === 'trust'
   }
@@ -147,7 +154,10 @@ const defineOptionsList = (
   const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href, chainId)
   const coinbaseOption = (injectedOption && !injectedOptionIsBrave) || !coinbaseDeeplink ? undefined : {
     title: 'Coinbase Wallet',
-    href: coinbaseDeeplink,
+    onClick: () => {
+      walletRedirectAwait()
+      window.open(coinbaseDeeplink, '_blank')
+    },
     icon: <WalletIcon src={CoinabseWalletIcon} />,
     recommended: wallet === 'coinbase_wallet'
   }
@@ -164,7 +174,10 @@ const defineOptionsList = (
   const rainbowDeeplink = getWalletDeeplink('rainbow', system, window.location.href, chainId)
   const rainbowOption = (injectedOption && !injectedOptionIsBrave) || !rainbowDeeplink ? undefined : {
     title: 'Rainbow',
-    href: rainbowDeeplink,
+    onClick: () => {
+      walletRedirectAwait()
+      window.open(rainbowDeeplink, '_blank')
+    },
     icon: <WalletIcon src={RainbowWalletIcon} />,
     recommended: wallet === 'rainbow'
   }
@@ -205,6 +218,7 @@ const WalletsList: FC<ReduxType> = ({
     connectors,
     wallet,
     () => setStep('download_await'),
+    () => setStep('wallet_redirect_await'),
     isManual,
     chainId as number
   )

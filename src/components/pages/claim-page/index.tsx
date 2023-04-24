@@ -8,6 +8,7 @@ import AlreadyClaimed from './already-claimed'
 import SetConnector from './set-connector'
 import NoTokensLeft from './no-tokens-left'
 import SetAddress from './set-address'
+import WalletRedirectAwait from './wallet-redirect-await'
 import ErrorPage from './error'
 import ErrorTransactionPage from './error-transaction'
 import ErrorNoConnectionPage from './error-no-connection'
@@ -22,7 +23,6 @@ import ChooseWallet from './choose-wallet'
 import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
 import ZerionConnection from './zerion-connection'
-import LinkdropLogo from 'images/linkdrop-header.png'
 import { Loader } from 'components/common'
 import Page from '../page'
 import { TDropStep } from 'types'
@@ -132,6 +132,8 @@ const defineCurrentScreen: TDefineStep = step => {
       return <DownloadAwait />
     case 'zerion_connection':
       return <ZerionConnection />
+    case 'wallet_redirect_await':
+      return <WalletRedirectAwait />
     default:
       return <Loader />
   }
@@ -140,15 +142,14 @@ const defineCurrentScreen: TDefineStep = step => {
 const defineBackAction = (step: TDropStep, action: (prevoiusStep: TDropStep) => void) => {
   switch (step) {
     case 'set_address':
+    case 'download_await':
+    case 'wallet_redirect_await':
+    case 'zerion_connection':
       return () => action('wallets_list')
     case 'wallets_list':
       return () => action('choose_wallet')
     case 'choose_wallet':
       return () => action('set_connector')
-    case 'download_await':
-      return () => action('wallets_list')
-    case 'zerion_connection':
-      return () => action('wallets_list')
     default:
       return null
   }
