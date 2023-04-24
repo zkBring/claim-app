@@ -4,7 +4,7 @@ import { TProps } from './types'
 import { Button } from 'linkdrop-ui'
 
 const ButtonComponent: FC<TProps> = (props) => {
-  const { href, to, target } = props
+  const { href, to, target, size = 'large' } = props
   if (href) {
     return (
       <Anchor href={href} target={target}>
@@ -19,7 +19,7 @@ const ButtonComponent: FC<TProps> = (props) => {
       </ButtonLink>
     )
   }
-  return <Button {...props} size='large' />
+  return <Button {...props} size={size} />
 }
 
 export default ButtonComponent
