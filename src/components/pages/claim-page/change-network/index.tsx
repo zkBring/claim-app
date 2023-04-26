@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import {
   Container,
   ScreenButton,
@@ -40,9 +40,12 @@ const ChangeNetwork: FC<ReduxType> = ({
   type
 }) => {
   const networkName = defineRealNetworkName(chainId)
+  useEffect(() => {
+    alert(window && window.ethereum && window.ethereum.isCoinbaseWallet)
+  }, [])
   return <Container>
     <Image src={Wrongetwork} alt='Wrong network' />
-    <TitleComponent>Wrong network</TitleComponent>
+    <TitleComponent>Switch network</TitleComponent>
     <Subtitle>To claim {type === 'ERC20' ? 'tokens' : 'an NFT'} you need to switch your wallet to {networkName} network</Subtitle>
     <ScreenButton onClick={async () => {
       if (chainId) {
