@@ -1,6 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 import * as actions from './actions'
-import { TDropStep, TDropType, TTheme, TDropError } from 'types'
+import { TDropStep, TDropType, TTheme, TDropError, TWalletName } from 'types'
 
 export interface DropState {
   step: TDropStep
@@ -29,7 +29,8 @@ export interface DropState {
   linkId: string | null,
   claiming_finished_description: string,
   claiming_finished_button_title: string,
-  claiming_finished_button_url: string
+  claiming_finished_button_url: string,
+  walletApp: null | TWalletName
 }
 
 
