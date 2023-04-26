@@ -13,6 +13,7 @@ import LinkdropLogo from 'images/linkdrop-header.png'
 import { PopupContents } from './components'
 import Image from 'images/redirect-await.png'
 import { getWalletDeeplink, defineSystem } from 'helpers'
+import wallets from 'configs/wallets'
 
 const mapStateToProps = ({
   drop: {
@@ -32,16 +33,18 @@ const WalletRedirectAwait: FC<ReduxType> = ({
 }) => {
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
-  const trustDeeplink = walletApp && chainId && getWalletDeeplink(walletApp, system, window.location.href, chainId)
+  const walletDeeplink = walletApp && chainId ? getWalletDeeplink(walletApp, system, window.location.href, chainId) : undefined
+  const wallet = walletApp && wallets[walletApp]
   return <Container>
     <PreviewImage src={Image} alt='redirect await image' />
-    <TitleComponent>Continue in MetaMask</TitleComponent>
+    <TitleComponent>Continue in {wallet?.name}</TitleComponent>
     <Subtitle>You will be redirected to the wallet where you will be guided to claim an NFT</Subtitle>
-    {<ButtonStyled
-      onClick={() => alert('Yo!')}
+    {walletDeeplink && <ButtonStyled
+      href={walletDeeplink}
+      target='_blank'
       appearance='action'
     >
-      Open MetaMask
+      Open in {wallet?.name}
     </ButtonStyled>}
     <AdditionalNoteComponent
       text='Need help? Read here how to proceed'
