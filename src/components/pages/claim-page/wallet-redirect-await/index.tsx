@@ -33,14 +33,14 @@ const WalletRedirectAwait: FC<ReduxType> = ({
 }) => {
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
-  const trustDeeplink = walletApp && chainId ? getWalletDeeplink(walletApp, system, window.location.href, chainId) : undefined
+  const walletDeeplink = walletApp && chainId ? getWalletDeeplink(walletApp, system, window.location.href, chainId) : undefined
   const wallet = walletApp && wallets[walletApp]
   return <Container>
     <PreviewImage src={Image} alt='redirect await image' />
     <TitleComponent>Continue in {wallet?.name}</TitleComponent>
     <Subtitle>You will be redirected to the wallet where you will be guided to claim an NFT</Subtitle>
-    {trustDeeplink && <ButtonStyled
-      href={trustDeeplink}
+    {walletDeeplink && <ButtonStyled
+      href={walletDeeplink}
       target='_blank'
       appearance='action'
     >
