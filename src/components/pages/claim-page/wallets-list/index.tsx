@@ -16,14 +16,16 @@ import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import ZerionWalletIcon from 'images/zerion-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
+import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
-import { TDropStep } from 'types'
+import { TDropStep, TWalletName } from 'types'
 import { AdditionalNoteComponent } from 'linkdrop-ui'
 import {  OverlayScreen } from 'linkdrop-ui'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
+import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
@@ -42,10 +44,12 @@ const mapStateToProps = ({
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
   return {
-    setAddress: () => dispatch(
-      dropActions.setStep('set_address')
-    ),
+    setAddress: () => dispatch(dropActions.setStep('set_address')),
     setStep: (step: TDropStep) => dispatch(dropActions.setStep(step)),
+    deeplinkRedirect: (
+      deeplink: string,
+      walletId: TWalletName
+    ) => dispatch(dropAsyncActions.deeplinkRedirect(deeplink, walletId)),
     updateUserData: (
       address: string,
       chainId: number
@@ -63,7 +67,10 @@ const defineOptionsList = (
   connectors: Connector<any, any, any>[],
   wallet: string | null,
   downloadStarted: () => void,
-  walletRedirectAwait: () => void,
+  deeplinkRedirect: (
+    deeplink: string,
+    walletId: TWalletName
+  ) => void,
   isManual: boolean,
   chainId: number
 ) => {
@@ -133,8 +140,7 @@ const defineOptionsList = (
   const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
     title: 'Metamask',
     onClick: () => {
-      walletRedirectAwait()
-      window.open(metamaskDeeplink, '_blank')
+      deeplinkRedirect(metamaskDeeplink, 'metamask')
     },
     icon: <WalletIcon src={MetamaskIcon} />,
     recommended: wallet === 'metamask'
@@ -144,8 +150,7 @@ const defineOptionsList = (
   const trustOption = (injectedOption && !injectedOptionIsBrave) || !trustDeeplink ? undefined : {
     title: 'Trust Wallet',
     onClick: () => {
-      walletRedirectAwait()
-      window.open(trustDeeplink, '_blank')
+      deeplinkRedirect(trustDeeplink, 'trust')
     },
     icon: <WalletIcon src={TrustWalletIcon} />,
     recommended: wallet === 'trust'
@@ -155,8 +160,7 @@ const defineOptionsList = (
   const coinbaseOption = (injectedOption && !injectedOptionIsBrave) || !coinbaseDeeplink ? undefined : {
     title: 'Coinbase Wallet',
     onClick: () => {
-      walletRedirectAwait()
-      window.open(coinbaseDeeplink, '_blank')
+      deeplinkRedirect(coinbaseDeeplink, 'coinbase')
     },
     icon: <WalletIcon src={CoinabseWalletIcon} />,
     recommended: wallet === 'coinbase_wallet'
@@ -175,10 +179,19 @@ const defineOptionsList = (
   const rainbowOption = (injectedOption && !injectedOptionIsBrave) || !rainbowDeeplink ? undefined : {
     title: 'Rainbow',
     onClick: () => {
-      walletRedirectAwait()
-      window.open(rainbowDeeplink, '_blank')
+      deeplinkRedirect(rainbowDeeplink, 'rainbow')
     },
     icon: <WalletIcon src={RainbowWalletIcon} />,
+    recommended: wallet === 'rainbow'
+  }
+
+  const imwtokenDeeplink = getWalletDeeplink('imtoken', system, window.location.href, chainId)
+  const imtokenOption = (injectedOption && !injectedOptionIsBrave) || !imwtokenDeeplink ? undefined : {
+    title: 'ImToken',
+    onClick: () => {
+      deeplinkRedirect(imwtokenDeeplink, 'imtoken')
+    },
+    icon: <WalletIcon src={ImtokenWalletIcon} />,
     recommended: wallet === 'rainbow'
   }
 
@@ -189,6 +202,7 @@ const defineOptionsList = (
     zerionOption,
     walletConnectOption,
     ensOption,
+    imtokenOption,
     trustOption,
     rainbowOption
   ]
@@ -202,7 +216,8 @@ const WalletsList: FC<ReduxType> = ({
   wallet,
   chainId,
   isManual,
-  campaignId
+  campaignId,
+  deeplinkRedirect
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -218,7 +233,7 @@ const WalletsList: FC<ReduxType> = ({
     connectors,
     wallet,
     () => setStep('download_await'),
-    () => setStep('wallet_redirect_await'),
+    (deeplink: string, walletId: TWalletName) => deeplinkRedirect(deeplink, walletId),
     isManual,
     chainId as number
   )

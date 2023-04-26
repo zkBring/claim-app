@@ -28,7 +28,8 @@ const initialState: DropState = {
   linkId: null,
   claiming_finished_description: '',
   claiming_finished_button_title: '',
-  claiming_finished_button_url: ''
+  claiming_finished_button_url: '',
+  walletApp: null
 }
 
 export function dropReducer(
@@ -84,7 +85,8 @@ export function dropReducer(
           return {...state, claiming_finished_button_title: action.payload.claiming_finished_button_title }
         case Constants.DROP_SET_CLAIMING_FINISHED_BUTTON_URL:
           return {...state, claiming_finished_button_url: action.payload.claiming_finished_button_url }
-
+        case Constants.DROP_SET_WALLET_APP:
+          return {...state, walletApp: action.payload.walletApp }
         case Constants.DROP_SET_CLAIM_CODE:
           return {...state, claimCode: action.payload.claimCode }
 
