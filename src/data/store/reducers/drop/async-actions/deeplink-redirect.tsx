@@ -16,6 +16,10 @@ export default function deeplinkRedirect(
   ) => {
     dispatch(actionsDrop.setStep('wallet_redirect_await'))
     dispatch(actionsDrop.setWalletApp(walletId))
-    window.open(deeplink, '_blank')
+    const link = document.createElement('a')
+    link.href = deeplink
+    link.target = '_blank'
+    link.click()
+    // window.open(deeplink, '_blank')
   }
 }
