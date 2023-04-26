@@ -1,5 +1,9 @@
 # Linkdrop Claim app
 
+## 2.2.3-rc.0
+- Added new screen after deeplink redirect
+- Added imToken Wallet
+
 ## 2.2.3
 - Integration of external UI-kit library
 - Sorting wallets on "Select wallet" page according to "recommended" label
