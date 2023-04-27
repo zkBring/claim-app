@@ -121,7 +121,6 @@ const InitialScreen: FC<ReduxType> = ({
       onClick={async () => {
         if (Number(userChainId) !== Number(chainId)) {
           if(window && window.ethereum && window.ethereum.isCoinbaseWallet && system !== 'desktop') {
-            alert('COINBASE WALLET')
             if (chainId) {
               await switchNetwork(userProvider, chainId, campaignId as string, () => {})
             } else {
