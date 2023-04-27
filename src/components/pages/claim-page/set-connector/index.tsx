@@ -147,7 +147,7 @@ const SetConnector: FC<ReduxType> = ({
         if (wallet === 'coinbase_wallet' && chainId) {
           const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href, chainId)
           if (coinbaseDeeplink) {
-            deeplinkRedirect(coinbaseDeeplink, 'coinbase')
+            return deeplinkRedirect(coinbaseDeeplink, 'coinbase')
           }
         }
 
