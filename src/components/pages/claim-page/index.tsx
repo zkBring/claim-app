@@ -142,7 +142,7 @@ const defineCurrentScreen: TDefineStep = step => {
 
 const defineBackAction = (
   step: TDropStep,
-  wallet: TWalletName,
+  wallet: string | null,
   action: (prevoiusStep: TDropStep) => void
 ) => {
   switch (step) {
@@ -165,7 +165,7 @@ const defineBackAction = (
   }
 }
 
-const defineHeader = (step: TDropStep, wallet: TWalletName, action: (prevoiusStep: TDropStep) => void) => {
+const defineHeader = (step: TDropStep, wallet: string | null, action: (prevoiusStep: TDropStep) => void) => {
   const backAction = defineBackAction(step, wallet, action)
   return <LinkdropHeader>
     {backAction && <LinkdropHeaderBack onClick={() => backAction()}>
