@@ -12,18 +12,19 @@ import {
 import { ERC20TokenPreview } from 'components/pages/common'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { shortenString, defineSystem } from 'helpers'
+import { shortenString, defineSystem, getWalletDeeplink } from 'helpers'
 import * as dropActions from 'data/store/reducers/drop/actions'
-import { Dispatch } from 'redux';
+import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { useConnect } from 'wagmi'
 import LinkdropLogo from 'images/linkdrop-header.png'
-import { TDropType } from 'types'
+import { TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
+import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 
 const mapStateToProps = ({
   token: { name, image, decimals },
-  drop: { tokenId, type, campaignId, amount },
+  drop: { tokenId, type, campaignId, amount, wallet, chainId },
   user: { address }
 }: RootState) => ({
   name,
@@ -33,14 +34,20 @@ const mapStateToProps = ({
   address,
   campaignId,
   amount,
-  decimals
+  decimals,
+  wallet,
+  chainId
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
   return {
     chooseWallet: () => dispatch(
       dropActions.setStep('choose_wallet')
-    )
+    ),
+    deeplinkRedirect: (
+      deeplink: string,
+      walletId: TWalletName
+    ) => dispatch(dropAsyncActions.deeplinkRedirect(deeplink, walletId)),
   }
 }
 
@@ -64,7 +71,9 @@ const SetConnector: FC<ReduxType> = ({
   campaignId,
   amount,
   decimals,
-  
+  wallet,
+  chainId,
+  deeplinkRedirect
 }) => {
 
   const { connect, connectors } = useConnect()
@@ -83,6 +92,7 @@ const SetConnector: FC<ReduxType> = ({
   }, [])
 
   useEffect(() => {
+    // connect instantly if opened in Coinbase wallet
     if(window &&
       window.ethereum &&
       window.ethereum.isCoinbaseWallet &&
@@ -123,9 +133,24 @@ const SetConnector: FC<ReduxType> = ({
             campaignId: campaignId as string
           }
         })
-        if (!address && injected && injected.ready && system !== 'desktop' && injected.name !== 'Brave Wallet') {
+        // connect to wallet if has injected
+        if (
+          !address &&
+          injected &&
+          injected.ready &&
+          system !== 'desktop' &&
+          injected.name !== 'Brave Wallet'
+        ) {
           return connect({ connector: injected })
         }
+
+        if (wallet === 'coinbase_wallet' && chainId) {
+          const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href, chainId)
+          if (coinbaseDeeplink) {
+            return deeplinkRedirect(coinbaseDeeplink, 'coinbase')
+          }
+        }
+
         chooseWallet()
       }
     }>

@@ -25,7 +25,7 @@ import HighGasPrice from './high-gas-price'
 import ZerionConnection from './zerion-connection'
 import { Loader } from 'components/common'
 import Page from '../page'
-import { TDropStep } from 'types'
+import { TDropStep, TWalletName } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { Container, LinkdropHeaderLogo, LinkdropHeader, LinkdropHeaderBack } from './styled-components'
@@ -43,14 +43,15 @@ import applicationOptions from 'configs/application'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
-  drop: { step, claimCode }
+  drop: { step, claimCode, wallet }
 }: RootState) => ({
   address,
   step,
   provider,
   chainId,
   initialized,
-  claimCode
+  claimCode,
+  wallet
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch) => {
@@ -139,12 +140,21 @@ const defineCurrentScreen: TDefineStep = step => {
   }
 }
 
-const defineBackAction = (step: TDropStep, action: (prevoiusStep: TDropStep) => void) => {
+const defineBackAction = (
+  step: TDropStep,
+  wallet: string | null,
+  action: (prevoiusStep: TDropStep) => void
+) => {
   switch (step) {
     case 'set_address':
     case 'download_await':
-    case 'wallet_redirect_await':
     case 'zerion_connection':
+      return () => action('wallets_list')
+    case 'wallet_redirect_await':
+      // if coinbase - do not show other wallets
+      if (wallet === 'coinbase_wallet') {
+        return () => action('set_connector')
+      }
       return () => action('wallets_list')
     case 'wallets_list':
       return () => action('choose_wallet')
@@ -155,8 +165,8 @@ const defineBackAction = (step: TDropStep, action: (prevoiusStep: TDropStep) => 
   }
 }
 
-const defineHeader = (step: TDropStep, action: (prevoiusStep: TDropStep) => void) => {
-  const backAction = defineBackAction(step, action)
+const defineHeader = (step: TDropStep, wallet: string | null, action: (prevoiusStep: TDropStep) => void) => {
+  const backAction = defineBackAction(step, wallet, action)
   return <LinkdropHeader>
     {backAction && <LinkdropHeaderBack onClick={() => backAction()}>
       <Icons.ArrowLeftIcon />
@@ -171,7 +181,8 @@ const ClaimPage: FC<ReduxType> = ({
   claimCode,
   setStep,
   initialized,
-  updateUserData
+  updateUserData,
+  wallet
 }) => {
   const screen = defineCurrentScreen(step)
   const { address, connector } = useAccount()
@@ -201,7 +212,7 @@ const ClaimPage: FC<ReduxType> = ({
   
   return <Page>
     <Container>
-      {defineHeader(step, setStep)}
+      {defineHeader(step, wallet, setStep)}
       {screen}
     </Container> 
   </Page>
