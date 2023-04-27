@@ -185,11 +185,11 @@ const defineOptionsList = (
     recommended: wallet === 'rainbow'
   }
 
-  const imwtokenDeeplink = getWalletDeeplink('imtoken', system, window.location.href, chainId)
-  const imtokenOption = (injectedOption && !injectedOptionIsBrave) || !imwtokenDeeplink ? undefined : {
+  const imtokenDeeplink = getWalletDeeplink('imtoken', system, window.location.href, chainId)
+  const imtokenOption = (injectedOption && !injectedOptionIsBrave) || !imtokenDeeplink ? undefined : {
     title: 'ImToken',
     onClick: () => {
-      deeplinkRedirect(imwtokenDeeplink, 'imtoken')
+      deeplinkRedirect(imtokenDeeplink, 'imtoken')
     },
     icon: <WalletIcon src={ImtokenWalletIcon} />,
     recommended: wallet === 'rainbow'
