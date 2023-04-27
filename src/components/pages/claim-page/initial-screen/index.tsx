@@ -17,15 +17,16 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { TDropStep, TDropType } from 'types'
-import { shortenString } from 'helpers'
+import { shortenString, defineSystem } from 'helpers'
 import LinkdropLogo from 'images/linkdrop-header.png'
 import { plausibleApi } from 'data/api'
 import { ERC20TokenPreview } from 'components/pages/common'
 import { connect } from 'react-redux'
+import { switchNetwork } from 'data/store/reducers/user/async-actions'
 
 const mapStateToProps = ({
   token: { name, image, decimals },
-  user: { address, chainId: userChainId },
+  user: { address, chainId: userChainId, userProvider },
   drop: { tokenId, amount, type, isManual, loading, chainId, campaignId }
 }: RootState) => ({
   name,
@@ -39,7 +40,7 @@ const mapStateToProps = ({
   userChainId,
   chainId,
   campaignId,
-  decimals
+  decimals, userProvider
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -91,8 +92,11 @@ const InitialScreen: FC<ReduxType> = ({
   userChainId,
   setStep,
   campaignId,
-  decimals
+  decimals,
+  userProvider
 }) => {
+
+  const system = defineSystem()
 
   useEffect(() => {
     plausibleApi.invokeEvent({
@@ -114,9 +118,18 @@ const InitialScreen: FC<ReduxType> = ({
       loading={loading}
       appearance='action'
       title='Claim'
-      onClick={() => {
+      onClick={async () => {
         if (Number(userChainId) !== Number(chainId)) {
-          return setStep('change_network')
+          if(window && window.ethereum && window.ethereum.isCoinbaseWallet && system !== 'desktop') {
+            alert('COINBASE WALLET')
+            if (chainId) {
+              await switchNetwork(userProvider, chainId, campaignId as string, () => {})
+            } else {
+              alert('No chain provided')
+            }
+          } else {
+            return setStep('change_network')
+          }
         }
 
         plausibleApi.invokeEvent({

@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import {
   Container,
   ScreenButton,
@@ -40,9 +40,6 @@ const ChangeNetwork: FC<ReduxType> = ({
   type
 }) => {
   const networkName = defineRealNetworkName(chainId)
-  useEffect(() => {
-    alert(window && window.ethereum && window.ethereum.isCoinbaseWallet)
-  }, [])
   return <Container>
     <Image src={Wrongetwork} alt='Wrong network' />
     <TitleComponent>Switch network</TitleComponent>
