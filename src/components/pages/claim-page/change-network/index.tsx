@@ -42,7 +42,7 @@ const ChangeNetwork: FC<ReduxType> = ({
   const networkName = defineRealNetworkName(chainId)
   return <Container>
     <Image src={Wrongetwork} alt='Wrong network' />
-    <TitleComponent>Wrong network</TitleComponent>
+    <TitleComponent>Switch network</TitleComponent>
     <Subtitle>To claim {type === 'ERC20' ? 'tokens' : 'an NFT'} you need to switch your wallet to {networkName} network</Subtitle>
     <ScreenButton onClick={async () => {
       if (chainId) {

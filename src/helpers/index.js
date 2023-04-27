@@ -27,8 +27,10 @@ import sortWallets from './sort-wallets'
 import defineAlchemyNetwork from './define-alchemy-network'
 import createAlchemyInstance from './create-alchemy-instance'
 import getAlchemyTokenImage from './get-alchemy-token-image'
+import copyToClipboard from './copy-to-clipboard'
 
 export {
+  copyToClipboard,
   getAlchemyTokenImage,
   sortWallets,
   createAlchemyInstance,

@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import {
   TitleComponent,
   ScreenButton,
@@ -70,6 +70,7 @@ const SetConnector: FC<ReduxType> = ({
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === "injected")
   const system = defineSystem()
+  const [ initialized, setInitialized ] = useState<boolean>(false)
 
   useEffect(() => {
     plausibleApi.invokeEvent({
@@ -79,6 +80,20 @@ const SetConnector: FC<ReduxType> = ({
         status: 'loaded'
       }
     })
+  }, [])
+
+  useEffect(() => {
+    if(window &&
+      window.ethereum &&
+      window.ethereum.isCoinbaseWallet &&
+      system !== 'desktop' && 
+      injected &&
+      injected.ready
+    ) {
+      return connect({ connector: injected })
+    } else {
+      setInitialized(true)
+    }
   }, [])
 
   const content = type === 'ERC20' ? <ERC20TokenPreview
@@ -100,6 +115,7 @@ const SetConnector: FC<ReduxType> = ({
     {content}
     <ScreenButton
       appearance='action'
+      disabled={!initialized}
       onClick={() => {
         plausibleApi.invokeEvent({
           eventName: 'claimpage_click',

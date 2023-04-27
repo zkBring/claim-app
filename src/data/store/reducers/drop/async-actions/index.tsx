@@ -7,6 +7,7 @@ import checkTransactionStatus from './check-transaction-status'
 import getLinkFromURL from './get-link-from-url'
 import getLinkByCode from './get-link-by-code'
 import getLinkFromInput from './get-link-from-input'
+import deeplinkRedirect from './deeplink-redirect'
 
 export {
   claimERC1155,
@@ -17,5 +18,6 @@ export {
   checkTransactionStatus,
   getLinkFromURL,
   getLinkByCode,
-  getLinkFromInput
+  getLinkFromInput,
+  deeplinkRedirect
 }

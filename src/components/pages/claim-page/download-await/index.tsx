@@ -10,6 +10,7 @@ import {
 } from './styled-components'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
+import { defineSystem } from 'helpers'
 
 const mapStateToProps = ({
   drop: {
@@ -24,6 +25,7 @@ type ReduxType = ReturnType<typeof mapStateToProps>
 const DownloadAwait: FC<ReduxType> = ({
   type
 }) => {
+  const system = defineSystem()
   return <ContainerWidget>
     <WidgetTitle>Download extension</WidgetTitle>
     <WidgetSubtitle>Follow instruction to claim {type === 'ERC20' ? 'tokens' : 'an NFT'}</WidgetSubtitle>

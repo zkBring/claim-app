@@ -1,5 +1,11 @@
 # Linkdrop Claim app
 
+## 2.2.4
+- Added new screen after deeplink redirect
+- Added imToken Wallet
+- Coinbase instant connect
+- Coinbase instant network switch
+
 ## 2.2.3
 - Integration of external UI-kit library
 - Sorting wallets on "Select wallet" page according to "recommended" label

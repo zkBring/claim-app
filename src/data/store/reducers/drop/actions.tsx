@@ -1,6 +1,6 @@
 import { action } from 'typesafe-actions';
 import { Constants } from './constants';
-import { TDropStep, TDropType, TTheme, TDropError } from 'types'
+import { TDropStep, TDropType, TTheme, TDropError, TWalletName } from 'types'
 
 export function setStep(step: TDropStep) {
   return action(Constants.DROP_SET_STEP, { step })
@@ -76,6 +76,10 @@ export function setIsClaimed (isClaimed: boolean) {
 
 export function setAddressIsManuallySet (addressIsManuallySet: boolean) {
   return action(Constants.DROP_SET_ADDRESS_MANUALLY_SET, { addressIsManuallySet })
+}
+
+export function setWalletApp (walletApp: TWalletName) {
+  return action(Constants.DROP_SET_WALLET_APP, { walletApp })
 }
 
 export function setTheme (theme: TTheme) {
