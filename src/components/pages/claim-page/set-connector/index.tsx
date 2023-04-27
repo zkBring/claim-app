@@ -18,8 +18,9 @@ import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { useConnect } from 'wagmi'
 import LinkdropLogo from 'images/linkdrop-header.png'
-import { TDropType } from 'types'
+import { TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
+import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 
 const mapStateToProps = ({
   token: { name, image, decimals },
@@ -42,7 +43,11 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
   return {
     chooseWallet: () => dispatch(
       dropActions.setStep('choose_wallet')
-    )
+    ),
+    deeplinkRedirect: (
+      deeplink: string,
+      walletId: TWalletName
+    ) => dispatch(dropAsyncActions.deeplinkRedirect(deeplink, walletId)),
   }
 }
 
@@ -67,7 +72,8 @@ const SetConnector: FC<ReduxType> = ({
   amount,
   decimals,
   wallet,
-  chainId
+  chainId,
+  deeplinkRedirect
 }) => {
 
   const { connect, connectors } = useConnect()
@@ -141,7 +147,7 @@ const SetConnector: FC<ReduxType> = ({
         if (wallet === 'coinbase_wallet' && chainId) {
           const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href, chainId)
           if (coinbaseDeeplink) {
-            return window.open(coinbaseDeeplink, '_blank')
+            deeplinkRedirect(coinbaseDeeplink, 'coinbase')
           }
         }
 
