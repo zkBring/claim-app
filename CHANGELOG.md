@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.5-rc.0
+- Added Coinbase Wallet SDK support
+
 ## 2.2.4
 - Added new screen after deeplink redirect
 - Added imToken Wallet
