@@ -1,8 +1,9 @@
 {
   "name": "app-claim",
-  "version": "2.2.4",
+  "version": "2.2.5-rc.0",
   "private": true,
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.6.6",
     "@craco/craco": "^6.4.0",
     "@linkdrop/contracts": "^1.2.2",
     "@reduxjs/toolkit": "^1.6.2",

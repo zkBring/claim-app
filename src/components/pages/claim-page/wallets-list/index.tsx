@@ -114,12 +114,28 @@ const defineOptionsList = (
       icon: <WalletIcon src={BrowserWalletIcon} />,
       recommended: wallet && wallet !== 'walletconnect'
     } : installMetamask) : installMetamask
+    
+    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWallet")
+    const coinbaseOption = {
+      title: 'Coinbase Wallet',
+      onClick: () => {
+        if (!coinbaseConnector) {
+          return alert('Cannot connect to Coinbase connector')
+        }
+        connect({ connector: coinbaseConnector })
+      },
+      icon: <WalletIcon src={CoinabseWalletIcon} />,
+      recommended: wallet === 'coinbase_wallet'
+    }
 
-    return [
-      injectedOption,
+    const wallets = [
+      wallet === 'coinbase_wallet' ? undefined : injectedOption,
+      coinbaseOption,
       walletConnectOption,
       ensOption
     ]
+
+    return sortWallets(wallets) 
   }
 
   const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
