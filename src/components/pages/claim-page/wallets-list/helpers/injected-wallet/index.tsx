@@ -34,7 +34,7 @@ const defineInjectedWallet: TDefineInjectedWallet = (
 
   if (system === 'desktop') {
     if (
-      !injected
+      !injected || !injected.ready
     ) {
       // has no injected
   
