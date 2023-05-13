@@ -13,7 +13,6 @@ import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
-import BrowserWalletIcon from 'images/browser-wallet.png'
 import ZerionWalletIcon from 'images/zerion-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
@@ -31,9 +30,9 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupContents } from './components'
 import DesktopPopupContents from '../choose-wallet/components/popup-contents'
 import { defineSystem, getWalletDeeplink, sortWallets } from 'helpers'
-import { detect } from 'detect-browser'
 import { plausibleApi } from 'data/api'
 import LinkdropLogo from 'images/linkdrop-header.png'
+import defineInjectedWallet from './helpers/injected-wallet'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -90,51 +89,39 @@ const defineOptionsList = (
     recommended: wallet === 'walletconnect'
   }
   const injected = connectors.find(connector => connector.id === "injected")
-
-  const installMetamask = {
-    title: 'Browser Wallet',
-    onClick: () => {
-      window.open('https://metamask.io/download/', '_blank')
-      downloadStarted()
-    },
-    icon: <WalletIcon src={BrowserWalletIcon} />,
-    tag: 'Install MetaMask ->'
-  }
+  const injectedOption = defineInjectedWallet(
+    wallet,
+    system,
+    downloadStarted,
+    connect,
+    injected
+  )
 
   if (system === 'desktop') {
-    const browser = detect()
-    const injectedOption = browser?.name !== 'safari' ? (injected && injected.ready ? {
-      title: 'Browser Wallet',
+    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWallet")
+    const coinbaseOption = {
+      title: 'Coinbase Wallet',
       onClick: () => {
-        if (!injected) {
-          return alert('Cannot connect to injected')
+        if (!coinbaseConnector) {
+          return alert('Cannot connect to Coinbase connector')
         }
-        connect({ connector: injected })
+        connect({ connector: coinbaseConnector })
       },
-      icon: <WalletIcon src={BrowserWalletIcon} />,
-      recommended: wallet && wallet !== 'walletconnect'
-    } : installMetamask) : installMetamask
+      icon: <WalletIcon src={CoinabseWalletIcon} />,
+      recommended: wallet === 'coinbase_wallet'
+    }
 
-    return [
+    const wallets = [
       injectedOption,
+      coinbaseOption,
       walletConnectOption,
       ensOption
     ]
+
+    return sortWallets(wallets) 
   }
 
   const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
-
-  const injectedOption = injected && injected.ready ? {
-    title: 'Injected',
-    onClick: () => {
-      if (!injected) {
-        return alert('Cannot connect to injected')
-      }
-      connect({ connector: injected })
-    },
-    icon: <WalletIcon src={BrowserWalletIcon} />,
-    recommended: !injectedOptionIsBrave
-  } : undefined
 
   const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href, chainId)
   const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
