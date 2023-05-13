@@ -25,27 +25,36 @@ const mapStateToProps = ({
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
     getLink: (
-        qrId: string, callback: (location: string) => void
+      qrSecret: string,
+      qrEncCode: string,
+        callback: (location: string) => void
       ) => dispatch(
-        dropAsyncActions.getLinkByQR(
-          qrId, callback 
+        dropAsyncActions.getLinkByMultiQR(
+          qrSecret,
+          qrEncCode,
+          callback 
         )
       )
   }
 }
-
+type TParams = { qrSecret: string, qrEncCode: string }
 type ReduxType = ReturnType<typeof mapDispatcherToProps> & ReturnType<typeof mapStateToProps>
 
-const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
-  const { qrId } = useParams<{ qrId: string }>()
+const MultiQR: FC<ReduxType> = ({ getLink, initialized, error }) => {
+  const { qrSecret, qrEncCode } = useParams<TParams>()
   const history = useHistory()
 
   useEffect(() => {
-    if (!qrId) { return alertError('QR_ID is not found in URL') }
-    getLink(qrId, (location) => {
-      const path = location.split('/#')[1]
-      history.push(path)
-    })
+    if (!qrEncCode) { alertError('QR_ENC_CODE is not found in URL') }
+    if (!qrSecret) { alertError('QR_SECRET is not found in URL') }
+    getLink(
+      qrSecret,
+      qrEncCode,
+      (location) => {
+        const path = location.split('/#')[1]
+        history.push(path)
+      }
+    )
   }, [])
 
   if (!error) {
@@ -93,4 +102,4 @@ const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
   </Page>
 }
 
-export default connect(mapStateToProps, mapDispatcherToProps)(QR)
+export default connect(mapStateToProps, mapDispatcherToProps)(MultiQR)

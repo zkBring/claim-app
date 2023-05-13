@@ -8,6 +8,7 @@ import getLinkFromURL from './get-link-from-url'
 import getLinkByCode from './get-link-by-code'
 import getLinkFromInput from './get-link-from-input'
 import deeplinkRedirect from './deeplink-redirect'
+import getLinkByMultiQR from './get-link-by-multi-qr'
 
 export {
   claimERC1155,
@@ -19,5 +20,6 @@ export {
   getLinkFromURL,
   getLinkByCode,
   getLinkFromInput,
-  deeplinkRedirect
+  deeplinkRedirect,
+  getLinkByMultiQR
 }

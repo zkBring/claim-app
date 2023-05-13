@@ -28,9 +28,13 @@ import defineAlchemyNetwork from './define-alchemy-network'
 import createAlchemyInstance from './create-alchemy-instance'
 import getAlchemyTokenImage from './get-alchemy-token-image'
 import copyToClipboard from './copy-to-clipboard'
+import alertError from './alert-error'
+import checkIfMultiscanIsPresented from './check-if-multiscan-qr-id-presented-in-storage'
 
 export {
   copyToClipboard,
+  checkIfMultiscanIsPresented,
+  alertError,
   getAlchemyTokenImage,
   sortWallets,
   createAlchemyInstance,
