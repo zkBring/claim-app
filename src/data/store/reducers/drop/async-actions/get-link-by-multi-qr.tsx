@@ -1,49 +1,52 @@
 
-import { Dispatch } from 'redux';
+import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
-import * as wccrypto from '@walletconnect/utils/dist/esm'
-import { getQRData } from 'data/api'
 import * as actionsDrop from '../actions'
+import { plausibleApi, getMultiQRData } from 'data/api'
+import { checkIfMultiscanIsPresented } from 'helpers'
 import axios, { AxiosError } from 'axios'
-import { plausibleApi } from 'data/api'
+import { RootState } from 'data/store'
+import * as wccrypto from '@walletconnect/utils/dist/esm'
 
-export default function getLink(
-  qrSecret: string,
+export default function getLinkByMultiQR(
+  multiscanQRId: string,
+  scanId: string,
+  scanIdSig: string,
+  multiscanQREncCode: string,
+  address: string,
   callback: (location: string) => void
 ) {
   return async (
     dispatch: Dispatch<DropActions>
   ) => {
+    dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
+
     try {
-      const qrId = new ethers.Wallet(qrSecret).address
-      const linkEncrypted = await getQRData(qrId)
-      const { success, encrypted_claim_link }: { success: boolean, encrypted_claim_link: string } = linkEncrypted.data
-      if (success) {
-        if (encrypted_claim_link) {
-          const decryptedLink = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: qrSecret })
-          callback(decryptedLink)
-        } else {
-          dispatch(actionsDrop.setError('qr_not_mapped'))
-          plausibleApi.invokeEvent({
-            eventName: 'error',
-            data: {
-              err_name: 'qr_not_mapped'
-            }
-          })
+      const { data } = await getMultiQRData(
+        multiscanQRId,
+        scanId,
+        scanIdSig,
+        address
+      )
+
+      const { encrypted_claim_link, success }: { encrypted_claim_link: string, success: boolean } = data
+
+      if (success && encrypted_claim_link) {
+        const decryptKey = ethers.utils.id(multiscanQREncCode)
+        const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
+        if (linkDecrypted && callback) {
+          callback(linkDecrypted)
         }
-      } else {
-        dispatch(actionsDrop.setError('qr_error'))
-        plausibleApi.invokeEvent({
-          eventName: 'error',
-          data: {
-            err_name: 'qr_error'
-          }
-        })
-        alert('Some error occured')
-      }
+      } 
+
+
+      dispatch(actionsDrop.setLoading(false))
+
     } catch (err: any | AxiosError) {
+      dispatch(actionsDrop.setLoading(false))
+      console.log({ err })
       if (axios.isAxiosError(err)) {
         if (err.message === 'Network Error') {
           if (!window.navigator.onLine) {
