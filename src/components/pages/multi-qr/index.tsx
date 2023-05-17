@@ -47,8 +47,7 @@ const MultiQR: FC<ReduxType> = ({ computeScanAddress, initialized, error }) => {
       qrSecret,
       qrEncCode,
       (location) => {
-        const path = location.split('/#')[1]
-        history.push(path)
+        history.push(location)
       }
     )
   }, [])

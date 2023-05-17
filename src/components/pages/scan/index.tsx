@@ -9,7 +9,8 @@ import {
   Title,
   Subtitle,
   IconContainer,
-  LoadingTitle
+  LoadingTitle,
+  ButtonStyled
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
@@ -30,6 +31,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       scanId: string,
       scanIdSig: string,
       multiscanQREncCode: string,
+      address: string,
       callback: (location: string) => void
       ) => dispatch(
         dropAsyncActions.getLinkByMultiQR(
@@ -37,6 +39,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
           scanId,
           scanIdSig,
           multiscanQREncCode,
+          address,
           callback 
         )
       )
@@ -48,7 +51,7 @@ type ReduxType = ReturnType<typeof mapDispatcherToProps> & ReturnType<typeof map
 const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
-  const { address, connector } = useAccount()
+  const { address, isConnected } = useAccount()
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
@@ -67,18 +70,20 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
         injected.ready
       ) {
         connect({ connector: injected })
-        alert('DETECTED AS INJECTED')
+        console.log('DETECTED AS INJECTED')
         setIsInjected(true)
       } else {
-        alert('DETECTED AS NOT INJECTED')
+        console.log('DETECTED AS NOT INJECTED')
         setIsInjected(false)
       }
+      setInitialized(true)
     }
-    setInitialized(true)
+    init()
+    
   }, [])
 
   useEffect(() => {
-    if (!initialized) {
+    if (!initialized || !address) {
       return
     }
     if (isInjected) {
@@ -87,10 +92,15 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
         scanId,
         scanIdSig,
         multiscanQREncCode,
-        (location) => { alert(location) }
+        address,
+        (location) => {
+          const path = location.split('/#')[1]
+          console.log({ path })
+          history.push(path)
+        }
       )
     }
-  }, [initialized])
+  }, [initialized, address])
 
 
   if (loading || !initialized) {
@@ -134,7 +144,6 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
         <Image src={ErrorImageBlack} />
         <Title>Something went wrong</Title>
         <Subtitle>Please, try again later</Subtitle>
-        {/* <ButtonStyled onClick={() => {}}>Retry</ButtonStyled> */}
       </Container>
     </Page>
   }
@@ -142,10 +151,17 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
   // if we are not on web3
   return <Page>
     <Container>
-      <Image src={ErrorImageBlack} />
-      <Title>Something went wrong</Title>
-      <Subtitle>Please, try again later</Subtitle>
-      {/* <ButtonStyled onClick={() => {}}>Retry</ButtonStyled> */}
+      <Title>Claim digital asset</Title>
+      <Subtitle>To claim this asset, you will need to have Wallet set up and ready to use</Subtitle>
+      <ButtonStyled 
+        appearance='action'
+        onClick={() => {
+          connect({ connector: injected })
+          setIsInjected(true)
+        }}
+      >
+        Connect
+      </ButtonStyled>
     </Container>
   </Page>
   

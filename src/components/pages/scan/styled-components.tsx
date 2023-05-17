@@ -8,6 +8,7 @@ export const Container = styled.div`
   max-width: 343px;
   margin: 0 auto;
   justify-content: center;
+  text-align: center;
 `
 
 export const Image = styled.img`

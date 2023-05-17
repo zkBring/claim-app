@@ -18,7 +18,8 @@ export default function computeScanAddress(
     try {
       const linkKey = ethers.utils.id(qrSecret)
       const qrKeysPair = new ethers.Wallet(linkKey)
-      const MULTISCAN_QR_ID = qrKeysPair.address
+      const MULTISCAN_QR_ID = qrKeysPair.address.toLowerCase()
+      console.log({ MULTISCAN_QR_ID })
       // const MULTISCAN_QR_SECRET_PK = qrKeysPair.privateKey
       const inLocalStorage = checkIfMultiscanIsPresented(MULTISCAN_QR_ID)
       // const qrEncCodeForDecrypt = ethers.utils.id(qrEncCode).replace('0x', '')
@@ -35,6 +36,7 @@ export default function computeScanAddress(
           'place': 'no local storage',
           redirectURL
         })
+        callback(redirectURL)
       } else {
         const { scanID: SCAN_ID, scanIDSig: SCAN_ID_SIG } = inLocalStorage
         const redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}`
@@ -42,6 +44,7 @@ export default function computeScanAddress(
           'place': 'in local storage',
           redirectURL
         })
+        callback(redirectURL)
       }
 
     } catch (err: any) {
