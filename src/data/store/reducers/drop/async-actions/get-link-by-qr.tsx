@@ -98,7 +98,7 @@ export default function getLink(
             err_name: 'qr_error'
           }
         })
-      }      
+      }
     }
   } 
 }

@@ -75,9 +75,8 @@ const SetConnector: FC<ReduxType> = ({
   chainId,
   deeplinkRedirect
 }) => {
-
   const { connect, connectors } = useConnect()
-  const injected = connectors.find(connector => connector.id === "injected")
+  const injected = connectors.find(connector => connector.id === 'injected')
   const system = defineSystem()
   const [ initialized, setInitialized ] = useState<boolean>(false)
 

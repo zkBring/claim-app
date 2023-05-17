@@ -10,29 +10,6 @@ export const Container = styled.div`
   justify-content: center;
 `
 
-export const Image = styled.img`
-  max-width: 240px;
-  margin-bottom: 24px;
-`
-
-export const Title = styled.h2`
-  margin: 0 0 8px;
-  font-size: 24px;
-  text-align: center;
-  font-weight: 600;
-  color: ${props => props.theme.primaryTextColor};
-`
-
-export const Subtitle = styled.h3`
-  color: ${props => props.theme.additionalTextColor};
-  font-size: 14px;
-  margin: 0 0 40px;
-`
-
-export const ButtonStyled = styled(Button)`
-  width: 100%;
-`
-
 export const IconContainer = styled.div`
   margin-bottom: 35px;
   margin-top: 50px;
@@ -43,13 +20,5 @@ export const LoadingTitle = styled.h3`
   line-height: 32px;
   color: ${props => props.theme.primaryTextColor};
   margin: 0 0 12px;
-  text-align: center;
-`
-
-export const LoadingText = styled.p`
-  font-size: 14px;
-  line-height: 20px;
-  color: ${props => props.theme.additionalTextColor};
-  margin: 0;
   text-align: center;
 `

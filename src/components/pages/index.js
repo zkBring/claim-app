@@ -4,6 +4,7 @@ import NotFound from './not-found'
 import QR from './qr'
 import HomePage from './home-page'
 import MultiQR from './multi-qr'
+import Scan from './scan'
 
 export {
   Page,
@@ -11,5 +12,6 @@ export {
   NotFound,
   QR,
   HomePage,
-  MultiQR
+  MultiQR,
+  Scan
 }
