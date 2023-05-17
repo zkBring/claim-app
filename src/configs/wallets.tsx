@@ -93,7 +93,7 @@ const wallets: TWallets = {
     },
     chains: [1, 5, 137, 80001]
   },
-  coinbase: {
+  coinbase_wallet: {
     id: 'coinbase_wallet',
     name: 'Coinbase Wallet',
     walletURL: 'https://www.toshi.org',

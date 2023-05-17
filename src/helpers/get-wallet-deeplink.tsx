@@ -1,7 +1,7 @@
 import { TSystem, TWalletName } from 'types'
 import wallets from 'configs/wallets'
 
-type TGetWalletDeeplink = (walletId: TWalletName, system: TSystem, redirectUrl: string, linkChainId: number) => string | void | null
+type TGetWalletDeeplink = (walletId: TWalletName, system: TSystem, redirectUrl: string, linkChainId: number | null) => string | void | null
 
 const getWalletDeeplink: TGetWalletDeeplink = (walletId, system, redirectUrl, linkChainId) => {
   if (system === 'desktop') {
@@ -9,7 +9,7 @@ const getWalletDeeplink: TGetWalletDeeplink = (walletId, system, redirectUrl, li
   }
   const walletData = wallets[walletId]
 
-  if (!walletData.chains.find(chain => chain === linkChainId)) {
+  if (linkChainId && !walletData.chains.find(chain => chain === linkChainId)) {
     return
   }
 
