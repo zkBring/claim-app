@@ -1,3 +1,3 @@
-type TWalletName = 'metamask' | 'status' | 'trust' | 'opera' | 'coinbase' | 'imtoken' | 'zerion' | 'rainbow'
+type TWalletName = 'metamask' | 'status' | 'trust' | 'opera' | 'coinbase_wallet' | 'imtoken' | 'zerion' | 'rainbow'
 
 export default TWalletName

@@ -30,9 +30,13 @@ import getAlchemyTokenImage from './get-alchemy-token-image'
 import copyToClipboard from './copy-to-clipboard'
 import alertError from './alert-error'
 import checkIfMultiscanIsPresented from './check-if-multiscan-qr-id-presented-in-storage'
+import getWalletOption from './get-wallet-option'
+import getInjectedWalletOption from './get-injected-wallet-option'
 
 export {
   copyToClipboard,
+  getInjectedWalletOption,
+  getWalletOption,
   checkIfMultiscanIsPresented,
   alertError,
   getAlchemyTokenImage,

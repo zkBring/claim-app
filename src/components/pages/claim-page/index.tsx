@@ -28,7 +28,7 @@ import Page from '../page'
 import { TDropStep, TWalletName } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { Container, LinkdropHeaderLogo, LinkdropHeader, LinkdropHeaderBack } from './styled-components'
+import { Container } from './styled-components'
 import { Dispatch } from 'redux'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
@@ -38,8 +38,7 @@ import { TokenActions } from 'data/store/reducers/token/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
 import DownloadAwait from './download-await'
-import Icons from 'icons'
-import applicationOptions from 'configs/application'
+
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -165,14 +164,9 @@ const defineBackAction = (
   }
 }
 
-const defineHeader = (step: TDropStep, wallet: string | null, action: (prevoiusStep: TDropStep) => void) => {
+const defineHeader = (step: TDropStep, wallet: string | null, action: (prevStep: TDropStep) => void) => {
   const backAction = defineBackAction(step, wallet, action)
-  return <LinkdropHeader>
-    {backAction && <LinkdropHeaderBack onClick={() => backAction()}>
-      <Icons.ArrowLeftIcon />
-    </LinkdropHeaderBack>}
-    <LinkdropHeaderLogo src={applicationOptions.logo} alt="Application Logo" />
-  </LinkdropHeader>
+  
 }
 
 const ClaimPage: FC<ReduxType> = ({
