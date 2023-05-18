@@ -20,12 +20,14 @@ import {
   QRNotFound,
   QRNoConnection,
   QRIncorrectParameter,
-  PageHeader
+  PageHeader,
+  PoweredByFooter
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
 import { useAccount, useConnect } from 'wagmi'
 import WalletsList from './wallets-list'
+import GiftPreview from 'images/dispenser-preview-image.png'
 
 const mapStateToProps = ({
   user: { initialized },
@@ -92,18 +94,20 @@ const ErrorScreen: FC<{ error: TDropError | null }> = ({ error }) => {
 
 const DefaultScreen: FC<{ setWalletOptions: (walletOptions: boolean) => void }> = ({ setWalletOptions }) => {
   return <>
+    <Image src={GiftPreview} />
     <Title>Claim digital asset</Title>
-      <Subtitle>To claim this asset, you will need to have Wallet set up and ready to use</Subtitle>
-      <ButtonStyled 
-        appearance='action'
-        onClick={() => {
-          // connect({ connector: injected })
-          // setIsInjected(true)
-          setWalletOptions(true)
-        }}
-      >
-        Choose Wallet
-      </ButtonStyled>
+    <Subtitle>To claim this asset, you will need to have Wallet set up and ready to use</Subtitle>
+    <ButtonStyled 
+      appearance='action'
+      onClick={() => {
+        // connect({ connector: injected })
+        // setIsInjected(true)
+        setWalletOptions(true)
+      }}
+    >
+      Choose Wallet
+    </ButtonStyled>
+    <PoweredByFooter />
   </>
 }
 
@@ -140,9 +144,12 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
     const init = async () => {
       if(window &&
         window.ethereum &&
+
         // if not commented - would connect injected only for coinbase
-        // window.ethereum.isCoinbaseWallet &&
-        // system !== 'desktop' && 
+        window.ethereum.isCoinbaseWallet &&
+        system !== 'desktop' && 
+        // if not commented - would connect injected only for coinbase
+
         injected &&
         injected.ready
       ) {
