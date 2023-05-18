@@ -6,6 +6,7 @@ import * as actionsDrop from '../actions'
 import { plausibleApi } from 'data/api'
 import { checkIfMultiscanIsPresented } from 'helpers'
 
+
 export default function computeScanAddress(
   qrSecret: string,
   qrEncCode: string,
