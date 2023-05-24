@@ -145,4 +145,13 @@ export function setClaimingFinishedButtonURL (claiming_finished_button_url: stri
   )
 }
 
+export function setOnlyPreferredWallet (only_preferred_wallet: boolean) {
+  return action(
+    Constants.DROP_SET_ONLY_PREFERRED_WALLET,
+    {
+      onlyPreferredWallet: only_preferred_wallet
+    }
+  )
+}
+
 

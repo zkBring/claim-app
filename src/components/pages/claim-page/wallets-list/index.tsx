@@ -19,7 +19,7 @@ import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
-import { TDropStep, TWalletName } from 'types'
+import { TDropStep, TWalletName, TWalletOption } from 'types'
 import { AdditionalNoteComponent } from 'linkdrop-ui'
 import {  OverlayScreen } from 'linkdrop-ui'
 import * as dropActions from 'data/store/reducers/drop/actions'
@@ -34,10 +34,31 @@ import LinkdropLogo from 'images/linkdrop-header.png'
 import BrowserWalletIcon from 'images/browser-wallet.png'
 
 const mapStateToProps = ({
-  token: { name, image },
-  drop: { tokenId, type, wallet, claimCode, chainId, isManual, campaignId }
+  token: {
+    name,
+    image
+  },
+  drop: { 
+    tokenId,
+    type,
+    wallet,
+    claimCode,
+    chainId,
+    isManual,
+    campaignId,
+    onlyPreferredWallet
+  }
 }: RootState) => ({
-  name, image, type, tokenId, wallet, claimCode, chainId, isManual, campaignId
+  name,
+  image,
+  type,
+  tokenId,
+  wallet,
+  claimCode,
+  chainId,
+  isManual,
+  campaignId,
+  onlyPreferredWallet
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -57,6 +78,18 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
+const isOptionVisible = (
+  option: TWalletOption | undefined,
+  preferredWallet: string | null,
+  currentOption: string,
+  onlyPreferredWallet: boolean
+) => {
+  if (!option) { return option }
+  if (!onlyPreferredWallet || currentOption === preferredWallet) {
+    return option
+  }
+}
+
 const defineOptionsList = (
   setAddress: () => void,
   setStep: (step: TDropStep) => void,
@@ -70,8 +103,10 @@ const defineOptionsList = (
     walletId: TWalletName
   ) => Promise<void>,
   isManual: boolean,
-  chainId: number
+  chainId: number,
+  onlyPreferredWallet: boolean
 ) => {
+
   const system = defineSystem()
   const ensOption = !isManual ? {
     title: 'Enter ENS or address',
@@ -112,9 +147,9 @@ const defineOptionsList = (
     }
 
     const wallets = [
-      injectedOption,
-      coinbaseOption,
-      walletConnectOption,
+      isOptionVisible(injectedOption, wallet, 'metamask', onlyPreferredWallet),
+      isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', onlyPreferredWallet),
+      isOptionVisible(walletConnectOption, wallet, 'walletconnect', onlyPreferredWallet),
       ensOption
     ]
 
@@ -189,15 +224,15 @@ const defineOptionsList = (
 
 
   const wallets = [
-    injectedOption,
-    metamaskOption,
-    coinbaseOption,
-    zerionOption,
-    walletConnectOption,
+    isOptionVisible(injectedOption, wallet, 'metamask', onlyPreferredWallet),
+    isOptionVisible(metamaskOption, wallet, 'metamask', onlyPreferredWallet),
+    isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', onlyPreferredWallet),
+    isOptionVisible(zerionOption, wallet, 'zerion', onlyPreferredWallet),
+    isOptionVisible(walletConnectOption, wallet, 'walletconnect', onlyPreferredWallet),
     ensOption,
-    imtokenOption,
-    trustOption,
-    rainbowOption
+    isOptionVisible(imtokenOption, wallet, 'imtoken', onlyPreferredWallet),
+    isOptionVisible(trustOption, wallet, 'trust', onlyPreferredWallet),
+    isOptionVisible(rainbowOption, wallet, 'rainbow', onlyPreferredWallet)
   ]
 
   return sortWallets(wallets)
@@ -210,7 +245,8 @@ const WalletsList: FC<ReduxType> = ({
   chainId,
   isManual,
   campaignId,
-  deeplinkRedirect
+  deeplinkRedirect,
+  onlyPreferredWallet
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -228,7 +264,8 @@ const WalletsList: FC<ReduxType> = ({
     () => setStep('download_await'),
     (deeplink: string, walletId: TWalletName) => deeplinkRedirect(deeplink, walletId),
     isManual,
-    chainId as number
+    chainId as number,
+    onlyPreferredWallet
   )
 
   return <Container>

@@ -24,13 +24,14 @@ export interface DropState {
   weiAmount: string | null
   error: null | TDropError
   theme: TTheme
-  addressIsManuallySet: boolean,
-  claimCode: string | null,
-  linkId: string | null,
-  claiming_finished_description: string,
-  claiming_finished_button_title: string,
-  claiming_finished_button_url: string,
+  addressIsManuallySet: boolean
+  claimCode: string | null
+  linkId: string | null
+  claiming_finished_description: string
+  claiming_finished_button_title: string
+  claiming_finished_button_url: string
   walletApp: null | TWalletName
+  onlyPreferredWallet: boolean
 }
 
 
