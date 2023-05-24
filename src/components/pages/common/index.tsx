@@ -10,6 +10,7 @@ import PopupWalletListContents from './popup-wallet-list-contents'
 import PopupWhatIsWalletContents from './popup-what-is-wallet-contents'
 import PageHeader from './page-header'
 import PoweredByFooter from './powered-by-footer'
+import QRNoLinksToShare from './qr-no-links-to-share'
 
 export {
   QRNotMapped,
@@ -23,5 +24,6 @@ export {
   ClaimingFinishedButton,
   PopupWhatIsWalletContents,
   QRCampaignNotStarted,
+  QRNoLinksToShare,
   PoweredByFooter
 }

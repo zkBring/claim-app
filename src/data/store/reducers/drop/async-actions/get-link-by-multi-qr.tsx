@@ -101,6 +101,14 @@ export default function getLinkByMultiQR(
                 err_name: 'qr_campaign_not_started'
               }
             })
+          } else if (data.error.includes("No more claims available.")) {
+            dispatch(actionsDrop.setError('qr_no_links_to_share'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_no_links_to_share'
+              }
+            })
           } else {
             dispatch(actionsDrop.setError('qr_error'))
             plausibleApi.invokeEvent({

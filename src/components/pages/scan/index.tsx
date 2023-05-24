@@ -23,7 +23,8 @@ import {
   QRCampaignNotStarted,
   QRCampaignFinished,
   PageHeader,
-  PoweredByFooter
+  PoweredByFooter,
+  QRNoLinksToShare
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
@@ -94,6 +95,12 @@ const ErrorScreen: FC<{ error: TDropError | null }> = ({ error }) => {
   if (error === 'qr_campaign_finished') {
     return <Page>
       <QRCampaignFinished />
+    </Page>
+  }
+
+  if (error === 'qr_no_links_to_share') {
+    return <Page>
+      <QRNoLinksToShare />
     </Page>
   }
 

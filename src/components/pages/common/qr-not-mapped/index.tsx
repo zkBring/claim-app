@@ -13,7 +13,6 @@ const ErrorScreen: FC = () => {
     <Image src={QRError} />
     <Title>QR not mapped</Title>
     <Subtitle>Please contact the company that provided you the QR code</Subtitle>
-    <ButtonStyled appearance='default'>Learn more</ButtonStyled>
   </Container>
 }
 
