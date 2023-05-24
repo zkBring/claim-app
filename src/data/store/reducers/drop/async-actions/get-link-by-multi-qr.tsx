@@ -83,6 +83,34 @@ export default function getLinkByMultiQR(
               err_name: 'qr_error'
             }
           })
+        } else if (err.response?.status === 403) {
+          const { data } = err.response
+          if (data.error.includes("Claim is over.")) {
+            dispatch(actionsDrop.setError('qr_campaign_finished'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_campaign_finished'
+              }
+            })
+          } else if (data.error.includes("Claim has not started yet.")) {
+            dispatch(actionsDrop.setError('qr_campaign_not_started'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_campaign_not_started'
+              }
+            })
+          } else {
+            dispatch(actionsDrop.setError('qr_error'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_error'
+              }
+            })
+          }
+          
         }
       } else {
         if (err && err.code === "INVALID_ARGUMENT") {

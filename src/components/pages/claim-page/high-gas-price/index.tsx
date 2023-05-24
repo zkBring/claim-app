@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react'
-import { Image, Title, Subtitle, ButtonStyled, AdditionalAction } from './styled-components'
+import {  AdditionalAction } from './styled-components'
+import { Image, Title, Subtitle, ButtonStyled } from 'components/pages/common/styles/styled-components'
 import GasPrice from 'images/gas-price.png'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'

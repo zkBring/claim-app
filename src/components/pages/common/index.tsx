@@ -1,6 +1,8 @@
 import QRNotMapped from './qr-not-mapped'
 import QRNotFound from './qr-not-found'
 import QRNoConnection from './qr-no-connection'
+import QRCampaignNotStarted from './qr-campaign-not-started'
+import QRCampaignFinished from './qr-campaign-finished'
 import QRIncorrectParameter from './qr-incorrect-parameter'
 import ERC20TokenPreview from './erc20-token-preview'
 import ClaimingFinishedButton from './claiming-finished-button'
@@ -14,10 +16,12 @@ export {
   PageHeader,
   QRNotFound,
   PopupWalletListContents,
+  QRCampaignFinished,
   QRNoConnection,
   QRIncorrectParameter,
   ERC20TokenPreview,
   ClaimingFinishedButton,
   PopupWhatIsWalletContents,
+  QRCampaignNotStarted,
   PoweredByFooter
 }

@@ -16,7 +16,7 @@ import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
-import { useConnect } from 'wagmi'
+import { useConnect, Connector } from 'wagmi'
 import { TDropStep, TWalletName } from 'types'
 import { AdditionalNoteComponent } from 'linkdrop-ui'
 import {  OverlayScreen } from 'linkdrop-ui'
@@ -25,10 +25,10 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupWalletListContents, PopupWhatIsWalletContents } from 'components/pages/common'
-import { defineSystem, sortWallets, getWalletOption } from 'helpers'
+import { defineSystem, sortWallets, getWalletOption, getInjectedWalletOption } from 'helpers'
 import { plausibleApi } from 'data/api'
 import LinkdropLogo from 'images/linkdrop-header.png'
-
+import BrowserWalletIcon from 'images/browser-wallet.png'
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
   return {
@@ -44,12 +44,25 @@ type ReduxType = ReturnType<typeof mapDispatcherToProps>
 
 const defineOptionsList = (
   open: (options?: any | undefined) => Promise<void>,
+  connectors: Connector<any, any, any>[],
+  connect: (args: Partial<any> | undefined) => void,
+  wallet: TWalletName,
   deeplinkRedirect: (
     deeplink: string,
     walletId: TWalletName
   ) => Promise<void>,
 ) => {
   const system = defineSystem()
+
+  const injected = connectors.find(connector => connector.id === "injected")
+  const injectedOption = getInjectedWalletOption(
+    wallet,
+    system,
+    null,
+    connect,
+    <WalletIcon src={BrowserWalletIcon} />,
+    injected
+  )
 
   const walletConnectOption = {
     title: 'WalletConnect',
@@ -60,14 +73,29 @@ const defineOptionsList = (
   }
 
   if (system === 'desktop') {
+    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWallet")
+    const coinbaseOption = {
+      title: 'Coinbase Wallet',
+      onClick: () => {
+        if (!coinbaseConnector) {
+          return alert('Cannot connect to Coinbase connector')
+        }
+        connect({ connector: coinbaseConnector })
+      },
+      icon: <WalletIcon src={CoinabseWalletIcon} />,
+      recommended: wallet === 'coinbase_wallet'
+    }
+
     const wallets = [
+      coinbaseOption,
+      injectedOption,
       walletConnectOption
     ]
     return sortWallets(wallets) 
   }
 
 
-  const metamaskOption =  getWalletOption(
+  const metamaskOption = getWalletOption(
     'metamask',
     'Metamask',
     system,
@@ -131,13 +159,16 @@ const defineOptionsList = (
 
 const WalletsList: FC<ReduxType> = ({ deeplinkRedirect }) => {
   const { open } = useWeb3Modal()
-  const { connectors } = useConnect()
+  const { connectors, connect } = useConnect()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
   const injected = connectors.find(connector => connector.id === "injected")
 
   const options = defineOptionsList(
     open,
+    connectors,
+    connect,
+    'coinbase_wallet',
     (deeplink: string, walletId: TWalletName) => deeplinkRedirect(deeplink, walletId),
   )
 
