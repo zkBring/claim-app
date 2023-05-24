@@ -3,6 +3,7 @@
 ## 2.2.6
 - Added Dispenser support
 - Error pages refactoring
+- Update for manifest file
 
 ## 2.2.5
 - Added Coinbase Wallet SDK support
