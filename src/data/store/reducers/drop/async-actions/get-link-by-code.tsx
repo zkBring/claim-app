@@ -62,7 +62,6 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setLoading(false))
       dispatch(actionsDrop.setClaimCode(linkCode))
       dispatch(actionsDrop.setLinkId(linkId))
-      console.log({ only_preferred_wallet })
       dispatch(actionsDrop.setOnlyPreferredWallet(Boolean(only_preferred_wallet)))
       dispatch(actionsDrop.setLinkKey(linkKey))
       if (claiming_finished_button_title && claiming_finished_button_url) {
