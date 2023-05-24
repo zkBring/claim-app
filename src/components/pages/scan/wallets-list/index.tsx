@@ -102,7 +102,8 @@ const defineOptionsList = (
     window.location.href, 
     null,
     <WalletIcon src={MetamaskIcon} />,
-    deeplinkRedirect
+    deeplinkRedirect,
+    wallet
   )
 
   const trustOption = getWalletOption(
@@ -112,7 +113,8 @@ const defineOptionsList = (
     window.location.href, 
     null,
     <WalletIcon src={TrustWalletIcon} />,
-    deeplinkRedirect
+    deeplinkRedirect,
+    wallet
   )
 
   const coinbaseOption = getWalletOption(
@@ -122,7 +124,8 @@ const defineOptionsList = (
     window.location.href, 
     null,
     <WalletIcon src={CoinabseWalletIcon} />,
-    deeplinkRedirect
+    deeplinkRedirect,
+    wallet
   )
 
   const rainbowOption = getWalletOption(
@@ -132,7 +135,8 @@ const defineOptionsList = (
     window.location.href, 
     null,
     <WalletIcon src={RainbowWalletIcon} />,
-    deeplinkRedirect
+    deeplinkRedirect,
+    wallet
   )
 
   const imtokenOption = getWalletOption(
@@ -142,7 +146,8 @@ const defineOptionsList = (
     window.location.href, 
     null,
     <WalletIcon src={ImtokenWalletIcon} />,
-    deeplinkRedirect
+    deeplinkRedirect,
+    wallet
   )
 
   const wallets = [
