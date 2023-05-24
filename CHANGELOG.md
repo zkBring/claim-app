@@ -1,5 +1,9 @@
 # Linkdrop Claim app
 
+## 2.2.6
+- Added Dispenser support
+- Error pages refactoring
+
 ## 2.2.5
 - Added Coinbase Wallet SDK support
 
