@@ -174,10 +174,8 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
         injected.ready
       ) {
         connect({ connector: injected })
-        console.log('DETECTED AS INJECTED')
         setIsInjected(true)
       } else {
-        console.log('DETECTED AS NOT INJECTED')
         setIsInjected(false)
       }
       setInitialized(true)
@@ -200,7 +198,6 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
         address,
         (location) => {
           const path = location.split('/#')[1]
-          console.log({ path })
           history.push(path)
         }
       )
