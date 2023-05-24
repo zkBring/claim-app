@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Title, Subtitle, Container } from './styled-components'
+import { Title, Subtitle, Container } from 'components/pages/common/styles/styled-components'
 
 const ErrorComponent: FC = (props) => {
   return <Container>

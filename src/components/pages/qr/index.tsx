@@ -9,13 +9,13 @@ import {
   Title,
   Subtitle,
   IconContainer,
-  LoadingText,
   LoadingTitle
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
 import { QRNotMapped, QRNotFound, QRNoConnection, QRIncorrectParameter } from 'components/pages/common'
 import Icons from 'icons'
+import { alertError } from 'helpers'
 
 const mapStateToProps = ({
   user: { initialized },
@@ -41,7 +41,7 @@ const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
   const history = useHistory()
 
   useEffect(() => {
-    if (!qrId) { return }
+    if (!qrId) { return alertError('QR_ID is not found in URL') }
     getLink(qrId, (location) => {
       const path = location.split('/#')[1]
       history.push(path)

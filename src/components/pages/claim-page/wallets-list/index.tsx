@@ -27,12 +27,11 @@ import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
-import { PopupContents } from './components'
-import DesktopPopupContents from '../choose-wallet/components/popup-contents'
-import { defineSystem, getWalletDeeplink, sortWallets } from 'helpers'
+import { PopupWalletListContents, PopupWhatIsWalletContents } from 'components/pages/common'
+import { defineSystem, sortWallets, getWalletOption, getInjectedWalletOption } from 'helpers'
 import { plausibleApi } from 'data/api'
 import LinkdropLogo from 'images/linkdrop-header.png'
-import defineInjectedWallet from './helpers/injected-wallet'
+import BrowserWalletIcon from 'images/browser-wallet.png'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -69,7 +68,7 @@ const defineOptionsList = (
   deeplinkRedirect: (
     deeplink: string,
     walletId: TWalletName
-  ) => void,
+  ) => Promise<void>,
   isManual: boolean,
   chainId: number
 ) => {
@@ -89,11 +88,12 @@ const defineOptionsList = (
     recommended: wallet === 'walletconnect'
   }
   const injected = connectors.find(connector => connector.id === "injected")
-  const injectedOption = defineInjectedWallet(
+  const injectedOption = getInjectedWalletOption(
     wallet,
     system,
     downloadStarted,
     connect,
+    <WalletIcon src={BrowserWalletIcon} />,
     injected
   )
 
@@ -123,35 +123,38 @@ const defineOptionsList = (
 
   const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
 
-  const metamaskDeeplink = getWalletDeeplink('metamask', system, window.location.href, chainId)
-  const metamaskOption = (injectedOption && !injectedOptionIsBrave) || !metamaskDeeplink ? undefined : {
-    title: 'Metamask',
-    onClick: () => {
-      deeplinkRedirect(metamaskDeeplink, 'metamask')
-    },
-    icon: <WalletIcon src={MetamaskIcon} />,
-    recommended: wallet === 'metamask'
-  }
+  const metamaskOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'metamask',
+    'Metamask',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={MetamaskIcon} />,
+    deeplinkRedirect,
+    wallet
+  )
 
-  const trustDeeplink = getWalletDeeplink('trust', system, window.location.href, chainId)
-  const trustOption = (injectedOption && !injectedOptionIsBrave) || !trustDeeplink ? undefined : {
-    title: 'Trust Wallet',
-    onClick: () => {
-      deeplinkRedirect(trustDeeplink, 'trust')
-    },
-    icon: <WalletIcon src={TrustWalletIcon} />,
-    recommended: wallet === 'trust'
-  }
+  const trustOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'trust',
+    'Trust Wallet',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={TrustWalletIcon} />,
+    deeplinkRedirect,
+    wallet
+  )
 
-  const coinbaseDeeplink = getWalletDeeplink('coinbase', system, window.location.href, chainId)
-  const coinbaseOption = (injectedOption && !injectedOptionIsBrave) || !coinbaseDeeplink ? undefined : {
-    title: 'Coinbase Wallet',
-    onClick: () => {
-      deeplinkRedirect(coinbaseDeeplink, 'coinbase')
-    },
-    icon: <WalletIcon src={CoinabseWalletIcon} />,
-    recommended: wallet === 'coinbase_wallet'
-  }
+  const coinbaseOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'coinbase_wallet',
+    'Coinbase Wallet',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={CoinabseWalletIcon} />,
+    deeplinkRedirect,
+    wallet
+  )
 
   const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
     title: 'Zerion',
@@ -162,25 +165,28 @@ const defineOptionsList = (
     recommended: wallet === 'zerion'
   }
 
-  const rainbowDeeplink = getWalletDeeplink('rainbow', system, window.location.href, chainId)
-  const rainbowOption = (injectedOption && !injectedOptionIsBrave) || !rainbowDeeplink ? undefined : {
-    title: 'Rainbow',
-    onClick: () => {
-      deeplinkRedirect(rainbowDeeplink, 'rainbow')
-    },
-    icon: <WalletIcon src={RainbowWalletIcon} />,
-    recommended: wallet === 'rainbow'
-  }
+  const rainbowOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'rainbow',
+    'Rainbow',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={RainbowWalletIcon} />,
+    deeplinkRedirect,
+    wallet
+  )
 
-  const imtokenDeeplink = getWalletDeeplink('imtoken', system, window.location.href, chainId)
-  const imtokenOption = (injectedOption && !injectedOptionIsBrave) || !imtokenDeeplink ? undefined : {
-    title: 'ImToken',
-    onClick: () => {
-      deeplinkRedirect(imtokenDeeplink, 'imtoken')
-    },
-    icon: <WalletIcon src={ImtokenWalletIcon} />,
-    recommended: wallet === 'rainbow'
-  }
+  const imtokenOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'imtoken',
+    'ImToken',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={ImtokenWalletIcon} />,
+    deeplinkRedirect,
+    wallet
+  )
+
 
   const wallets = [
     injectedOption,
@@ -261,7 +267,7 @@ const WalletsList: FC<ReduxType> = ({
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >
-      {system === 'desktop' ? <DesktopPopupContents /> : <PopupContents />}
+      {system === 'desktop' ? <PopupWhatIsWalletContents /> : <PopupWalletListContents />}
     </OverlayScreen>}
   </Container>
 }

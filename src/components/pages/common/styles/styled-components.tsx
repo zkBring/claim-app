@@ -1,15 +1,24 @@
 import styled from 'styled-components'
 import { Button } from 'components/common'
 
+export const Container = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 343px;
+  margin: 0 auto;
+`
+
 export const Image = styled.img`
   max-width: 240px;
   margin-bottom: 24px;
-  font-weight: 600;
 `
 
 export const Title = styled.h2`
   margin: 0 0 8px;
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
   color: ${props => props.theme.primaryTextColor};
 `
 

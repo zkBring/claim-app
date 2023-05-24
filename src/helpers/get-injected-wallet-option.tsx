@@ -1,16 +1,13 @@
 import { TSystem, TWalletOption } from 'types'
 import { detect } from 'detect-browser'
-import {
-  WalletIcon,
-} from '../../styled-components'
-import BrowserWalletIcon from 'images/browser-wallet.png'
 import { Connector } from 'wagmi'
 
 type TDefineInjectedWallet = (
   wallet: string | null,
   system: TSystem,
-  downloadStarted: () => void,
+  downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
+  WalletIcon: JSX.Element,
   injected?: Connector<any, any, any>
 ) => TWalletOption | undefined
 
@@ -19,6 +16,7 @@ const defineInjectedWallet: TDefineInjectedWallet = (
   system,
   downloadStarted,
   connect,
+  walletIcon,
   injected
 ) => {
   const browser = detect()
@@ -26,9 +24,9 @@ const defineInjectedWallet: TDefineInjectedWallet = (
     title: 'Browser Wallet',
     onClick: () => {
       window.open('https://metamask.io/download/', '_blank')
-      downloadStarted()
+      downloadStarted && downloadStarted()
     },
-    icon: <WalletIcon src={BrowserWalletIcon} />,
+    icon: walletIcon,
     tag: 'Install MetaMask ->'
   }
 
@@ -60,7 +58,7 @@ const defineInjectedWallet: TDefineInjectedWallet = (
           }
           connect({ connector: injected })
         },
-        icon: <WalletIcon src={BrowserWalletIcon} />,
+        icon: walletIcon,
         recommended: wallet !== 'walletconnect' && wallet !== 'coinbase_wallet'
       }
     }
@@ -77,7 +75,7 @@ const defineInjectedWallet: TDefineInjectedWallet = (
         }
         connect({ connector: injected })
       },
-      icon: <WalletIcon src={BrowserWalletIcon} />,
+      icon: walletIcon,
       recommended: wallet !== 'walletconnect' && wallet !== 'coinbase_wallet' 
     }
   }

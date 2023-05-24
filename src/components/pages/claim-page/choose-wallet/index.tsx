@@ -13,11 +13,11 @@ import { AdditionalNoteComponent } from 'linkdrop-ui'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
-import { PopupContents } from './components'
 import { defineSystem } from 'helpers'
 import { plausibleApi } from 'data/api'
 import { OverlayScreen } from 'linkdrop-ui'
 import LinkdropLogo from 'images/linkdrop-header.png'
+import { PopupWhatIsWalletContents } from 'components/pages/common'
 
 const mapStateToProps = ({
   token: { name, image },
@@ -55,7 +55,7 @@ const ChooseWallet: FC<ReduxType> = ({
         plausibleApi.invokeEvent({
           eventName: 'goto_choose_wallet',
           data: {
-            campaignId: campaignId as string
+            campaignId: campaignId || 'dispenser'
           }
         })
         chooseWallet()
@@ -70,8 +70,8 @@ const ChooseWallet: FC<ReduxType> = ({
         plausibleApi.invokeEvent({
           eventName: 'educate_me',
           data: {
-            campaignId: campaignId as string,
-            screen: 'what_is_a_wallet '
+            campaignId: campaignId || 'dispenser',
+            screen: 'what_is_a_wallet'
           }
         })
         setShowPopup(true)
@@ -83,7 +83,7 @@ const ChooseWallet: FC<ReduxType> = ({
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >
-      <PopupContents />
+      <PopupWhatIsWalletContents />
     </OverlayScreen>}
   </Container>
 }
