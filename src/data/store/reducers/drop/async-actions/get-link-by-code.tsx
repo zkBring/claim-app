@@ -42,7 +42,8 @@ export default function getLinkByCode(
         wallet,
         claiming_finished_description,
         claiming_finished_button_title, 
-        claiming_finished_button_url
+        claiming_finished_button_url,
+        only_preferred_wallet
       } : TLinkParams = data
 
       dispatch(actionsDrop.setChainId(Number(chain_id)))
@@ -61,6 +62,8 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setLoading(false))
       dispatch(actionsDrop.setClaimCode(linkCode))
       dispatch(actionsDrop.setLinkId(linkId))
+      console.log({ only_preferred_wallet })
+      dispatch(actionsDrop.setOnlyPreferredWallet(Boolean(only_preferred_wallet)))
       dispatch(actionsDrop.setLinkKey(linkKey))
       if (claiming_finished_button_title && claiming_finished_button_url) {
         dispatch(actionsDrop.setClaimingFinishedButtonTitle(claiming_finished_button_title))
