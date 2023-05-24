@@ -46,7 +46,6 @@ export default function getLinkByMultiQR(
 
     } catch (err: any | AxiosError) {
       dispatch(actionsDrop.setLoading(false))
-      console.log({ err })
       if (axios.isAxiosError(err)) {
         if (err.message === 'Network Error') {
           if (!window.navigator.onLine) {
