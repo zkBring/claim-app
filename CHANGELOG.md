@@ -1,5 +1,9 @@
 # Linkdrop Claim app
 
+## 2.2.7-rc.0
+- only_preferred_wallet property added
+- new version of sdk
+
 ## 2.2.6
 - Added Dispenser support
 - Error pages refactoring
