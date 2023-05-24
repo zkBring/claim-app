@@ -5,7 +5,7 @@ import {
   Title,
   Subtitle,
   ButtonStyled
-} from './styled-components'
+} from '../styles/styled-components'
 import QRError from 'images/qr-error.png'
 
 const ErrorScreen: FC = () => {

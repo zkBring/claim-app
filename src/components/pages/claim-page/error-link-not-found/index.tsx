@@ -4,8 +4,7 @@ import {
   Image,
   Title,
   Subtitle,
-  ButtonStyled
-} from './styled-components'
+} from 'components/pages/common/styles/styled-components'
 import Error from 'images/error-black.png'
 
 const ErrorScreen: FC = () => {

@@ -20,6 +20,8 @@ import {
   QRNotFound,
   QRNoConnection,
   QRIncorrectParameter,
+  QRCampaignNotStarted,
+  QRCampaignFinished,
   PageHeader,
   PoweredByFooter
 } from 'components/pages/common'
@@ -80,6 +82,18 @@ const ErrorScreen: FC<{ error: TDropError | null }> = ({ error }) => {
   if (error === 'qr_incorrect_parameter') {
     return <Page>
       <QRIncorrectParameter />
+    </Page>
+  }
+
+  if (error === 'qr_campaign_not_started') {
+    return <Page>
+      <QRCampaignNotStarted />
+    </Page>
+  }
+
+  if (error === 'qr_campaign_finished') {
+    return <Page>
+      <QRCampaignFinished />
     </Page>
   }
 
@@ -162,14 +176,15 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
       setInitialized(true)
     }
     init()
-    
   }, [])
+
 
   useEffect(() => {
     if (!initialized || !address) {
       return
     }
-    if (isInjected) {
+    if (isInjected || isConnected) {
+      setWalletOptions(false)
       getLink(
         multiscanQRId,
         scanId,

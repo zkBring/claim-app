@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Image, Title, Subtitle, ButtonStyled } from './styled-components'
+import { Image, Title, Subtitle, ButtonStyled } from 'components/pages/common/styles/styled-components'
 import ExpiredError from 'images/expired-error.png'
 
 const ErrorComponent: FC = () => {

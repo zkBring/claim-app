@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Title, Subtitle } from './styled-components'
+import { Title, Subtitle } from 'components/pages/common/styles/styled-components'
 
 const ErrorComponent: FC = ({
 }) => {

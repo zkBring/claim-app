@@ -5,7 +5,7 @@ import { Connector } from 'wagmi'
 type TDefineInjectedWallet = (
   wallet: string | null,
   system: TSystem,
-  downloadStarted: () => void,
+  downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
   WalletIcon: JSX.Element,
   injected?: Connector<any, any, any>
@@ -24,7 +24,7 @@ const defineInjectedWallet: TDefineInjectedWallet = (
     title: 'Browser Wallet',
     onClick: () => {
       window.open('https://metamask.io/download/', '_blank')
-      downloadStarted()
+      downloadStarted && downloadStarted()
     },
     icon: walletIcon,
     tag: 'Install MetaMask ->'
