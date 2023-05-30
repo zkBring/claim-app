@@ -1,6 +1,6 @@
 # Linkdrop Claim app
 
-## 2.2.7-rc.0
+## 2.2.7
 - only_preferred_wallet property added
 - new version of sdk
 
