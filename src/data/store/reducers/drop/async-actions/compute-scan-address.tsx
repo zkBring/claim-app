@@ -3,9 +3,9 @@ import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
-import { plausibleApi } from 'data/api'
+import { TDropType } from 'types'
+import { plausibleApi, getMultiQRCampaignData } from 'data/api'
 import { checkIfMultiscanIsPresented } from 'helpers'
-
 
 export default function computeScanAddress(
   qrSecret: string,
@@ -23,6 +23,28 @@ export default function computeScanAddress(
       // const MULTISCAN_QR_SECRET_PK = qrKeysPair.privateKey
       const inLocalStorage = checkIfMultiscanIsPresented(MULTISCAN_QR_ID)
       // const qrEncCodeForDecrypt = ethers.utils.id(qrEncCode).replace('0x', '')
+      const campaignData = await getMultiQRCampaignData(MULTISCAN_QR_ID)
+      if (campaignData.data.success) {
+        const {
+          campaign: {
+            token_address,
+            token_standard,
+            sponsored,
+            wallet,
+            only_preferred_wallet,
+            chain_id,
+            campaign_number
+          }
+        } = campaignData.data
+        dispatch(actionsDrop.setCampaignId(String(campaign_number)))
+        dispatch(actionsDrop.setChainId(Number(chain_id)))
+        dispatch(actionsDrop.setTokenAddress(token_address))
+        dispatch(actionsDrop.setWallet(wallet))
+        dispatch(actionsDrop.setIsManual(!Boolean(sponsored)))
+        dispatch(actionsDrop.setType(token_standard as TDropType))
+        dispatch(actionsDrop.setOnlyPreferredWallet(Boolean(only_preferred_wallet)))
+      }
+
       if (!inLocalStorage) {
         const SCAN_ID = String(Math.random()).slice(2)
         
