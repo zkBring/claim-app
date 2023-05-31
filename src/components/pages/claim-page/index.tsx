@@ -38,6 +38,7 @@ import { TokenActions } from 'data/store/reducers/token/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
 import DownloadAwait from './download-await'
+import { PageHeader } from 'components/pages/common'
 
 
 const mapStateToProps = ({
@@ -166,7 +167,7 @@ const defineBackAction = (
 
 const defineHeader = (step: TDropStep, wallet: string | null, action: (prevStep: TDropStep) => void) => {
   const backAction = defineBackAction(step, wallet, action)
-  
+  return <PageHeader backAction={backAction}/>
 }
 
 const ClaimPage: FC<ReduxType> = ({
