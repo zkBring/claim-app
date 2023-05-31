@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.8
+- bug fix for header
+
 ## 2.2.7
 - only_preferred_wallet property added
 - new version of sdk
