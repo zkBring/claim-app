@@ -1,6 +1,6 @@
 {
   "name": "app-claim",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "private": true,
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.6.6",
