@@ -60,13 +60,14 @@ export default function computeScanAddress(
           if (
             token_standard && token_address && chain_id
           ) {
-            dispatch(asyncActionsDrop.getTokenData(
+            await asyncActionsDrop.getTokenData(
               token_standard,
               token_address,
               token_id,
               chain_id,
-              provider
-            ))
+              provider,
+              dispatch
+            )
           }
         }
       }

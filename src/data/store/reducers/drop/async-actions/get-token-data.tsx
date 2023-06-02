@@ -11,43 +11,40 @@ import getERC20Data from './get-erc20-token-data'
 import { IAppDispatch } from 'data/store'
 import { TDropType } from 'types'
 
-export default function getTokenData(
+export default async function getTokenData(
   tokenType: TDropType,
   tokenAddress: string,
   tokenId: string | null,
   chainId: number,
-  provider: any
+  provider: any,
+  dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch
 ) {
-  return async (
-    dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch
-  ) => {
     
-    try {
-      if (tokenType === 'ERC1155' && tokenAddress && tokenId) {
-        const { name, image, description } = await getERC1155Data(provider, tokenAddress, tokenId, chainId)
-        dispatch(actionsToken.setDescription(description))
-        dispatch(actionsToken.setImage(image))
-        dispatch(actionsToken.setName(name))
-      }
-
-      if (tokenType === 'ERC721' && tokenAddress && tokenId) {
-        const { name, image, description } = await getERC721Data(provider, tokenAddress, tokenId, chainId)
-        dispatch(actionsDrop.setTokenId(tokenId))
-        dispatch(actionsToken.setDescription(description))
-        dispatch(actionsToken.setImage(image))
-        dispatch(actionsToken.setName(name))
-      }
-
-      if (tokenType === 'ERC20' && tokenAddress) {
-        const { symbol, decimals, image } = await getERC20Data(provider, tokenAddress, chainId)
-        dispatch(actionsToken.setName(symbol))
-        dispatch(actionsToken.setImage(image))
-        dispatch(actionsToken.setDecimals(decimals))
-      }
-    } catch (
-      error: any
-    ) {
-      console.log(error, error.statusCode)
+  try {
+    if (tokenType === 'ERC1155' && tokenAddress && tokenId) {
+      const { name, image, description } = await getERC1155Data(provider, tokenAddress, tokenId, chainId)
+      dispatch(actionsToken.setDescription(description))
+      dispatch(actionsToken.setImage(image))
+      dispatch(actionsToken.setName(name))
     }
+
+    if (tokenType === 'ERC721' && tokenAddress && tokenId) {
+      const { name, image, description } = await getERC721Data(provider, tokenAddress, tokenId, chainId)
+      dispatch(actionsDrop.setTokenId(tokenId))
+      dispatch(actionsToken.setDescription(description))
+      dispatch(actionsToken.setImage(image))
+      dispatch(actionsToken.setName(name))
+    }
+
+    if (tokenType === 'ERC20' && tokenAddress) {
+      const { symbol, decimals, image } = await getERC20Data(provider, tokenAddress, chainId)
+      dispatch(actionsToken.setName(symbol))
+      dispatch(actionsToken.setImage(image))
+      dispatch(actionsToken.setDecimals(decimals))
+    }
+  } catch (
+    error: any
+  ) {
+    console.log(error, error.statusCode)
   }
 }
