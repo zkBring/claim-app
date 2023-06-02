@@ -7,12 +7,17 @@ import ClaimingProcess from './claiming-process'
 import AlreadyClaimed from './already-claimed'
 import SetConnector from './set-connector'
 import NoTokensLeft from './no-tokens-left'
-import SetAddress from './set-address'
-import WalletRedirectAwait from './wallet-redirect-await'
 import ErrorPage from './error'
 import ErrorTransactionPage from './error-transaction'
 import ErrorNoConnectionPage from './error-no-connection'
-import WalletsListPage from './wallets-list'
+import {
+  WalletsListPage,
+  ZerionConnection,
+  SetAddress,
+  PageHeader,
+  DownloadAwait,
+  WalletRedirectAwait
+} from 'components/pages/common'
 import ErrorServerFail from './error-server-fail'
 import ErrorLinkExpired from './error-link-expired'
 import ErrorAlreadyClaimed from './error-already-claimed'
@@ -22,7 +27,6 @@ import ErrorLink from './error-link'
 import ChooseWallet from './choose-wallet'
 import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
-import ZerionConnection from './zerion-connection'
 import { Loader } from 'components/common'
 import Page from '../page'
 import { TDropStep, TWalletName } from 'types'
@@ -37,9 +41,6 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
-import DownloadAwait from './download-await'
-import { PageHeader } from 'components/pages/common'
-
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -83,9 +84,12 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
-type TDefineStep = (step: TDropStep) => ReactElement
+type TDefineStep = (
+  step: TDropStep,
+  setStep: (step: TDropStep) => void
+) => ReactElement
 
-const defineCurrentScreen: TDefineStep = step => {
+const defineCurrentScreen: TDefineStep = (step, setStep) => {
   switch (step) {
     case 'initial':
       return <InitialScreen />
@@ -118,7 +122,9 @@ const defineCurrentScreen: TDefineStep = step => {
     case 'choose_wallet':
       return <ChooseWallet />
     case 'wallets_list':
-      return <WalletsListPage />
+      return <WalletsListPage
+        setStep={setStep}
+      />
     case 'gas_price_high':
       return <HighGasPrice />
     case 'error_link_not_found':
@@ -179,7 +185,7 @@ const ClaimPage: FC<ReduxType> = ({
   updateUserData,
   wallet
 }) => {
-  const screen = defineCurrentScreen(step)
+  const screen = defineCurrentScreen(step, setStep)
   const { address, connector } = useAccount()
   const chainId = useChainId()
   const history = useHistory()

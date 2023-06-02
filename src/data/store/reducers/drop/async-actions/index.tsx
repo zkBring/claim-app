@@ -10,9 +10,11 @@ import getLinkFromInput from './get-link-from-input'
 import deeplinkRedirect from './deeplink-redirect'
 import computeScanAddress from './compute-scan-address'
 import getLinkByMultiQR from './get-link-by-multi-qr'
+import getTokenData from './get-token-data'
 
 export {
   claimERC1155,
+  getTokenData,
   getInitialData,
   claimERC721,
   claimERC20,
