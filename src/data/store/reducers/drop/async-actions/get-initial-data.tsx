@@ -52,13 +52,14 @@ export default function getData(
       if (
         type && linkTokenAddress && linkChainId
       ) {
-        dispatch(asyncActionsDrop.getTokenData(
+        await asyncActionsDrop.getTokenData(
           type,
           linkTokenAddress,
           tokenId,
           Number(linkChainId),
-          provider
-        ))
+          provider,
+          dispatch
+        )
       }
 
       
