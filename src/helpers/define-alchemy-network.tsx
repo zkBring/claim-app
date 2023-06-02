@@ -11,7 +11,7 @@ const defineAlchemyNetwork: TDefineAlchemyNetwork = (
     return
   }
   
-  switch (chainId) {
+  switch (Number(chainId)) {
     case 1:
       return Network.ETH_MAINNET
     case 5:

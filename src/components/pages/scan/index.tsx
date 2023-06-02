@@ -10,11 +10,12 @@ import {
   Subtitle,
   IconContainer,
   LoadingTitle,
-  ButtonStyled
+  ButtonStyled,
+  TokenImageContainer
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
-import { TDropError, TMultiscanStep, TWalletName } from 'types'
+import { TDropError, TDropType, TMultiscanStep, TWalletName } from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -28,7 +29,8 @@ import {
   WalletsListPage,
   SetAddress,
   ZerionConnection,
-  DownloadAwait
+  DownloadAwait,
+  ERC20TokenPreview
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
@@ -40,19 +42,20 @@ import { Dispatch } from 'redux'
 
 const mapStateToProps = ({
   user: { initialized },
-  drop: { error, loading, multiscanStep, wallet },
-}: RootState) => ({ initialized, error, loading, multiscanStep, wallet })
+  drop: { error, loading, multiscanStep, wallet, type, amount },
+  token: { image, name, decimals }
+}: RootState) => ({ type, amount, decimals, initialized, error, loading, multiscanStep, wallet, image, name  })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) => {
   return {
     setMultiscanStep: (step: TMultiscanStep) => dispatch(dropActions.setMultiscanStep(step)),
     getLink: (
-      multiscanQRId: string,
-      scanId: string,
-      scanIdSig: string,
-      multiscanQREncCode: string,
-      address: string,
-      callback: (location: string) => void
+        multiscanQRId: string,
+        scanId: string,
+        scanIdSig: string,
+        multiscanQREncCode: string,
+        address: string,
+        callback: (location: string) => void
       ) => dispatch(
         dropAsyncActions.getLinkByMultiQR(
           multiscanQRId,
@@ -120,12 +123,60 @@ const ErrorScreen: FC<{ error: TDropError | null }> = ({ error }) => {
   </Page>
 }
 
+
+const renderTokenPreview = (
+  image: string | null,
+  name: string | null,
+  type: TDropType | null,
+  amount: string | null,
+  decimals: number
+) => {
+  if (image && name) {
+    if (type === 'ERC20') {
+      return <ERC20TokenPreview
+        name={name as string}
+        image={image as string}
+        amount={amount as string}
+        decimals={decimals}
+        status='initial'
+      />
+    } else {
+      return <>
+        <TokenImageContainer src={image} alt={name || 'Token image'} />
+        <Title>{name}</Title>
+      </>
+    }
+  } else {
+      return <>
+        <Image src={GiftPreview} />
+        <Title>Claim digital asset</Title>
+      </>
+  }
+}
+
 const DefaultScreen: FC<{
-  setStep: (step: TMultiscanStep) => void
-}> = ({ setStep }) => {
+  setStep: (step: TMultiscanStep) => void,
+  image: string | null,
+  name: string | null,
+  type: TDropType | null,
+  amount: string | null,
+  decimals: number
+}> = ({
+  setStep,
+  name,
+  image,
+  type,
+  amount,
+  decimals
+}) => {
   return <>
-    <Image src={GiftPreview} />
-    <Title>Claim digital asset</Title>
+    {renderTokenPreview(
+      image,
+      name,
+      type,
+      amount,
+      decimals
+    )}
     <Subtitle>To claim this asset, you will need to have Wallet set up and ready to use</Subtitle>
     <ButtonStyled 
       appearance='action'
@@ -176,7 +227,12 @@ const defineHeader = (
 const renderContent = (
   multiscanStep: TMultiscanStep,
   wallet: string | null,
-  setMultiscanStep: (multiscanStep: TMultiscanStep) => void
+  setMultiscanStep: (multiscanStep: TMultiscanStep) => void,
+  image: string | null,
+  name: string | null,
+  type: TDropType | null,
+  amount: string | null,
+  decimals: number
 ) => {
   let content = null
   const header = defineHeader(
@@ -185,7 +241,14 @@ const renderContent = (
     () => setMultiscanStep('initial'))
   switch (multiscanStep) {
     case 'initial':
-      content = <DefaultScreen setStep={setMultiscanStep} />
+      content = <DefaultScreen
+        image={image}
+        type={type}
+        name={name}
+        amount={amount}
+        decimals={decimals}
+        setStep={setMultiscanStep}
+      />
       break
     case 'set_address':
       content = <SetAddress />
@@ -222,7 +285,12 @@ const Scan: FC<ReduxType> = ({
   loading,
   multiscanStep,
   setMultiscanStep,
-  wallet
+  wallet,
+  image,
+  name,
+  type,
+  amount,
+  decimals
 }) => {
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
@@ -234,7 +302,6 @@ const Scan: FC<ReduxType> = ({
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
   
-
   useEffect(() => {
     const init = async () => {
       if(window &&
@@ -299,7 +366,12 @@ const Scan: FC<ReduxType> = ({
   return renderContent(
     multiscanStep,
     wallet,
-    setMultiscanStep
+    setMultiscanStep,
+    image,
+    name,
+    type,
+    amount,
+    decimals
   )
   
 }
