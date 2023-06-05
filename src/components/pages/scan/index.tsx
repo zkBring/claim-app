@@ -232,8 +232,7 @@ const renderContent = (
   name: string | null,
   type: TDropType | null,
   amount: string | null,
-  decimals: number,
-  zerionCallback: () => void
+  decimals: number
 ) => {
   let content = null
   const header = defineHeader(
@@ -261,9 +260,7 @@ const renderContent = (
       content = <DownloadAwait />
       break
     case 'zerion_connection':
-      content = <ZerionConnection
-        setStepCallback={zerionCallback}
-      />
+      content = <ZerionConnection />
       break
     case 'wallet_redirect_await':
       content = null
@@ -353,6 +350,13 @@ const Scan: FC<ReduxType> = ({
     }
   }, [initialized, address, isConnected])
 
+  useEffect(() => {
+    if (!userAddress) {
+      return
+    }
+    setMultiscanStep('initial')
+    getLinkCallback(userAddress)
+  }, [userAddress])
 
   if (loading || !initialized) {
     return <Page>
@@ -369,8 +373,6 @@ const Scan: FC<ReduxType> = ({
     return <ErrorScreen error={error} />
   }
 
-  // if we are not on web3
-
   return renderContent(
     multiscanStep,
     wallet,
@@ -380,10 +382,6 @@ const Scan: FC<ReduxType> = ({
     type,
     amount,
     decimals,
-    () => {
-      alert('here renderContent callback')
-      getLinkCallback(userAddress)
-    }
   )
 }
 
