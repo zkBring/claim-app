@@ -30,7 +30,8 @@ import {
   SetAddress,
   ZerionConnection,
   DownloadAwait,
-  ERC20TokenPreview
+  ERC20TokenPreview,
+  WalletRedirectAwait
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
@@ -263,7 +264,7 @@ const renderContent = (
       content = <ZerionConnection />
       break
     case 'wallet_redirect_await':
-      content = null
+      content = <WalletRedirectAwait />
       break
     default:
       content = null
