@@ -71,7 +71,7 @@ const defineButton = (
       const authClient = await AuthClient.init({
         projectId: REACT_APP_WC_PROJECT_ID as string,
         metadata: {
-          name: "Linkdrop-Test",
+          name: "Linkdrop",
           description: "A dapp using WalletConnect AuthClient",
           url: window.location.host,
           icons: ["/zerion.png"],
@@ -149,6 +149,7 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
         window.location.href = href
       })
       .catch(err => {
+        alert(JSON.stringify(err, null, 4))
         setLoading(false)
       })
   }, [client])
