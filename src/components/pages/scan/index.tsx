@@ -34,7 +34,7 @@ import {
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
-import { useAccount, useConnect, useChainId } from 'wagmi'
+import { useAccount, useConnect } from 'wagmi'
 import GiftPreview from 'images/dispenser-preview-image.png'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
@@ -260,7 +260,9 @@ const renderContent = (
       content = <DownloadAwait />
       break
     case 'zerion_connection':
-      content = <ZerionConnection />
+      content = <ZerionConnection
+        setStepCallback={() => setMultiscanStep('initial')}
+      />
       break
     case 'wallet_redirect_await':
       content = null
@@ -298,7 +300,6 @@ const Scan: FC<ReduxType> = ({
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
-  const chainId = useChainId()
 
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
@@ -330,8 +331,6 @@ const Scan: FC<ReduxType> = ({
     if (!initialized || !address) {
       return
     }
-    alert(`adress: ${address}`)
-    alert(`isConnected: ${isConnected}`)
     if (isInjected || isConnected) {
       setMultiscanStep('initial')
       getLink(
@@ -346,7 +345,7 @@ const Scan: FC<ReduxType> = ({
         }
       )
     }
-  }, [initialized, address, chainId, isConnected])
+  }, [initialized, address])
 
 
   if (loading || !initialized) {
