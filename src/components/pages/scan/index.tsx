@@ -41,10 +41,10 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { Dispatch } from 'redux'
 
 const mapStateToProps = ({
-  user: { initialized },
+  user: { initialized, address },
   drop: { error, loading, multiscanStep, wallet, type, amount },
   token: { image, name, decimals }
-}: RootState) => ({ type, amount, decimals, initialized, error, loading, multiscanStep, wallet, image, name  })
+}: RootState) => ({ userAddress: address, type, amount, decimals, initialized, error, loading, multiscanStep, wallet, image, name  })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) => {
   return {
@@ -232,7 +232,8 @@ const renderContent = (
   name: string | null,
   type: TDropType | null,
   amount: string | null,
-  decimals: number
+  decimals: number,
+  zerionCallback: () => void
 ) => {
   let content = null
   const header = defineHeader(
@@ -261,7 +262,7 @@ const renderContent = (
       break
     case 'zerion_connection':
       content = <ZerionConnection
-        setStepCallback={() => setMultiscanStep('initial')}
+        setStepCallback={zerionCallback}
       />
       break
     case 'wallet_redirect_await':
@@ -280,7 +281,6 @@ const renderContent = (
   </Page>
 }
 
-
 const Scan: FC<ReduxType> = ({
   getLink,
   error,
@@ -292,7 +292,8 @@ const Scan: FC<ReduxType> = ({
   name,
   type,
   amount,
-  decimals
+  decimals,
+  userAddress
 }) => {
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
@@ -300,6 +301,19 @@ const Scan: FC<ReduxType> = ({
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
+  const getLinkCallback = (address: string) => {
+    getLink(
+      multiscanQRId,
+      scanId,
+      scanIdSig,
+      multiscanQREncCode,
+      address,
+      (location) => {
+        const path = location.split('/#')[1]
+        history.push(path)
+      }
+    )
+  }
 
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
@@ -333,19 +347,9 @@ const Scan: FC<ReduxType> = ({
     }
     if (isInjected || isConnected) {
       setMultiscanStep('initial')
-      getLink(
-        multiscanQRId,
-        scanId,
-        scanIdSig,
-        multiscanQREncCode,
-        address,
-        (location) => {
-          const path = location.split('/#')[1]
-          history.push(path)
-        }
-      )
+      getLinkCallback(address)
     }
-  }, [initialized, address])
+  }, [initialized, address, isConnected])
 
 
   if (loading || !initialized) {
@@ -373,7 +377,10 @@ const Scan: FC<ReduxType> = ({
     name,
     type,
     amount,
-    decimals
+    decimals,
+    () => {
+      getLinkCallback(userAddress)
+    }
   )
   
 }
