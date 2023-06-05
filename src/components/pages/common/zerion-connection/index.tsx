@@ -29,7 +29,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<UserAct
     updateUserData: (
       address: string,
       chainId: number,
-      callback: () => void
+      callback?: () => void
     ) => dispatch(userAsyncActions.updateUserData(
       address,
       chainId,

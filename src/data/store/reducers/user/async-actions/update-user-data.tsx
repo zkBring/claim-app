@@ -15,7 +15,6 @@ const updateUserData = (
     try {
       dispatch(actions.setHasConnector(true))
       dispatch(actions.setAddress(address))
-      alert(`address: ${address}`)
       dispatch(actions.setChainId(chainId))
       if (connector) {
         const provider = await connector.getProvider()

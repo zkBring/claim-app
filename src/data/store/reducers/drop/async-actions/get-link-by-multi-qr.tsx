@@ -35,7 +35,6 @@ export default function getLinkByMultiQR(
       
       if (success && encrypted_claim_link) {
         alert('success')
-        alert(JSON.stringify(data, null, 4))
         const decryptKey = ethers.utils.id(multiscanQREncCode)
         const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
         if (linkDecrypted && callback) {
