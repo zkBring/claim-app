@@ -87,6 +87,7 @@ const defineButton = (
           const walletData = iss.split(":")
           const walletAddress = walletData[4]
           const walletChainId = walletData[3]
+          alert(walletAddress)
           updateUserData(
             walletAddress,
             walletChainId
