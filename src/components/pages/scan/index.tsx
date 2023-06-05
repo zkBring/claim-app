@@ -302,6 +302,7 @@ const Scan: FC<ReduxType> = ({
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
   const getLinkCallback = (address: string) => {
+    alert('here getLinkCallback')
     getLink(
       multiscanQRId,
       scanId,
@@ -309,6 +310,7 @@ const Scan: FC<ReduxType> = ({
       multiscanQREncCode,
       address,
       (location) => {
+        alert(location)
         const path = location.split('/#')[1]
         history.push(path)
       }
@@ -379,6 +381,7 @@ const Scan: FC<ReduxType> = ({
     amount,
     decimals,
     () => {
+      alert('here renderContent callback')
       getLinkCallback(userAddress)
     }
   )
