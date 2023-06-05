@@ -150,7 +150,6 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
         window.location.href = href
       })
       .catch(err => {
-        alert(JSON.stringify(err, null, 4))
         setLoading(false)
       })
   }, [client])
