@@ -32,8 +32,10 @@ export default function getLinkByMultiQR(
       )
 
       const { encrypted_claim_link, success }: { encrypted_claim_link: string, success: boolean } = data
-
+      
       if (success && encrypted_claim_link) {
+        alert('success')
+        alert(JSON.stringify(data, null, 4))
         const decryptKey = ethers.utils.id(multiscanQREncCode)
         const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
         if (linkDecrypted && callback) {
@@ -45,6 +47,8 @@ export default function getLinkByMultiQR(
       dispatch(actionsDrop.setLoading(false))
 
     } catch (err: any | AxiosError) {
+      alert('error')
+      alert(JSON.stringify(err, null, 4))
       dispatch(actionsDrop.setLoading(false))
       if (axios.isAxiosError(err)) {
         if (err.message === 'Network Error') {
