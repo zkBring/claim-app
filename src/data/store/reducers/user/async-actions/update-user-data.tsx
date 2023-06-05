@@ -2,7 +2,6 @@ import { Dispatch } from 'redux';
 import * as actions from '../actions';
 import { UserActions } from '../types';
 import { DropActions } from '../../drop/types'
-import * as actionsDrop from '../../drop/actions';
 
 const updateUserData = (
   address: string,
