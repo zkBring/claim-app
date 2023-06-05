@@ -138,7 +138,9 @@ const defineCurrentScreen: TDefineStep = (step, setStep) => {
     case 'download_await':
       return <DownloadAwait />
     case 'zerion_connection':
-      return <ZerionConnection />
+      return <ZerionConnection
+        setStepCallback={() => setStep('initial')}
+      />
     case 'wallet_redirect_await':
       return <WalletRedirectAwait />
     default:

@@ -13,7 +13,6 @@ import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import ZerionLogo from 'images/zerion.png'
 import AuthClient, { generateNonce } from "@walletconnect/auth-client"
-import { useWeb3Modal } from "@web3modal/react"
 import { defineSystem, getHashVariables } from 'helpers'
 import { Dispatch } from 'redux'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
@@ -21,6 +20,7 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { ScreenLoader } from './components'
 import { TDropType } from 'types'
+import TProps from './types'
 
 const { REACT_APP_WC_PROJECT_ID } = process.env
 
@@ -28,10 +28,13 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<UserAct
   return {
     updateUserData: (
       address: string,
-      chainId: number
+      chainId: number,
+      callback: () => void
     ) => dispatch(userAsyncActions.updateUserData(
       address,
-      chainId
+      chainId,
+      undefined,
+      callback
     ))
   }
 }
@@ -59,7 +62,7 @@ const defineButton = (
   setClient: (client: AuthClient) => void,
   updateUserData: (
     address: string,
-    chainId: number
+    chainId: number,
   ) => void
 ) => {
   return <ScreenButton
@@ -111,13 +114,24 @@ const renderTexts = (
   </>
 }
 
-const ChooseWallet: FC<ReduxType> = ({
+const ZerionConnection: FC<ReduxType & TProps> = ({
   updateUserData,
   chainId,
-  type
+  type,
+  setStepCallback
 }) => {
   const [ client, setClient ] = useState<AuthClient | null>()
   const [ loading, setLoading ] = useState<boolean>(false)
+  const handleUpdateUser = (
+    address: string,
+    chainId: number
+  ) => {
+    updateUserData(
+      address,
+      chainId,
+      setStepCallback
+    )
+  }
   useEffect(() => {
     if (!client) { return }
     client
@@ -139,8 +153,6 @@ const ChooseWallet: FC<ReduxType> = ({
       })
   }, [client])
 
-  const { isOpen, open } = useWeb3Modal()
-
   if (loading) {  
     return <ScreenLoader onClose={() => {
       setLoading(false)
@@ -150,11 +162,11 @@ const ChooseWallet: FC<ReduxType> = ({
     {renderTexts(type as TDropType)}
     {defineButton(
       setClient,
-      updateUserData
+      handleUpdateUser
     )}
     <Hr />
     <AdditionalTextComponent>Once you approve the connection with your wallet, return to this page to claim {type === 'ERC20' ? 'tokens' : 'the NFT'}.</AdditionalTextComponent>
   </Container>
 }
 
-export default connect(mapStateToProps, mapDispatcherToProps)(ChooseWallet)
+export default connect(mapStateToProps, mapDispatcherToProps)(ZerionConnection)
