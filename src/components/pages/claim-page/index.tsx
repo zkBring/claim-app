@@ -73,10 +73,12 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         address: string,
         chainId: number,
         connector: any,
+        callback: () => void
       ) => dispatch(userAsyncActions.updateUserData(
         address,
         chainId,
-        connector
+        connector,
+        callback
       )),
       setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
   }
@@ -206,7 +208,8 @@ const ClaimPage: FC<ReduxType> = ({
         updateUserData(
           address,
           chainId,
-          connector
+          connector,
+          () => setStep('initial')
         )
       }
     }
