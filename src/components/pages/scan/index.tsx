@@ -302,7 +302,7 @@ const Scan: FC<ReduxType> = ({
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
   const getLinkCallback = (address: string) => {
-    alert('here getLinkCallback')
+    alert(`getLinkCallback address: ${address}`)
     getLink(
       multiscanQRId,
       scanId,
@@ -385,7 +385,6 @@ const Scan: FC<ReduxType> = ({
       getLinkCallback(userAddress)
     }
   )
-  
 }
 
 export default connect(mapStateToProps, mapDispatcherToProps)(Scan)
