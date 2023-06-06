@@ -5,6 +5,7 @@ import getLastTxHash from './get-last-tx'
 import getOriginalLink from './get-original-link'
 import plausibleApi from './plausible-api'
 import getMultiQRData from './get-multiqr-data'
+import getMultiQRCampaignData from './get-multiqr-campaign-data'
 
 export {
   getERC1155TokenData,
@@ -13,5 +14,6 @@ export {
   getLastTxHash,
   getOriginalLink,
   plausibleApi,
-  getMultiQRData
+  getMultiQRData,
+  getMultiQRCampaignData
 }

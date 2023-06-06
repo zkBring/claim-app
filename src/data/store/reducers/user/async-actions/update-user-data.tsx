@@ -2,12 +2,12 @@ import { Dispatch } from 'redux';
 import * as actions from '../actions';
 import { UserActions } from '../types';
 import { DropActions } from '../../drop/types'
-import * as actionsDrop from '../../drop/actions';
 
 const updateUserData = (
   address: string,
   chainId: number,
-  connector?: any
+  connector?: any,
+  callback?: () => void,
 ) => {
   return async (
     dispatch: Dispatch<UserActions> & Dispatch<DropActions>
@@ -22,7 +22,7 @@ const updateUserData = (
         dispatch(actions.setSigner(signer))
         dispatch(actions.setUserProvider(provider))
       }
-      dispatch(actionsDrop.setStep('initial'))
+      callback && callback()
     } catch (err) {
       alert('Error occured with connector update')
     }

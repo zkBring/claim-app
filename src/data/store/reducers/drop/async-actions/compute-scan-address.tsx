@@ -3,9 +3,13 @@ import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
-import { plausibleApi } from 'data/api'
-import { checkIfMultiscanIsPresented } from 'helpers'
+import { TDropType } from 'types'
+import { plausibleApi, getMultiQRCampaignData } from 'data/api'
+import { checkIfMultiscanIsPresented, defineJSONRpcUrl } from 'helpers'
+import { IAppDispatch } from 'data/store'
+import * as asyncActionsDrop from './'
 
+const { REACT_APP_INFURA_ID } = process.env
 
 export default function computeScanAddress(
   qrSecret: string,
@@ -13,7 +17,7 @@ export default function computeScanAddress(
   callback: (location: string) => void
 ) {
   return async (
-    dispatch: Dispatch<DropActions>
+    dispatch: Dispatch<DropActions> & IAppDispatch
   ) => {
     dispatch(actionsDrop.setError(null))
     try {
@@ -23,6 +27,51 @@ export default function computeScanAddress(
       // const MULTISCAN_QR_SECRET_PK = qrKeysPair.privateKey
       const inLocalStorage = checkIfMultiscanIsPresented(MULTISCAN_QR_ID)
       // const qrEncCodeForDecrypt = ethers.utils.id(qrEncCode).replace('0x', '')
+      const campaignData = await getMultiQRCampaignData(MULTISCAN_QR_ID)
+      if (campaignData.data.success) {
+        const {
+          campaign: {
+            token_address,
+            token_standard,
+            sponsored,
+            wallet,
+            only_preferred_wallet,
+            chain_id,
+            campaign_number,
+            token_id,
+            preview_setting,
+            token_amount
+          }
+        } = campaignData.data
+        dispatch(actionsDrop.setCampaignId(String(campaign_number)))
+        dispatch(actionsDrop.setChainId(Number(chain_id)))
+        dispatch(actionsDrop.setTokenAddress(token_address))
+        dispatch(actionsDrop.setTokenId(token_id))
+        dispatch(actionsDrop.setAmount(token_amount))
+        dispatch(actionsDrop.setWallet(wallet))
+        dispatch(actionsDrop.setIsManual(!Boolean(sponsored)))
+        dispatch(actionsDrop.setType(token_standard as TDropType))
+        dispatch(actionsDrop.setOnlyPreferredWallet(Boolean(only_preferred_wallet)))
+
+        if (preview_setting === 'token') {
+          const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(chain_id), infuraPk: REACT_APP_INFURA_ID as string })
+          const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
+
+          if (
+            token_standard && token_address && chain_id
+          ) {
+            await asyncActionsDrop.getTokenData(
+              token_standard,
+              token_address,
+              token_id,
+              chain_id,
+              provider,
+              dispatch
+            )
+          }
+        }
+      }
+
       if (!inLocalStorage) {
         const SCAN_ID = String(Math.random()).slice(2)
         

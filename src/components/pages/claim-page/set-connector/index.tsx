@@ -15,7 +15,7 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { useConnect } from 'wagmi'
-import { TDropType, TWalletName } from 'types'
+import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 
@@ -38,13 +38,14 @@ const mapStateToProps = ({
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
   return {
-    chooseWallet: () => dispatch(
-      dropActions.setStep('choose_wallet')
+    setStep: (step: TDropStep) => dispatch(
+      dropActions.setStep(step)
     ),
     deeplinkRedirect: (
       deeplink: string,
-      walletId: TWalletName
-    ) => dispatch(dropAsyncActions.deeplinkRedirect(deeplink, walletId)),
+      walletId: TWalletName,
+      redirectCallback: () => void
+    ) => dispatch(dropAsyncActions.deeplinkRedirect(deeplink, walletId, redirectCallback)),
   }
 }
 
@@ -62,7 +63,7 @@ const SetConnector: FC<ReduxType> = ({
   name,
   tokenId,
   image,
-  chooseWallet,
+  setStep,
   address,
   type,
   campaignId,
@@ -143,11 +144,11 @@ const SetConnector: FC<ReduxType> = ({
         if (wallet === 'coinbase_wallet' && chainId) {
           const coinbaseDeeplink = getWalletDeeplink('coinbase_wallet', system, window.location.href, chainId)
           if (coinbaseDeeplink) {
-            return deeplinkRedirect(coinbaseDeeplink, 'coinbase_wallet')
+            return deeplinkRedirect(coinbaseDeeplink, 'coinbase_wallet', () => setStep('wallet_redirect_await'))
           }
         }
 
-        chooseWallet()
+        setStep('choose_wallet')
       }
     }>
       Claim

@@ -7,20 +7,21 @@ import {
   WalletIcon,
   LinkButton
 } from './styled-components'
-import { IAppDispatch } from 'data/store'
+import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useWeb3Modal } from "@web3modal/react"
 import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
+import ZerionWalletIcon from 'images/zerion-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
+import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
-import { TDropStep, TWalletName } from 'types'
+import { TDropStep, TMultiscanStep, TWalletName, TWalletOption } from 'types'
 import { AdditionalNoteComponent } from 'linkdrop-ui'
 import {  OverlayScreen } from 'linkdrop-ui'
-import * as dropActions from 'data/store/reducers/drop/actions'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
@@ -29,48 +30,101 @@ import { defineSystem, sortWallets, getWalletOption, getInjectedWalletOption } f
 import { plausibleApi } from 'data/api'
 import LinkdropLogo from 'images/linkdrop-header.png'
 import BrowserWalletIcon from 'images/browser-wallet.png'
+import TProps from './types'
+
+const mapStateToProps = ({
+  token: {
+    name,
+    image
+  },
+  drop: { 
+    type,
+    wallet,
+    claimCode,
+    chainId,
+    isManual,
+    campaignId,
+    onlyPreferredWallet
+  }
+}: RootState) => ({
+  name,
+  image,
+  type,
+  wallet,
+  claimCode,
+  chainId,
+  isManual,
+  campaignId,
+  onlyPreferredWallet
+})
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
   return {
-    setStep: (step: TDropStep) => dispatch(dropActions.setStep(step)),
     deeplinkRedirect: (
       deeplink: string,
-      walletId: TWalletName
-    ) => dispatch(dropAsyncActions.deeplinkRedirect(deeplink, walletId))
+      walletId: TWalletName,
+      redirectCallback: () => void
+    ) => dispatch(dropAsyncActions.deeplinkRedirect(
+      deeplink,
+      walletId,
+      redirectCallback
+    ))
   }
 }
 
-type ReduxType = ReturnType<typeof mapDispatcherToProps>
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps> & TProps
+
+const isOptionVisible = (
+  option: TWalletOption | undefined,
+  preferredWallet: string | null,
+  currentOption: string,
+  onlyPreferredWallet: boolean
+) => {
+  if (!option) { return option }
+  if (!onlyPreferredWallet || currentOption === preferredWallet) {
+    return option
+  }
+}
 
 const defineOptionsList = (
+  setStep: (step: TDropStep & TMultiscanStep) => void,
   open: (options?: any | undefined) => Promise<void>,
-  connectors: Connector<any, any, any>[],
   connect: (args: Partial<any> | undefined) => void,
-  wallet: TWalletName,
+  connectors: Connector<any, any, any>[],
+  wallet: string | null,
   deeplinkRedirect: (
     deeplink: string,
     walletId: TWalletName
   ) => Promise<void>,
+  isManual: boolean,
+  chainId: number,
+  onlyPreferredWallet: boolean
 ) => {
-  const system = defineSystem()
 
-  const injected = connectors.find(connector => connector.id === "injected")
-  const injectedOption = getInjectedWalletOption(
-    wallet,
-    system,
-    null,
-    connect,
-    <WalletIcon src={BrowserWalletIcon} />,
-    injected
-  )
+  const system = defineSystem()
+  const ensOption = !isManual ? {
+    title: 'Enter ENS or address',
+    onClick: () => setStep('set_address'),
+    icon: <WalletIcon src={ENSIcon} />
+  } : undefined
 
   const walletConnectOption = {
     title: 'WalletConnect',
     onClick: () => {
       open()
     },
-    icon: <WalletIcon src={WalletConnectIcon} />
+    icon: <WalletIcon src={WalletConnectIcon} />,
+    recommended: wallet === 'walletconnect'
   }
+  const injected = connectors.find(connector => connector.id === "injected")
+  const injectedOption = getInjectedWalletOption(
+    wallet,
+    system,
+    () => setStep('download_await'),
+    connect,
+    <WalletIcon src={BrowserWalletIcon} />,
+    injected
+  )
 
   if (system === 'desktop') {
     const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWallet")
@@ -87,94 +141,122 @@ const defineOptionsList = (
     }
 
     const wallets = [
-      coinbaseOption,
-      injectedOption,
-      walletConnectOption
+      isOptionVisible(injectedOption, wallet, 'metamask', onlyPreferredWallet),
+      isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', onlyPreferredWallet),
+      isOptionVisible(walletConnectOption, wallet, 'walletconnect', onlyPreferredWallet),
+      ensOption
     ]
+
     return sortWallets(wallets) 
   }
 
+  const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
 
-  const metamaskOption = getWalletOption(
+  const metamaskOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'metamask',
     'Metamask',
     system,
     window.location.href, 
-    null,
+    chainId,
     <WalletIcon src={MetamaskIcon} />,
     deeplinkRedirect,
     wallet
   )
 
-  const trustOption = getWalletOption(
+  const trustOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'trust',
     'Trust Wallet',
     system,
     window.location.href, 
-    null,
+    chainId,
     <WalletIcon src={TrustWalletIcon} />,
     deeplinkRedirect,
     wallet
   )
 
-  const coinbaseOption = getWalletOption(
+  const coinbaseOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'coinbase_wallet',
     'Coinbase Wallet',
     system,
     window.location.href, 
-    null,
+    chainId,
     <WalletIcon src={CoinabseWalletIcon} />,
     deeplinkRedirect,
     wallet
   )
 
-  const rainbowOption = getWalletOption(
+  const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
+    title: 'Zerion',
+    onClick: async () => {
+      setStep('zerion_connection')
+    },
+    icon: <WalletIcon src={ZerionWalletIcon} />,
+    recommended: wallet === 'zerion'
+  }
+
+  const rainbowOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'rainbow',
     'Rainbow',
     system,
     window.location.href, 
-    null,
+    chainId,
     <WalletIcon src={RainbowWalletIcon} />,
     deeplinkRedirect,
     wallet
   )
 
-  const imtokenOption = getWalletOption(
+  const imtokenOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'imtoken',
     'ImToken',
     system,
     window.location.href, 
-    null,
+    chainId,
     <WalletIcon src={ImtokenWalletIcon} />,
     deeplinkRedirect,
     wallet
   )
 
+
   const wallets = [
-    metamaskOption,
-    coinbaseOption,
-    walletConnectOption,
-    imtokenOption,
-    trustOption,
-    rainbowOption
+    isOptionVisible(injectedOption, wallet, 'metamask', onlyPreferredWallet),
+    isOptionVisible(metamaskOption, wallet, 'metamask', onlyPreferredWallet),
+    isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', onlyPreferredWallet),
+    isOptionVisible(zerionOption, wallet, 'zerion', onlyPreferredWallet),
+    isOptionVisible(walletConnectOption, wallet, 'walletconnect', onlyPreferredWallet),
+    ensOption,
+    isOptionVisible(imtokenOption, wallet, 'imtoken', onlyPreferredWallet),
+    isOptionVisible(trustOption, wallet, 'trust', onlyPreferredWallet),
+    isOptionVisible(rainbowOption, wallet, 'rainbow', onlyPreferredWallet)
   ]
 
   return sortWallets(wallets)
 }
 
-const WalletsList: FC<ReduxType> = ({ deeplinkRedirect }) => {
+const WalletsList: FC<ReduxType> = ({
+  setStep,
+  wallet,
+  chainId,
+  isManual,
+  campaignId,
+  deeplinkRedirect,
+  onlyPreferredWallet,
+}) => {
   const { open } = useWeb3Modal()
-  const { connectors, connect } = useConnect()
+  const { connect, connectors } = useConnect()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
   const injected = connectors.find(connector => connector.id === "injected")
 
   const options = defineOptionsList(
+    setStep,
     open,
-    connectors,
     connect,
-    'coinbase_wallet',
-    (deeplink: string, walletId: TWalletName) => deeplinkRedirect(deeplink, walletId),
+    connectors,
+    wallet,
+    (deeplink: string, walletId: TWalletName) => deeplinkRedirect(deeplink, walletId, () => setStep('wallet_redirect_await')),
+    isManual,
+    chainId as number,
+    onlyPreferredWallet
   )
 
   return <Container>
@@ -187,7 +269,7 @@ const WalletsList: FC<ReduxType> = ({ deeplinkRedirect }) => {
       plausibleApi.invokeEvent({
         eventName: 'educate_me',
         data: {
-          campaignId: 'dispenser',
+          campaignId: campaignId as string,
           screen: 'what_is_a_wallet'
         }
       })
@@ -200,7 +282,7 @@ const WalletsList: FC<ReduxType> = ({ deeplinkRedirect }) => {
         plausibleApi.invokeEvent({
           eventName: 'educate_me',
           data: {
-            campaignId: 'dispenser',
+            campaignId: campaignId as string,
             screen: 'what_is_connection'
           }
         })
@@ -218,4 +300,4 @@ const WalletsList: FC<ReduxType> = ({ deeplinkRedirect }) => {
   </Container>
 }
 
-export default connect(null, mapDispatcherToProps)(WalletsList)
+export default connect(mapStateToProps, mapDispatcherToProps)(WalletsList)

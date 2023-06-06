@@ -21,9 +21,15 @@ import { TWalletOption } from './wallet-option'
 import TTokenERC20Data from './token-erc20-data'
 import { TAlchemyNFTData } from './alchemy-nft-data'
 import TButtonAppearance from './button-appearance'
+import TMultiscanCampaign  from './multiscan-campaign'
+import TMultiscanStep from './multiscan-step'
+import TPreviewSetting from './preview-setting'
 
 export {
   TAlchemyNFTData,
+  TMultiscanStep,
+  TMultiscanCampaign,
+  TPreviewSetting,
   TButtonAppearance,
   TTokenERC20Data,
   TMerkleTree,

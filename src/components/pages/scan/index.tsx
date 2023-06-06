@@ -10,11 +10,12 @@ import {
   Subtitle,
   IconContainer,
   LoadingTitle,
-  ButtonStyled
+  ButtonStyled,
+  TokenImageContainer
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
-import { TDropError } from 'types'
+import { TDropError, TDropType, TMultiscanStep, TWalletName } from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -24,28 +25,38 @@ import {
   QRCampaignFinished,
   PageHeader,
   PoweredByFooter,
-  QRNoLinksToShare
+  QRNoLinksToShare,
+  WalletsListPage,
+  SetAddress,
+  ZerionConnection,
+  DownloadAwait,
+  ERC20TokenPreview,
+  WalletRedirectAwait
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
 import { useAccount, useConnect } from 'wagmi'
-import WalletsList from './wallets-list'
 import GiftPreview from 'images/dispenser-preview-image.png'
+import * as dropActions from 'data/store/reducers/drop/actions'
+import { DropActions } from 'data/store/reducers/drop/types'
+import { Dispatch } from 'redux'
 
 const mapStateToProps = ({
-  user: { initialized },
-  drop: { error, loading },
-}: RootState) => ({ initialized, error, loading })
+  user: { initialized, address },
+  drop: { error, loading, multiscanStep, wallet, type, amount },
+  token: { image, name, decimals }
+}: RootState) => ({ userAddress: address, type, amount, decimals, initialized, error, loading, multiscanStep, wallet, image, name  })
 
-const mapDispatcherToProps = (dispatch: IAppDispatch) => {
+const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) => {
   return {
+    setMultiscanStep: (step: TMultiscanStep) => dispatch(dropActions.setMultiscanStep(step)),
     getLink: (
-      multiscanQRId: string,
-      scanId: string,
-      scanIdSig: string,
-      multiscanQREncCode: string,
-      address: string,
-      callback: (location: string) => void
+        multiscanQRId: string,
+        scanId: string,
+        scanIdSig: string,
+        multiscanQREncCode: string,
+        address: string,
+        callback: (location: string) => void
       ) => dispatch(
         dropAsyncActions.getLinkByMultiQR(
           multiscanQRId,
@@ -113,17 +124,67 @@ const ErrorScreen: FC<{ error: TDropError | null }> = ({ error }) => {
   </Page>
 }
 
-const DefaultScreen: FC<{ setWalletOptions: (walletOptions: boolean) => void }> = ({ setWalletOptions }) => {
+
+const renderTokenPreview = (
+  image: string | null,
+  name: string | null,
+  type: TDropType | null,
+  amount: string | null,
+  decimals: number
+) => {
+  if (image && name) {
+    if (type === 'ERC20') {
+      return <ERC20TokenPreview
+        name={name as string}
+        image={image as string}
+        amount={amount as string}
+        decimals={decimals}
+        status='initial'
+      />
+    } else {
+      return <>
+        <TokenImageContainer src={image} alt={name || 'Token image'} />
+        <Title>{name}</Title>
+      </>
+    }
+  } else {
+      return <>
+        <Image src={GiftPreview} />
+        <Title>Claim digital asset</Title>
+      </>
+  }
+}
+
+const DefaultScreen: FC<{
+  setStep: (step: TMultiscanStep) => void,
+  image: string | null,
+  name: string | null,
+  type: TDropType | null,
+  amount: string | null,
+  decimals: number
+}> = ({
+  setStep,
+  name,
+  image,
+  type,
+  amount,
+  decimals
+}) => {
   return <>
-    <Image src={GiftPreview} />
-    <Title>Claim digital asset</Title>
+    {renderTokenPreview(
+      image,
+      name,
+      type,
+      amount,
+      decimals
+    )}
     <Subtitle>To claim this asset, you will need to have Wallet set up and ready to use</Subtitle>
     <ButtonStyled 
       appearance='action'
       onClick={() => {
         // connect({ connector: injected })
         // setIsInjected(true)
-        setWalletOptions(true)
+        setStep('wallets_list')
       }}
     >
       Choose Wallet
@@ -133,34 +194,134 @@ const DefaultScreen: FC<{ setWalletOptions: (walletOptions: boolean) => void }> 
 }
 
 const defineBackAction = (
-  walletOptions: boolean,
-  action: () => void
+  multiscanStep: TMultiscanStep,
+  wallet: string | null,
+  action: (step: TMultiscanStep) => void
 ) => {
-  if (walletOptions) {
-    return action
+  switch (multiscanStep) {
+    case 'download_await':
+    case 'zerion_connection':
+      return () => action('wallets_list')
+    case 'wallet_redirect_await':
+      // if coinbase - do not show other wallets
+      if (wallet === 'coinbase_wallet') {
+        return () => action('initial')
+      }
+      return () => action('wallets_list')
+    case 'wallets_list':
+      return () => action('initial')
+
+    default:
+      return null
   }
-  return null
 }
 
-const defineHeader = (walletOptions: boolean, action: () => void) => {
-  const backAction = defineBackAction(walletOptions, action)
+const defineHeader = (
+  multiscanStep: TMultiscanStep,
+  wallet: string | null,
+  action: (step: TMultiscanStep
+) => void) => {
+  const backAction = defineBackAction(multiscanStep, wallet, action)
   return <PageHeader backAction={backAction}/>
 }
 
+const renderContent = (
+  multiscanStep: TMultiscanStep,
+  wallet: string | null,
+  setMultiscanStep: (multiscanStep: TMultiscanStep) => void,
+  image: string | null,
+  name: string | null,
+  type: TDropType | null,
+  amount: string | null,
+  decimals: number,
+  setAddressCallback: (address: string) => void
+) => {
+  let content = null
+  const header = defineHeader(
+    multiscanStep,
+    wallet,
+    () => setMultiscanStep('initial'))
+  switch (multiscanStep) {
+    case 'initial':
+      content = <DefaultScreen
+        image={image}
+        type={type}
+        name={name}
+        amount={amount}
+        decimals={decimals}
+        setStep={setMultiscanStep}
+      />
+      break
+    case 'set_address':
+      content = <SetAddress
+        onSubmit={setAddressCallback}
+      />
+      break
+    case 'wallets_list':
+      content = <WalletsListPage
+        setStep={setMultiscanStep}
+      />
+      break
+    case 'download_await':
+      content = <DownloadAwait />
+      break
+    case 'zerion_connection':
+      content = <ZerionConnection
+      />
+      break
+    case 'wallet_redirect_await':
+      content = <WalletRedirectAwait />
+      break
+    default:
+      content = null
+      break
+  }
 
-const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
+  return <Page>
+    <Container>
+      {header}
+      {content}
+    </Container>
+  </Page>
+}
+
+const Scan: FC<ReduxType> = ({
+  getLink,
+  error,
+  loading,
+  multiscanStep,
+  setMultiscanStep,
+  wallet,
+  image,
+  name,
+  type,
+  amount,
+  decimals,
+  userAddress
+}) => {
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
   const { address, isConnected } = useAccount()
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
-  const [ walletOptions, setWalletOptions ] = useState<boolean>(false)
   const system = defineSystem()
+  const getLinkCallback = (address: string) => {
+    getLink(
+      multiscanQRId,
+      scanId,
+      scanIdSig,
+      multiscanQREncCode,
+      address,
+      (location) => {
+        const path = location.split('/#')[1]
+        history.push(path)
+      }
+    )
+  }
 
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
   
-
   useEffect(() => {
     const init = async () => {
       if(window &&
@@ -189,21 +350,18 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
       return
     }
     if (isInjected || isConnected) {
-      setWalletOptions(false)
-      getLink(
-        multiscanQRId,
-        scanId,
-        scanIdSig,
-        multiscanQREncCode,
-        address,
-        (location) => {
-          const path = location.split('/#')[1]
-          history.push(path)
-        }
-      )
+      setMultiscanStep('initial')
+      getLinkCallback(address)
     }
-  }, [initialized, address])
+  }, [initialized, address, isConnected])
 
+  useEffect(() => {
+    if (!userAddress) {
+      return
+    }
+    setMultiscanStep('initial')
+    getLinkCallback(userAddress)
+  }, [userAddress])
 
   if (loading || !initialized) {
     return <Page>
@@ -220,14 +378,17 @@ const Scan: FC<ReduxType> = ({ getLink, error, loading }) => {
     return <ErrorScreen error={error} />
   }
 
-  // if we are not on web3
-  return <Page>
-    <Container>
-      {defineHeader(walletOptions, () => setWalletOptions(false))}
-      {walletOptions ? <WalletsList /> : <DefaultScreen setWalletOptions={setWalletOptions} />}
-    </Container>
-  </Page>
-  
+  return renderContent(
+    multiscanStep,
+    wallet,
+    setMultiscanStep,
+    image,
+    name,
+    type,
+    amount,
+    decimals,
+    getLinkCallback
+  )
 }
 
 export default connect(mapStateToProps, mapDispatcherToProps)(Scan)

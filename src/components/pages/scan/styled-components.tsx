@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button } from 'components/common'
+import { Button, TokenImage } from 'components/common'
 
 export const Container = styled.div`
   display: flex;
@@ -10,6 +10,12 @@ export const Container = styled.div`
   justify-content: center;
   text-align: center;
 `
+
+export const TokenImageContainer = styled(TokenImage)`
+  margin: 0 auto 25px;
+  background: ${props => props.theme.widgetColor};
+`
+
 
 export const Image = styled.img`
   max-width: 240px;

@@ -3,6 +3,7 @@ import { Constants } from './constants';
 
 const initialState: DropState = {
   step: 'short_code_loading',
+  multiscanStep: 'initial',
   loading: false,
   chainId: null,
   tokenAddress: null,
@@ -40,6 +41,8 @@ export function dropReducer(
     switch (action.type) {
       case Constants.DROP_SET_STEP:
         return {...state, step: action.payload.step }
+      case Constants.DROP_SET_MULTISCAN_STEP:
+        return {...state, multiscanStep: action.payload.multiscanStep }
       case Constants.DROP_SET_CHAIN_ID:
         return {...state, chainId: action.payload.chainId }
       case Constants.DROP_SET_TOKEN_ADDRESS:

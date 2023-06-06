@@ -1,9 +1,13 @@
 import { action } from 'typesafe-actions';
 import { Constants } from './constants';
-import { TDropStep, TDropType, TTheme, TDropError, TWalletName } from 'types'
+import { TDropStep, TDropType, TTheme, TDropError, TWalletName, TMultiscanStep } from 'types'
 
 export function setStep(step: TDropStep) {
   return action(Constants.DROP_SET_STEP, { step })
+}
+
+export function setMultiscanStep(multiscanStep: TMultiscanStep) {
+  return action(Constants.DROP_SET_MULTISCAN_STEP, { multiscanStep })
 }
 
 export function setLoading(loading: boolean) {

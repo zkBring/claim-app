@@ -11,8 +11,16 @@ import PopupWhatIsWalletContents from './popup-what-is-wallet-contents'
 import PageHeader from './page-header'
 import PoweredByFooter from './powered-by-footer'
 import QRNoLinksToShare from './qr-no-links-to-share'
+import WalletsListPage from './wallets-list'
+import SetAddress from './set-address'
+import ZerionConnection from './zerion-connection'
+import DownloadAwait from './download-await'
+import WalletRedirectAwait from './wallet-redirect-await'
 
 export {
+  SetAddress,
+  ZerionConnection,
+  DownloadAwait,
   QRNotMapped,
   PageHeader,
   QRNotFound,
@@ -25,5 +33,7 @@ export {
   PopupWhatIsWalletContents,
   QRCampaignNotStarted,
   QRNoLinksToShare,
-  PoweredByFooter
+  WalletsListPage,
+  PoweredByFooter,
+  WalletRedirectAwait
 }

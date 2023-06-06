@@ -9,17 +9,17 @@ import { TWalletName } from 'types'
 
 export default function deeplinkRedirect(
   deeplink: string,
-  walletId: TWalletName
+  walletId: TWalletName,
+  redirectCallback: () => void
 ) {
   return async (
     dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch
   ) => {
-    dispatch(actionsDrop.setStep('wallet_redirect_await'))
     dispatch(actionsDrop.setWalletApp(walletId))
     const link = document.createElement('a')
     link.href = deeplink
     link.target = '_blank'
     link.click()
-    // window.open(deeplink, '_blank')
+    redirectCallback && redirectCallback()
   }
 }

@@ -1,9 +1,10 @@
 import { ActionType } from 'typesafe-actions';
 import * as actions from './actions'
-import { TDropStep, TDropType, TTheme, TDropError, TWalletName } from 'types'
+import { TDropStep, TDropType, TTheme, TDropError, TWalletName, TMultiscanStep } from 'types'
 
 export interface DropState {
   step: TDropStep
+  multiscanStep: TMultiscanStep
   loading: boolean
   chainId: number | null
   tokenAddress: string | null

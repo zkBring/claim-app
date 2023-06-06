@@ -1,14 +1,12 @@
 
 import { Dispatch } from 'redux'
 import * as actionsDrop from '../actions'
-import * as actionsToken from '../../token/actions'
+import * as asyncActionsDrop from './'
 import * as asyncActionsUser from '../../user/async-actions'
+
 import { DropActions } from '../types'
 import { TokenActions } from '../../token/types'
 import { UserActions } from '../../user/types'
-import getERC1155Data from './get-erc1155-token-data'
-import getERC721Data from './get-erc721-token-data'
-import getERC20Data from './get-erc20-token-data'
 import { RootState, IAppDispatch } from 'data/store'
 import { plausibleApi } from 'data/api'
 
@@ -25,7 +23,7 @@ export default function getData(
     
     try {
       dispatch(actionsDrop.setLoading(true))
-      console.log({ userChainId, userAddress, connector })
+
       await dispatch(asyncActionsUser.initialize(
         onReload,
         connector,
@@ -50,28 +48,21 @@ export default function getData(
           campaignId
         }
       } = getState()
-
-      if (type === 'ERC1155' && linkTokenAddress && tokenId) {
-        const { name, image, description } = await getERC1155Data(provider, linkTokenAddress, tokenId, linkChainId)
-        dispatch(actionsToken.setDescription(description))
-        dispatch(actionsToken.setImage(image))
-        dispatch(actionsToken.setName(name))
+      
+      if (
+        type && linkTokenAddress && linkChainId
+      ) {
+        await asyncActionsDrop.getTokenData(
+          type,
+          linkTokenAddress,
+          tokenId,
+          Number(linkChainId),
+          provider,
+          dispatch
+        )
       }
 
-      if (type === 'ERC721' && linkTokenAddress && tokenId) {
-        const { name, image, description } = await getERC721Data(provider, linkTokenAddress, tokenId, linkChainId)
-        dispatch(actionsDrop.setTokenId(tokenId))
-        dispatch(actionsToken.setDescription(description))
-        dispatch(actionsToken.setImage(image))
-        dispatch(actionsToken.setName(name))
-      }
-
-      if (type === 'ERC20' && linkTokenAddress) {
-        const { symbol, decimals, image } = await getERC20Data(provider, linkTokenAddress, linkChainId)
-        dispatch(actionsToken.setName(symbol))
-        dispatch(actionsToken.setImage(image))
-        dispatch(actionsToken.setDecimals(decimals))
-      }
+      
 
       if (Number(expirationTime) < +new Date()) {
         dispatch(actionsDrop.setLoading(false))

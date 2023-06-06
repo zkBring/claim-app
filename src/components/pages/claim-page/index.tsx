@@ -7,12 +7,17 @@ import ClaimingProcess from './claiming-process'
 import AlreadyClaimed from './already-claimed'
 import SetConnector from './set-connector'
 import NoTokensLeft from './no-tokens-left'
-import SetAddress from './set-address'
-import WalletRedirectAwait from './wallet-redirect-await'
 import ErrorPage from './error'
 import ErrorTransactionPage from './error-transaction'
 import ErrorNoConnectionPage from './error-no-connection'
-import WalletsListPage from './wallets-list'
+import {
+  WalletsListPage,
+  ZerionConnection,
+  SetAddress,
+  PageHeader,
+  DownloadAwait,
+  WalletRedirectAwait
+} from 'components/pages/common'
 import ErrorServerFail from './error-server-fail'
 import ErrorLinkExpired from './error-link-expired'
 import ErrorAlreadyClaimed from './error-already-claimed'
@@ -22,10 +27,9 @@ import ErrorLink from './error-link'
 import ChooseWallet from './choose-wallet'
 import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
-import ZerionConnection from './zerion-connection'
 import { Loader } from 'components/common'
 import Page from '../page'
-import { TDropStep, TWalletName } from 'types'
+import { TDropStep, TDropType, TWalletName } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { Container } from './styled-components'
@@ -37,13 +41,10 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
-import DownloadAwait from './download-await'
-import { PageHeader } from 'components/pages/common'
-
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
-  drop: { step, claimCode, wallet }
+  drop: { step, claimCode, wallet, type }
 }: RootState) => ({
   address,
   step,
@@ -51,7 +52,8 @@ const mapStateToProps = ({
   chainId,
   initialized,
   claimCode,
-  wallet
+  wallet,
+  type
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch) => {
@@ -72,20 +74,35 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         address: string,
         chainId: number,
         connector: any,
+        callback: () => void
       ) => dispatch(userAsyncActions.updateUserData(
         address,
         chainId,
-        connector
+        connector,
+        callback
       )),
-      setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
+      setStep: (step: TDropStep) => dispatch(dropActions.setStep(step)),
+      claimERC1155: (address: string) => dispatch(
+        dropAsyncActions.claimERC1155(address, true)
+      ),
+      claimERC721: (address: string) => dispatch(
+        dropAsyncActions.claimERC721(address, true)
+      ),
+      claimERC20: (address: string) => dispatch(
+        dropAsyncActions.claimERC20(address, true)
+      )
   }
 }
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
-type TDefineStep = (step: TDropStep) => ReactElement
+type TDefineStep = (
+  step: TDropStep,
+  setStep: (step: TDropStep) => void,
+  setAddressCallback: (address: string) => void
+) => ReactElement
 
-const defineCurrentScreen: TDefineStep = step => {
+  const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => {
   switch (step) {
     case 'initial':
       return <InitialScreen />
@@ -104,7 +121,9 @@ const defineCurrentScreen: TDefineStep = step => {
     case 'error':
       return <ErrorPage />
     case 'set_address':
-      return <SetAddress />
+      return <SetAddress
+        onSubmit={setAddressCallback}
+      />
     case 'error_transaction':
       return <ErrorTransactionPage />
     case 'error_no_connection':
@@ -118,7 +137,9 @@ const defineCurrentScreen: TDefineStep = step => {
     case 'choose_wallet':
       return <ChooseWallet />
     case 'wallets_list':
-      return <WalletsListPage />
+      return <WalletsListPage
+        setStep={setStep}
+      />
     case 'gas_price_high':
       return <HighGasPrice />
     case 'error_link_not_found':
@@ -132,7 +153,9 @@ const defineCurrentScreen: TDefineStep = step => {
     case 'download_await':
       return <DownloadAwait />
     case 'zerion_connection':
-      return <ZerionConnection />
+      return <ZerionConnection
+        setStepCallback={() => setStep('initial')}
+      />
     case 'wallet_redirect_await':
       return <WalletRedirectAwait />
     default:
@@ -177,9 +200,24 @@ const ClaimPage: FC<ReduxType> = ({
   setStep,
   initialized,
   updateUserData,
-  wallet
+  wallet,
+  type,
+  claimERC1155,
+  claimERC20,
+  claimERC721
 }) => {
-  const screen = defineCurrentScreen(step)
+  const setAddressCallback = (address: string) => {
+    if (type === 'ERC1155') {
+      return claimERC1155(address)
+    }
+    if (type === 'ERC721') {
+      return claimERC721(address)
+    }
+    if (type === 'ERC20') {
+      return claimERC20(address)
+    }
+  }
+  const screen = defineCurrentScreen(step, setStep, setAddressCallback)
   const { address, connector } = useAccount()
   const chainId = useChainId()
   const history = useHistory()
@@ -198,7 +236,8 @@ const ClaimPage: FC<ReduxType> = ({
         updateUserData(
           address,
           chainId,
-          connector
+          connector,
+          () => setStep('initial')
         )
       }
     }
