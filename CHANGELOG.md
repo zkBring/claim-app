@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.9
+- added fix for dispenser token preview
+
 ## 2.2.8
 - bug fix for header
 
