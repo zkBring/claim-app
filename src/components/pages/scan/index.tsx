@@ -233,7 +233,8 @@ const renderContent = (
   name: string | null,
   type: TDropType | null,
   amount: string | null,
-  decimals: number
+  decimals: number,
+  setAddressCallback: (address: string) => void
 ) => {
   let content = null
   const header = defineHeader(
@@ -252,16 +253,21 @@ const renderContent = (
       />
       break
     case 'set_address':
-      content = <SetAddress />
+      content = <SetAddress
+        onSubmit={setAddressCallback}
+      />
       break
     case 'wallets_list':
-      content = <WalletsListPage setStep={setMultiscanStep}/>
+      content = <WalletsListPage
+        setStep={setMultiscanStep}
+      />
       break
     case 'download_await':
       content = <DownloadAwait />
       break
     case 'zerion_connection':
-      content = <ZerionConnection />
+      content = <ZerionConnection
+      />
       break
     case 'wallet_redirect_await':
       content = <WalletRedirectAwait />
@@ -381,6 +387,7 @@ const Scan: FC<ReduxType> = ({
     type,
     amount,
     decimals,
+    getLinkCallback
   )
 }
 

@@ -29,7 +29,7 @@ import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
 import { Loader } from 'components/common'
 import Page from '../page'
-import { TDropStep, TWalletName } from 'types'
+import { TDropStep, TDropType, TWalletName } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { Container } from './styled-components'
@@ -44,7 +44,7 @@ import { useHistory } from 'react-router-dom'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
-  drop: { step, claimCode, wallet }
+  drop: { step, claimCode, wallet, type }
 }: RootState) => ({
   address,
   step,
@@ -52,7 +52,8 @@ const mapStateToProps = ({
   chainId,
   initialized,
   claimCode,
-  wallet
+  wallet,
+  type
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch) => {
@@ -80,7 +81,16 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         connector,
         callback
       )),
-      setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
+      setStep: (step: TDropStep) => dispatch(dropActions.setStep(step)),
+      claimERC1155: (address: string) => dispatch(
+        dropAsyncActions.claimERC1155(address, true)
+      ),
+      claimERC721: (address: string) => dispatch(
+        dropAsyncActions.claimERC721(address, true)
+      ),
+      claimERC20: (address: string) => dispatch(
+        dropAsyncActions.claimERC20(address, true)
+      )
   }
 }
 
@@ -88,10 +98,11 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 
 type TDefineStep = (
   step: TDropStep,
-  setStep: (step: TDropStep) => void
+  setStep: (step: TDropStep) => void,
+  setAddressCallback: (address: string) => void
 ) => ReactElement
 
-const defineCurrentScreen: TDefineStep = (step, setStep) => {
+  const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => {
   switch (step) {
     case 'initial':
       return <InitialScreen />
@@ -110,7 +121,9 @@ const defineCurrentScreen: TDefineStep = (step, setStep) => {
     case 'error':
       return <ErrorPage />
     case 'set_address':
-      return <SetAddress />
+      return <SetAddress
+        onSubmit={setAddressCallback}
+      />
     case 'error_transaction':
       return <ErrorTransactionPage />
     case 'error_no_connection':
@@ -187,9 +200,24 @@ const ClaimPage: FC<ReduxType> = ({
   setStep,
   initialized,
   updateUserData,
-  wallet
+  wallet,
+  type,
+  claimERC1155,
+  claimERC20,
+  claimERC721
 }) => {
-  const screen = defineCurrentScreen(step, setStep)
+  const setAddressCallback = (address: string) => {
+    if (type === 'ERC1155') {
+      return claimERC1155(address)
+    }
+    if (type === 'ERC721') {
+      return claimERC721(address)
+    }
+    if (type === 'ERC20') {
+      return claimERC20(address)
+    }
+  }
+  const screen = defineCurrentScreen(step, setStep, setAddressCallback)
   const { address, connector } = useAccount()
   const chainId = useChainId()
   const history = useHistory()

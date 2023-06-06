@@ -20,6 +20,7 @@ import NetworksImage from 'images/networks.png'
 import { resolveENS, throttling, defineJSONRpcUrl, shortenString } from 'helpers'
 import {  ERC20TokenPreview } from 'components/pages/common'
 import { ethers } from 'ethers'
+import TProps from './types'
 
 const { REACT_APP_INFURA_ID = '' } = process.env
 
@@ -43,31 +44,15 @@ const mapStateToProps = ({
   decimals
 })
 
-const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
-  return {
-    claimERC1155: (address: string) => dispatch(
-      dropAsyncActions.claimERC1155(address, true)
-    ),
-    claimERC721: (address: string) => dispatch(
-      dropAsyncActions.claimERC721(address, true)
-    ),
-    claimERC20: (address: string) => dispatch(
-      dropAsyncActions.claimERC20(address, true)
-    )
-  }
-}
+type ReduxType = ReturnType<typeof mapStateToProps>
 
-type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps> 
-
-const SetAddress: FC<ReduxType> = ({
+const SetAddress: FC<ReduxType & TProps> = ({
   name,
   type,
   tokenId,
   amount,
   image,
-  claimERC1155,
-  claimERC721,
-  claimERC20,
+  onSubmit,
   isManual,
   loading,
   decimals
@@ -147,18 +132,10 @@ const SetAddress: FC<ReduxType> = ({
       loading={isChecking || loading}
       appearance={!isChecking && !loading ? 'action' : 'default'}
       onClick={() => {
-        if (type === 'ERC1155') {
-          return claimERC1155(currentAddress)
-        }
-        if (type === 'ERC721') {
-          return claimERC721(currentAddress)
-        }
-        if (type === 'ERC20') {
-          return claimERC20(currentAddress)
-        }
+        onSubmit(currentAddress)
       }}
     />
   </Container>
 }
 
-export default connect(mapStateToProps, mapDispatcherToProps)(SetAddress)
+export default connect(mapStateToProps)(SetAddress)
