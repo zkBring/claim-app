@@ -1,10 +1,11 @@
-import applicationOptions from 'configs/application'
+import { defineApplicationConfig } from 'helpers'
+const config = defineApplicationConfig()
 
 const themes = {
   dark: {},
 
   light: {
-    primaryTextColor: applicationOptions.primaryTextColor, // main ccolor of text
+    primaryTextColor: config.primaryTextColor, // main ccolor of text
     secondaryTextColor: '#FFF', // secondary color of text
     additionalTextColor: '#9D9D9D', // secondary color of text
     extraTextColor: '#6A6A6A', // secondary color of text
@@ -14,20 +15,20 @@ const themes = {
     primaryBorderColor: '#E4E4E4',
     secondaryBorderColor: '#000',
     additionalBorderColor: '#272727',
-    primaryColor: applicationOptions.backgroundColor, // main color of bg
+    primaryColor: config.backgroundColor, // main color of bg
     secondaryColor: '#363740', // secondary coplor of bg
-    blankColor: applicationOptions.backgroundColor, // secondary coplor of bg
+    blankColor: config.backgroundColor, // secondary coplor of bg
     menuItemActive: '#3E4049',
-    primaryHighlightColor: applicationOptions.highlightColor,
+    primaryHighlightColor: config.highlightColor,
     loaderPrimaryColor: '#000',
     widgetColor: '#FFF',
   
-    loaderColor: applicationOptions.highlightColor,
-    linkColor: applicationOptions.highlightColor,
+    loaderColor: config.highlightColor,
+    linkColor: config.highlightColor,
 
 
     // buttons
-    buttonActionBackgroundColor: applicationOptions.highlightColor,
+    buttonActionBackgroundColor: config.highlightColor,
     buttonActionBackgroundHoverColor: '#357AFF',
     buttonActionBackgroundActiveColor: '#095AF5',
 
@@ -57,7 +58,7 @@ const themes = {
     tagSuccessColor: '#21F142',
 
     noteDefaultBgColor: '#E4EDFF',
-    noteDefaultTextColor: applicationOptions.highlightColor,
+    noteDefaultTextColor: config.highlightColor,
     noteAttentionBgColor: '#272727',
     noteAttentionTextColor: '#C3C3C3',
 
