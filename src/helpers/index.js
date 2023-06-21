@@ -32,9 +32,11 @@ import alertError from './alert-error'
 import checkIfMultiscanIsPresented from './check-if-multiscan-qr-id-presented-in-storage'
 import getWalletOption from './get-wallet-option'
 import getInjectedWalletOption from './get-injected-wallet-option'
+import defineApplicationConfig from './define-application-config'
 
 export {
   copyToClipboard,
+  defineApplicationConfig,
   getInjectedWalletOption,
   getWalletOption,
   checkIfMultiscanIsPresented,
