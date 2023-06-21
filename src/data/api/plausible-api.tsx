@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+const { REACT_APP_PLAUSIBLE_DOMAIN } = process.env
 
 type TEventData = {
   eventName: string
@@ -12,6 +13,7 @@ type TInvokeEvent = (eventData: TEventData) => Promise<void | AxiosResponse>
 const invokeEvent: TInvokeEvent = async ({
   eventName, data
 }) => {
+  if (!REACT_APP_PLAUSIBLE_DOMAIN) { return }
   try {
     return axios.post('https://plausible.io/api/event', {
       name: eventName,
