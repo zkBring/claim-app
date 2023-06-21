@@ -1,7 +1,8 @@
 # Linkdrop Claim app
 
 ## 2.2.10
-- added fix for dispenser token preview
+- added update for configs
+- disable plausible events for custom applications
 
 ## 2.2.9
 - added fix for dispenser token preview
