@@ -29,8 +29,8 @@ const themes = {
 
     // buttons
     buttonActionBackgroundColor: config.highlightColor,
-    buttonActionBackgroundHoverColor: '#357AFF',
-    buttonActionBackgroundActiveColor: '#095AF5',
+    buttonActionBackgroundHoverColor: config.highlightHoverColor,
+    buttonActionBackgroundActiveColor: config.highlightActiveColor,
 
     buttonDisabledBackgroundColor: '#E4E4E4',
 
@@ -44,9 +44,9 @@ const themes = {
 
     buttonAdditionalBackgroundColor: '#E4EDFF',
     buttonAdditionalBackgroundHoverColor: '#E4EDFF',
-    buttonAdditionalTextHoverColor: '#357AFF',
+    buttonAdditionalTextHoverColor: config.highlightHoverColor,
     buttonAdditionalBackgroundActiveColor: '#E4EDFF',
-    buttonAdditionalTextActiveColor: '#095AF5',
+    buttonAdditionalTextActiveColor: config.highlightActiveColor,
 
     buttonGradient: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
     
