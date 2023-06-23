@@ -4,7 +4,6 @@ import { UserActions } from '../types';
 import { RootState } from 'data/store'
 import { ethers } from 'ethers'
 import checkIfClaimed from '../../drop/async-actions/check-if-claimed'
-import { getLastTxHash } from 'data/api'
 import * as actionsDrop from '../../drop/actions'
 import { DropActions } from '../../drop/types'
 import {
@@ -77,14 +76,6 @@ const initialize = (
     )
 
     if (claimed) {
-      try {
-        const latestTxHash = await getLastTxHash(Number(linkChainId), linkdropMasterAddress, linkId)
-        if (latestTxHash.data.txHash) {
-          dispatch(actionsDrop.setHash(latestTxHash.data.txHash))
-        }
-      } catch (err) {
-        console.log({ err })
-      }
       dispatch(actionsDrop.setIsClaimed(claimed))
     }
 
