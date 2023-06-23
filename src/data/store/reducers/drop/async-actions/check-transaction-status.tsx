@@ -4,7 +4,6 @@ import * as actionsDrop from '../actions';
 import { DropActions } from '../types';
 import { TokenActions } from '../../token/types';
 import checkIfClaimed from './check-if-claimed'
-import { getLastTxHash } from 'data/api'
 import { ethers } from 'ethers'
 import { RootState } from 'data/store'
 import { plausibleApi } from 'data/api'
@@ -20,12 +19,14 @@ export default function getData() {
       const {
         user: {
           provider,
+          sdk
         },
         drop: {
           campaignId,
           linkKey,
           linkdropMasterAddress,
-          chainId
+          chainId,
+          claimCode
         }
       } = getState()
 
@@ -59,17 +60,17 @@ export default function getData() {
         )
         try {
           dispatch(actionsDrop.setLoading(false))
-          const latestTxHash = await getLastTxHash(Number(chainId), linkdropMasterAddress, linkId)
-          const { txHash } = latestTxHash.data
+          const status = await sdk?.getLinkStatus(claimCode)
+          
           if (claimed) {
-            if (txHash) {
-              dispatch(actionsDrop.setHash(txHash))
+            if (status?.txHash) {
+              dispatch(actionsDrop.setHash(status.txHash))
             }
             window.clearInterval(interval)
             return dispatch(actionsDrop.setStep('claiming_finished'))
           } else {
-            if (txHash) {
-              const receipt = await provider.getTransactionReceipt(txHash)
+            if (status?.txHash) {
+              const receipt = await provider.getTransactionReceipt(status?.txHash)
               if (receipt && receipt.status !== undefined && receipt.status === 0) {
                 window.clearInterval(interval)
                 plausibleApi.invokeEvent({
