@@ -32,7 +32,7 @@ export interface DropState {
   claiming_finished_button_title: string
   claiming_finished_button_url: string
   walletApp: null | TWalletName
-  onlyPreferredWallet: boolean
+  availableWallets: string[]
 }
 
 

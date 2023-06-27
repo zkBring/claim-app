@@ -31,7 +31,7 @@ const initialState: DropState = {
   claiming_finished_button_title: '',
   claiming_finished_button_url: '',
   walletApp: null,
-  onlyPreferredWallet: false
+  availableWallets: []
 }
 
 export function dropReducer(
@@ -93,8 +93,8 @@ export function dropReducer(
         return {...state, walletApp: action.payload.walletApp }
       case Constants.DROP_SET_CLAIM_CODE:
         return {...state, claimCode: action.payload.claimCode }
-      case Constants.DROP_SET_ONLY_PREFERRED_WALLET:
-        return {...state, onlyPreferredWallet: action.payload.onlyPreferredWallet }
+      case Constants.DROP_SET_AVAILABLE_WALLETS:
+        return {...state, availableWallets: action.payload.availableWallets }
 
       case Constants.DROP_SET_THEME:
         return {...state, theme: action.payload.theme }
