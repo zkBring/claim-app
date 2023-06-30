@@ -80,6 +80,7 @@ const isOptionVisible = (
   currentOption: string,
   availableWallets: string[]
 ) => {
+  
   if (!option) { return undefined }
   if (!availableWallets || currentOption === preferredWallet) {
     return option

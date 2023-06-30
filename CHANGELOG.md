@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.11
+- added 'available_wallets' option support
+
 ## 2.2.10
 - added update for configs
 - disable plausible events for custom applications
