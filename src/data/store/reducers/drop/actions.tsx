@@ -149,11 +149,11 @@ export function setClaimingFinishedButtonURL (claiming_finished_button_url: stri
   )
 }
 
-export function setOnlyPreferredWallet (only_preferred_wallet: boolean) {
+export function setAvailableWallets (available_wallets: string[]) {
   return action(
-    Constants.DROP_SET_ONLY_PREFERRED_WALLET,
+    Constants.DROP_SET_AVAILABLE_WALLETS,
     {
-      onlyPreferredWallet: only_preferred_wallet
+      availableWallets: available_wallets
     }
   )
 }

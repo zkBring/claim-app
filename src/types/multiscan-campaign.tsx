@@ -7,7 +7,7 @@ type TMultiscanCampaign = {
   sponsored: boolean
   wallet: TWalletName
   chain_id: number
-  only_preferred_wallet: boolean
+  available_wallets: string[]
   campaign_number: string | number
   token_id: string
   preview_setting?: TPreviewSetting
