@@ -82,7 +82,7 @@ const isOptionVisible = (
 ) => {
   
   if (!option) { return undefined }
-  if (!availableWallets || currentOption === preferredWallet) {
+  if (!availableWallets || availableWallets.length === 0 || currentOption === preferredWallet) {
     return option
   }
   if (availableWallets && availableWallets.includes(currentOption)) {
