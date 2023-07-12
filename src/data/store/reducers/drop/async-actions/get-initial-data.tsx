@@ -35,7 +35,8 @@ export default function getData(
         user: {
           provider,
           address,
-          hasConnector
+          hasConnector,
+          sdk
         },
         drop: {
           isClaimed,
@@ -43,9 +44,9 @@ export default function getData(
           chainId: linkChainId,
           expirationTime,
           tokenId,
-          amount,
           type,
-          campaignId
+          campaignId,
+          claimCode
         }
       } = getState()
       
@@ -78,6 +79,10 @@ export default function getData(
 
       if (isClaimed) {
         dispatch(actionsDrop.setLoading(false))
+        const status = await sdk?.getLinkStatus(claimCode)
+        if (status?.txHash) {
+          dispatch(actionsDrop.setHash(status.txHash))
+        }
         return dispatch(actionsDrop.setStep('already_claimed'))
       }
 

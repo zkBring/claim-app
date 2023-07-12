@@ -9,7 +9,6 @@ import hexlifyIpfsHash from './hexlify-ipfs-hash'
 import IPFSRedefineUrl from './ipfs-redefine-url'
 import getValidImage from './get-valid-image'
 import defineNFTExplorerUrl from './define-nft-explorer-url'
-import defineServerUrl from './define-server-url'
 import isIframe from './is-iframe'
 import defineSystem from './define-system'
 import resolveENS from './resolve-ens'
@@ -65,7 +64,6 @@ export {
   getValidImage,
   handleClaimResponseError,
   defineNFTExplorerUrl,
-  defineServerUrl,
   isIframe,
   defineSystem,
   resolveENS,

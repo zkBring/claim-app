@@ -35,7 +35,7 @@ export default function computeScanAddress(
             token_standard,
             sponsored,
             wallet,
-            only_preferred_wallet,
+            available_wallets,
             chain_id,
             campaign_number,
             token_id,
@@ -51,7 +51,7 @@ export default function computeScanAddress(
         dispatch(actionsDrop.setWallet(wallet))
         dispatch(actionsDrop.setIsManual(!Boolean(sponsored)))
         dispatch(actionsDrop.setType(token_standard as TDropType))
-        dispatch(actionsDrop.setOnlyPreferredWallet(Boolean(only_preferred_wallet)))
+        dispatch(actionsDrop.setAvailableWallets(available_wallets))
 
         if (preview_setting === 'token') {
           const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(chain_id), infuraPk: REACT_APP_INFURA_ID as string })

@@ -44,7 +44,7 @@ const mapStateToProps = ({
     chainId,
     isManual,
     campaignId,
-    onlyPreferredWallet
+    availableWallets
   }
 }: RootState) => ({
   name,
@@ -55,7 +55,7 @@ const mapStateToProps = ({
   chainId,
   isManual,
   campaignId,
-  onlyPreferredWallet
+  availableWallets
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -78,10 +78,14 @@ const isOptionVisible = (
   option: TWalletOption | undefined,
   preferredWallet: string | null,
   currentOption: string,
-  onlyPreferredWallet: boolean
+  availableWallets: string[]
 ) => {
-  if (!option) { return option }
-  if (!onlyPreferredWallet || currentOption === preferredWallet) {
+  
+  if (!option) { return undefined }
+  if (!availableWallets || availableWallets.length === 0 || currentOption === preferredWallet) {
+    return option
+  }
+  if (availableWallets && availableWallets.includes(currentOption)) {
     return option
   }
 }
@@ -98,7 +102,7 @@ const defineOptionsList = (
   ) => Promise<void>,
   isManual: boolean,
   chainId: number,
-  onlyPreferredWallet: boolean
+  availableWallets: string[]
 ) => {
 
   const system = defineSystem()
@@ -141,9 +145,9 @@ const defineOptionsList = (
     }
 
     const wallets = [
-      isOptionVisible(injectedOption, wallet, 'metamask', onlyPreferredWallet),
-      isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', onlyPreferredWallet),
-      isOptionVisible(walletConnectOption, wallet, 'walletconnect', onlyPreferredWallet),
+      isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
+      isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
+      isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
       ensOption
     ]
 
@@ -218,15 +222,15 @@ const defineOptionsList = (
 
 
   const wallets = [
-    isOptionVisible(injectedOption, wallet, 'metamask', onlyPreferredWallet),
-    isOptionVisible(metamaskOption, wallet, 'metamask', onlyPreferredWallet),
-    isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', onlyPreferredWallet),
-    isOptionVisible(zerionOption, wallet, 'zerion', onlyPreferredWallet),
-    isOptionVisible(walletConnectOption, wallet, 'walletconnect', onlyPreferredWallet),
+    isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
+    isOptionVisible(metamaskOption, wallet, 'metamask', availableWallets),
+    isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
+    isOptionVisible(zerionOption, wallet, 'zerion', availableWallets),
+    isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
     ensOption,
-    isOptionVisible(imtokenOption, wallet, 'imtoken', onlyPreferredWallet),
-    isOptionVisible(trustOption, wallet, 'trust', onlyPreferredWallet),
-    isOptionVisible(rainbowOption, wallet, 'rainbow', onlyPreferredWallet)
+    isOptionVisible(imtokenOption, wallet, 'imtoken', availableWallets),
+    isOptionVisible(trustOption, wallet, 'trust', availableWallets),
+    isOptionVisible(rainbowOption, wallet, 'rainbow', availableWallets)
   ]
 
   return sortWallets(wallets)
@@ -239,7 +243,7 @@ const WalletsList: FC<ReduxType> = ({
   isManual,
   campaignId,
   deeplinkRedirect,
-  onlyPreferredWallet,
+  availableWallets,
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -256,7 +260,7 @@ const WalletsList: FC<ReduxType> = ({
     (deeplink: string, walletId: TWalletName) => deeplinkRedirect(deeplink, walletId, () => setStep('wallet_redirect_await')),
     isManual,
     chainId as number,
-    onlyPreferredWallet
+    availableWallets
   )
 
   return <Container>
