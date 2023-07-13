@@ -36,13 +36,9 @@ const mapStateToProps = ({
 type ReduxType = ReturnType<typeof mapStateToProps>
 
 const CrossmintAwait: FC<ReduxType> = () => {
-  const {
-    isAuthenticated,
-    loginWithPopup,
-    user
-  } = useAuth0()
+  const options = useAuth0()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
-  console.log({ user, isAuthenticated })
+  console.log({ user: options.user, isAuthenticated: options.isAuthenticated })
 
   return <Container>
     <PreviewImage src={Image} alt='redirect await image' />
@@ -52,7 +48,14 @@ const CrossmintAwait: FC<ReduxType> = () => {
     </Subtitle>
     <ButtonStyled
       appearance='action'
-      onClick={() => loginWithPopup()}
+      onClick={async () => {
+        const token = await options.getAccessTokenWithPopup({
+          authorizationParams: {
+            audience: 'https://linkdrop-dev.us.auth0.com/api/v2/'
+          }
+        })
+        console.log({ token })
+      }}
     >
       Proceed
     </ButtonStyled>
