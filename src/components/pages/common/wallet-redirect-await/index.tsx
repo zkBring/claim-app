@@ -18,18 +18,21 @@ import wallets from 'configs/wallets'
 const mapStateToProps = ({
   drop: {
     walletApp,
-    chainId
+    chainId,
+    type
   },
 }: RootState) => ({
   walletApp,
-  chainId
+  chainId,
+  type
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
 
 const WalletRedirectAwait: FC<ReduxType> = ({
   walletApp,
-  chainId
+  chainId,
+  type
 }) => {
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
@@ -38,7 +41,7 @@ const WalletRedirectAwait: FC<ReduxType> = ({
   return <Container>
     <PreviewImage src={Image} alt='redirect await image' />
     <TitleComponent>Continue in {wallet?.name}</TitleComponent>
-    <Subtitle>You will be redirected to the wallet where you will be guided to claim an NFT</Subtitle>
+    <Subtitle>You will be redirected to the wallet where you will be guided to claim {type === 'ERC20' ? 'tokens' : 'an NFT'}</Subtitle>
     {walletDeeplink && <ButtonStyled
       href={walletDeeplink}
       target='_blank'
