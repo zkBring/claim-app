@@ -23,7 +23,9 @@ export default function getData(
     
     try {
       dispatch(actionsDrop.setLoading(true))
-
+      alert('checking getInitialData of drop')
+      alert(`userChainId: ${userChainId}`)
+      alert(`userAddress: ${userAddress}`)
       await dispatch(asyncActionsUser.initialize(
         onReload,
         connector,
