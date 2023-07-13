@@ -1,8 +1,11 @@
 
-import { Dispatch } from 'redux';
-import * as actionsDrop from '../actions';
-import { DropActions } from '../types';
-import { TokenActions } from '../../token/types';
+import { Dispatch } from 'redux'
+import * as actionsDrop from '../actions'
+import { DropActions } from '../types'
+import { UserActions } from '../../user/types'
+
+import { TokenActions } from '../../token/types'
+import * as actionsUser from '../../user/actions'
 import checkIfClaimed from './check-if-claimed'
 import { ethers } from 'ethers'
 import { RootState } from 'data/store'
@@ -10,7 +13,7 @@ import { plausibleApi } from 'data/api'
 
 export default function getData() {
   return async (
-    dispatch: Dispatch<DropActions> & Dispatch<TokenActions>,
+    dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions>,
     getState: () => RootState
   ) => {
     try {
@@ -67,6 +70,10 @@ export default function getData() {
               dispatch(actionsDrop.setHash(status.txHash))
             }
             window.clearInterval(interval)
+
+            dispatch(actionsDrop.setIsClaimed(true))
+            dispatch(actionsUser.setInitialized(false))
+
             return dispatch(actionsDrop.setStep('claiming_finished'))
           } else {
             if (status?.txHash) {

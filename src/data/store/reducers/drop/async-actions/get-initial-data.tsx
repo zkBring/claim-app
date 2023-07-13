@@ -23,17 +23,13 @@ export default function getData(
     
     try {
       dispatch(actionsDrop.setLoading(true))
-      alert('checking getInitialData of drop')
-      alert(`userChainId: ${userChainId}`)
-      alert(`userAddress: ${userAddress}`)
-      await asyncActionsUser.initialize(
-        dispatch,
-        getState,
+
+      await dispatch(asyncActionsUser.initialize(
         onReload,
         connector,
         userChainId,
         userAddress
-      )
+      ))
 
       const {
         user: {
@@ -80,7 +76,7 @@ export default function getData(
         })
         return dispatch(actionsDrop.setStep('link_expired'))
       }
-
+      console.log({})
       if (isClaimed) {
         dispatch(actionsDrop.setLoading(false))
         const status = await sdk?.getLinkStatus(claimCode)
