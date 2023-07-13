@@ -279,6 +279,7 @@ const WalletsList: FC<ReduxType> = ({
     enableENS
   )
 
+
   return <Container>
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>

@@ -22,6 +22,7 @@ import Image from 'images/crossmint-image.png'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'components/common'
 
+
 const mapStateToProps = ({
   drop: {
     walletApp,
@@ -58,6 +59,7 @@ const CrossmintAwait: FC<ReduxType> = () => {
     <Note>
       Your Crossmint wallet will be available anytime at <Link href='https://www.crossmint.com/signin' target='_blank'>crossmint.com/signin</Link>
     </Note>
+
     <AdditionalNoteComponent
       text='Learn more about Crossmint'
       position='bottom'
