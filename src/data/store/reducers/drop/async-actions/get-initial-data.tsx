@@ -26,12 +26,14 @@ export default function getData(
       alert('checking getInitialData of drop')
       alert(`userChainId: ${userChainId}`)
       alert(`userAddress: ${userAddress}`)
-      await dispatch(asyncActionsUser.initialize(
+      await asyncActionsUser.initialize(
+        dispatch,
+        getState,
         onReload,
         connector,
         userChainId,
         userAddress
-      ))
+      )
 
       const {
         user: {
