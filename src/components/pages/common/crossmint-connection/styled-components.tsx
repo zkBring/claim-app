@@ -31,4 +31,5 @@ export const PreviewImage = styled.img`
 export const Note = styled.div`
   font-size: 12px;
   text-align: center;
+
 `
