@@ -75,6 +75,8 @@ const initialize = (
       campaignId
     )
 
+    alert(`claimed: ${claimed}`)
+
     if (claimed) {
       dispatch(actionsDrop.setIsClaimed(claimed))
     }
