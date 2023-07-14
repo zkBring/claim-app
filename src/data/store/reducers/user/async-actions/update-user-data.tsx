@@ -1,7 +1,10 @@
-import { Dispatch } from 'redux';
-import * as actions from '../actions';
-import { UserActions } from '../types';
+import { Dispatch } from 'redux'
+import * as userActions from '../actions'
+import * as dropActions from '../../drop/actions'
+
+import { UserActions } from '../types'
 import { DropActions } from '../../drop/types'
+import { RootState, IAppDispatch } from 'data/store'
 
 const updateUserData = (
   address: string,
@@ -10,17 +13,26 @@ const updateUserData = (
   callback?: () => void,
 ) => {
   return async (
-    dispatch: Dispatch<UserActions> & Dispatch<DropActions>
+    dispatch: Dispatch<UserActions> & Dispatch<DropActions>,
+    getState: () => RootState
   ) => {
+    const {
+      drop: {
+        isClaimed
+      }
+    } = getState()
     try {
-      dispatch(actions.setHasConnector(true))
-      dispatch(actions.setAddress(address))
-      dispatch(actions.setChainId(chainId))
+      dispatch(userActions.setHasConnector(true))
+      dispatch(userActions.setAddress(address))
+      dispatch(userActions.setChainId(chainId))
       if (connector) {
         const provider = await connector.getProvider()
         const signer = await connector.getSigner()
-        dispatch(actions.setSigner(signer))
-        dispatch(actions.setUserProvider(provider))
+        dispatch(userActions.setSigner(signer))
+        dispatch(userActions.setUserProvider(provider))
+      }
+      if (isClaimed) {
+        return dispatch(dropActions.setStep('already_claimed'))
       }
       callback && callback()
     } catch (err) {
