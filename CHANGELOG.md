@@ -1,5 +1,9 @@
 # Linkdrop Claim app
 
+## 2.2.12
+- added fix for back button on claim finished screen
+- added fix for text on wallet connect page
+
 ## 2.2.11
 - added 'available_wallets' option support
 
