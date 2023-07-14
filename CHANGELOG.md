@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.12
+- added 'available_wallets' option support
+
 ## 2.2.11
 - added 'available_wallets' option support
 

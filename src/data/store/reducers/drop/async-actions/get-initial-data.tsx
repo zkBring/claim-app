@@ -76,7 +76,7 @@ export default function getData(
         })
         return dispatch(actionsDrop.setStep('link_expired'))
       }
-      console.log({})
+
       if (isClaimed) {
         dispatch(actionsDrop.setLoading(false))
         const status = await sdk?.getLinkStatus(claimCode)
