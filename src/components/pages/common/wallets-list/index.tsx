@@ -102,11 +102,12 @@ const defineOptionsList = (
   ) => Promise<void>,
   isManual: boolean,
   chainId: number,
-  availableWallets: string[]
+  availableWallets: string[],
+  enableENS?: boolean 
 ) => {
 
   const system = defineSystem()
-  const ensOption = !isManual ? {
+  const ensOption = !isManual && enableENS ? {
     title: 'Enter ENS or address',
     onClick: () => setStep('set_address'),
     icon: <WalletIcon src={ENSIcon} />
@@ -244,6 +245,7 @@ const WalletsList: FC<ReduxType> = ({
   campaignId,
   deeplinkRedirect,
   availableWallets,
+  enableENS
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -260,7 +262,8 @@ const WalletsList: FC<ReduxType> = ({
     (deeplink: string, walletId: TWalletName) => deeplinkRedirect(deeplink, walletId, () => setStep('wallet_redirect_await')),
     isManual,
     chainId as number,
-    availableWallets
+    availableWallets,
+    enableENS
   )
 
   return <Container>
