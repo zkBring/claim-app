@@ -108,7 +108,16 @@ export default function getLinkByMultiQR(
                 err_name: 'qr_no_links_to_share'
               }
             })
+          } else if (data.error.includes("Dispenser is not active")) {
+            dispatch(actionsDrop.setError('qr_campaign_not_active'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_campaign_not_active'
+              }
+            })
           } else {
+
             dispatch(actionsDrop.setError('qr_error'))
             plausibleApi.invokeEvent({
               eventName: 'error',

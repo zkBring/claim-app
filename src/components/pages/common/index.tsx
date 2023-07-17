@@ -16,11 +16,13 @@ import SetAddress from './set-address'
 import ZerionConnection from './zerion-connection'
 import DownloadAwait from './download-await'
 import WalletRedirectAwait from './wallet-redirect-await'
+import QRCampaignNotActive from './qr-campaign-not-active'
 
 export {
   SetAddress,
   ZerionConnection,
   DownloadAwait,
+  QRCampaignNotActive,
   QRNotMapped,
   PageHeader,
   QRNotFound,

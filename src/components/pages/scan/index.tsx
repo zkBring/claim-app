@@ -23,6 +23,7 @@ import {
   QRIncorrectParameter,
   QRCampaignNotStarted,
   QRCampaignFinished,
+  QRCampaignNotActive,
   PageHeader,
   PoweredByFooter,
   QRNoLinksToShare,
@@ -112,6 +113,12 @@ const ErrorScreen: FC<{ error: TDropError | null }> = ({ error }) => {
   if (error === 'qr_no_links_to_share') {
     return <Page>
       <QRNoLinksToShare />
+    </Page>
+  }
+
+  if (error === 'qr_campaign_not_active') {
+    return <Page>
+      <QRCampaignNotActive />
     </Page>
   }
 
@@ -266,8 +273,7 @@ const renderContent = (
       content = <DownloadAwait />
       break
     case 'zerion_connection':
-      content = <ZerionConnection
-      />
+      content = <ZerionConnection />
       break
     case 'wallet_redirect_await':
       content = <WalletRedirectAwait />
