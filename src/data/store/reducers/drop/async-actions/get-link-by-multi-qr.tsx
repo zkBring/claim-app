@@ -113,7 +113,7 @@ export default function getLinkByMultiQR(
             plausibleApi.invokeEvent({
               eventName: 'error',
               data: {
-                err_name: 'qr_not_active'
+                err_name: 'qr_campaign_not_active'
               }
             })
           } else {
