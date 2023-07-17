@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const PoweredBy = styled.a`
+export const PoweredBy = styled.div`
   margin: 0;
   font-size: 13px;
   color: ${props => props.theme.primaryTextColor};
@@ -9,6 +9,7 @@ export const PoweredBy = styled.a`
   justify-content: center;
   line-height: 1;
   text-decoration: none;
+  cursor: pointer;
 `
 
 export const PoweredByImage = styled.img`
