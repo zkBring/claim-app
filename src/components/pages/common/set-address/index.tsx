@@ -10,12 +10,8 @@ import {
   Instructions,
   Networks
 } from './styled-components'
-import { RootState, IAppDispatch } from 'data/store'
+import { RootState } from 'data/store'
 import { connect } from 'react-redux'
-import { DropActions } from 'data/store/reducers/drop/types'
-import { TokenActions } from 'data/store/reducers/token/types'
-import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
-import { Dispatch } from 'redux'
 import NetworksImage from 'images/networks.png'
 import { resolveENS, throttling, defineJSONRpcUrl, shortenString } from 'helpers'
 import {  ERC20TokenPreview } from 'components/pages/common'

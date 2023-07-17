@@ -14,7 +14,7 @@ import {
 } from './styled-components'
 import { defineExplorerURL } from 'helpers'
 import { plausibleApi } from 'data/api'
-import { ERC20TokenPreview, ClaimingFinishedButton } from 'components/pages/common'
+import { ERC20TokenPreview, ClaimingFinishedButton, PoweredByFooter } from 'components/pages/common'
 import ClaimingFinishedERC20 from 'images/claiming-finished-erc20.png'
 
 const mapStateToProps = ({
@@ -107,6 +107,7 @@ const ClaimingFinished: FC<ReduxType> = ({
       <ClaimingFinishedButton />
       {explorerUrl}
     </ButtonsContainer>
+    <PoweredByFooter />
   </Container>
 }
 
