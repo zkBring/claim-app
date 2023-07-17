@@ -3,6 +3,7 @@
 ## 2.2.13
 - added event for "Powered by Linkdrop" click
 - added "Powered by Linkdrop" on "already_claimed" and "claiming_finished" screens
+- disable ENS for dispenser campaigns
 
 ## 2.2.12
 - added fix for back button on claim finished screen

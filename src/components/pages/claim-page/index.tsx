@@ -138,6 +138,7 @@ type TDefineStep = (
       return <ChooseWallet />
     case 'wallets_list':
       return <WalletsListPage
+        enableENS
         setStep={setStep}
       />
     case 'gas_price_high':
