@@ -3,10 +3,8 @@ import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
-import { plausibleApi, getMultiQRData } from 'data/api'
-import { checkIfMultiscanIsPresented } from 'helpers'
+import { plausibleApi, getMultiQRData, getMultiQRCampaignData } from 'data/api'
 import axios, { AxiosError } from 'axios'
-import { RootState } from 'data/store'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 
 export default function getLinkByMultiQR(
@@ -22,8 +20,12 @@ export default function getLinkByMultiQR(
   ) => {
     dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
-
     try {
+      console.log('ss')
+      const campaign = await getMultiQRCampaignData(
+        multiscanQRId,
+      )
+
       const { data } = await getMultiQRData(
         multiscanQRId,
         scanId,
