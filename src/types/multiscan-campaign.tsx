@@ -12,5 +12,7 @@ type TMultiscanCampaign = {
   token_id: string
   preview_setting?: TPreviewSetting
   token_amount: string
+  redirect_url: string
+  redirect_on: string
 }
 export default TMultiscanCampaign

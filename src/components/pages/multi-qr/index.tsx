@@ -50,7 +50,7 @@ const MultiQR: FC<ReduxType> = ({ computeScanAddress, initialized, error }) => {
         history.push(location)
       }
     )
-  }, [])
+  }, [qrSecret])
 
   if (error === 'qr_incorrect_parameter') {
     return <Page>

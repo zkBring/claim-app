@@ -3,13 +3,13 @@ import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
-import { TDropType } from 'types'
+import { TDropType, TPreviewSetting } from 'types'
 import { plausibleApi, getMultiQRCampaignData } from 'data/api'
-import { checkIfMultiscanIsPresented, defineJSONRpcUrl } from 'helpers'
+import { checkIfMultiscanIsPresented } from 'helpers'
 import { IAppDispatch } from 'data/store'
-import * as asyncActionsDrop from './'
+import * as wccrypto from '@walletconnect/utils/dist/esm'
 
-const { REACT_APP_INFURA_ID } = process.env
+
 
 export default function computeScanAddress(
   qrSecret: string,
@@ -27,6 +27,7 @@ export default function computeScanAddress(
       // const MULTISCAN_QR_SECRET_PK = qrKeysPair.privateKey
       const inLocalStorage = checkIfMultiscanIsPresented(MULTISCAN_QR_ID)
       // const qrEncCodeForDecrypt = ethers.utils.id(qrEncCode).replace('0x', '')
+
       const campaignData = await getMultiQRCampaignData(MULTISCAN_QR_ID)
       if (campaignData.data.success) {
         const {
@@ -40,7 +41,9 @@ export default function computeScanAddress(
             campaign_number,
             token_id,
             preview_setting,
-            token_amount
+            token_amount,
+            redirect_on,
+            redirect_url
           }
         } = campaignData.data
         dispatch(actionsDrop.setCampaignId(String(campaign_number)))
@@ -51,26 +54,17 @@ export default function computeScanAddress(
         dispatch(actionsDrop.setWallet(wallet))
         dispatch(actionsDrop.setIsManual(!Boolean(sponsored)))
         dispatch(actionsDrop.setType(token_standard as TDropType))
+        dispatch(actionsDrop.setPreviewSetting(preview_setting as TPreviewSetting))
         dispatch(actionsDrop.setAvailableWallets(available_wallets))
 
-        if (preview_setting === 'token') {
-          const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(chain_id), infuraPk: REACT_APP_INFURA_ID as string })
-          const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
-
-          if (
-            token_standard && token_address && chain_id
-          ) {
-            await asyncActionsDrop.getTokenData(
-              token_standard,
-              token_address,
-              token_id,
-              chain_id,
-              provider,
-              dispatch
-            )
-          }
+        if (redirect_on && redirect_url) {
+          const decryptKey = ethers.utils.id(qrEncCode)
+          const linkDecrypted = wccrypto.decrypt({ encoded: redirect_url, symKey: decryptKey.replace('0x', '') })
+          return callback(linkDecrypted.split('/#')[1])
         }
       }
+
+      let redirectURL = ''
 
       if (!inLocalStorage) {
         const SCAN_ID = String(Math.random()).slice(2)
@@ -80,11 +74,11 @@ export default function computeScanAddress(
           scanID: SCAN_ID,
           scanIDSig: SCAN_ID_SIG
         }))
-        const redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}`
+        redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}`
         callback(redirectURL)
       } else {
         const { scanID: SCAN_ID, scanIDSig: SCAN_ID_SIG } = inLocalStorage
-        const redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}`
+        redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}`
         callback(redirectURL)
       }
 

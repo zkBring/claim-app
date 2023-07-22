@@ -1,6 +1,6 @@
 import { action } from 'typesafe-actions';
 import { Constants } from './constants';
-import { TDropStep, TDropType, TTheme, TDropError, TWalletName, TMultiscanStep } from 'types'
+import { TDropStep, TDropType, TTheme, TDropError, TWalletName, TMultiscanStep, TPreviewSetting } from 'types'
 
 export function setStep(step: TDropStep) {
   return action(Constants.DROP_SET_STEP, { step })
@@ -77,6 +77,11 @@ export function setLinkKey (linkKey: string) {
 export function setIsClaimed (isClaimed: boolean) {
   return action(Constants.DROP_SET_IS_CLAIMED, { isClaimed })
 }
+
+export function setPreviewSetting (previewSetting: TPreviewSetting) {
+  return action(Constants.DROP_SET_PREVIEW_SETTING, { previewSetting })
+}
+
 
 export function setAddressIsManuallySet (addressIsManuallySet: boolean) {
   return action(Constants.DROP_SET_ADDRESS_MANUALLY_SET, { addressIsManuallySet })
