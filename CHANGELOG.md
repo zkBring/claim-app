@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.14-rc.0
+- added support for dispenser redirect
+
 ## 2.2.13
 - added event for "Powered by Linkdrop" click
 - added "Powered by Linkdrop" on "already_claimed" and "claiming_finished" screens

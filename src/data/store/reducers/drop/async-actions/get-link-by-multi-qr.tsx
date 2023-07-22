@@ -6,6 +6,10 @@ import * as actionsDrop from '../actions'
 import { plausibleApi, getMultiQRData, getMultiQRCampaignData } from 'data/api'
 import axios, { AxiosError } from 'axios'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
+import { RootState } from 'data/store'
+import { defineJSONRpcUrl } from 'helpers'
+import * as asyncActionsDrop from './'
+const { REACT_APP_INFURA_ID } = process.env
 
 export default function getLinkByMultiQR(
   multiscanQRId: string,
@@ -16,16 +20,23 @@ export default function getLinkByMultiQR(
   callback: (location: string) => void
 ) {
   return async (
-    dispatch: Dispatch<DropActions>
+    dispatch: Dispatch<DropActions>,
+    getState: () => RootState
   ) => {
     dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
-    try {
-      console.log('ss')
-      const campaign = await getMultiQRCampaignData(
-        multiscanQRId,
-      )
 
+    const {
+      drop: {
+        previewSetting,
+        tokenAddress,
+        type,
+        tokenId,
+        chainId
+      }
+    } = getState()
+
+    try {      
       const { data } = await getMultiQRData(
         multiscanQRId,
         scanId,
@@ -41,7 +52,26 @@ export default function getLinkByMultiQR(
         if (linkDecrypted && callback) {
           callback(linkDecrypted)
         }
-      } 
+      }
+
+
+      if (previewSetting === 'token') {
+        const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(chainId), infuraPk: REACT_APP_INFURA_ID as string })
+        const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
+
+        if (
+          type && tokenAddress && chainId
+        ) {
+          await asyncActionsDrop.getTokenData(
+            type,
+            tokenAddress,
+            tokenId,
+            chainId,
+            provider,
+            dispatch
+          )
+        }
+      }
 
 
       dispatch(actionsDrop.setLoading(false))

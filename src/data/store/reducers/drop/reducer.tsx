@@ -31,7 +31,8 @@ const initialState: DropState = {
   claiming_finished_button_title: '',
   claiming_finished_button_url: '',
   walletApp: null,
-  availableWallets: []
+  availableWallets: [],
+  previewSetting: undefined
 }
 
 export function dropReducer(
@@ -73,6 +74,8 @@ export function dropReducer(
         return {...state, wallet: action.payload.wallet }
       case Constants.DROP_SET_WEI_AMOUNT:
         return {...state, weiAmount: action.payload.weiAmount }
+      case Constants.DROP_SET_PREVIEW_SETTING:
+      return {...state, previewSetting: action.payload.previewSetting }
       case Constants.DROP_SET_IS_CLAIMED:
         return {...state, isClaimed: action.payload.isClaimed }
       case Constants.DROP_SET_LOADING:
