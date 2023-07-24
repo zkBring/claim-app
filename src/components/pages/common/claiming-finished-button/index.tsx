@@ -40,37 +40,43 @@ const ClaimingFinishedButton: FC<ReduxType> = ({
 }) => {
   if (claiming_finished_button_url && claiming_finished_button_title) {
     return <ButtonStyled
-      href={claiming_finished_button_url}
-      target="_blank"
-      appearance='action'
-    >
-      {claiming_finished_button_title}
-    </ButtonStyled>
-    }
-    if (type === 'ERC20') {
-      return null
-    }
-    if (!tokenId || !tokenAddress || !chainId) { return null }
-    const watchTokenUrl = defineOpenseaURL(
-      chainId,
-      tokenAddress,
-      tokenId
-    )
-    return <ButtonStyled
       onClick={() => {
         plausibleApi.invokeEvent({
-          eventName: 'click_redirect_button',
+          eventName: 'click_custom_redirect_button',
           data: {
             campaignId: campaignId as string,
           }
         })
-        window.open(watchTokenUrl, '_blank')
+        window.open(claiming_finished_button_url, '_blank')
       }}
       appearance='action'
-      target="_blank"
     >
-      View on OpenSea
+      {claiming_finished_button_title}
     </ButtonStyled>
+  }
+  if (type === 'ERC20') {
+    return null
+  }
+  if (!tokenId || !tokenAddress || !chainId) { return null }
+  const watchTokenUrl = defineOpenseaURL(
+    chainId,
+    tokenAddress,
+    tokenId
+  )
+  return <ButtonStyled
+    onClick={() => {
+      plausibleApi.invokeEvent({
+        eventName: 'click_redirect_button',
+        data: {
+          campaignId: campaignId as string,
+        }
+      })
+      window.open(watchTokenUrl, '_blank')
+    }}
+    appearance='action'
+  >
+    View on OpenSea
+  </ButtonStyled>
 }
 
 export default connect(mapStateToProps)(ClaimingFinishedButton)

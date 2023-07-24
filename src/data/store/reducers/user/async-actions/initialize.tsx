@@ -22,12 +22,6 @@ const initialize = (
     getState: () => RootState
   ) => {
 
-    console.log({
-      connector,
-      userChainId,
-      userAddress
-    })
-
     dispatch(actions.setInitialized(false))
 
     const {
