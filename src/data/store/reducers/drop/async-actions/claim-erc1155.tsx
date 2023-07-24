@@ -124,7 +124,7 @@ export default function claimERC1155(
           return alert('Provided address or ens is not correct')
         }
       } else if (email) {
-        alert('should be claimed with email')
+        alert('No user address provided for claim')
       }
     }
 

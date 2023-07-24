@@ -116,7 +116,7 @@ export default function claimERC721(
           return alert('Provided address or ens is not correct')
         }
       } else if (email) {
-        alert('should be claimed with email')
+        alert('No user address provided for claim')
       }
     }
     

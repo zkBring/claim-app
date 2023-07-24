@@ -1,6 +1,6 @@
-import { Dispatch } from 'redux';
-import * as actions from '../actions';
-import { UserActions } from '../types';
+import { Dispatch } from 'redux'
+import * as actions from '../actions'
+import { UserActions } from '../types'
 import { RootState } from 'data/store'
 import { ethers } from 'ethers'
 import checkIfClaimed from '../../drop/async-actions/check-if-claimed'

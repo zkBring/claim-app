@@ -117,8 +117,8 @@ export default function claimERC20(
           dispatch(dropActions.setLoading(false))
           return alert('Provided address or ens is not correct')
         }
-      } else if (email) {
-        alert('should be claimed with email')
+      } else {
+        alert('No user address provided for claim')
       }
       
     }

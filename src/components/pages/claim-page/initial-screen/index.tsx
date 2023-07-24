@@ -167,7 +167,7 @@ const InitialScreen: FC<ReduxType> = ({
     <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
     <TitleComponent>{name}</TitleComponent>
     <TextComponent>
-      Here is a preview of the NFT you’re about to receive to address: <UserAddress>{address ? shortenString(address, 3) : email}</UserAddress>
+      Here is a preview of the NFT you’re about to receive to: <UserAddress>{email ? email : shortenString(address, 3)}</UserAddress>
     </TextComponent>
   </>
 

@@ -11,7 +11,6 @@ import {
   PreviewImage,
   Note
 } from './styled-components'
-import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import {
   AdditionalNoteComponent,
@@ -22,7 +21,9 @@ import { PopupContents } from './components'
 import Image from 'images/crossmint-image.png'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'components/common'
-
+import { Dispatch } from 'redux'
+import { RootState, IAppDispatch } from 'data/store'
+import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 
 const mapStateToProps = ({
   drop: {
@@ -34,10 +35,25 @@ const mapStateToProps = ({
   chainId
 })
 
-type ReduxType = ReturnType<typeof mapStateToProps>
 
-const CrossmintAwait: FC<ReduxType> = () => {
 
+const mapDispatcherToProps = (dispatch: IAppDispatch) => {
+  return {
+    getCrossmintAddress: (
+      jwt: string
+    ) => dispatch(
+      userAsyncActions.getCrossmintAddress(
+        jwt
+      )
+    )
+  }
+}
+
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
+
+const CrossmintAwait: FC<ReduxType> = ({
+  getCrossmintAddress
+}) => {
   const options = useAuth0()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
 
@@ -45,11 +61,12 @@ const CrossmintAwait: FC<ReduxType> = () => {
     const getToken = async () => {
       if (options.isAuthenticated) {
         const token = await options.getIdTokenClaims()
-        console.log({ token })
+        if (token) {
+          getCrossmintAddress(token.__raw)
+        }
       }
     }
     getToken()
-    
   }, [options.isAuthenticated])
 
   return <Container>
@@ -87,4 +104,4 @@ const CrossmintAwait: FC<ReduxType> = () => {
   </Container>
 }
 
-export default connect(mapStateToProps)(CrossmintAwait)
+export default connect(mapStateToProps, mapDispatcherToProps)(CrossmintAwait)
