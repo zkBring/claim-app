@@ -19,7 +19,6 @@ import WalletRedirectAwait from './wallet-redirect-await'
 import QRCampaignNotActive from './qr-campaign-not-active'
 import CrossmintConnection from './crossmint-connection'
 import QRCampaignNotActive from './qr-campaign-not-active'
-import CrossmintConnection from './crossmint-connection'
 
 export {
   SetAddress,
