@@ -37,7 +37,6 @@ export default function getLinkByMultiQR(
     } = getState()
 
     try {      
-
       const { data } = await getMultiQRData(
         multiscanQRId,
         scanId,
