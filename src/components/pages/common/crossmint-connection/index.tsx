@@ -1,5 +1,6 @@
 import {
   FC,
+  useEffect,
   useState
 } from 'react'
 import {
@@ -39,6 +40,17 @@ const CrossmintAwait: FC<ReduxType> = () => {
 
   const options = useAuth0()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
+
+  useEffect(() => {
+    const getToken = async () => {
+      if (options.isAuthenticated) {
+        const token = await options.getIdTokenClaims()
+        console.log({ token })
+      }
+    }
+    getToken()
+    
+  }, [options.isAuthenticated])
 
   return <Container>
     <PreviewImage src={Image} alt='redirect await image' />
