@@ -3,11 +3,7 @@ import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
-<<<<<<< HEAD
-import { plausibleApi, getMultiQRData, getMultiQRCampaignData } from 'data/api'
-=======
 import { plausibleApi, getMultiQRData } from 'data/api'
->>>>>>> c6f8852 (added new wallets config)
 import axios, { AxiosError } from 'axios'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { RootState } from 'data/store'
