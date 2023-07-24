@@ -3,7 +3,7 @@ import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
-import { plausibleApi, getMultiQRData } from 'data/api'
+import { plausibleApi, getMultiQRData, getMultiQRCampaignData } from 'data/api'
 import axios, { AxiosError } from 'axios'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { RootState } from 'data/store'
@@ -37,6 +37,7 @@ export default function getLinkByMultiQR(
     } = getState()
 
     try {      
+
       const { data } = await getMultiQRData(
         multiscanQRId,
         scanId,
