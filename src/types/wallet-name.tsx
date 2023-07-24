@@ -10,5 +10,4 @@ type TWalletName = 'metamask' |
                    'walletconnect' |
                    'manual_address'
 
-
 export default TWalletName

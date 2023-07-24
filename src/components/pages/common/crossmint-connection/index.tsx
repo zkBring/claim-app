@@ -45,30 +45,16 @@ const CrossmintAwait: FC<ReduxType> = () => {
     <Subtitle>
       <Link href='https://www.crossmint.com/' target='_blank'>Crossmint</Link> allows you to create a crypto wallet by simply authenticating with your email
     </Subtitle>
-    <ButtonStyled
-      appearance='action'
-      onClick={async () => {
-        const token = await options.getAccessTokenWithPopup({
-          authorizationParams: {
-            audience: 'https://linkdrop-dev.us.auth0.com/api/v2/'
-          }
-        })
-        console.log({ token })
-      }}
-    >
-      Proceed
-    </ButtonStyled>
-    <Note>
-      Your Crossmint wallet will be available anytime at <Link href='https://www.crossmint.com/signin' target='_blank'>crossmint.com/signin</Link>
-    </Note>
 
-    <Subtitle>Crossmint allows you to create a crypto wallet by simply authenticating with your email</Subtitle>
     <ButtonStyled
       appearance='action'
       onClick={() => options.loginWithPopup()}
     >
       Proceed
     </ButtonStyled>
+    <Note>
+      Your Crossmint wallet will be available anytime at <Link href='https://www.crossmint.com/signin' target='_blank'>crossmint.com/signin</Link>
+    </Note>
     <AdditionalNoteComponent
       text='Learn more about Crossmint'
       position='bottom'
