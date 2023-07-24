@@ -93,12 +93,12 @@ export function setUserProvider(userProvider: any) {
 }
 
 
-export function setAccount (account: TAccount) {
+export function setEmail (email: string) {
   return action(
-    Constants.USER_SET_ACCOUNT,
+    Constants.USER_SET_EMAIL,
     // payload
     {
-      account
+      email
     }
   )
 }

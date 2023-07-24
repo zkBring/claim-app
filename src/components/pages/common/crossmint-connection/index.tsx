@@ -7,7 +7,8 @@ import {
   TitleComponent,
   Subtitle,
   ButtonStyled,
-  PreviewImage
+  PreviewImage,
+  Note
 } from './styled-components'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
@@ -19,6 +20,7 @@ import LinkdropLogo from 'images/linkdrop-header.png'
 import { PopupContents } from './components'
 import Image from 'images/crossmint-image.png'
 import { useAuth0 } from '@auth0/auth0-react'
+import { Link } from 'components/common'
 
 const mapStateToProps = ({
   drop: {
@@ -44,13 +46,18 @@ const CrossmintAwait: FC<ReduxType> = () => {
   return <Container>
     <PreviewImage src={Image} alt='redirect await image' />
     <TitleComponent>Sign in with email</TitleComponent>
-    <Subtitle>Crossmint allows you to create a crypto wallet by simply authenticating with your email</Subtitle>
+    <Subtitle>
+      <Link href='https://www.crossmint.com/' target='_blank'>Crossmint</Link> allows you to create a crypto wallet by simply authenticating with your email
+    </Subtitle>
     <ButtonStyled
       appearance='action'
       onClick={() => loginWithPopup()}
     >
       Proceed
     </ButtonStyled>
+    <Note>
+      Your Crossmint wallet will be available anytime at <Link href='https://www.crossmint.com/signin' target='_blank'>crossmint.com/signin</Link>
+    </Note>
     <AdditionalNoteComponent
       text='Learn more about Crossmint'
       position='bottom'

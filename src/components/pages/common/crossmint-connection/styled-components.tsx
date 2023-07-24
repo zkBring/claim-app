@@ -20,9 +20,15 @@ export const Container = styled.div`
 
 export const ButtonStyled = styled(Button)`
   width: 100%;
+  margin-bottom: 16px;
 `
 
 export const PreviewImage = styled.img`
   max-width: 184px;
   margin-bottom: 36px;
+`
+
+export const Note = styled.div`
+  font-size: 12px;
+  text-align: center;
 `

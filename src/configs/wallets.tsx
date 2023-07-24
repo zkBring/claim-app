@@ -175,7 +175,33 @@ const wallets: TWallets = {
       }
     },
     chains: [1]
-  }
+  },
+  walletconnect: {
+    id: 'walletconnect',
+    name: 'WalletConnect',
+    chains: [1, 5, 137, 80001],
+    mobile: {
+      android: {
+        support: false
+      },
+      ios: {
+        support: false,
+      }
+    },
+  },
+  manual_address: {
+    id: 'manual_address',
+    name: 'ENS or address',
+    chains: [1, 5, 137, 80001],
+    mobile: {
+      android: {
+        support: false
+      },
+      ios: {
+        support: false,
+      }
+    },
+  },
 }
 
 export default wallets

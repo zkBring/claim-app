@@ -96,7 +96,7 @@ const defineOptionsList = (
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
   connectors: Connector<any, any, any>[],
-  wallet: string | null,
+  wallet: TWalletName | null,
   deeplinkRedirect: (
     deeplink: string,
     walletId: TWalletName
@@ -109,7 +109,7 @@ const defineOptionsList = (
 
   const system = defineSystem()
   const ensOption = !isManual && enableENS ? {
-    title: 'Enter ENS or address',
+    title: 'ENS or address',
     onClick: () => setStep('set_address'),
     icon: <WalletIcon src={ENSIcon} />
   } : undefined
@@ -161,7 +161,7 @@ const defineOptionsList = (
       isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets),
       isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
       isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
-      ensOption
+      isOptionVisible(ensOption, wallet, 'manual_address', availableWallets)
     ]
 
     return sortWallets(wallets) 
@@ -241,7 +241,7 @@ const defineOptionsList = (
     isOptionVisible(zerionOption, wallet, 'zerion', availableWallets),
     isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
     isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets),
-    ensOption,
+    isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
     isOptionVisible(imtokenOption, wallet, 'imtoken', availableWallets),
     isOptionVisible(trustOption, wallet, 'trust', availableWallets),
     isOptionVisible(rainbowOption, wallet, 'rainbow', availableWallets)
@@ -278,7 +278,6 @@ const WalletsList: FC<ReduxType> = ({
     availableWallets,
     enableENS
   )
-
 
   return <Container>
     <TitleComponent>Connect your wallet</TitleComponent>

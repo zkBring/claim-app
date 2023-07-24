@@ -22,7 +22,7 @@ export interface DropState {
   type: TDropType | null
   title: string | null
   isClaimed: boolean
-  wallet: string | null
+  wallet: TWalletName | null
   expirationTime: string | null
   linkKey: string | null
   linkdropMasterAddress: string | null
