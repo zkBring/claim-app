@@ -17,6 +17,7 @@ import ZerionWalletIcon from 'images/zerion-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
+import CrossmintIcon from 'images/crossmint-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
 import { TDropStep, TMultiscanStep, TWalletName, TWalletOption } from 'types'
@@ -121,6 +122,16 @@ const defineOptionsList = (
     icon: <WalletIcon src={WalletConnectIcon} />,
     recommended: wallet === 'walletconnect'
   }
+
+  const crossmintOption = {
+    title: 'Crossmint',
+    onClick: () => {
+      setStep('crossmint_connection')
+    },
+    icon: <WalletIcon src={CrossmintIcon} />,
+    recommended: wallet === 'crossmint'
+  }
+
   const injected = connectors.find(connector => connector.id === "injected")
   const injectedOption = getInjectedWalletOption(
     wallet,
@@ -147,6 +158,7 @@ const defineOptionsList = (
 
     const wallets = [
       isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
+      isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets),
       isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
       isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
       ensOption
@@ -228,6 +240,7 @@ const defineOptionsList = (
     isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
     isOptionVisible(zerionOption, wallet, 'zerion', availableWallets),
     isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
+    isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets),
     ensOption,
     isOptionVisible(imtokenOption, wallet, 'imtoken', availableWallets),
     isOptionVisible(trustOption, wallet, 'trust', availableWallets),
@@ -265,6 +278,7 @@ const WalletsList: FC<ReduxType> = ({
     availableWallets,
     enableENS
   )
+
 
   return <Container>
     <TitleComponent>Connect your wallet</TitleComponent>

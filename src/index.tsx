@@ -1,12 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/application';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './components/application'
+import reportWebVitals from './reportWebVitals'
+import { Auth0Provider } from '@auth0/auth0-react'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Auth0Provider
+      domain="linkdrop-dev.us.auth0.com"
+      clientId="BBWlahOBLGUCdZg9ABcm9SU69iAbfya6"
+      authorizationParams={{
+        redirect_uri: window.location.origin
+      }}
+    >
+      <App />
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -32,7 +32,8 @@ import {
   ZerionConnection,
   DownloadAwait,
   ERC20TokenPreview,
-  WalletRedirectAwait
+  WalletRedirectAwait,
+  CrossmintConnection
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
@@ -208,6 +209,7 @@ const defineBackAction = (
   switch (multiscanStep) {
     case 'download_await':
     case 'zerion_connection':
+    case 'crossmint_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':
       // if coinbase - do not show other wallets
@@ -274,6 +276,9 @@ const renderContent = (
       break
     case 'zerion_connection':
       content = <ZerionConnection />
+      break
+    case 'crossmint_connection':
+      content = <CrossmintConnection />
       break
     case 'wallet_redirect_await':
       content = <WalletRedirectAwait />
