@@ -4,12 +4,13 @@ import './index.css'
 import App from './components/application'
 import reportWebVitals from './reportWebVitals'
 import { Auth0Provider } from '@auth0/auth0-react'
+const { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } = process.env
 
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
-      domain="linkdrop-dev.us.auth0.com"
-      clientId="BBWlahOBLGUCdZg9ABcm9SU69iAbfya6"
+      domain={REACT_APP_AUTH0_DOMAIN as string}
+      clientId={REACT_APP_AUTH0_CLIENT_ID as string}
       authorizationParams={{
         redirect_uri: window.location.origin
       }}
