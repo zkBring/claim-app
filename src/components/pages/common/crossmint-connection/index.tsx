@@ -22,7 +22,6 @@ import Image from 'images/crossmint-image.png'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'components/common'
 
-
 const mapStateToProps = ({
   drop: {
     walletApp,
@@ -36,9 +35,9 @@ const mapStateToProps = ({
 type ReduxType = ReturnType<typeof mapStateToProps>
 
 const CrossmintAwait: FC<ReduxType> = () => {
+
   const options = useAuth0()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
-  console.log({ user: options.user, isAuthenticated: options.isAuthenticated })
 
   return <Container>
     <PreviewImage src={Image} alt='redirect await image' />
@@ -63,6 +62,13 @@ const CrossmintAwait: FC<ReduxType> = () => {
       Your Crossmint wallet will be available anytime at <Link href='https://www.crossmint.com/signin' target='_blank'>crossmint.com/signin</Link>
     </Note>
 
+    <Subtitle>Crossmint allows you to create a crypto wallet by simply authenticating with your email</Subtitle>
+    <ButtonStyled
+      appearance='action'
+      onClick={() => options.loginWithPopup()}
+    >
+      Proceed
+    </ButtonStyled>
     <AdditionalNoteComponent
       text='Learn more about Crossmint'
       position='bottom'
