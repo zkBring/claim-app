@@ -16,7 +16,8 @@ import {
   SetAddress,
   PageHeader,
   DownloadAwait,
-  WalletRedirectAwait
+  WalletRedirectAwait,
+  CrossmintConnection
 } from 'components/pages/common'
 import ErrorServerFail from './error-server-fail'
 import ErrorLinkExpired from './error-link-expired'
@@ -157,6 +158,8 @@ type TDefineStep = (
       return <ZerionConnection
         setStepCallback={() => setStep('initial')}
       />
+    case 'crossmint_connection':
+      return <CrossmintConnection />
     case 'wallet_redirect_await':
       return <WalletRedirectAwait />
     default:
@@ -173,6 +176,7 @@ const defineBackAction = (
     case 'set_address':
     case 'download_await':
     case 'zerion_connection':
+    case 'crossmint_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':
       // if coinbase - do not show other wallets

@@ -42,7 +42,7 @@ export function setType (type: TDropType) {
   return action(Constants.DROP_SET_TYPE, { type })
 }
 
-export function setWallet (wallet: string) {
+export function setWallet (wallet: TWalletName) {
   return action(Constants.DROP_SET_WALLET, { wallet })
 }
 

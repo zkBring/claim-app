@@ -14,11 +14,11 @@ type TWallet = {
   mobile: {
     android: {
       support: boolean,
-      deepLink: TWalletDeeplink
+      deepLink?: TWalletDeeplink
     },
     ios: {
       support: boolean,
-      deepLink: TWalletDeeplink
+      deepLink?: TWalletDeeplink
     }
   }
 }
@@ -38,6 +38,19 @@ const wallets: TWallets = {
       ios: {
         support: true,
         deepLink: (url: string) => `https://metamask.app.link/dapp/${_withoutProtocol(url)}`
+      }
+    },
+  },
+  crossmint: {
+    id: 'crossmint',
+    name: 'Crossmint',
+    chains: [1, 5, 137, 80001],
+    mobile: {
+      android: {
+        support: false
+      },
+      ios: {
+        support: false,
       }
     },
   },
@@ -162,7 +175,33 @@ const wallets: TWallets = {
       }
     },
     chains: [1]
-  }
+  },
+  walletconnect: {
+    id: 'walletconnect',
+    name: 'WalletConnect',
+    chains: [1, 5, 137, 80001],
+    mobile: {
+      android: {
+        support: false
+      },
+      ios: {
+        support: false,
+      }
+    },
+  },
+  manual_address: {
+    id: 'manual_address',
+    name: 'ENS or address',
+    chains: [1, 5, 137, 80001],
+    mobile: {
+      android: {
+        support: false
+      },
+      ios: {
+        support: false,
+      }
+    },
+  },
 }
 
 export default wallets

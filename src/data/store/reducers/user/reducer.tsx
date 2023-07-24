@@ -10,7 +10,6 @@ const initialState: UserState = {
   sdk: null,
   initialized: false,
   hasConnector: false,
-  account: null,
   signer: null
 };
 
@@ -35,10 +34,10 @@ export function userReducer(
       return {...state, initialized: action.payload.initialized }
     case Constants.USER_SET_HAS_CONNECTOR:
       return {...state, hasConnector: action.payload.hasConnector }
-    case Constants.USER_SET_ACCOUNT:
-      return {...state, account: action.payload.account }
     case Constants.USER_SET_SIGNER:
       return {...state, signer: action.payload.signer }
+    case Constants.USER_SET_EMAIL:
+      return {...state, email: action.payload.email }
     default:
       return state;
   }

@@ -18,10 +18,11 @@ import { useConnect } from 'wagmi'
 import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
+import { useWeb3Modal } from "@web3modal/react"
 
 const mapStateToProps = ({
-  token: { name, image, decimals },
-  drop: { tokenId, type, campaignId, amount, wallet, chainId },
+  token: { name, image, decimals, },
+  drop: { tokenId, type, campaignId, amount, wallet, chainId, availableWallets },
   user: { address }
 }: RootState) => ({
   name,
@@ -33,7 +34,8 @@ const mapStateToProps = ({
   amount,
   decimals,
   wallet,
-  chainId
+  chainId,
+  availableWallets
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -71,9 +73,11 @@ const SetConnector: FC<ReduxType> = ({
   decimals,
   wallet,
   chainId,
-  deeplinkRedirect
+  deeplinkRedirect,
+  availableWallets
 }) => {
   const { connect, connectors } = useConnect()
+  const { open } = useWeb3Modal()
   const injected = connectors.find(connector => connector.id === 'injected')
   const system = defineSystem()
   const [ initialized, setInitialized ] = useState<boolean>(false)
@@ -141,12 +145,35 @@ const SetConnector: FC<ReduxType> = ({
           return connect({ connector: injected })
         }
 
-        if (wallet === 'coinbase_wallet' && chainId) {
-          const coinbaseDeeplink = getWalletDeeplink('coinbase_wallet', system, window.location.href, chainId)
-          if (coinbaseDeeplink) {
-            return deeplinkRedirect(coinbaseDeeplink, 'coinbase_wallet', () => setStep('wallet_redirect_await'))
+        if (
+          wallet &&
+          chainId &&
+          availableWallets.includes(wallet) &&
+          availableWallets.length === 1
+        ) {
+          if (
+            wallet !== 'walletconnect' &&
+            wallet !== 'manual_address' &&
+            wallet !== 'crossmint' &&
+            wallet !== 'zerion'
+          ) {
+            const deeplink = getWalletDeeplink(wallet, system, window.location.href, chainId)
+            if (deeplink) {
+              return deeplinkRedirect(deeplink, wallet, () => setStep('wallet_redirect_await'))
+            }
+          } else if (
+            wallet === 'walletconnect'
+          ) {
+            return open()
+          } else if (wallet === 'zerion') {
+            return setStep('zerion_connection')
+          } else if (wallet === 'crossmint') {
+            return setStep('crossmint_connection')
+          } else if (wallet === 'manual_address') {
+            return setStep('set_address')
           }
-        }
+
+        } 
 
         setStep('choose_wallet')
       }

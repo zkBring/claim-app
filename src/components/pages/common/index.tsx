@@ -17,6 +17,7 @@ import ZerionConnection from './zerion-connection'
 import DownloadAwait from './download-await'
 import WalletRedirectAwait from './wallet-redirect-await'
 import QRCampaignNotActive from './qr-campaign-not-active'
+import CrossmintConnection from './crossmint-connection'
 
 export {
   SetAddress,
@@ -37,5 +38,6 @@ export {
   QRNoLinksToShare,
   WalletsListPage,
   PoweredByFooter,
-  WalletRedirectAwait
+  WalletRedirectAwait,
+  CrossmintConnection
 }

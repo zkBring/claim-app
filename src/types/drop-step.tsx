@@ -24,6 +24,7 @@ type TDropStep = 'loading' |
                  'short_code_loading' |
                  'download_await' |
                  'zerion_connection' |
-                 'wallet_redirect_await'
+                 'wallet_redirect_await' |
+                 'crossmint_connection'
 
 export default TDropStep

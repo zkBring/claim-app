@@ -1,6 +1,5 @@
 import { ActionType } from 'typesafe-actions'
 import * as actions from './actions'
-import { TAccount } from 'types'
 import LinkdropSDK from 'linkdrop-sdk'
 
 export interface UserState {
@@ -13,7 +12,7 @@ export interface UserState {
   signer: any
   provider: any
   hasConnector: boolean
-  account: TAccount | null
+  email?: string
 }
 
 export type UserActions = ActionType<typeof actions>

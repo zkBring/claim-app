@@ -29,7 +29,8 @@ export default function claimERC1155(
         sdk,
         signer,
         address,
-        provider
+        provider,
+        email
       },
       drop: {
         campaignId,
@@ -97,29 +98,33 @@ export default function claimERC1155(
       return alert(`amount is not provided`)
     }
 
-    if (!address && manualAddress) {
-      const jsonRpcUrl = defineJSONRpcUrl({ chainId: 1, infuraPk: REACT_APP_INFURA_ID })
-      const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
+    if (!address) {
+      if (manualAddress) {
+        const jsonRpcUrl = defineJSONRpcUrl({ chainId: 1, infuraPk: REACT_APP_INFURA_ID })
+        const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
 
-      const addressResolved = await resolveENS(manualAddress, provider)
+        const addressResolved = await resolveENS(manualAddress, provider)
 
-      if (addressResolved) {
-        dispatch(userActions.setAddress(addressResolved))
-        address = addressResolved
-        dispatch(dropActions.setAddressIsManuallySet(true))
-      } else if (!window.navigator.onLine) {
-        dispatch(dropActions.setLoading(false))
-        plausibleApi.invokeEvent({
-          eventName: 'error',
-          data: {
-            err_name: 'error_no_connection',
-            campaignId
-          }
-        })
-        return dispatch(dropActions.setStep('error_no_connection'))
-      } else {
-        dispatch(dropActions.setLoading(false))
-        return alert('Provided address or ens is not correct')
+        if (addressResolved) {
+          dispatch(userActions.setAddress(addressResolved))
+          address = addressResolved
+          dispatch(dropActions.setAddressIsManuallySet(true))
+        } else if (!window.navigator.onLine) {
+          dispatch(dropActions.setLoading(false))
+          plausibleApi.invokeEvent({
+            eventName: 'error',
+            data: {
+              err_name: 'error_no_connection',
+              campaignId
+            }
+          })
+          return dispatch(dropActions.setStep('error_no_connection'))
+        } else {
+          dispatch(dropActions.setLoading(false))
+          return alert('Provided address or ens is not correct')
+        }
+      } else if (email) {
+        alert('No user address provided for claim')
       }
     }
 
@@ -197,20 +202,7 @@ const claimManually = async (
     const factoryItem = contracts[chainId]
     const linkId = new ethers.Wallet(linkKey).address
     const receiverSignature = await signReceiverAddress(linkKey, address)
-    console.log({ signer })
-    console.log({
-      weiAmount,
-      nftAddress,
-      tokenId,
-      amount,
-      expirationTime,
-      linkId,
-      linkdropMasterAddress,
-      campaignId,
-      linkdropSignerSignature,
-      address,
-      receiverSignature
-    })
+
     const contract = new ethers.Contract(
       factoryItem.factory,
       LinkdropFactory.abi,

@@ -3,6 +3,8 @@
 ## 2.2.14-rc.0
 - added support for dispenser redirect
 - fix for custom redirect button on "claiming finished" page
+- Crossmint option added to wallets
+- updated logic of connection to wallets
 
 ## 2.2.13
 - added event for "Powered by Linkdrop" click
@@ -12,6 +14,7 @@
 ## 2.2.12
 - added fix for back button on claim finished screen
 - added fix for text on wallet connect page
+- added 'available_wallets' option support
 
 ## 2.2.11
 - added 'available_wallets' option support

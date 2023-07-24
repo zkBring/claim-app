@@ -5,7 +5,7 @@ import { UserActions } from '../../user/types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
 import * as actionsUser from '../../user/actions'
-import { TLinkParams, TDropType } from 'types'
+import { TLinkParams, TDropType, TWalletName } from 'types'
 import LinkdropSDK from 'linkdrop-sdk'
 const { REACT_APP_DASHBOARD_SERVER_URL } = process.env
 
@@ -48,7 +48,7 @@ export default function getLinkByCode(
 
       dispatch(actionsDrop.setChainId(Number(chain_id)))
       dispatch(actionsDrop.setTokenAddress(token_address))
-      dispatch(actionsDrop.setWallet(wallet))
+      dispatch(actionsDrop.setWallet(wallet as TWalletName))
       dispatch(actionsDrop.setIsManual(!Boolean(sponsored)))
       dispatch(actionsDrop.setExpirationTime(expiration_time))
       dispatch(actionsDrop.setLinkdropMasterAddress(creator_address))
@@ -62,7 +62,7 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setLoading(false))
       dispatch(actionsDrop.setClaimCode(linkCode))
       dispatch(actionsDrop.setLinkId(linkId))
-      dispatch(actionsDrop.setAvailableWallets(available_wallets || []))
+      dispatch(actionsDrop.setAvailableWallets([...available_wallets, 'crossmint'] || []))
       dispatch(actionsDrop.setLinkKey(linkKey))
       if (claiming_finished_button_title && claiming_finished_button_url) {
         dispatch(actionsDrop.setClaimingFinishedButtonTitle(claiming_finished_button_title))
