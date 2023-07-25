@@ -11,7 +11,7 @@ type TDefineInjectedWallet = (
   injected?: Connector<any, any, any>
 ) => TWalletOption | undefined
 
-const defineInjectedWallet: TDefineInjectedWallet = (
+const getInjectedWalletOption: TDefineInjectedWallet = (
   wallet,
   system,
   downloadStarted,
@@ -27,7 +27,8 @@ const defineInjectedWallet: TDefineInjectedWallet = (
       downloadStarted && downloadStarted()
     },
     icon: walletIcon,
-    tag: 'Install MetaMask ->'
+    tag: 'Install MetaMask ->',
+    recommended: wallet === 'metamask'
   }
 
   if (system === 'desktop') {
@@ -59,7 +60,7 @@ const defineInjectedWallet: TDefineInjectedWallet = (
           connect({ connector: injected })
         },
         icon: walletIcon,
-        recommended: wallet !== 'walletconnect' && wallet !== 'coinbase_wallet'
+        recommended: wallet === 'metamask'
       }
     }
     
@@ -83,4 +84,4 @@ const defineInjectedWallet: TDefineInjectedWallet = (
   return undefined 
 }
 
-export default defineInjectedWallet
+export default getInjectedWalletOption
