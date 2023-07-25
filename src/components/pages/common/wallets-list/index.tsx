@@ -20,7 +20,7 @@ import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import CrossmintIcon from 'images/crossmint-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
-import { TDropStep, TMultiscanStep, TWalletName, TWalletOption } from 'types'
+import { TDropStep, TMultiscanStep, TWalletName, TWalletOption, TDropType } from 'types'
 import { AdditionalNoteComponent } from 'linkdrop-ui'
 import {  OverlayScreen } from 'linkdrop-ui'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
@@ -79,9 +79,12 @@ const isOptionVisible = (
   option: TWalletOption | undefined,
   preferredWallet: string | null,
   currentOption: string,
-  availableWallets: string[]
+  availableWallets: string[],
+  additionalCondition?: boolean
 ) => {
-  
+  if (additionalCondition !== undefined && !additionalCondition) {
+    return undefined
+  }
   if (!option) { return undefined }
   if (!availableWallets || availableWallets.length === 0 || currentOption === preferredWallet) {
     return option
@@ -92,6 +95,7 @@ const isOptionVisible = (
 }
 
 const defineOptionsList = (
+  type: TDropType | null,
   setStep: (step: TDropStep & TMultiscanStep) => void,
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
@@ -158,7 +162,7 @@ const defineOptionsList = (
 
     const wallets = [
       isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
-      isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets),
+      isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20'),
       isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
       isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
       isOptionVisible(ensOption, wallet, 'manual_address', availableWallets)
@@ -240,7 +244,7 @@ const defineOptionsList = (
     isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
     isOptionVisible(zerionOption, wallet, 'zerion', availableWallets),
     isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
-    isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets),
+    isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20'),
     isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
     isOptionVisible(imtokenOption, wallet, 'imtoken', availableWallets),
     isOptionVisible(trustOption, wallet, 'trust', availableWallets),
@@ -258,7 +262,8 @@ const WalletsList: FC<ReduxType> = ({
   campaignId,
   deeplinkRedirect,
   availableWallets,
-  enableENS
+  enableENS,
+  type
 }) => {
   const { open } = useWeb3Modal()
   const { connect, connectors } = useConnect()
@@ -267,6 +272,7 @@ const WalletsList: FC<ReduxType> = ({
   const injected = connectors.find(connector => connector.id === "injected")
 
   const options = defineOptionsList(
+    type,
     setStep,
     open,
     connect,
