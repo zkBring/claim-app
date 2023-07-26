@@ -128,7 +128,7 @@ const defineOptionsList = (
   }
 
   const crossmintOption = {
-    title: 'Crossmint',
+    title: 'Sign in with email',
     onClick: () => {
       setStep('crossmint_connection')
     },

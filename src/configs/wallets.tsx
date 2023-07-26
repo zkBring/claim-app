@@ -43,7 +43,7 @@ const wallets: TWallets = {
   },
   crossmint: {
     id: 'crossmint',
-    name: 'Sign in with email',
+    name: 'Crossmint',
     chains: [1, 5, 137, 80001],
     mobile: {
       android: {
