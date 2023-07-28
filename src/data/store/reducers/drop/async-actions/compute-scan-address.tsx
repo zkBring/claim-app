@@ -60,7 +60,12 @@ export default function computeScanAddress(
         if (redirect_on && redirect_url) {
           const decryptKey = ethers.utils.id(qrEncCode)
           const linkDecrypted = wccrypto.decrypt({ encoded: redirect_url, symKey: decryptKey.replace('0x', '') })
-          return callback(linkDecrypted.split('/#')[1])
+          if (linkDecrypted.includes(window.location.host)) {
+            return callback(linkDecrypted.split('/#')[1])
+          } else {
+            window.location.href = linkDecrypted
+            return
+          }
         }
       }
 
