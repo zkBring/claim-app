@@ -8,7 +8,6 @@ import defineExplorerURL from './define-explorer-url'
 import hexlifyIpfsHash from './hexlify-ipfs-hash'
 import IPFSRedefineUrl from './ipfs-redefine-url'
 import getValidImage from './get-valid-image'
-import defineNFTExplorerUrl from './define-nft-explorer-url'
 import isIframe from './is-iframe'
 import defineSystem from './define-system'
 import resolveENS from './resolve-ens'
@@ -19,7 +18,6 @@ import throttling from './throttling'
 import handleClaimResponseError from './handle-claim-response-error'
 import defineRealNetworkName from './define-real-network-name'
 import toHex from './to-hex'
-import constructLink from './construct-link'
 import defineOpenseaURL from './define-opensea-url'
 import getWalletDeeplink from './get-wallet-deeplink'
 import sortWallets from './sort-wallets'
@@ -45,7 +43,6 @@ export {
   createAlchemyInstance,
   defineAlchemyNetwork,
   shortenString,
-  constructLink,
   defineOpenseaURL,
   getWalletDeeplink,
   toHex,
@@ -63,7 +60,6 @@ export {
   IPFSRedefineUrl,
   getValidImage,
   handleClaimResponseError,
-  defineNFTExplorerUrl,
   isIframe,
   defineSystem,
   resolveENS,

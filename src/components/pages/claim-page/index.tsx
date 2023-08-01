@@ -10,6 +10,7 @@ import NoTokensLeft from './no-tokens-left'
 import ErrorPage from './error'
 import ErrorTransactionPage from './error-transaction'
 import ErrorNoConnectionPage from './error-no-connection'
+import { useEthersSigner } from 'hooks'
 import {
   WalletsListPage,
   ZerionConnection,
@@ -62,12 +63,14 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
       getData: (
         onReload: () => void,
         connector: any,
+        signer: any,
         chainId?: number,
         address?: string,
         
       ) => dispatch(dropAsyncActions.getInitialData(
         onReload,
         connector,
+        signer,
         chainId,
         address
       )),
@@ -75,6 +78,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         address: string,
         chainId: number,
         connector: any,
+        signer: any,
         callback: () => void
       ) => dispatch(userAsyncActions.updateUserData(
         address,
@@ -226,6 +230,7 @@ const ClaimPage: FC<ReduxType> = ({
   const { address, connector } = useAccount()
   const chainId = useChainId()
   const history = useHistory()
+  const signer = useEthersSigner()
 
   useEffect(() => {
     if (!claimCode) { return }
@@ -233,6 +238,7 @@ const ClaimPage: FC<ReduxType> = ({
       getData(
         () => { history.push('/') },
         connector,
+        signer,
         chainId,
         address
       )
@@ -242,6 +248,7 @@ const ClaimPage: FC<ReduxType> = ({
           address,
           chainId,
           connector,
+          signer,
           () => setStep('initial')
         )
       }

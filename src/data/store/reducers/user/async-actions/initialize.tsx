@@ -14,6 +14,7 @@ const { REACT_APP_INFURA_ID } = process.env
 const initialize = (
   onReload: () => void,
   connector: any,
+  signer: any,
   userChainId?: number,
   userAddress?: string
 ) => {
@@ -81,7 +82,6 @@ const initialize = (
       dispatch(actions.setChainId(userChainId))
 
       const provider = await connector.getProvider()
-      const signer = await connector.getSigner()
       
       dispatch(actions.setUserProvider(provider))
       dispatch(actions.setSigner(signer))

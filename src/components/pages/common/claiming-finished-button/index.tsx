@@ -81,11 +81,14 @@ const ClaimingFinishedButton: FC<ReduxType> = ({
     return null
   }
   if (!tokenId || !tokenAddress || !chainId) { return null }
-  const watchTokenUrl = defineOpenseaURL(
+  const watchTokenUrl = defineOpenseaURL({
     chainId,
     tokenAddress,
     tokenId
-  )
+  })
+  if (!watchTokenUrl) {
+    return null
+  }
   return <ButtonStyled
     onClick={() => {
       plausibleApi.invokeEvent({
