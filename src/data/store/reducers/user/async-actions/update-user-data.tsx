@@ -10,6 +10,7 @@ const updateUserData = (
   address: string,
   chainId: number,
   connector?: any,
+  signer?: any,
   callback?: () => void,
 ) => {
   return async (
@@ -27,9 +28,10 @@ const updateUserData = (
       dispatch(userActions.setChainId(chainId))
       if (connector) {
         const provider = await connector.getProvider()
-        const signer = await connector.getSigner()
-        dispatch(userActions.setSigner(signer))
         dispatch(userActions.setUserProvider(provider))
+      }
+      if (signer) {
+        dispatch(userActions.setSigner(signer))
       }
       if (isClaimed) {
         return dispatch(dropActions.setStep('already_claimed'))

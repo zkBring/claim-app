@@ -5,6 +5,8 @@
 - fix for custom redirect button on "claiming finished" page
 - Crossmint option added to wallets
 - updated logic of connection to wallets
+- added support for Base and BaseGoerli networks
+- added fix for Mumbai network explorer url
 
 ## 2.2.13
 - added event for "Powered by Linkdrop" click

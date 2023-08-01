@@ -4,14 +4,14 @@ import RouterProvider from './router-provider'
 import store from 'data/store'
 import { Container } from './styled-components'
 import { Web3Modal } from "@web3modal/react"
-import { ethereumClient, wagmiClient } from './connectors/wallet-connect'
+import { ethereumClient, wagmiConfig } from './connectors/wallet-connect'
 import { WagmiConfig } from "wagmi"
 const { REACT_APP_WC_PROJECT_ID } = process.env
 
 class Application extends React.Component {
   render () {
     return <Container>
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={wagmiConfig}>
         <Provider store={store}>
           <RouterProvider />
         </Provider>
