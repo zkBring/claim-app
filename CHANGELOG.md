@@ -1,6 +1,6 @@
 # Linkdrop Claim app
 
-## 2.2.14-rc.0
+## 2.2.14
 - added support for dispenser redirect
 - fix for custom redirect button on "claiming finished" page
 - Crossmint option added to wallets
