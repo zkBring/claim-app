@@ -10,13 +10,15 @@ import NoTokensLeft from './no-tokens-left'
 import ErrorPage from './error'
 import ErrorTransactionPage from './error-transaction'
 import ErrorNoConnectionPage from './error-no-connection'
+import { useEthersSigner } from 'hooks'
 import {
   WalletsListPage,
   ZerionConnection,
   SetAddress,
   PageHeader,
   DownloadAwait,
-  WalletRedirectAwait
+  WalletRedirectAwait,
+  CrossmintConnection
 } from 'components/pages/common'
 import ErrorServerFail from './error-server-fail'
 import ErrorLinkExpired from './error-link-expired'
@@ -61,12 +63,14 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
       getData: (
         onReload: () => void,
         connector: any,
+        signer: any,
         chainId?: number,
         address?: string,
         
       ) => dispatch(dropAsyncActions.getInitialData(
         onReload,
         connector,
+        signer,
         chainId,
         address
       )),
@@ -74,6 +78,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         address: string,
         chainId: number,
         connector: any,
+        signer: any,
         callback: () => void
       ) => dispatch(userAsyncActions.updateUserData(
         address,
@@ -157,6 +162,8 @@ type TDefineStep = (
       return <ZerionConnection
         setStepCallback={() => setStep('initial')}
       />
+    case 'crossmint_connection':
+      return <CrossmintConnection />
     case 'wallet_redirect_await':
       return <WalletRedirectAwait />
     default:
@@ -173,6 +180,7 @@ const defineBackAction = (
     case 'set_address':
     case 'download_await':
     case 'zerion_connection':
+    case 'crossmint_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':
       // if coinbase - do not show other wallets
@@ -222,6 +230,7 @@ const ClaimPage: FC<ReduxType> = ({
   const { address, connector } = useAccount()
   const chainId = useChainId()
   const history = useHistory()
+  const signer = useEthersSigner()
 
   useEffect(() => {
     if (!claimCode) { return }
@@ -229,6 +238,7 @@ const ClaimPage: FC<ReduxType> = ({
       getData(
         () => { history.push('/') },
         connector,
+        signer,
         chainId,
         address
       )
@@ -238,6 +248,7 @@ const ClaimPage: FC<ReduxType> = ({
           address,
           chainId,
           connector,
+          signer,
           () => setStep('initial')
         )
       }

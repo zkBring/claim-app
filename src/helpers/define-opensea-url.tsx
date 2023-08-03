@@ -1,26 +1,24 @@
 import defineNetworkName from './define-network-name'
-type TDefineOpenseaURL = (
-  chainId: number,
-  tokenAddress: string | null,
-  tokenId: string | null
-) => string | undefined
 
-const defineOpenseaURL: TDefineOpenseaURL = (
+type TDefineNFTExplorerUrl = ({
   chainId,
-  tokenAddress,
-  tokenId
-) => {
-  if (tokenId === null || tokenId === undefined) {
-    return
-  }
+  tokenId,
+  tokenAddress
+}: {
+  chainId: number,
+  tokenId: string,
+  tokenAddress: string
+}) => string | null
+
+const defineOpenseaURL: TDefineNFTExplorerUrl = ({ chainId, tokenId, tokenAddress }) => {
   const networkName = defineNetworkName(chainId)
   if (networkName === 'mainnet') {
     return `https://opensea.io/assets/${tokenAddress}/${tokenId}`
   }
-  if (networkName === 'matic') {
+  if (networkName === 'polygon') {
     return `https://opensea.io/assets/matic/${tokenAddress}/${tokenId}`
   }
-  return `https://testnets.opensea.io/assets/${networkName}/${tokenAddress}/${tokenId}`
+  return null
 }
 
 export default defineOpenseaURL

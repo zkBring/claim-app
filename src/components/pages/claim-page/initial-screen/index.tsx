@@ -23,7 +23,7 @@ import { switchNetwork } from 'data/store/reducers/user/async-actions'
 
 const mapStateToProps = ({
   token: { name, image, decimals },
-  user: { address, chainId: userChainId, userProvider },
+  user: { address, chainId: userChainId, userProvider, email },
   drop: { tokenId, amount, type, isManual, loading, chainId, campaignId }
 }: RootState) => ({
   name,
@@ -37,7 +37,9 @@ const mapStateToProps = ({
   userChainId,
   chainId,
   campaignId,
-  decimals, userProvider
+  decimals,
+  userProvider,
+  email
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -90,7 +92,8 @@ const InitialScreen: FC<ReduxType> = ({
   setStep,
   campaignId,
   decimals,
-  userProvider
+  userProvider,
+  email
 }) => {
 
   const system = defineSystem()
@@ -148,6 +151,8 @@ const InitialScreen: FC<ReduxType> = ({
     />
   }
 
+  const addressPreview = <UserAddress>{email ? email : shortenString(address, 3)}</UserAddress>
+
   const content = type === 'ERC20' ? <>
     <ERC20TokenPreview
       name={name}
@@ -157,14 +162,14 @@ const InitialScreen: FC<ReduxType> = ({
       status='initial'
     />
     <TextComponent>
-      Please proceed to receive tokens to address: <UserAddress>{shortenString(address, 3)}</UserAddress>
+      Please proceed to receive tokens to: {addressPreview}
     </TextComponent>
   </> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
     <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
     <TitleComponent>{name}</TitleComponent>
     <TextComponent>
-      Here is a preview of the NFT you’re about to receive to address: <UserAddress>{shortenString(address, 3)}</UserAddress>
+      Here is a preview of the NFT you’re about to receive to: {addressPreview}
     </TextComponent>
   </>
 

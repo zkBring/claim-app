@@ -5,6 +5,7 @@ import getOriginalLink from './get-original-link'
 import plausibleApi from './plausible-api'
 import getMultiQRData from './get-multiqr-data'
 import getMultiQRCampaignData from './get-multiqr-campaign-data'
+import getCrossmintAddress from './get-crossmint-address'
 
 export {
   getERC1155TokenData,
@@ -13,5 +14,6 @@ export {
   getOriginalLink,
   plausibleApi,
   getMultiQRData,
-  getMultiQRCampaignData
+  getMultiQRCampaignData,
+  getCrossmintAddress
 }

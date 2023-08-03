@@ -1,6 +1,6 @@
-import { Dispatch } from 'redux';
-import * as actions from '../actions';
-import { UserActions } from '../types';
+import { Dispatch } from 'redux'
+import * as actions from '../actions'
+import { UserActions } from '../types'
 import { RootState } from 'data/store'
 import { ethers } from 'ethers'
 import checkIfClaimed from '../../drop/async-actions/check-if-claimed'
@@ -14,6 +14,7 @@ const { REACT_APP_INFURA_ID } = process.env
 const initialize = (
   onReload: () => void,
   connector: any,
+  signer: any,
   userChainId?: number,
   userAddress?: string
 ) => {
@@ -21,12 +22,6 @@ const initialize = (
     dispatch: Dispatch<UserActions> & Dispatch<DropActions>,
     getState: () => RootState
   ) => {
-
-    console.log({
-      connector,
-      userChainId,
-      userAddress
-    })
 
     dispatch(actions.setInitialized(false))
 
@@ -87,7 +82,6 @@ const initialize = (
       dispatch(actions.setChainId(userChainId))
 
       const provider = await connector.getProvider()
-      const signer = await connector.getSigner()
       
       dispatch(actions.setUserProvider(provider))
       dispatch(actions.setSigner(signer))

@@ -29,7 +29,8 @@ export default function claimERC20(
         sdk,
         address,
         provider,
-        signer
+        signer,
+        email
       },
       drop: {
         campaignId,
@@ -46,6 +47,7 @@ export default function claimERC20(
         claimCode
       }
     } = getState()
+
     if (!chainId) {
       dispatch(dropActions.setLoading(false))
       return alert(`chainId is not provided`)
@@ -90,30 +92,35 @@ export default function claimERC20(
       return alert(`wallet is not provided`)
     }
 
-    if (!address && manualAddress) {
-      const jsonRpcUrl = defineJSONRpcUrl({ chainId: 1, infuraPk: REACT_APP_INFURA_ID })
-      const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
-      const addressResolved = await resolveENS(manualAddress, provider)
-      // checking if address is resolved
+    if (!address) {
+      if (manualAddress) {
+        const jsonRpcUrl = defineJSONRpcUrl({ chainId: 1, infuraPk: REACT_APP_INFURA_ID })
+        const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
+        const addressResolved = await resolveENS(manualAddress, provider)
+        // checking if address is resolved
 
-      if (addressResolved) {
-        dispatch(userActions.setAddress(addressResolved))
-        address = addressResolved
-        dispatch(dropActions.setAddressIsManuallySet(true))
-      } else if (!window.navigator.onLine) {
-        dispatch(dropActions.setLoading(false))
-        plausibleApi.invokeEvent({
-          eventName: 'error',
-          data: {
-            err_name: 'error_no_connection',
-            campaignId
-          }
-        })
-        return dispatch(dropActions.setStep('error_no_connection'))
+        if (addressResolved) {
+          dispatch(userActions.setAddress(addressResolved))
+          address = addressResolved
+          dispatch(dropActions.setAddressIsManuallySet(true))
+        } else if (!window.navigator.onLine) {
+          dispatch(dropActions.setLoading(false))
+          plausibleApi.invokeEvent({
+            eventName: 'error',
+            data: {
+              err_name: 'error_no_connection',
+              campaignId
+            }
+          })
+          return dispatch(dropActions.setStep('error_no_connection'))
+        } else {
+          dispatch(dropActions.setLoading(false))
+          return alert('Provided address or ens is not correct')
+        }
       } else {
-        dispatch(dropActions.setLoading(false))
-        return alert('Provided address or ens is not correct')
+        alert('No user address provided for claim')
       }
+      
     }
 
     let finalTxHash = ''

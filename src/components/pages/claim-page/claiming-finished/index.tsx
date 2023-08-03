@@ -10,12 +10,14 @@ import {
   DoneIcon,
   Container,
   Subtitle,
-  DoneIconERC20
+  DoneIconERC20,
+  UserAddress
 } from './styled-components'
 import { defineExplorerURL } from 'helpers'
 import { plausibleApi } from 'data/api'
 import { ERC20TokenPreview, ClaimingFinishedButton, PoweredByFooter } from 'components/pages/common'
 import ClaimingFinishedERC20 from 'images/claiming-finished-erc20.png'
+import { TDropType } from 'types'
 
 const mapStateToProps = ({
   drop: {
@@ -30,6 +32,9 @@ const mapStateToProps = ({
     image,
     name,
     decimals
+  },
+  user: {
+    email
   }
 }: RootState) => ({
   image,
@@ -38,12 +43,22 @@ const mapStateToProps = ({
   hash,
   type,
   campaignId,
+  email,
   amount,
   decimals,
   claiming_finished_description
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
+
+
+const defineTitle = (type: TDropType | null, email?: string, claiming_finished_description?: string) => {
+  if (claiming_finished_description) { return claiming_finished_description }
+  if (email) {
+    return <>You can access your NFT by logging in to Crossmint with <UserAddress>{email}</UserAddress></>
+  }
+  return `Your ${type === 'ERC20' ? 'tokens' : 'NFT'} will appear in your account in a few minutes`
+}
 
 const ClaimingFinished: FC<ReduxType> = ({
   image,
@@ -54,7 +69,8 @@ const ClaimingFinished: FC<ReduxType> = ({
   type,
   amount,
   decimals,
-  claiming_finished_description
+  claiming_finished_description,
+  email
 }) => {
   useEffect(() => {
     plausibleApi.invokeEvent({
@@ -101,7 +117,11 @@ const ClaimingFinished: FC<ReduxType> = ({
         Successfully claimed
       </TitleComponent>
     <Subtitle>
-      {claiming_finished_description || `Your ${type === 'ERC20' ? 'tokens' : 'NFT'} will appear in your account in a few minutes`}
+      {defineTitle(
+        type,
+        email,
+        claiming_finished_description
+      )}
     </Subtitle>
     <ButtonsContainer>
       <ClaimingFinishedButton />

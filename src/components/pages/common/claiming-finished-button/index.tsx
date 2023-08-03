@@ -15,6 +15,10 @@ const mapStateToProps = ({
     claiming_finished_button_title,
     claiming_finished_button_url,
     claiming_finished_description
+  },
+  user: {
+    address,
+    email
   }
 }: RootState) => ({
   chainId,
@@ -24,7 +28,9 @@ const mapStateToProps = ({
   campaignId,
   claiming_finished_button_title,
   claiming_finished_button_url,
-  claiming_finished_description
+  claiming_finished_description,
+  address,
+  email
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
@@ -37,40 +43,66 @@ const ClaimingFinishedButton: FC<ReduxType> = ({
   type,
   claiming_finished_button_title,
   claiming_finished_button_url,
+  email
 }) => {
   if (claiming_finished_button_url && claiming_finished_button_title) {
     return <ButtonStyled
-      href={claiming_finished_button_url}
-      target="_blank"
-      appearance='action'
-    >
-      {claiming_finished_button_title}
-    </ButtonStyled>
-    }
-    if (type === 'ERC20') {
-      return null
-    }
-    if (!tokenId || !tokenAddress || !chainId) { return null }
-    const watchTokenUrl = defineOpenseaURL(
-      chainId,
-      tokenAddress,
-      tokenId
-    )
-    return <ButtonStyled
       onClick={() => {
         plausibleApi.invokeEvent({
-          eventName: 'click_redirect_button',
+          eventName: 'click_custom_redirect_button',
           data: {
             campaignId: campaignId as string,
           }
         })
-        window.open(watchTokenUrl, '_blank')
+        window.open(claiming_finished_button_url, '_blank')
       }}
       appearance='action'
-      target="_blank"
     >
-      View on OpenSea
+      {claiming_finished_button_title}
     </ButtonStyled>
+  }
+  if (email) {
+    return <ButtonStyled
+      onClick={() => {
+        plausibleApi.invokeEvent({
+          eventName: 'open_crossmint',
+          data: {
+            campaignId: campaignId as string,
+          }
+        })
+        window.open('https://www.crossmint.com/user/collection', '_blank')
+      }}
+      appearance='action'
+    >
+      Go to Crossmint
+    </ButtonStyled>
+  }
+  if (type === 'ERC20') {
+    return null
+  }
+  if (!tokenId || !tokenAddress || !chainId) { return null }
+  const watchTokenUrl = defineOpenseaURL({
+    chainId,
+    tokenAddress,
+    tokenId
+  })
+  if (!watchTokenUrl) {
+    return null
+  }
+  return <ButtonStyled
+    onClick={() => {
+      plausibleApi.invokeEvent({
+        eventName: 'click_redirect_button',
+        data: {
+          campaignId: campaignId as string,
+        }
+      })
+      window.open(watchTokenUrl, '_blank')
+    }}
+    appearance='action'
+  >
+    View on OpenSea
+  </ButtonStyled>
 }
 
 export default connect(mapStateToProps)(ClaimingFinishedButton)

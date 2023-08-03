@@ -15,7 +15,7 @@ const getWalletDeeplink: TGetWalletDeeplink = (walletId, system, redirectUrl, li
 
   if (walletData) {
     const deeplinkData = walletData.mobile[system]
-    if (deeplinkData && deeplinkData.support) {
+    if (deeplinkData && deeplinkData.support && deeplinkData.deepLink) {
       const link = deeplinkData.deepLink(redirectUrl)
       return link
     }

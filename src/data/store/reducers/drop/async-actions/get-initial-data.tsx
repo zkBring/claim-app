@@ -13,6 +13,7 @@ import { plausibleApi } from 'data/api'
 export default function getData(
   onReload: () => void,
   connector: any,
+  signer: any,
   userChainId?: number,
   userAddress?: string
 ) {
@@ -27,6 +28,7 @@ export default function getData(
       await dispatch(asyncActionsUser.initialize(
         onReload,
         connector,
+        signer,
         userChainId,
         userAddress
       ))
