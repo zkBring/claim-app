@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.15-rc.0
+- fix for loader of crossmint connect button
+
 ## 2.2.14
 - added support for dispenser redirect
 - fix for custom redirect button on "claiming finished" page
