@@ -19,6 +19,8 @@ const getCrossmintAddressAction = (
         chainId
       }
     } = getState()
+
+    dispatch(actions.setLoading(true))
     
     try {
       const { data: { success, user_address, email } }: { data: { success: boolean, user_address: string, email: string } } = await getCrossmintAddress(
@@ -38,6 +40,7 @@ const getCrossmintAddressAction = (
     } catch (err) {
       alert('Error occured with crossmint address fetch. Please try again')
     }
+    dispatch(actions.setLoading(false))
   }
 }
 
