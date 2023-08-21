@@ -2,6 +2,7 @@
 
 ## 2.2.15-rc.0
 - fix for loader of crossmint connect button
+- update for pluasible library
 
 ## 2.2.14
 - added support for dispenser redirect
