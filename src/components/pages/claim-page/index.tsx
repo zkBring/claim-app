@@ -84,6 +84,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         address,
         chainId,
         connector,
+        signer,
         callback
       )),
       setStep: (step: TDropStep) => dispatch(dropActions.setStep(step)),
