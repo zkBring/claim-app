@@ -28,11 +28,15 @@ import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 const mapStateToProps = ({
   drop: {
     walletApp,
-    chainId
+    chainId,
   },
+  user: {
+    loading
+  }
 }: RootState) => ({
   walletApp,
-  chainId
+  chainId,
+  loading
 })
 
 
@@ -52,7 +56,8 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const CrossmintAwait: FC<ReduxType> = ({
-  getCrossmintAddress
+  getCrossmintAddress,
+  loading
 }) => {
   const options = useAuth0()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
@@ -78,6 +83,7 @@ const CrossmintAwait: FC<ReduxType> = ({
 
     <ButtonStyled
       appearance='action'
+      loading={loading}
       onClick={() => options.loginWithPopup()}
     >
       Proceed
