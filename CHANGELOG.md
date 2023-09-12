@@ -4,6 +4,8 @@
 - fix for loader of crossmint connect button
 - update for pluasible library
 - bug fix for connected wallet
+- bug fix for signer (connect at non-sponsored claim)
+- removed crossmint for non-sponsored
 
 ## 2.2.14
 - added support for dispenser redirect
