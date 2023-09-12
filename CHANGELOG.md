@@ -1,6 +1,6 @@
 # Linkdrop Claim app
 
-## 2.2.15-rc.0
+## 2.2.15
 - fix for loader of crossmint connect button
 - update for pluasible library
 - bug fix for connected wallet
