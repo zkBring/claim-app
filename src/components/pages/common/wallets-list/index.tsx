@@ -99,7 +99,7 @@ const defineOptionsList = (
   setStep: (step: TDropStep & TMultiscanStep) => void,
   open: (options?: any | undefined) => Promise<void>,
   connect: (args: Partial<any> | undefined) => void,
-  connectors: Connector<any, any, any>[],
+  connectors: Connector<any, any>[],
   wallet: TWalletName | null,
   deeplinkRedirect: (
     deeplink: string,
@@ -162,7 +162,7 @@ const defineOptionsList = (
 
     const wallets = [
       isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
-      isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20'),
+      isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
       isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
       isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
       isOptionVisible(ensOption, wallet, 'manual_address', availableWallets)
