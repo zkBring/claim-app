@@ -176,7 +176,6 @@ export default function claimERC20(
   }
 }
 
-
 const claimManually = async (
   chainId: number,
   signer: any,
