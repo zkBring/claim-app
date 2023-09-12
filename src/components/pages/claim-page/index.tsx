@@ -255,7 +255,7 @@ const ClaimPage: FC<ReduxType> = ({
       }
     }
     
-  }, [address, chainId, connector, claimCode])
+  }, [address, chainId, connector, claimCode, signer])
   
   return <Page>
     <Container>
