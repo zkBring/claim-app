@@ -6,6 +6,7 @@
 - bug fix for connected wallet
 - bug fix for signer (connect at non-sponsored claim)
 - removed crossmint for non-sponsored
+- added update for error handling after transaction reject
 
 ## 2.2.14
 - added support for dispenser redirect
