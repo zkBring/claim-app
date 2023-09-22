@@ -237,14 +237,13 @@ const defineOptionsList = (
     wallet
   )
 
-
   const wallets = [
     isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
     isOptionVisible(metamaskOption, wallet, 'metamask', availableWallets),
     isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
     isOptionVisible(zerionOption, wallet, 'zerion', availableWallets),
     isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
-    isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20'),
+    isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
     isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
     isOptionVisible(imtokenOption, wallet, 'imtoken', availableWallets),
     isOptionVisible(trustOption, wallet, 'trust', availableWallets),
