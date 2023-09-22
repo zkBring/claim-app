@@ -7,7 +7,8 @@ import {
   TDropError,
   TWalletName,
   TMultiscanStep,
-  TPreviewSetting
+  TPreviewSetting,
+  TWhitelistType
 } from 'types'
 
 export interface DropState {
@@ -42,6 +43,8 @@ export interface DropState {
   walletApp: null | TWalletName
   availableWallets: string[]
   previewSetting?: TPreviewSetting
+  whitelistOn: boolean
+  whitelistType: TWhitelistType | null
 }
 
 

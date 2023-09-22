@@ -15,7 +15,7 @@ import {
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
-import { TDropError, TDropType, TMultiscanStep, TWalletName } from 'types'
+import { TDropError, TDropType, TMultiscanStep } from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -33,7 +33,9 @@ import {
   DownloadAwait,
   ERC20TokenPreview,
   WalletRedirectAwait,
-  CrossmintConnection
+  CrossmintConnection,
+  SignMessage,
+  EligibleToClaim
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
@@ -45,9 +47,35 @@ import { Dispatch } from 'redux'
 
 const mapStateToProps = ({
   user: { initialized, address },
-  drop: { error, loading, multiscanStep, wallet, type, amount },
-  token: { image, name, decimals }
-}: RootState) => ({ userAddress: address, type, amount, decimals, initialized, error, loading, multiscanStep, wallet, image, name  })
+  drop: {
+    error,
+    loading,
+    multiscanStep,
+    wallet,
+    type,
+    amount,
+    whitelistOn,
+    whitelistType
+  },
+  token: {
+    image,
+    name,
+    decimals
+  }
+}: RootState) => ({
+  userAddress: address,
+  type,
+  amount,
+  decimals,
+  initialized,
+  error, loading,
+  multiscanStep,
+  wallet,
+  image,
+  name,
+  whitelistOn,
+  whitelistType
+})
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) => {
   return {
@@ -190,8 +218,6 @@ const DefaultScreen: FC<{
     <ButtonStyled 
       appearance='action'
       onClick={() => {
-        // connect({ connector: injected })
-        // setIsInjected(true)
         setStep('wallets_list')
       }}
     >
@@ -283,6 +309,18 @@ const renderContent = (
     case 'wallet_redirect_await':
       content = <WalletRedirectAwait />
       break
+    case 'sign_message':
+      content = <SignMessage
+        onSubmit={() => {
+
+        }}
+      />
+      break
+    case 'eligible_to_claim':
+      content = <EligibleToClaim
+        onSubmit={setAddressCallback}
+      />
+      break
     default:
       content = null
       break
@@ -308,7 +346,9 @@ const Scan: FC<ReduxType> = ({
   type,
   amount,
   decimals,
-  userAddress
+  userAddress,
+  whitelistOn,
+  whitelistType
 }) => {
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
@@ -316,6 +356,7 @@ const Scan: FC<ReduxType> = ({
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
+
   const getLinkCallback = (address: string) => {
     getLink(
       multiscanQRId,
@@ -328,6 +369,16 @@ const Scan: FC<ReduxType> = ({
         history.push(path)
       }
     )
+  }
+
+  // verify for whitelist
+  const eligibleToClaimCallback = (address: string) => {
+    if (!whitelistOn) {
+      setMultiscanStep('initial')
+      getLinkCallback(address)
+    } else {
+      setMultiscanStep('sign_message')
+    }
   }
 
   const { connect, connectors } = useConnect()
@@ -355,14 +406,12 @@ const Scan: FC<ReduxType> = ({
     init()
   }, [])
 
-
   useEffect(() => {
     if (!initialized || !address) {
       return
     }
     if (isInjected || isConnected) {
-      setMultiscanStep('initial')
-      getLinkCallback(address)
+      eligibleToClaimCallback(address)
     }
   }, [initialized, address, isConnected])
 
@@ -370,8 +419,7 @@ const Scan: FC<ReduxType> = ({
     if (!userAddress) {
       return
     }
-    setMultiscanStep('initial')
-    getLinkCallback(userAddress)
+    eligibleToClaimCallback(userAddress)
   }, [userAddress])
 
   if (loading || !initialized) {

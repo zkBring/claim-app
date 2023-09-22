@@ -30,6 +30,9 @@ export default function computeScanAddress(
 
       const campaignData = await getMultiQRCampaignData(MULTISCAN_QR_ID)
       if (campaignData.data.success) {
+        console.log(
+          campaignData.data
+        )
         const {
           campaign: {
             token_address,
@@ -43,7 +46,9 @@ export default function computeScanAddress(
             preview_setting,
             token_amount,
             redirect_on,
-            redirect_url
+            redirect_url,
+            whitelist_on,
+            whitelist_type
           }
         } = campaignData.data
         dispatch(actionsDrop.setCampaignId(String(campaign_number)))
@@ -55,6 +60,10 @@ export default function computeScanAddress(
         dispatch(actionsDrop.setIsManual(!Boolean(sponsored)))
         dispatch(actionsDrop.setType(token_standard as TDropType))
         dispatch(actionsDrop.setPreviewSetting(preview_setting as TPreviewSetting))
+        dispatch(actionsDrop.setAvailableWallets(available_wallets))
+
+        dispatch(actionsDrop.setMultiscanWhitelistOn(whitelist_on))
+        dispatch(actionsDrop.setMultiscanWhitelistType(whitelist_type))
         dispatch(actionsDrop.setAvailableWallets(available_wallets))
 
         if (redirect_on && redirect_url) {

@@ -30,6 +30,7 @@ const updateUserData = (
         const provider = await connector.getProvider()
         dispatch(userActions.setUserProvider(provider))
       }
+      console.log({ signer })
       if (signer) {
         dispatch(userActions.setSigner(signer))
       }

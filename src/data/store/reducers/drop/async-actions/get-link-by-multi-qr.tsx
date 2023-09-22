@@ -17,7 +17,7 @@ export default function getLinkByMultiQR(
   scanIdSig: string,
   multiscanQREncCode: string,
   address: string,
-  callback: (location: string) => void
+  callback?: (location: string) => void
 ) {
   return async (
     dispatch: Dispatch<DropActions>,
@@ -32,16 +32,28 @@ export default function getLinkByMultiQR(
         tokenAddress,
         type,
         tokenId,
-        chainId
+        chainId,
+        whitelistOn,
+        whitelistType
+      },
+      user: {
+        signer
       }
     } = getState()
 
-    try {      
+    try {
+      let signing = undefined
+      if (whitelistOn && whitelistType === 'address') {
+        // signing = await signer.signMessage('I am signing this message to verify my address (claim.linkdrop.io)')
+        alert('s')
+      }
+
       const { data } = await getMultiQRData(
         multiscanQRId,
         scanId,
         scanIdSig,
-        address
+        address,
+        signing
       )
 
       const { encrypted_claim_link, success }: { encrypted_claim_link: string, success: boolean } = data
