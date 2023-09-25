@@ -1,49 +1,59 @@
 import { FC } from 'react'
 import {
-  ContainerWidget,
-  WidgetTitle,
-  WidgetSubtitle,
-  ButtonStyled,
-  Image,
   UserAddress
 } from './styled-components'
+
+import {
+  Container,
+  Image,
+  Title,
+  Subtitle,
+  ButtonStyled
+} from '../styles/styled-components'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
-import { shortenString } from 'helpers'
+import { alertError, shortenString } from 'helpers'
+import { useHistory } from 'react-router-dom'
 import EligibleToClaimImage from 'images/eligible-to-claim.png'
 import { TProps } from './types'
 
 const mapStateToProps = ({
   drop: {
-    type
+    type,
+    multiscanLinkDecrypted
   },
   user: {
     address
   }
 }: RootState) => ({
   type,
-  address
+  address,
+  multiscanLinkDecrypted
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps> & TProps
 
 const EligibleToClaim: FC<ReduxType> = ({
   address,
-  onSubmit
+  multiscanLinkDecrypted
 }) => {
-  return <ContainerWidget>
+  const history = useHistory()
+  return <Container>
     <Image src={EligibleToClaimImage}/>
-    <WidgetTitle>You are eligible to claim</WidgetTitle>
-    <WidgetSubtitle>All great, <UserAddress>{shortenString(address)}</UserAddress> is eligible to claim a digital asset</WidgetSubtitle>
+    <Title>You are eligible to claim</Title>
+    <Subtitle>All great, <UserAddress>{shortenString(address)}</UserAddress> is eligible to claim a digital asset</Subtitle>
     <ButtonStyled
       onClick={() => {
-        onSubmit(address)
+        if (!multiscanLinkDecrypted) {
+          return alertError('Link is not available')
+        }
+        history.push(multiscanLinkDecrypted)
       }}
       appearance='action'
     >
       Proceed
     </ButtonStyled>
-  </ContainerWidget>
+  </Container>
 }
 
 export default connect(mapStateToProps)(EligibleToClaim)

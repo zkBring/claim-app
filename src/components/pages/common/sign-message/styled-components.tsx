@@ -3,6 +3,7 @@ import { Widget, Button } from 'components/common'
 
 export const ContainerWidget = styled(Widget)`
   text-align: center;
+  background: ${props => props.theme.blankColor};
 `
 
 export const WidgetTitle = styled.h2`

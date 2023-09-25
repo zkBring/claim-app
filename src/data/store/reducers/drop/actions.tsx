@@ -178,7 +178,16 @@ export function setMultiscanWhitelistType (whitelist_type: TWhitelistType) {
   return action(
     Constants.DROP_SET_MULTISCAN_WHITELIST_TYPE,
     {
-      whitelist_type: whitelist_type
+      whitelist_type
+    }
+  )
+}
+
+export function setMultiscanLinkDecrypted (multiscanLinkDecrypted: string) {
+  return action(
+    Constants.DROP_SET_MULTISCAN_LINK_DECRYPTED,
+    {
+      multiscanLinkDecrypted
     }
   )
 }

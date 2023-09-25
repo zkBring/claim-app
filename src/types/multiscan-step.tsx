@@ -1,4 +1,5 @@
-type TMultiscanStep = 'initial' |
+type TMultiscanStep = 'not_initialized' |
+                 'initial' |
                  'wallets_list' |
                  'download_await' |
                  'zerion_connection' |

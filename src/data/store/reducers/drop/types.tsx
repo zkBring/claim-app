@@ -45,6 +45,7 @@ export interface DropState {
   previewSetting?: TPreviewSetting
   whitelistOn: boolean
   whitelistType: TWhitelistType | null
+  multiscanLinkDecrypted: null | string
 }
 
 

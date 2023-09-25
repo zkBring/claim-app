@@ -3,8 +3,7 @@ import {
   Container,
   Image,
   Title,
-  Subtitle,
-  ButtonStyled
+  Subtitle
 } from '../styles/styled-components'
 import QRError from 'images/qr-error.png'
 

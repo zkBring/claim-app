@@ -1,15 +1,14 @@
 
 import { Dispatch } from 'redux'
 import { DropActions } from '../types'
+import { UserActions } from '../../user/types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
+import * as actionsUser from '../../user/actions'
 import { plausibleApi, getMultiQRData } from 'data/api'
 import axios, { AxiosError } from 'axios'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { RootState } from 'data/store'
-import { defineJSONRpcUrl } from 'helpers'
-import * as asyncActionsDrop from './'
-const { REACT_APP_INFURA_ID } = process.env
 
 export default function getLinkByMultiQR(
   multiscanQRId: string,
@@ -17,10 +16,11 @@ export default function getLinkByMultiQR(
   scanIdSig: string,
   multiscanQREncCode: string,
   address: string,
+  signer?: any,
   callback?: (location: string) => void
 ) {
   return async (
-    dispatch: Dispatch<DropActions>,
+    dispatch: Dispatch<DropActions> & Dispatch<UserActions>,
     getState: () => RootState
   ) => {
     dispatch(actionsDrop.setLoading(true))
@@ -28,24 +28,16 @@ export default function getLinkByMultiQR(
 
     const {
       drop: {
-        previewSetting,
-        tokenAddress,
-        type,
-        tokenId,
-        chainId,
         whitelistOn,
         whitelistType
-      },
-      user: {
-        signer
       }
     } = getState()
 
     try {
       let signing = undefined
       if (whitelistOn && whitelistType === 'address') {
-        // signing = await signer.signMessage('I am signing this message to verify my address (claim.linkdrop.io)')
-        alert('s')
+        dispatch(actionsUser.setAddress(address))
+        signing = await signer.signMessage('I am signing this message to verify my address (claim.linkdrop.io)')
       }
 
       const { data } = await getMultiQRData(
@@ -60,30 +52,11 @@ export default function getLinkByMultiQR(
       if (success && encrypted_claim_link) {
         const decryptKey = ethers.utils.id(multiscanQREncCode)
         const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
+        dispatch(actionsDrop.setMultiscanLinkDecrypted(linkDecrypted))
         if (linkDecrypted && callback) {
           callback(linkDecrypted)
         }
       }
-
-
-      if (previewSetting === 'token') {
-        const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(chainId), infuraPk: REACT_APP_INFURA_ID as string })
-        const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
-
-        if (
-          type && tokenAddress && chainId
-        ) {
-          await asyncActionsDrop.getTokenData(
-            type,
-            tokenAddress,
-            tokenId,
-            chainId,
-            provider,
-            dispatch
-          )
-        }
-      }
-
 
       dispatch(actionsDrop.setLoading(false))
 
@@ -108,7 +81,6 @@ export default function getLinkByMultiQR(
               }
             })
           }
-          
         } else if (err.response?.status === 404) {
           dispatch(actionsDrop.setError('qr_not_found'))
           plausibleApi.invokeEvent({
@@ -159,8 +131,15 @@ export default function getLinkByMultiQR(
                 err_name: 'qr_campaign_not_active'
               }
             })
+          } else if (data.errors.includes("RECEIVER_NOT_WHITELISTED")) {
+            dispatch(actionsDrop.setError('qr_campaign_not_eligible'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_campaign_not_eligible'
+              }
+            })
           } else {
-
             dispatch(actionsDrop.setError('qr_error'))
             plausibleApi.invokeEvent({
               eventName: 'error',

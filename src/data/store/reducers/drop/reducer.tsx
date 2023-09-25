@@ -3,7 +3,7 @@ import { Constants } from './constants';
 
 const initialState: DropState = {
   step: 'short_code_loading',
-  multiscanStep: 'initial',
+  multiscanStep: 'not_initialized',
   loading: false,
   chainId: null,
   tokenAddress: null,
@@ -34,7 +34,8 @@ const initialState: DropState = {
   availableWallets: [],
   previewSetting: undefined,
   whitelistType: null,
-  whitelistOn: false
+  whitelistOn: false,
+  multiscanLinkDecrypted: null
 }
 
 export function dropReducer(
@@ -104,6 +105,8 @@ export function dropReducer(
         return {...state, claimCode: action.payload.claimCode }
       case Constants.DROP_SET_AVAILABLE_WALLETS:
         return {...state, availableWallets: action.payload.availableWallets }
+      case Constants.DROP_SET_MULTISCAN_LINK_DECRYPTED:
+        return {...state, multiscanLinkDecrypted: action.payload.multiscanLinkDecrypted }
 
       case Constants.DROP_SET_THEME:
         return {...state, theme: action.payload.theme }

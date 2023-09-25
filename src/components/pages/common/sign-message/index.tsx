@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import {
-  ContainerWidget,
   WidgetTitle,
   WidgetSubtitle,
   ButtonStyled,
   Image
 } from './styled-components'
+import { Container } from '../styles/styled-components'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import SignMessageImage from 'images/sign-message.png'
@@ -24,7 +24,7 @@ type ReduxType = ReturnType<typeof mapStateToProps> & TProps
 const SignMessage: FC<ReduxType> = ({
   onSubmit
 }) => {
-  return <ContainerWidget>
+  return <Container>
     <Image src={SignMessageImage}/>
     <WidgetTitle>Sign a message to verify your address</WidgetTitle>
     <WidgetSubtitle>It is needed to prove your ownership of the connected wallet</WidgetSubtitle>
@@ -34,7 +34,7 @@ const SignMessage: FC<ReduxType> = ({
     >
       Sign
     </ButtonStyled>
-  </ContainerWidget>
+  </Container>
 }
 
 export default connect(mapStateToProps)(SignMessage)
