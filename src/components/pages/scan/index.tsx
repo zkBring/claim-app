@@ -366,6 +366,7 @@ const Scan: FC<ReduxType> = ({
   amount,
   decimals,
   whitelistOn,
+  whitelistType,
   getMultiQRCampaignData
 }) => {
 
@@ -442,7 +443,7 @@ const Scan: FC<ReduxType> = ({
       return
     }
     if (isInjected || isConnected) {
-      if (whitelistOn) {
+      if (whitelistOn && whitelistType) {
         setMultiscanStep('sign_message')
       } else {
         setMultiscanStep('initial')
