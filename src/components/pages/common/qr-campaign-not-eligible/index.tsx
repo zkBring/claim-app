@@ -3,8 +3,7 @@ import {
   Container,
   Image,
   Title,
-  Subtitle,
-  ButtonStyled
+  Subtitle
 } from '../styles/styled-components'
 import { shortenString } from 'helpers'
 import ErrorImg from 'images/error-black.png'

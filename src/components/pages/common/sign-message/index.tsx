@@ -1,11 +1,5 @@
 import { FC } from 'react'
-import {
-  WidgetTitle,
-  WidgetSubtitle,
-  ButtonStyled,
-  Image
-} from './styled-components'
-import { Container } from '../styles/styled-components'
+import { Title, Subtitle, Container, Image, ButtonStyled } from '../styles/styled-components'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import SignMessageImage from 'images/sign-message.png'
@@ -26,8 +20,8 @@ const SignMessage: FC<ReduxType> = ({
 }) => {
   return <Container>
     <Image src={SignMessageImage}/>
-    <WidgetTitle>Sign a message to verify your address</WidgetTitle>
-    <WidgetSubtitle>It is needed to prove your ownership of the connected wallet</WidgetSubtitle>
+    <Title>Sign a message to verify your address</Title>
+    <Subtitle>It is needed to prove your ownership of the connected wallet</Subtitle>
     <ButtonStyled
       onClick={onSubmit}
       appearance='action'
