@@ -15,7 +15,7 @@ import {
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
-import { TDropError, TDropType, TMultiscanStep, TWalletName } from 'types'
+import { TDropError, TDropType, TMultiscanStep } from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -33,7 +33,10 @@ import {
   DownloadAwait,
   ERC20TokenPreview,
   WalletRedirectAwait,
-  CrossmintConnection
+  CrossmintConnection,
+  SignMessage,
+  EligibleToClaim,
+  QRCampaignNotEligible
 } from 'components/pages/common'
 import Icons from 'icons'
 import { defineSystem } from 'helpers'
@@ -42,33 +45,73 @@ import GiftPreview from 'images/dispenser-preview-image.png'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { Dispatch } from 'redux'
+import { useEthersSigner } from 'hooks'
 
 const mapStateToProps = ({
   user: { initialized, address },
-  drop: { error, loading, multiscanStep, wallet, type, amount },
-  token: { image, name, decimals }
-}: RootState) => ({ userAddress: address, type, amount, decimals, initialized, error, loading, multiscanStep, wallet, image, name  })
+  drop: {
+    error,
+    loading,
+    multiscanStep,
+    wallet,
+    type,
+    amount,
+    whitelistOn,
+    whitelistType
+  },
+  token: {
+    image,
+    name,
+    decimals
+  }
+}: RootState) => ({
+  userAddress: address,
+  type,
+  amount,
+  decimals,
+  initialized,
+  error, loading,
+  multiscanStep,
+  wallet,
+  image,
+  name,
+  whitelistOn,
+  whitelistType
+})
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) => {
   return {
     setMultiscanStep: (step: TMultiscanStep) => dispatch(dropActions.setMultiscanStep(step)),
     getLink: (
-        multiscanQRId: string,
-        scanId: string,
-        scanIdSig: string,
-        multiscanQREncCode: string,
-        address: string,
-        callback: (location: string) => void
-      ) => dispatch(
-        dropAsyncActions.getLinkByMultiQR(
-          multiscanQRId,
-          scanId,
-          scanIdSig,
-          multiscanQREncCode,
-          address,
-          callback 
-        )
+      multiscanQRId: string,
+      scanId: string,
+      scanIdSig: string,
+      multiscanQREncCode: string,
+      address: string,
+      signer?: any,
+      callback?: (location: string) => void
+    ) => dispatch(
+      dropAsyncActions.getLinkByMultiQR(
+        multiscanQRId,
+        scanId,
+        scanIdSig,
+        multiscanQREncCode,
+        address,
+        signer,
+        callback 
       )
+    ),
+    getMultiQRCampaignData: (
+      multiscanQRId: string,
+      multiscanQREncCode: string,
+      callback?: (location: string) => void
+    ) => {
+      dispatch(dropAsyncActions.getMultiQRCampaignData(
+        multiscanQRId,
+        multiscanQREncCode,
+        callback
+      ))
+    }
   }
 }
 type TParams = { multiscanQRId: string, scanId: string, scanIdSig: string, multiscanQREncCode: string }
@@ -108,6 +151,12 @@ const ErrorScreen: FC<{ error: TDropError | null }> = ({ error }) => {
   if (error === 'qr_campaign_finished') {
     return <Page>
       <QRCampaignFinished />
+    </Page>
+  }
+
+  if (error === 'qr_campaign_not_eligible') {
+    return <Page>
+      <QRCampaignNotEligible />
     </Page>
   }
 
@@ -190,8 +239,6 @@ const DefaultScreen: FC<{
     <ButtonStyled 
       appearance='action'
       onClick={() => {
-        // connect({ connector: injected })
-        // setIsInjected(true)
         setStep('wallets_list')
       }}
     >
@@ -243,7 +290,7 @@ const renderContent = (
   type: TDropType | null,
   amount: string | null,
   decimals: number,
-  setAddressCallback: (address: string) => void
+  setAddressCallback: (address?: string) => void
 ) => {
   let content = null
   const header = defineHeader(
@@ -283,6 +330,16 @@ const renderContent = (
     case 'wallet_redirect_await':
       content = <WalletRedirectAwait />
       break
+    case 'sign_message':
+      content = <SignMessage
+        onSubmit={() => setAddressCallback()}
+      />
+      break
+    case 'eligible_to_claim':
+      content = <EligibleToClaim
+        onSubmit={setAddressCallback}
+      />
+      break
     default:
       content = null
       break
@@ -308,31 +365,40 @@ const Scan: FC<ReduxType> = ({
   type,
   amount,
   decimals,
-  userAddress
+  whitelistOn,
+  getMultiQRCampaignData
 }) => {
+
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
   const { address, isConnected } = useAccount()
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
-  const getLinkCallback = (address: string) => {
+  const signer = useEthersSigner()
+
+  const getLinkCallback = (addressArg?: string) => {
     getLink(
       multiscanQRId,
       scanId,
       scanIdSig,
       multiscanQREncCode,
-      address,
+      addressArg || address as string ,
+      signer,
       (location) => {
-        const path = location.split('/#')[1]
-        history.push(path)
+        if (whitelistOn) {
+          setMultiscanStep('eligible_to_claim')
+        } else {
+          const path = location.split('/#')[1]
+          history.push(path)
+        }
       }
     )
   }
 
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
-  
+
   useEffect(() => {
     const init = async () => {
       if(window &&
@@ -341,7 +407,7 @@ const Scan: FC<ReduxType> = ({
         // if not commented - would connect injected only for coinbase
         // window.ethereum.isCoinbaseWallet &&
         // if not commented - would connect injected only for coinbase
-        system !== 'desktop' && 
+        system !== 'desktop' &&
         injected &&
         injected.ready
       ) {
@@ -355,26 +421,38 @@ const Scan: FC<ReduxType> = ({
     init()
   }, [])
 
+  useEffect(() => {    
+    getMultiQRCampaignData(
+      multiscanQRId,
+      multiscanQREncCode,
+      (location) => {
+        const path = location.split('/#')[1]
+        history.push(path)
+      }
+    )
+  }, [])
 
   useEffect(() => {
-    if (!initialized || !address) {
+    if (
+      !initialized ||
+      !address ||
+      multiscanStep === 'not_initialized' ||
+      multiscanStep === 'eligible_to_claim'
+    ) {
       return
     }
     if (isInjected || isConnected) {
-      setMultiscanStep('initial')
-      getLinkCallback(address)
+      if (whitelistOn) {
+        setMultiscanStep('sign_message')
+      } else {
+        setMultiscanStep('initial')
+        getLinkCallback(address)
+      }      
     }
-  }, [initialized, address, isConnected])
+  }, [initialized, address, isConnected, whitelistOn, multiscanStep])
 
-  useEffect(() => {
-    if (!userAddress) {
-      return
-    }
-    setMultiscanStep('initial')
-    getLinkCallback(userAddress)
-  }, [userAddress])
 
-  if (loading || !initialized) {
+  if (!initialized) {
     return <Page>
       <Container>
         <IconContainer>

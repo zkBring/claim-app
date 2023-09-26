@@ -4,7 +4,6 @@ import {
   Image,
   Title,
   Subtitle,
-  ButtonStyled
 } from '../styles/styled-components'
 import QRError from 'images/qr-error.png'
 

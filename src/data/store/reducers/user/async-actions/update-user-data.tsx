@@ -22,6 +22,7 @@ const updateUserData = (
         isClaimed
       }
     } = getState()
+
     try {
       dispatch(userActions.setHasConnector(true))
       dispatch(userActions.setAddress(address))

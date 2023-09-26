@@ -1,5 +1,9 @@
 # Linkdrop Claim app
 
+## 2.2.16-rc.0
+- support for addresses whitelist
+- bug fix for Coinbase connector
+
 ## 2.2.15
 - fix for loader of crossmint connect button
 - update for pluasible library

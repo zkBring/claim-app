@@ -33,6 +33,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       )
   }
 }
+
 type TParams = { qrSecret: string, qrEncCode: string }
 type ReduxType = ReturnType<typeof mapDispatcherToProps> & ReturnType<typeof mapStateToProps>
 

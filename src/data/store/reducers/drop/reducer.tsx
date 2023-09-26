@@ -3,7 +3,7 @@ import { Constants } from './constants';
 
 const initialState: DropState = {
   step: 'short_code_loading',
-  multiscanStep: 'initial',
+  multiscanStep: 'not_initialized',
   loading: false,
   chainId: null,
   tokenAddress: null,
@@ -32,7 +32,10 @@ const initialState: DropState = {
   claiming_finished_button_url: '',
   walletApp: null,
   availableWallets: [],
-  previewSetting: undefined
+  previewSetting: undefined,
+  whitelistType: null,
+  whitelistOn: false,
+  multiscanLinkDecrypted: null
 }
 
 export function dropReducer(
@@ -75,7 +78,11 @@ export function dropReducer(
       case Constants.DROP_SET_WEI_AMOUNT:
         return {...state, weiAmount: action.payload.weiAmount }
       case Constants.DROP_SET_PREVIEW_SETTING:
-      return {...state, previewSetting: action.payload.previewSetting }
+        return {...state, previewSetting: action.payload.previewSetting }
+      case Constants.DROP_SET_MULTISCAN_WHITELIST_ON:
+        return {...state, whitelistOn: action.payload.whitelist_on }
+      case Constants.DROP_SET_MULTISCAN_WHITELIST_TYPE:
+        return {...state, whitelistType: action.payload.whitelist_type }
       case Constants.DROP_SET_IS_CLAIMED:
         return {...state, isClaimed: action.payload.isClaimed }
       case Constants.DROP_SET_LOADING:
@@ -98,6 +105,8 @@ export function dropReducer(
         return {...state, claimCode: action.payload.claimCode }
       case Constants.DROP_SET_AVAILABLE_WALLETS:
         return {...state, availableWallets: action.payload.availableWallets }
+      case Constants.DROP_SET_MULTISCAN_LINK_DECRYPTED:
+        return {...state, multiscanLinkDecrypted: action.payload.multiscanLinkDecrypted }
 
       case Constants.DROP_SET_THEME:
         return {...state, theme: action.payload.theme }

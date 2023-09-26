@@ -6,14 +6,23 @@ import { configureChains, createConfig } from "wagmi"
 import { mainnet, polygon, goerli, polygonMumbai, base, baseGoerli } from "wagmi/chains"
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { infuraProvider } from 'wagmi/providers/infura'
+import { publicProvider } from 'wagmi/providers/public'
+import { coinbaseConnector } from './coinbase-connector'
 
-const { REACT_APP_WC_PROJECT_ID } = process.env
+const { REACT_APP_WC_PROJECT_ID, REACT_APP_INFURA_ID } = process.env
 const chains = [mainnet, polygon, goerli, polygonMumbai, base, baseGoerli]
 
 // Wagmi client
-const { publicClient } = configureChains(chains, [
-  w3mProvider({ projectId: REACT_APP_WC_PROJECT_ID as string })
-])
+const { publicClient, webSocketPublicClient } = configureChains(
+  [
+    mainnet, polygon, goerli, polygonMumbai, base, baseGoerli
+  ],
+  [
+    infuraProvider({ apiKey: REACT_APP_INFURA_ID as string }),
+    publicProvider()
+  ],
+)
 
 const wagmiConfig = createConfig({
   autoConnect: true,
@@ -25,7 +34,8 @@ const wagmiConfig = createConfig({
     }),
     new InjectedConnector({
       chains
-    })
+    }),
+    coinbaseConnector
   ],
   publicClient
 })
