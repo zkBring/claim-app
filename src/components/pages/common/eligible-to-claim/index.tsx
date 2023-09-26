@@ -47,7 +47,7 @@ const EligibleToClaim: FC<ReduxType> = ({
         if (!multiscanLinkDecrypted) {
           return alertError('Link is not available')
         }
-        history.push(multiscanLinkDecrypted)
+        history.push(multiscanLinkDecrypted.split('#')[1])
       }}
       appearance='action'
     >

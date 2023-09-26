@@ -43,16 +43,9 @@ const ErrorScreen: FC<ReduxType> = ({
   
   return <Container>
     <Image src={ErrorImg} />
-    <Title>Sorry {shortenString(address)} is not eligible to claim</Title>
-    <Subtitle>Check another address or contact with a person who shared a link with you</Subtitle>
-    <ButtonStyled
-      appearance='action'
-      onClick={() => {
-        resetEligibilityCheck(disconnect)
-      }}
-    >
-      Try another wallet
-    </ButtonStyled>
+    <Title>Sorry {shortenString(address)}<br/>is not eligible to claim</Title>
+    <Subtitle>Connect another address<br/>
+    to check its eligibility</Subtitle>
   </Container>
 }
 
