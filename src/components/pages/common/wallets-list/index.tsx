@@ -148,7 +148,6 @@ const defineOptionsList = (
 
   if (system === 'desktop') {
     const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWallet")
-    console.log({ connectors })
     const coinbaseOption = {
       title: 'Coinbase Wallet',
       onClick: () => {
