@@ -1,6 +1,6 @@
 # Linkdrop Claim app
 
-## 2.2.16-rc.0
+## 2.2.16
 - support for addresses whitelist
 - bug fix for Coinbase connector
 
