@@ -1,6 +1,6 @@
 import { action } from 'typesafe-actions';
 import { Constants } from './constants';
-import { TDropStep, TDropType, TTheme, TDropError, TWalletName, TMultiscanStep, TPreviewSetting } from 'types'
+import { TDropStep, TDropType, TTheme, TDropError, TWalletName, TMultiscanStep, TPreviewSetting, TWhitelistType } from 'types'
 
 export function setStep(step: TDropStep) {
   return action(Constants.DROP_SET_STEP, { step })
@@ -159,6 +159,35 @@ export function setAvailableWallets (available_wallets: string[]) {
     Constants.DROP_SET_AVAILABLE_WALLETS,
     {
       availableWallets: available_wallets
+    }
+  )
+}
+
+
+
+export function setMultiscanWhitelistOn (whitelist_on: boolean) {
+  return action(
+    Constants.DROP_SET_MULTISCAN_WHITELIST_ON,
+    {
+      whitelist_on
+    }
+  )
+}
+
+export function setMultiscanWhitelistType (whitelist_type: TWhitelistType) {
+  return action(
+    Constants.DROP_SET_MULTISCAN_WHITELIST_TYPE,
+    {
+      whitelist_type
+    }
+  )
+}
+
+export function setMultiscanLinkDecrypted (multiscanLinkDecrypted: string) {
+  return action(
+    Constants.DROP_SET_MULTISCAN_LINK_DECRYPTED,
+    {
+      multiscanLinkDecrypted
     }
   )
 }

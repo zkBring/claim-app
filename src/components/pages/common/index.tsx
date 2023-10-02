@@ -18,9 +18,15 @@ import DownloadAwait from './download-await'
 import WalletRedirectAwait from './wallet-redirect-await'
 import QRCampaignNotActive from './qr-campaign-not-active'
 import CrossmintConnection from './crossmint-connection'
+import SignMessage from './sign-message'
+import EligibleToClaim from './eligible-to-claim'
+import QRCampaignNotEligible from './qr-campaign-not-eligible'
 
 export {
+  QRCampaignNotEligible,
+  EligibleToClaim,
   SetAddress,
+  SignMessage,
   ZerionConnection,
   DownloadAwait,
   QRCampaignNotActive,

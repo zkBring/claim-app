@@ -213,14 +213,24 @@ const claimManually = async (
 
     return hash
   } catch (err) {
-    plausibleApi.invokeEvent({
-      eventName: 'error',
-      data: {
-        err_name: 'error',
-        campaignId
-      }
-    })
-    dispatch(dropActions.setStep('error'))
-    console.log({ err })
+    const errCode = (err as { code: string }).code
+    if (errCode !== 'ACTION_REJECTED') {
+      plausibleApi.invokeEvent({
+        eventName: 'error',
+        data: {
+          err_name: 'error',
+          campaignId
+        }
+      })
+      dispatch(dropActions.setStep('error'))
+    } else {
+      plausibleApi.invokeEvent({
+        eventName: 'error',
+        data: {
+          err_name: 'claim_rejected',
+          campaignId
+        }
+      })
+    }
   }
 }

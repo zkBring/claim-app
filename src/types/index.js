@@ -2,6 +2,7 @@ import TMerkleTree from './merkle-tree'
 import TDropStep from './drop-step'
 import TDropType from './drop-type'
 import TRecipientsData from './recipients-data'
+import TWhitelistType from './whitelist-type'
 import ISDK from './sdk'
 import {
   TClaimLinkERC20,
@@ -28,6 +29,7 @@ import TPreviewSetting from './preview-setting'
 export {
   TAlchemyNFTData,
   TMultiscanStep,
+  TWhitelistType,
   TMultiscanCampaign,
   TPreviewSetting,
   TButtonAppearance,

@@ -1,11 +1,16 @@
 # Linkdrop Claim app
 
+## 2.2.16
+- support for addresses whitelist
+- bug fix for Coinbase connector
+
 ## 2.2.15
 - fix for loader of crossmint connect button
 - update for pluasible library
 - bug fix for connected wallet
 - bug fix for signer (connect at non-sponsored claim)
 - removed crossmint for non-sponsored
+- added update for error handling after transaction reject
 
 ## 2.2.14
 - added support for dispenser redirect

@@ -2,8 +2,7 @@ import { FC } from 'react'
 import {
   Container,
   Image,
-  Title,
-  Subtitle
+  Title
 } from '../styles/styled-components'
 import QRError from 'images/expired-error.png'
 

@@ -1,4 +1,4 @@
-import { TDropType, TWalletName, TPreviewSetting } from "./"
+import { TDropType, TWalletName, TPreviewSetting, TWhitelistType } from "./"
 
 type TMultiscanCampaign = {
   title: string
@@ -14,5 +14,7 @@ type TMultiscanCampaign = {
   token_amount: string
   redirect_url: string
   redirect_on: string
+  whitelist_on: boolean
+  whitelist_type: TWhitelistType
 }
 export default TMultiscanCampaign
