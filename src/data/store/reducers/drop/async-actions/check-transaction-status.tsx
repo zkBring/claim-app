@@ -95,7 +95,7 @@ export default function getData() {
           console.log({ err })
         }
        
-      }, 3000)
+      }, 500)
     } catch (err) {
       console.log({ err})
     }
