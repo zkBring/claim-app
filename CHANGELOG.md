@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.17
+- updated time for transaction status interval to 500ms
+
 ## 2.2.16
 - support for addresses whitelist
 - bug fix for Coinbase connector
