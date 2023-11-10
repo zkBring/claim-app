@@ -8,7 +8,7 @@ type TDefineInjectedWallet = (
   downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
   WalletIcon: JSX.Element,
-  injected?: Connector<any, any, any>
+  injected?: Connector<any, any>
 ) => TWalletOption | undefined
 
 const getInjectedWalletOption: TDefineInjectedWallet = (
