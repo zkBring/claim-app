@@ -64,9 +64,9 @@ const defineButton = (
   updateUserData: (
     address: string,
     chainId: number,
-    callback?: () => void
+    callback?: (address?: string) => void
   ) => void,
-  callback?: () => void
+  callback?: (address?: string) => void
 ) => {
   return <ScreenButton
     appearance='action'
@@ -94,7 +94,7 @@ const defineButton = (
           updateUserData(
             walletAddress,
             walletChainId,
-            callback
+            () => callback && callback(walletAddress)
           )
         } else {
           // @ts-ignore
