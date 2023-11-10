@@ -74,7 +74,6 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
         if (!injected) {
           return alert('Cannot connect to injected')
         }
-        alert('Injecting...')
         connect({ connector: injected })
       },
       icon: walletIcon,
