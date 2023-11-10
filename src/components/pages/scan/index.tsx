@@ -389,6 +389,7 @@ const Scan: FC<ReduxType> = ({
   const signer = useEthersSigner()
 
   const getLinkCallback = (addressArg?: string) => {
+    alert(addressArg)
     getLink(
       multiscanQRId,
       scanId,
