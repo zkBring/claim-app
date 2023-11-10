@@ -90,7 +90,6 @@ const defineButton = (
           const { iss } = params.result.p
           const walletData = iss.split(":")
           const walletAddress = walletData[4]
-          alert(`authClient.on("auth_response": ${walletAddress}`)
           const walletChainId = walletData[3]
           updateUserData(
             walletAddress,
