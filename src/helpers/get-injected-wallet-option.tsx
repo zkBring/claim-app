@@ -8,7 +8,7 @@ type TDefineInjectedWallet = (
   downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
   WalletIcon: JSX.Element,
-  injected?: Connector<any, any, any>
+  injected?: Connector<any, any>
 ) => TWalletOption | undefined
 
 const getInjectedWalletOption: TDefineInjectedWallet = (
@@ -74,6 +74,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
         if (!injected) {
           return alert('Cannot connect to injected')
         }
+        alert('Injecting...')
         connect({ connector: injected })
       },
       icon: walletIcon,

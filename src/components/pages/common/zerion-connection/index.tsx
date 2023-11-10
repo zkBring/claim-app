@@ -82,9 +82,12 @@ const defineButton = (
       setClient(authClient)
       authClient.on("auth_response", ({ params }) => {
         // @ts-ignore
-        if (Boolean(params && params.result && params.result.p)) {
+        const validResponse = Boolean(params && params.result && params.result.p)
+        alert(validResponse)
+        if (validResponse) {
           // @ts-ignore
           const { iss } = params.result.p
+          alert(iss)
           const walletData = iss.split(":")
           const walletAddress = walletData[4]
           const walletChainId = walletData[3]
