@@ -24,9 +24,7 @@ const updateUserData = (
     } = getState()
 
     try {
-      alert({
-        address
-      })
+      alert(address)
       dispatch(userActions.setHasConnector(true))
       dispatch(userActions.setAddress(address))
       dispatch(userActions.setChainId(chainId))
