@@ -322,7 +322,9 @@ const renderContent = (
       content = <DownloadAwait />
       break
     case 'zerion_connection':
-      content = <ZerionConnection />
+      content = <ZerionConnection
+        setStepCallback={() => setMultiscanStep('initial')}
+      />
       break
     case 'crossmint_connection':
       content = <CrossmintConnection />
