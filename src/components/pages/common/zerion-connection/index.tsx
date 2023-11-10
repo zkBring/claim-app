@@ -64,7 +64,9 @@ const defineButton = (
   updateUserData: (
     address: string,
     chainId: number,
-  ) => void
+    callback?: (address?: string) => void
+  ) => void,
+  callback?: (address?: string) => void
 ) => {
   return <ScreenButton
     appearance='action'
@@ -82,7 +84,8 @@ const defineButton = (
       setClient(authClient)
       authClient.on("auth_response", ({ params }) => {
         // @ts-ignore
-        if (Boolean(params && params.result && params.result.p)) {
+        const validResponse = Boolean(params && params.result && params.result.p)
+        if (validResponse) {
           // @ts-ignore
           const { iss } = params.result.p
           const walletData = iss.split(":")
@@ -90,7 +93,8 @@ const defineButton = (
           const walletChainId = walletData[3]
           updateUserData(
             walletAddress,
-            walletChainId
+            walletChainId,
+            callback
           )
         } else {
           // @ts-ignore
@@ -130,7 +134,7 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
     updateUserData(
       address,
       chainId,
-      setStepCallback
+      () => setStepCallback && setStepCallback(address)
     )
   }
   useEffect(() => {
@@ -163,7 +167,8 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
     {renderTexts(type as TDropType)}
     {defineButton(
       setClient,
-      handleUpdateUser
+      handleUpdateUser,
+      setStepCallback
     )}
     <Hr />
     <AdditionalTextComponent>Once you approve the connection with your wallet, return to this page to claim {type === 'ERC20' ? 'tokens' : 'the NFT'}.</AdditionalTextComponent>

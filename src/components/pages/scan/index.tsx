@@ -15,7 +15,7 @@ import {
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
-import { TDropError, TDropType, TMultiscanStep } from 'types'
+import { TDropError, TDropType, TMultiscanStep, TWhitelistType } from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -290,6 +290,8 @@ const renderContent = (
   type: TDropType | null,
   amount: string | null,
   decimals: number,
+  whitelistOn: boolean,
+  whitelistType: TWhitelistType | null,
   setAddressCallback: (address?: string) => void
 ) => {
   let content = null
@@ -315,6 +317,7 @@ const renderContent = (
       break
     case 'wallets_list':
       content = <WalletsListPage
+        enableZerion={!whitelistOn && !whitelistType}
         setStep={setMultiscanStep}
       />
       break
@@ -322,7 +325,15 @@ const renderContent = (
       content = <DownloadAwait />
       break
     case 'zerion_connection':
-      content = <ZerionConnection />
+      content = <ZerionConnection
+        setStepCallback={(address) => {
+          if (whitelistOn && whitelistType) {
+            setMultiscanStep('sign_message')
+          } else {
+            setAddressCallback(address)
+          }
+        }}
+      />
       break
     case 'crossmint_connection':
       content = <CrossmintConnection />
@@ -367,9 +378,9 @@ const Scan: FC<ReduxType> = ({
   decimals,
   whitelistOn,
   whitelistType,
+  userAddress,
   getMultiQRCampaignData
 }) => {
-
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
   const { address, isConnected } = useAccount()
@@ -384,7 +395,7 @@ const Scan: FC<ReduxType> = ({
       scanId,
       scanIdSig,
       multiscanQREncCode,
-      addressArg || address as string ,
+      addressArg || address as string,
       signer,
       (location) => {
         if (whitelistOn) {
@@ -448,7 +459,7 @@ const Scan: FC<ReduxType> = ({
       } else {
         setMultiscanStep('initial')
         getLinkCallback(address)
-      }      
+      }
     }
   }, [initialized, address, isConnected, whitelistOn, multiscanStep])
 
@@ -477,6 +488,8 @@ const Scan: FC<ReduxType> = ({
     type,
     amount,
     decimals,
+    whitelistOn,
+    whitelistType,
     getLinkCallback
   )
 }

@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.18
+- bug fix for zerion wallet connect in dispenser
+
 ## 2.2.17
 - updated time for transaction status interval to 500ms
 
