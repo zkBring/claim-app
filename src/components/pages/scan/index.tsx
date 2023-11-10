@@ -326,6 +326,7 @@ const renderContent = (
     case 'zerion_connection':
       content = <ZerionConnection
         setStepCallback={(address) => {
+          alert(`setStepCallback: ${address}`)
           if (whitelistOn && whitelistType) {
             setMultiscanStep('sign_message')
           } else {
@@ -389,13 +390,13 @@ const Scan: FC<ReduxType> = ({
   const signer = useEthersSigner()
 
   const getLinkCallback = (addressArg?: string) => {
-    alert(addressArg)
+    alert(`getLinkCallback: ${addressArg}`)
     getLink(
       multiscanQRId,
       scanId,
       scanIdSig,
       multiscanQREncCode,
-      addressArg || address as string || userAddress,
+      addressArg || address as string,
       signer,
       (location) => {
         if (whitelistOn) {
