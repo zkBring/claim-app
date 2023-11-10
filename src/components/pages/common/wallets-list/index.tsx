@@ -207,7 +207,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const zerionOption = enableZerion && (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
+  const zerionOption = ((injectedOption && !injectedOptionIsBrave) || isManual || !enableZerion) ? undefined : {
     title: 'Zerion',
     onClick: async () => {
       setStep('zerion_connection')
