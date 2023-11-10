@@ -329,7 +329,6 @@ const renderContent = (
           if (whitelistOn && whitelistType) {
             setMultiscanStep('sign_message')
           } else {
-            setMultiscanStep('initial')
             setAddressCallback()
           }
         }}
@@ -390,6 +389,7 @@ const Scan: FC<ReduxType> = ({
   const signer = useEthersSigner()
 
   const getLinkCallback = useCallback((addressArg?: string) => {
+    alert(userAddress)
     getLink(
       multiscanQRId,
       scanId,
