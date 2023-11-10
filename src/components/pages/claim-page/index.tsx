@@ -146,6 +146,7 @@ type TDefineStep = (
       return <WalletsListPage
         enableENS
         setStep={setStep}
+        enableZerion
       />
     case 'gas_price_high':
       return <HighGasPrice />

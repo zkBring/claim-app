@@ -108,7 +108,8 @@ const defineOptionsList = (
   isManual: boolean,
   chainId: number,
   availableWallets: string[],
-  enableENS?: boolean 
+  enableENS?: boolean,
+  enableZerion?: boolean
 ) => {
 
   const system = defineSystem()
@@ -206,7 +207,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const zerionOption = (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
+  const zerionOption = enableZerion && (injectedOption && !injectedOptionIsBrave) || isManual ? undefined : {
     title: 'Zerion',
     onClick: async () => {
       setStep('zerion_connection')
@@ -262,6 +263,7 @@ const WalletsList: FC<ReduxType> = ({
   deeplinkRedirect,
   availableWallets,
   enableENS,
+  enableZerion,
   type
 }) => {
   const { open } = useWeb3Modal()
@@ -281,7 +283,8 @@ const WalletsList: FC<ReduxType> = ({
     isManual,
     chainId as number,
     availableWallets,
-    enableENS
+    enableENS,
+    enableZerion
   )
 
 
