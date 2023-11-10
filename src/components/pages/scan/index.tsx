@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, useCallback } from 'react'
 import ErrorImageBlack from 'images/error-black.png'
 import { IAppDispatch, RootState } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
@@ -389,14 +389,13 @@ const Scan: FC<ReduxType> = ({
   const system = defineSystem()
   const signer = useEthersSigner()
 
-  const getLinkCallback = (addressArg?: string) => {
-    alert(`scan: ${userAddress}`)
+  const getLinkCallback = useCallback((addressArg?: string) => {
     getLink(
       multiscanQRId,
       scanId,
       scanIdSig,
       multiscanQREncCode,
-      addressArg || address as string,
+      addressArg || address as string || userAddress,
       signer,
       (location) => {
         if (whitelistOn) {
@@ -407,7 +406,7 @@ const Scan: FC<ReduxType> = ({
         }
       }
     )
-  }
+  }, [userAddress])
 
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
