@@ -381,7 +381,6 @@ const Scan: FC<ReduxType> = ({
   userAddress,
   getMultiQRCampaignData
 }) => {
-  alert(`scan: ${userAddress}`)
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
   const { address, isConnected } = useAccount()
@@ -391,6 +390,7 @@ const Scan: FC<ReduxType> = ({
   const signer = useEthersSigner()
 
   const getLinkCallback = (addressArg?: string) => {
+    alert(`scan: ${userAddress}`)
     getLink(
       multiscanQRId,
       scanId,
