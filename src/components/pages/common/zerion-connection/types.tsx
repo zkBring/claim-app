@@ -1,5 +1,5 @@
 type TProps = {
-  setStepCallback?: () => void
+  setStepCallback?: (address?: string) => void
 }
 
 export default TProps

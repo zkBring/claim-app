@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useCallback } from 'react'
+import { FC, useEffect, useState } from 'react'
 import ErrorImageBlack from 'images/error-black.png'
 import { IAppDispatch, RootState } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
@@ -325,11 +325,11 @@ const renderContent = (
       break
     case 'zerion_connection':
       content = <ZerionConnection
-        setStepCallback={() => {
+        setStepCallback={(address) => {
           if (whitelistOn && whitelistType) {
             setMultiscanStep('sign_message')
           } else {
-            setAddressCallback()
+            setAddressCallback(address)
           }
         }}
       />
@@ -388,8 +388,7 @@ const Scan: FC<ReduxType> = ({
   const system = defineSystem()
   const signer = useEthersSigner()
 
-  const getLinkCallback = useCallback((addressArg?: string) => {
-    alert(userAddress)
+  const getLinkCallback = (addressArg?: string) => {
     getLink(
       multiscanQRId,
       scanId,
@@ -406,7 +405,7 @@ const Scan: FC<ReduxType> = ({
         }
       }
     )
-  }, [userAddress])
+  }
 
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
