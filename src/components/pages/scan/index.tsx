@@ -401,7 +401,6 @@ const Scan: FC<ReduxType> = ({
           setMultiscanStep('eligible_to_claim')
         } else {
           const path = location.split('/#')[1]
-          alert(path)
           history.push(path)
         }
       }
