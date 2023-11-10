@@ -317,6 +317,7 @@ const renderContent = (
       break
     case 'wallets_list':
       content = <WalletsListPage
+        enableZerion={!whitelistOn && !whitelistType}
         setStep={setMultiscanStep}
       />
       break
