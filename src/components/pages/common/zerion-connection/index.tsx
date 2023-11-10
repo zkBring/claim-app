@@ -95,7 +95,7 @@ const defineButton = (
           updateUserData(
             walletAddress,
             walletChainId,
-            () => callback && callback(walletAddress)
+            callback
           )
         } else {
           // @ts-ignore
@@ -135,7 +135,7 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
     updateUserData(
       address,
       chainId,
-      setStepCallback
+      () => setStepCallback && setStepCallback(address)
     )
   }
   useEffect(() => {
