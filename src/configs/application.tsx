@@ -57,7 +57,7 @@ const alphemyParams: TApplicationParams = {
   highlightActiveColor: 'rgba(255, 255, 255, .6)',
   claimFinishedButton: {
     title: 'Read our FAQ',
-    url: 'https://linkdrop.io'
+    url: 'https://alphemy.capital/claimgift/#FAQ'
   }
 }
 
