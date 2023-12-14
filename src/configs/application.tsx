@@ -26,7 +26,7 @@ const originalParams: TApplicationParams = {
   primaryTextColor: '#121212',
   footerLogoStyle: 'dark',
   additionalTextColor: '#9D9D9D',
-  secondaryTextColor: 'FFF',
+  secondaryTextColor: '#FFF',
   logo: LinkdropLogo,
   backgroundColor: '#F7F7FB',
   highlightHoverColor: '#357AFF',
@@ -40,7 +40,7 @@ const lumasParams: TApplicationParams = {
   additionalTextColor: '#9D9D9D',
   logo: LumasLogo,
   backgroundColor: '#F7F7FB',
-  secondaryTextColor: 'FFF',
+  secondaryTextColor: '#FFF',
   highlightHoverColor: '#6A149F',
   highlightActiveColor: '#6A149F'
 }
