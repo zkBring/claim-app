@@ -6,6 +6,7 @@ import {
   TextComponent,
   WalletIcon
 } from './styled-components'
+import LinkdropLogoLight from 'images/linkdrop-light.png'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import WalletsImg from 'images/wallets.png'
@@ -13,10 +14,10 @@ import { AdditionalNoteComponent } from 'linkdrop-ui'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux';
 import { DropActions } from 'data/store/reducers/drop/types'
-import { defineSystem } from 'helpers'
+import { defineApplicationConfig, defineSystem } from 'helpers'
 import { plausibleApi } from 'data/api'
 import { OverlayScreen } from 'linkdrop-ui'
-import LinkdropLogo from 'images/linkdrop-header.png'
+import LinkdropLogo from 'images/linkdrop.png'
 import { PopupWhatIsWalletContents } from 'components/pages/common'
 
 const mapStateToProps = ({
@@ -42,6 +43,7 @@ const ChooseWallet: FC<ReduxType> = ({
   type
 }) => {
   const system = defineSystem()
+  const configs = defineApplicationConfig()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   return <Container> 
     <WalletIcon src={WalletsImg} />
@@ -79,7 +81,7 @@ const ChooseWallet: FC<ReduxType> = ({
     />}
     {showPopup && <OverlayScreen
       title='What is a Wallet?'
-      headerLogo={LinkdropLogo}
+      headerLogo={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight}
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
     >

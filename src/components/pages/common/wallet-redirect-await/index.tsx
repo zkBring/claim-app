@@ -9,10 +9,11 @@ import {
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import { AdditionalNoteComponent, OverlayScreen } from 'linkdrop-ui'
-import LinkdropLogo from 'images/linkdrop-header.png'
+import LinkdropLogo from 'images/linkdrop.png'
+import LinkdropLogoLight from 'images/linkdrop-light.png'
 import { PopupContents } from './components'
 import Image from 'images/redirect-await.png'
-import { getWalletDeeplink, defineSystem } from 'helpers'
+import { getWalletDeeplink, defineSystem, defineApplicationConfig } from 'helpers'
 import wallets from 'configs/wallets'
 
 const mapStateToProps = ({
@@ -36,6 +37,7 @@ const WalletRedirectAwait: FC<ReduxType> = ({
 }) => {
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
+  const configs = defineApplicationConfig()
   const walletDeeplink = walletApp && chainId ? getWalletDeeplink(walletApp, system, window.location.href, chainId) : undefined
   const wallet = walletApp && wallets[walletApp]
   return <Container>
@@ -57,7 +59,7 @@ const WalletRedirectAwait: FC<ReduxType> = ({
       }}
     />
     {showPopup && <OverlayScreen
-      headerLogo={LinkdropLogo}
+      headerLogo={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight}
       title='Need Help?'
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
