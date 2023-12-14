@@ -13,16 +13,18 @@ import {
   DoneIconERC20,
   UserAddress
 } from './styled-components'
-import { defineExplorerURL } from 'helpers'
 import { plausibleApi } from 'data/api'
-import { ERC20TokenPreview, ClaimingFinishedButton, PoweredByFooter } from 'components/pages/common'
+import {
+  ERC20TokenPreview,
+  ClaimingFinishedButton,
+  PoweredByFooter,
+  ClaimingFinishedSecondaryButton
+} from 'components/pages/common'
 import ClaimingFinishedERC20 from 'images/claiming-finished-erc20.png'
 import { TDropType } from 'types'
 
 const mapStateToProps = ({
   drop: {
-    hash,
-    chainId,
     campaignId,
     type,
     amount,
@@ -39,8 +41,6 @@ const mapStateToProps = ({
 }: RootState) => ({
   image,
   name,
-  chainId,
-  hash,
   type,
   campaignId,
   email,
@@ -63,8 +63,6 @@ const defineTitle = (type: TDropType | null, email?: string, claiming_finished_d
 const ClaimingFinished: FC<ReduxType> = ({
   image,
   name,
-  hash,
-  chainId,
   campaignId,
   type,
   amount,
@@ -80,19 +78,6 @@ const ClaimingFinished: FC<ReduxType> = ({
       }
     })
   }, [])
-  const explorerUrl = chainId && hash ? <ScreenButton
-    onClick={() => {
-      plausibleApi.invokeEvent({
-        eventName: 'click_explorer',
-        data: {
-          campaignId: campaignId as string,
-        }
-      })
-      window.open(`${defineExplorerURL(chainId)}/tx/${hash}`, '_blank')
-    }}
-    title='View in Explorer'
-    appearance='default'
-  /> : null
 
   const content = type === 'ERC20' ? <ERC20TokenPreview
     name={name}
@@ -125,7 +110,7 @@ const ClaimingFinished: FC<ReduxType> = ({
     </Subtitle>
     <ButtonsContainer>
       <ClaimingFinishedButton />
-      {explorerUrl}
+      <ClaimingFinishedSecondaryButton />
     </ButtonsContainer>
     <PoweredByFooter />
   </Container>

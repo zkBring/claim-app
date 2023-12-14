@@ -3,10 +3,12 @@ import {
   PoweredBy,
   PoweredByImage
 } from './styled-components'
-import LinkdropLogo from 'images/linkdrop-header.png'
+import LinkdropLogo from 'images/linkdrop.png'
+import LinkdropLogoLight from 'images/linkdrop-light.png'
 import { plausibleApi } from 'data/api'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
+import { defineApplicationConfig } from 'helpers'
 
 const mapStateToProps = ({
   drop: { campaignId }
@@ -19,6 +21,7 @@ type ReduxType = ReturnType<typeof mapStateToProps>
 const PoweredByFooter: FC<ReduxType> = ({
   campaignId
 }) => {
+  const configs = defineApplicationConfig()
   return <PoweredBy onClick={() => {
     window.open('https://linkdrop.io', '_blank')
     plausibleApi.invokeEvent({
@@ -29,7 +32,7 @@ const PoweredByFooter: FC<ReduxType> = ({
     })
   }}>
     Powered by
-    <PoweredByImage src={LinkdropLogo} alt="Linkdrop Logo"/>
+    <PoweredByImage src={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight} alt="Linkdrop Logo"/>
   </PoweredBy>
 }
 

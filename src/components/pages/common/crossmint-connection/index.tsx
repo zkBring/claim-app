@@ -12,16 +12,17 @@ import {
   Note
 } from './styled-components'
 import { connect } from 'react-redux'
+import { defineApplicationConfig } from 'helpers'
 import {
   AdditionalNoteComponent,
   OverlayScreen
 } from 'linkdrop-ui'
-import LinkdropLogo from 'images/linkdrop-header.png'
+import LinkdropLogo from 'images/linkdrop.png'
+import LinkdropLogoLight from 'images/linkdrop-light.png'
 import { PopupContents } from './components'
 import Image from 'images/crossmint-image.png'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'components/common'
-import { Dispatch } from 'redux'
 import { RootState, IAppDispatch } from 'data/store'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 
@@ -61,6 +62,7 @@ const CrossmintAwait: FC<ReduxType> = ({
 }) => {
   const options = useAuth0()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
+  const configs = defineApplicationConfig()
 
   useEffect(() => {
     const getToken = async () => {
@@ -100,7 +102,7 @@ const CrossmintAwait: FC<ReduxType> = ({
       }}
     />
     {showPopup && <OverlayScreen
-      headerLogo={LinkdropLogo}
+      headerLogo={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight}
       title='Claim asset using email'
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}
