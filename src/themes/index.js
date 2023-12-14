@@ -6,8 +6,8 @@ const themes = {
 
   light: {
     primaryTextColor: config.primaryTextColor, // main ccolor of text
-    secondaryTextColor: '#FFF', // secondary color of text
-    additionalTextColor: '#9D9D9D', // secondary color of text
+    secondaryTextColor: config.secondaryTextColor, // secondary color of text
+    additionalTextColor: config.additionalTextColor, // secondary color of text
     extraTextColor: '#6A6A6A', // secondary color of text
     disabledTextColor: '#DFE0EB', // disabled color of text
     dangerTextColor: '#FF2C2C', // danger color of text

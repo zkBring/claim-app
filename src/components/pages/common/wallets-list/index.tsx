@@ -27,9 +27,10 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { PopupWalletListContents, PopupWhatIsWalletContents } from 'components/pages/common'
-import { defineSystem, sortWallets, getWalletOption, getInjectedWalletOption } from 'helpers'
+import { defineSystem, sortWallets, getWalletOption, defineApplicationConfig, getInjectedWalletOption } from 'helpers'
 import { plausibleApi } from 'data/api'
-import LinkdropLogo from 'images/linkdrop-header.png'
+import LinkdropLogo from 'images/linkdrop.png'
+import LinkdropLogoLight from 'images/linkdrop-light.png'
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import TProps from './types'
 
@@ -271,6 +272,7 @@ const WalletsList: FC<ReduxType> = ({
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
   const injected = connectors.find(connector => connector.id === "injected")
+  const configs = defineApplicationConfig()
 
   const options = defineOptionsList(
     type,
@@ -286,8 +288,6 @@ const WalletsList: FC<ReduxType> = ({
     enableENS,
     enableZerion
   )
-
-
   return <Container>
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>
@@ -319,7 +319,7 @@ const WalletsList: FC<ReduxType> = ({
       }}
     />}
     {showPopup && <OverlayScreen
-      headerLogo={LinkdropLogo}
+      headerLogo={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight}
       title={system === 'desktop' ? 'What is a Wallet?' : 'Connecting your wallet'}
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}

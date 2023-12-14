@@ -13,7 +13,9 @@ import Page from '../page'
 import { IAppDispatch, RootState } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
-import LinkdropLogo from 'images/linkdrop-header.png'
+import LinkdropLogo from 'images/linkdrop.png'
+import LinkdropLogoLight from 'images/linkdrop-light.png'
+import { defineApplicationConfig } from 'helpers'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -50,6 +52,7 @@ const HomePage: FC<ReduxType> = ({
   const history = useHistory()
   const [ code, setCode ] = useState<string>('')
   const [ error, setError ] = useState<string | undefined>(undefined)
+  const configs = defineApplicationConfig()
 
   const onClick = async () => {
     const link = await getLink(code, (claimCode) => {
@@ -68,7 +71,7 @@ const HomePage: FC<ReduxType> = ({
   return <Page>
     <Container>
       <LinkdropHeader>
-        <LinkdropHeaderLogo src={LinkdropLogo} alt="Linkdrop Logo" />
+        <LinkdropHeaderLogo src={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight} alt="Linkdrop Logo" />
       </LinkdropHeader>
       <Title>Enter the code</Title>
       <Description>Please enter the code to continue the claiming process</Description>
