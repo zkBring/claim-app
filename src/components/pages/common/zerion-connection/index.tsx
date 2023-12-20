@@ -150,7 +150,7 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
       .then(({ uri }) => {
         if (!uri) { return }
         setLoading(true)
-        const href = `ledgerlive://wc?uri=${encodeURIComponent(uri)}`
+        const href = `zerion://wc?uri=${encodeURIComponent(uri)}`
         window.location.href = href
       })
       .catch(err => {
