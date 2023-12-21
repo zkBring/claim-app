@@ -5,23 +5,22 @@ import {
   Container,
   TextComponent,
   WalletIcon,
-  Link,
   AdditionalTextComponent,
   Hr
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import ZerionLogo from 'images/zerion.png'
-import AuthClient, { generateNonce } from "@walletconnect/auth-client"
-import { defineSystem } from 'helpers'
+import LedgerLogo from 'images/ledger.png'
+import { alertError, defineSystem, getHashVariables } from 'helpers'
 import { Dispatch } from 'redux'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { UserActions } from 'data/store/reducers/user/types'
+import { ScreenLoader } from '..'
 import { TDropType } from 'types'
 import TProps from './types'
-import { ScreenLoader } from '..'
-
+import { loadConnectKit, SupportedProviders } from '@ledgerhq/connect-kit-loader'
+import { ethers } from 'ethers'
 const { REACT_APP_WC_PROJECT_ID } = process.env
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<UserActions> & IAppDispatch) => {
@@ -60,7 +59,7 @@ const defineUrlHref = () => {
 }
 
 const defineButton = (
-  setClient: (client: AuthClient) => void,
+  setLoading: (loading: boolean) => void, 
   updateUserData: (
     address: string,
     chainId: number,
@@ -71,39 +70,37 @@ const defineButton = (
   return <ScreenButton
     appearance='action'
     onClick={async () => {
-      const authClient = await AuthClient.init({
-        projectId: REACT_APP_WC_PROJECT_ID as string,
-        metadata: {
-          name: "Linkdrop",
-          description: "A dapp using WalletConnect AuthClient",
-          url: window.location.host,
-          icons: ["/zerion.png"],
-        }
-      })
-
-      setClient(authClient)
-      authClient.on("auth_response", ({ params }) => {
-        // @ts-ignore
-        const validResponse = Boolean(params && params.result && params.result.p)
-        if (validResponse) {
-          // @ts-ignore
-          const { iss } = params.result.p
-          const walletData = iss.split(":")
-          const walletAddress = walletData[4]
-          const walletChainId = walletData[3]
+      setLoading(true)
+      try {
+        const connectKit = await loadConnectKit()
+        connectKit.enableDebugLogs();
+        connectKit.checkSupport({
+          providerType: SupportedProviders.Ethereum,
+          walletConnectVersion: 2,
+          projectId: REACT_APP_WC_PROJECT_ID,
+          chains: [1, 137],
+        })
+  
+        const provider = await connectKit.getProvider()
+        const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' })
+        if (accounts) {
+          const library = new ethers.providers.Web3Provider(provider)
+          const network = await library.getNetwork()
           updateUserData(
-            walletAddress,
-            walletChainId,
+            accounts[0],
+            network.chainId,
             callback
           )
         } else {
-          // @ts-ignore
-          console.error(params.message)
+          alertError('No account found')
         }
-      })
+      } catch (err) {
+        alertError('Some error occured. Please check console for more info')
+      }
+      setLoading(true)
     }
   }>
-    Use Zerion
+    Use LedgerLive
   </ScreenButton>
 }
 
@@ -111,21 +108,20 @@ const renderTexts = (
   type: TDropType
 ) => {
   return <>
-    <WalletIcon src={ZerionLogo} /> 
+    <WalletIcon src={LedgerLogo} /> 
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>
-      Claim {type === 'ERC20' ? 'tokens' : 'NFT'} using your Zerion Wallet. <Link target="_blank" href={defineUrlHref()}>Download the app</Link> or use another wallet.
+      Claim {type === 'ERC20' ? 'tokens' : 'NFT'} using your LedgerLive.
     </TextComponent>
   </>
 }
 
-const ZerionConnection: FC<ReduxType & TProps> = ({
+const LedgerConnection: FC<ReduxType & TProps> = ({
   updateUserData,
   chainId,
   type,
   setStepCallback
 }) => {
-  const [ client, setClient ] = useState<AuthClient | null>()
   const [ loading, setLoading ] = useState<boolean>(false)
   const handleUpdateUser = (
     address: string,
@@ -137,26 +133,7 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
       () => setStepCallback && setStepCallback(address)
     )
   }
-  useEffect(() => {
-    if (!client) { return }
-    client
-      .request({
-        aud: window.location.href,
-        domain: window.location.hostname.split(".").slice(-2).join("."),
-        chainId: `eip155:${chainId as number}`,
-        nonce: generateNonce(),
-        statement: "Sign in with Zerion Wallet"
-      })
-      .then(({ uri }) => {
-        if (!uri) { return }
-        setLoading(true)
-        const href = `ledgerlive://wc?uri=${encodeURIComponent(uri)}`
-        window.location.href = href
-      })
-      .catch(err => {
-        setLoading(false)
-      })
-  }, [client])
+
 
   if (loading) {  
     return <ScreenLoader onClose={() => {
@@ -166,7 +143,7 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
   return <Container> 
     {renderTexts(type as TDropType)}
     {defineButton(
-      setClient,
+      setLoading,
       handleUpdateUser,
       setStepCallback
     )}
@@ -175,4 +152,4 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
   </Container>
 }
 
-export default connect(mapStateToProps, mapDispatcherToProps)(ZerionConnection)
+export default connect(mapStateToProps, mapDispatcherToProps)(LedgerConnection)

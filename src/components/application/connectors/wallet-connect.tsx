@@ -1,6 +1,5 @@
 import {
-  EthereumClient,
-  w3mProvider
+  EthereumClient
 } from "@web3modal/ethereum"
 import { configureChains, createConfig } from "wagmi"
 import { mainnet, polygon, goerli, polygonMumbai, base, baseGoerli } from "wagmi/chains"
