@@ -6,6 +6,7 @@ type TMultiscanStep = 'not_initialized' |
                  'wallet_redirect_await' |
                  'set_address' |
                  'crossmint_connection' |
+                 'ledger_connection' |
                  'sign_message' |
                  'eligible_to_claim'
 

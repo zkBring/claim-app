@@ -22,9 +22,13 @@ import CrossmintConnection from './crossmint-connection'
 import SignMessage from './sign-message'
 import EligibleToClaim from './eligible-to-claim'
 import QRCampaignNotEligible from './qr-campaign-not-eligible'
+import ScreenLoader from './screen-loader'
+import LedgerConnection from './ledger-connection'
 
 export {
   QRCampaignNotEligible,
+  LedgerConnection,
+  ScreenLoader,
   EligibleToClaim,
   SetAddress,
   ClaimingFinishedSecondaryButton,

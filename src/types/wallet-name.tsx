@@ -8,6 +8,7 @@ type TWalletName = 'metamask' |
                    'rainbow' |
                    'crossmint' |
                    'walletconnect' |
-                   'manual_address'
+                   'manual_address' |
+                   'ledger'
 
 export default TWalletName

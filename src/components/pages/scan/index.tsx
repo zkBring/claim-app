@@ -20,6 +20,7 @@ import {
   QRNotMapped,
   QRNotFound,
   QRNoConnection,
+  LedgerConnection,
   QRIncorrectParameter,
   QRCampaignNotStarted,
   QRCampaignFinished,
@@ -333,6 +334,11 @@ const renderContent = (
             setAddressCallback(address)
           }
         }}
+      />
+      break
+    case 'ledger_connection':
+      content = <LedgerConnection
+        setStepCallback={() => setMultiscanStep('initial')}
       />
       break
     case 'crossmint_connection':
