@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState } from 'react'
 import {
   TitleComponent,
   ScreenButton,
@@ -48,16 +48,6 @@ const mapStateToProps = ({
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
-const defineUrlHref = () => {
-  const system = defineSystem()
-  switch (system) {
-    case 'android':
-      return 'https://play.google.com/store/apps/details?id=io.zerion.android&_branch_match_id=1131934258497997120&utm_source=zerion_homepage&utm_campaign=wallet_launch&utm_medium=homepage&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXz8nMy9arSi3KzM/Ty8zXTzE0zDfz9DPIKkwCAJ6OLGAiAAAA&pli=1'
-    case 'ios':
-      return 'https://apps.apple.com/ru/app/zerion-crypto-wallet-defi/id1456732565?l=en'
-  }
-}
-
 const defineButton = (
   setLoading: (loading: boolean) => void, 
   updateUserData: (
@@ -85,6 +75,7 @@ const defineButton = (
         const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' })
         if (accounts) {
           const library = new ethers.providers.Web3Provider(provider)
+          const signer = library.getSigner()
           const network = await library.getNetwork()
           updateUserData(
             accounts[0],
@@ -118,7 +109,6 @@ const renderTexts = (
 
 const LedgerConnection: FC<ReduxType & TProps> = ({
   updateUserData,
-  chainId,
   type,
   setStepCallback
 }) => {

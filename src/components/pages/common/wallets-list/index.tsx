@@ -179,7 +179,7 @@ const defineOptionsList = (
       isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
       isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
       isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
-      isOptionVisible(ledgerOption, wallet, 'ledger', [...availableWallets, 'ledger']),
+      isOptionVisible(ledgerOption, wallet, 'ledger', availableWallets),
       isOptionVisible(ensOption, wallet, 'manual_address', availableWallets)
     ]
 
@@ -263,7 +263,7 @@ const defineOptionsList = (
     isOptionVisible(imtokenOption, wallet, 'imtoken', availableWallets),
     isOptionVisible(trustOption, wallet, 'trust', availableWallets),
     isOptionVisible(rainbowOption, wallet, 'rainbow', availableWallets),
-    isOptionVisible(ledgerOption, wallet, 'ledger', [...availableWallets, 'ledger'])
+    isOptionVisible(ledgerOption, wallet, 'ledger', availableWallets)
   ]
 
   return sortWallets(wallets)
