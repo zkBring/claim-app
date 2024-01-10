@@ -151,7 +151,7 @@ const defineOptionsList = (
     injected
   )
 
-  const ledgerOption = isManual ? undefined : {
+  const ledgerOption = {
     title: 'LedgerLive',
     onClick: async () => {
       setStep('ledger_connection')
