@@ -16,6 +16,7 @@ import {
   ZerionConnection,
   SetAddress,
   PageHeader,
+  LedgerConnection,
   DownloadAwait,
   WalletRedirectAwait,
   CrossmintConnection
@@ -164,6 +165,10 @@ type TDefineStep = (
       return <ZerionConnection
         setStepCallback={() => setStep('initial')}
       />
+    case 'ledger_connection':
+      return <LedgerConnection
+        setStepCallback={() => setStep('initial')}
+      />
     case 'crossmint_connection':
       return <CrossmintConnection />
     case 'wallet_redirect_await':
@@ -182,6 +187,7 @@ const defineBackAction = (
     case 'set_address':
     case 'download_await':
     case 'zerion_connection':
+    case 'ledger_connection':
     case 'crossmint_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':

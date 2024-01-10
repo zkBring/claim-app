@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.20
+- added ledgerlive connect support
+
 ## 2.2.19
 - updates for application config
 

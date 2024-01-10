@@ -23,7 +23,7 @@ import { switchNetwork } from 'data/store/reducers/user/async-actions'
 
 const mapStateToProps = ({
   token: { name, image, decimals },
-  user: { address, chainId: userChainId, userProvider, email },
+  user: { address, chainId: userChainId, userProvider, email, signer },
   drop: { tokenId, amount, type, isManual, loading, chainId, campaignId }
 }: RootState) => ({
   name,
@@ -39,7 +39,8 @@ const mapStateToProps = ({
   campaignId,
   decimals,
   userProvider,
-  email
+  email,
+  signer
 })
 
 const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & IAppDispatch) => {
@@ -119,7 +120,8 @@ const InitialScreen: FC<ReduxType> = ({
       appearance='action'
       title='Claim'
       onClick={async () => {
-        if (Number(userChainId) !== Number(chainId)) {
+        if (Number(userChainId) !== Number(chainId) && userProvider) {
+          // @ts-ignore
           if(window && window.ethereum && window.ethereum.isCoinbaseWallet && system !== 'desktop') {
             if (chainId) {
               await switchNetwork(userProvider, chainId, campaignId as string, () => {})

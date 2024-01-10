@@ -13,14 +13,14 @@ import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import ZerionLogo from 'images/zerion.png'
 import AuthClient, { generateNonce } from "@walletconnect/auth-client"
-import { defineSystem, getHashVariables } from 'helpers'
+import { defineSystem } from 'helpers'
 import { Dispatch } from 'redux'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { UserActions } from 'data/store/reducers/user/types'
-import { ScreenLoader } from './components'
 import { TDropType } from 'types'
 import TProps from './types'
+import { ScreenLoader } from '..'
 
 const { REACT_APP_WC_PROJECT_ID } = process.env
 

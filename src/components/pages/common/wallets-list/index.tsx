@@ -7,6 +7,7 @@ import {
   WalletIcon,
   LinkButton
 } from './styled-components'
+import { ethers } from 'ethers'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useWeb3Modal } from "@web3modal/react"
@@ -14,6 +15,7 @@ import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 import ZerionWalletIcon from 'images/zerion-wallet.png'
+import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
@@ -33,6 +35,7 @@ import LinkdropLogo from 'images/linkdrop.png'
 import LinkdropLogoLight from 'images/linkdrop-light.png'
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import TProps from './types'
+const { REACT_APP_WC_PROJECT_ID } = process.env
 
 const mapStateToProps = ({
   token: {
@@ -148,6 +151,15 @@ const defineOptionsList = (
     injected
   )
 
+  const ledgerOption = {
+    title: 'LedgerLive',
+    onClick: async () => {
+      setStep('ledger_connection')
+    },
+    icon: <WalletIcon src={LedgerLiveWalletIcon} />,
+    recommended: wallet === 'ledger'
+  }
+
   if (system === 'desktop') {
     const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWallet")
     const coinbaseOption = {
@@ -167,6 +179,7 @@ const defineOptionsList = (
       isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
       isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
       isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
+      isOptionVisible(ledgerOption, wallet, 'ledger', availableWallets),
       isOptionVisible(ensOption, wallet, 'manual_address', availableWallets)
     ]
 
@@ -249,7 +262,8 @@ const defineOptionsList = (
     isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
     isOptionVisible(imtokenOption, wallet, 'imtoken', availableWallets),
     isOptionVisible(trustOption, wallet, 'trust', availableWallets),
-    isOptionVisible(rainbowOption, wallet, 'rainbow', availableWallets)
+    isOptionVisible(rainbowOption, wallet, 'rainbow', availableWallets),
+    isOptionVisible(ledgerOption, wallet, 'ledger', availableWallets)
   ]
 
   return sortWallets(wallets)
@@ -288,11 +302,13 @@ const WalletsList: FC<ReduxType> = ({
     enableENS,
     enableZerion
   )
+
   return <Container>
     <TitleComponent>Connect your wallet</TitleComponent>
     <TextComponent>
       Choose a wallet from the list
     </TextComponent>
+
     <OptionsListStyled options={options} />
     {system === 'desktop' && !injected && <LinkButton onClick={() => {
       plausibleApi.invokeEvent({

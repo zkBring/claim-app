@@ -225,6 +225,7 @@ const claimManually = async (
 
     return hash
   } catch (err) {
+    console.log({ err })
     const errCode = (err as { code: string }).code
     if (errCode !== 'ACTION_REJECTED') {
       plausibleApi.invokeEvent({
