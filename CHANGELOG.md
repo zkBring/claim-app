@@ -6,9 +6,6 @@
 ## 2.2.19
 - updates for application config
 
-## 2.2.19
-- updates for application config
-
 ## 2.2.18
 - bug fix for zerion wallet connect in dispenser
 
