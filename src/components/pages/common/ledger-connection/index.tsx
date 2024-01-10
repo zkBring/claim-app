@@ -50,6 +50,7 @@ const mapStateToProps = ({
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const defineButton = (
+  chainId: number,
   setLoading: (loading: boolean) => void, 
   updateUserData: (
     address: string,
@@ -70,7 +71,7 @@ const defineButton = (
           providerType: SupportedProviders.Ethereum,
           walletConnectVersion: 2,
           projectId: REACT_APP_WC_PROJECT_ID,
-          chains: [1, 137],
+          chains: [chainId],
         })
   
         const provider = await connectKit.getProvider()
@@ -113,6 +114,7 @@ const renderTexts = (
 const LedgerConnection: FC<ReduxType & TProps> = ({
   updateUserData,
   type,
+  chainId,
   setStepCallback
 }) => {
   const [ loading, setLoading ] = useState<boolean>(false)
@@ -139,6 +141,7 @@ const LedgerConnection: FC<ReduxType & TProps> = ({
   return <Container> 
     {renderTexts(type as TDropType)}
     {defineButton(
+      chainId as number,
       setLoading,
       handleUpdateUser,
       setStepCallback
