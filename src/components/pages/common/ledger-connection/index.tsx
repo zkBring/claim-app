@@ -28,12 +28,13 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<UserAct
     updateUserData: (
       address: string,
       chainId: number,
+      signer: any,
       callback?: () => void
     ) => dispatch(userAsyncActions.updateUserData(
       address,
       chainId,
       undefined,
-      undefined,
+      signer,
       callback
     ))
   }
@@ -53,6 +54,7 @@ const defineButton = (
   updateUserData: (
     address: string,
     chainId: number,
+    signer: any,
     callback?: (address?: string) => void
   ) => void,
   callback?: (address?: string) => void
@@ -80,6 +82,7 @@ const defineButton = (
           updateUserData(
             accounts[0],
             network.chainId,
+            signer,
             callback
           )
         } else {
@@ -115,12 +118,15 @@ const LedgerConnection: FC<ReduxType & TProps> = ({
   const [ loading, setLoading ] = useState<boolean>(false)
   const handleUpdateUser = (
     address: string,
-    chainId: number
+    chainId: number,
+    signer: any,
+    callback?: (address?: string) => void
   ) => {
     updateUserData(
       address,
       chainId,
-      () => setStepCallback && setStepCallback(address)
+      signer,
+      callback
     )
   }
 
