@@ -53,8 +53,11 @@ export default function getLinkByMultiQR(
         const decryptKey = ethers.utils.id(multiscanQREncCode)
         const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
         dispatch(actionsDrop.setMultiscanLinkDecrypted(linkDecrypted))
-        if (linkDecrypted && callback) {
-          callback(linkDecrypted)
+        if (linkDecrypted.includes(window.location.host)) {
+          return callback && callback(linkDecrypted.split('/#')[1])
+        } else {
+          window.location.href = linkDecrypted
+          return
         }
       }
 
