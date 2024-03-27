@@ -196,20 +196,14 @@ const Scan: FC<ReduxType> = ({
   useEffect(() => {
 
     // get link
-    console.log({ multiscanStep })
     if (multiscanStep === 'initial') {
-      console.log('here')
       getLink(
         multiscanQRId,
         scanId,
         scanIdSig,
         multiscanQREncCode,
         (location) => {
-          console.log({
-            location
-          })
-          const path = location.split('/#')[1]
-          history.push(path)
+          history.push(location)
         }
       )
     }
