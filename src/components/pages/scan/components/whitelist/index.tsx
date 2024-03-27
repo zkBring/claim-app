@@ -251,11 +251,11 @@ const defineBackAction = (
     case 'wallet_redirect_await':
       // if coinbase - do not show other wallets
       if (wallet === 'coinbase_wallet') {
-        return () => action('initial')
+        return () => action('whitelist')
       }
       return () => action('wallets_list')
     case 'wallets_list':
-      return () => action('initial')
+      return () => action('whitelist')
 
     default:
       return null
@@ -288,9 +288,9 @@ const renderContent = (
   const header = defineHeader(
     multiscanStep,
     wallet,
-    () => setMultiscanStep('initial'))
+    () => setMultiscanStep('whitelist'))
   switch (multiscanStep) {
-    case 'initial':
+    case 'whitelist':
       content = <DefaultScreen
         image={image}
         type={type}
@@ -327,7 +327,7 @@ const renderContent = (
       break
     case 'ledger_connection':
       content = <LedgerConnection
-        setStepCallback={() => setMultiscanStep('initial')}
+        setStepCallback={() => setMultiscanStep('whitelist')}
       />
       break
     case 'crossmint_connection':
