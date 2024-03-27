@@ -205,6 +205,9 @@ const Scan: FC<ReduxType> = ({
         scanIdSig,
         multiscanQREncCode,
         (location) => {
+          console.log({
+            location
+          })
           const path = location.split('/#')[1]
           history.push(path)
         }
