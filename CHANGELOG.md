@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.21
+- added update for dispenser (no address and connect needed)
+
 ## 2.2.20
 - added ledgerlive connect support
 

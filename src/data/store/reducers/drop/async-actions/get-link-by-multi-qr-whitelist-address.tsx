@@ -4,6 +4,7 @@ import { DropActions } from '../types'
 import { UserActions } from '../../user/types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
+import * as actionsUser from '../../user/actions'
 import { plausibleApi, getMultiQRData } from 'data/api'
 import axios, { AxiosError } from 'axios'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
@@ -14,7 +15,9 @@ export default function getLinkByMultiQR(
   scanId: string,
   scanIdSig: string,
   multiscanQREncCode: string,
-  linkRedirectCallback?: (location: string) => void
+  address: string,
+  signer?: any,
+  callback?: (location: string) => void
 ) {
   return async (
     dispatch: Dispatch<DropActions> & Dispatch<UserActions>,
@@ -24,11 +27,17 @@ export default function getLinkByMultiQR(
     dispatch(actionsDrop.setError(null))
 
     try {
+      const signing = await signer.signMessage('I am signing this message to verify my address (claim.linkdrop.io)')
+      dispatch(actionsUser.setAddress(address))
 
       const { data } = await getMultiQRData(
         multiscanQRId,
         scanId,
         scanIdSig,
+
+        // params for whitelist
+        address,
+        signing
       )
 
       const { encrypted_claim_link, success }: { encrypted_claim_link: string, success: boolean } = data
@@ -37,7 +46,7 @@ export default function getLinkByMultiQR(
         const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
         dispatch(actionsDrop.setMultiscanLinkDecrypted(linkDecrypted))
         if (linkDecrypted.includes(window.location.host)) {
-          return linkRedirectCallback && linkRedirectCallback(linkDecrypted.split('/#')[1])
+          return callback && callback(linkDecrypted.split('/#')[1])
         } else {
           window.location.href = linkDecrypted
           return

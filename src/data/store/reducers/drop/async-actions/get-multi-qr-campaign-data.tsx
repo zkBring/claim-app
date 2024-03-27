@@ -83,7 +83,14 @@ export default function getCampaignData(
             return
           }
         }
-        dispatch(actionsDrop.setMultiscanStep('initial'))
+        if (
+          whitelist_on &&
+          whitelist_type === 'address'
+        ) {
+          dispatch(actionsDrop.setMultiscanStep('whitelist'))
+        } else {
+          dispatch(actionsDrop.setMultiscanStep('initial'))
+        }
       }
 
     } catch (err) {

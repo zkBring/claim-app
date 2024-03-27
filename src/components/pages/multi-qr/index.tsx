@@ -44,6 +44,8 @@ const MultiQR: FC<ReduxType> = ({ computeScanAddress, initialized, error }) => {
   useEffect(() => {
     if (!qrEncCode) { alertError('QR_ENC_CODE is not found in URL') }
     if (!qrSecret) { alertError('QR_SECRET is not found in URL') }
+
+    
     computeScanAddress(
       qrSecret,
       qrEncCode,
