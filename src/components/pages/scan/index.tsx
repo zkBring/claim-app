@@ -10,43 +10,26 @@ import {
   Subtitle,
   IconContainer,
   LoadingTitle,
-  ButtonStyled,
-  TokenImageContainer
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
-import { TDropError, TDropType, TMultiscanStep, TWhitelistType } from 'types'
+import { TDropError, TDropType, TMultiscanStep } from 'types'
 import {
   QRNotMapped,
   QRNotFound,
   QRNoConnection,
-  LedgerConnection,
   QRIncorrectParameter,
   QRCampaignNotStarted,
   QRCampaignFinished,
   QRCampaignNotActive,
-  PageHeader,
-  PoweredByFooter,
   QRNoLinksToShare,
-  WalletsListPage,
-  SetAddress,
-  ZerionConnection,
-  DownloadAwait,
-  ERC20TokenPreview,
-  WalletRedirectAwait,
-  CrossmintConnection,
-  SignMessage,
-  EligibleToClaim,
   QRCampaignNotEligible
 } from 'components/pages/common'
 import Icons from 'icons'
-import { defineSystem } from 'helpers'
-import { useAccount, useConnect } from 'wagmi'
-import GiftPreview from 'images/dispenser-preview-image.png'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { Dispatch } from 'redux'
-import { useEthersSigner } from 'hooks'
+import WhitelistDispenser from './components/whitelist'
 
 const mapStateToProps = ({
   user: { initialized, address },
@@ -88,8 +71,6 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) =>
       scanId: string,
       scanIdSig: string,
       multiscanQREncCode: string,
-      address: string,
-      signer?: any,
       callback?: (location: string) => void
     ) => dispatch(
       dropAsyncActions.getLinkByMultiQR(
@@ -97,8 +78,6 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) =>
         scanId,
         scanIdSig,
         multiscanQREncCode,
-        address,
-        signer,
         callback 
       )
     ),
@@ -182,267 +161,31 @@ const ErrorScreen: FC<{ error: TDropError | null }> = ({ error }) => {
   </Page>
 }
 
-
-const renderTokenPreview = (
-  image: string | null,
-  name: string | null,
-  type: TDropType | null,
-  amount: string | null,
-  decimals: number
-) => {
-  if (image && name) {
-    if (type === 'ERC20') {
-      return <ERC20TokenPreview
-        name={name as string}
-        image={image as string}
-        amount={amount as string}
-        decimals={decimals}
-        status='initial'
-      />
-    } else {
-      return <>
-        <TokenImageContainer src={image} alt={name || 'Token image'} />
-        <Title>{name}</Title>
-      </>
-    }
-  } else {
-      return <>
-        <Image src={GiftPreview} />
-        <Title>Claim digital asset</Title>
-      </>
-  }
-}
-
-const DefaultScreen: FC<{
-  setStep: (step: TMultiscanStep) => void,
-  image: string | null,
-  name: string | null,
-  type: TDropType | null,
-  amount: string | null,
-  decimals: number
-}> = ({
-  setStep,
-  name,
-  image,
-  type,
-  amount,
-  decimals
-}) => {
-  return <>
-    {renderTokenPreview(
-      image,
-      name,
-      type,
-      amount,
-      decimals
-    )}
-    <Subtitle>To claim this asset, you will need to have Wallet set up and ready to use</Subtitle>
-    <ButtonStyled 
-      appearance='action'
-      onClick={() => {
-        setStep('wallets_list')
-      }}
-    >
-      Choose Wallet
-    </ButtonStyled>
-    <PoweredByFooter />
-  </>
-}
-
-const defineBackAction = (
-  multiscanStep: TMultiscanStep,
-  wallet: string | null,
-  action: (step: TMultiscanStep) => void
-) => {
-  switch (multiscanStep) {
-    case 'download_await':
-    case 'zerion_connection':
-    case 'crossmint_connection':
-      return () => action('wallets_list')
-    case 'wallet_redirect_await':
-      // if coinbase - do not show other wallets
-      if (wallet === 'coinbase_wallet') {
-        return () => action('initial')
-      }
-      return () => action('wallets_list')
-    case 'wallets_list':
-      return () => action('initial')
-
-    default:
-      return null
-  }
-}
-
-const defineHeader = (
-  multiscanStep: TMultiscanStep,
-  wallet: string | null,
-  action: (step: TMultiscanStep
-) => void) => {
-  const backAction = defineBackAction(multiscanStep, wallet, action)
-  return <PageHeader backAction={backAction}/>
-}
-
-const renderContent = (
-  multiscanStep: TMultiscanStep,
-  wallet: string | null,
-  setMultiscanStep: (multiscanStep: TMultiscanStep) => void,
-  image: string | null,
-  name: string | null,
-  type: TDropType | null,
-  amount: string | null,
-  decimals: number,
-  whitelistOn: boolean,
-  whitelistType: TWhitelistType | null,
-  setAddressCallback: (address?: string) => void
-) => {
-  let content = null
-  const header = defineHeader(
-    multiscanStep,
-    wallet,
-    () => setMultiscanStep('initial'))
-  switch (multiscanStep) {
-    case 'initial':
-      content = <DefaultScreen
-        image={image}
-        type={type}
-        name={name}
-        amount={amount}
-        decimals={decimals}
-        setStep={setMultiscanStep}
-      />
-      break
-    case 'set_address':
-      content = <SetAddress
-        onSubmit={setAddressCallback}
-      />
-      break
-    case 'wallets_list':
-      content = <WalletsListPage
-        enableZerion={!whitelistOn && !whitelistType}
-        setStep={setMultiscanStep}
-      />
-      break
-    case 'download_await':
-      content = <DownloadAwait />
-      break
-    case 'zerion_connection':
-      content = <ZerionConnection
-        setStepCallback={(address) => {
-          if (whitelistOn && whitelistType) {
-            setMultiscanStep('sign_message')
-          } else {
-            setAddressCallback(address)
-          }
-        }}
-      />
-      break
-    case 'ledger_connection':
-      content = <LedgerConnection
-        setStepCallback={() => setMultiscanStep('initial')}
-      />
-      break
-    case 'crossmint_connection':
-      content = <CrossmintConnection />
-      break
-    case 'wallet_redirect_await':
-      content = <WalletRedirectAwait />
-      break
-    case 'sign_message':
-      content = <SignMessage
-        onSubmit={() => setAddressCallback()}
-      />
-      break
-    case 'eligible_to_claim':
-      content = <EligibleToClaim
-        onSubmit={setAddressCallback}
-      />
-      break
-    default:
-      content = null
-      break
-  }
-
-  return <Page>
-    <Container>
-      {header}
-      {content}
-    </Container>
-  </Page>
-}
-
 const Scan: FC<ReduxType> = ({
   getLink,
   error,
-  loading,
   multiscanStep,
-  setMultiscanStep,
-  wallet,
-  image,
-  name,
-  type,
-  amount,
-  decimals,
-  whitelistOn,
-  whitelistType,
-  userAddress,
   getMultiQRCampaignData
 }) => {
-  const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
+  const {
+    multiscanQRId,
+    scanId,
+    scanIdSig,
+    multiscanQREncCode
+  } = useParams<TParams>()
+
+  // '/scan/:multiscanQRId/:scanId/:scanIdSig/:multiscanQREncCode'
+
+
   const history = useHistory()
-  const { address, isConnected } = useAccount()
-  const [ isInjected, setIsInjected ] = useState<boolean>(false)
-  const [ initialized, setInitialized ] = useState<boolean>(false)
-  const system = defineSystem()
-  const signer = useEthersSigner()
-
-  const getLinkCallback = (addressArg?: string) => {
-    getLink(
-      multiscanQRId,
-      scanId,
-      scanIdSig,
-      multiscanQREncCode,
-      addressArg || address as string,
-      signer,
-      (location) => {
-        if (whitelistOn) {
-          setMultiscanStep('eligible_to_claim')
-        } else {
-          const path = location.split('/#')[1]
-          history.push(path)
-        }
-      }
-    )
-  }
-
-  const { connect, connectors } = useConnect()
-  const injected = connectors.find(connector => connector.id === 'injected')
-
-  useEffect(() => {
-    const init = async () => {
-      if(window &&
-        window.ethereum &&
-
-        // if not commented - would connect injected only for coinbase
-        // window.ethereum.isCoinbaseWallet &&
-        // if not commented - would connect injected only for coinbase
-        system !== 'desktop' &&
-        injected &&
-        injected.ready
-      ) {
-        connect({ connector: injected })
-        setIsInjected(true)
-      } else {
-        setIsInjected(false)
-      }
-      setInitialized(true)
-    }
-    init()
-  }, [])
 
   useEffect(() => {    
+
+    // get campaign data
     getMultiQRCampaignData(
       multiscanQRId,
       multiscanQREncCode,
+      // callback if redirect enabled
       (location) => {
         const path = location.split('/#')[1]
         history.push(path)
@@ -451,26 +194,29 @@ const Scan: FC<ReduxType> = ({
   }, [])
 
   useEffect(() => {
-    if (
-      !initialized ||
-      !address ||
-      multiscanStep === 'not_initialized' ||
-      multiscanStep === 'eligible_to_claim'
-    ) {
-      return
-    }
-    if (isInjected || isConnected) {
-      if (whitelistOn && whitelistType) {
-        setMultiscanStep('sign_message')
-      } else {
-        setMultiscanStep('initial')
-        getLinkCallback(address)
-      }
-    }
-  }, [initialized, address, isConnected, whitelistOn, multiscanStep])
 
+    // get link
+    if (multiscanStep === 'initial') {
+      getLink(
+        multiscanQRId,
+        scanId,
+        scanIdSig,
+        multiscanQREncCode,
+        (location) => {
+          history.push(location)
+        }
+      )
+    }
+  }, [multiscanStep])
 
-  if (!initialized) {
+  if (error) {
+    return <ErrorScreen error={error} />
+  }
+
+  if (
+    multiscanStep === 'initial' ||
+    multiscanStep === 'not_initialized'
+  ) {
     return <Page>
       <Container>
         <IconContainer>
@@ -481,23 +227,8 @@ const Scan: FC<ReduxType> = ({
     </Page>
   }
 
-  if (error) {
-    return <ErrorScreen error={error} />
-  }
-
-  return renderContent(
-    multiscanStep,
-    wallet,
-    setMultiscanStep,
-    image,
-    name,
-    type,
-    amount,
-    decimals,
-    whitelistOn,
-    whitelistType,
-    getLinkCallback
-  )
+  return <WhitelistDispenser />
+  
 }
 
 export default connect(mapStateToProps, mapDispatcherToProps)(Scan)

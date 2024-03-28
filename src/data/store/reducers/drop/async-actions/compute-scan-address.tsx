@@ -3,13 +3,9 @@ import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
-import { TDropType, TPreviewSetting } from 'types'
-import * as wccrypto from '@walletconnect/utils/dist/esm'
-import { plausibleApi, getMultiQRCampaignData } from 'data/api'
+import { plausibleApi } from 'data/api'
 import { checkIfMultiscanIsPresented } from 'helpers'
 import { IAppDispatch } from 'data/store'
-
-
 
 export default function computeScanAddress(
   qrSecret: string,
@@ -24,9 +20,7 @@ export default function computeScanAddress(
       const linkKey = ethers.utils.id(qrSecret)
       const qrKeysPair = new ethers.Wallet(linkKey)
       const MULTISCAN_QR_ID = qrKeysPair.address.toLowerCase()
-      // const MULTISCAN_QR_SECRET_PK = qrKeysPair.privateKey
       const inLocalStorage = checkIfMultiscanIsPresented(MULTISCAN_QR_ID)
-      // const qrEncCodeForDecrypt = ethers.utils.id(qrEncCode).replace('0x', '')
 
       let redirectURL = ''
 

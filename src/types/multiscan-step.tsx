@@ -1,5 +1,13 @@
-type TMultiscanStep = 'not_initialized' |
+type TMultiscanStep =
+                  // NO DATA FETCHED
+                 'not_initialized' |
+
+                  // DATA FETCHED AND NO WHITELIST ENABLED
+                  // LINK WITH NO ADDRESS FETCH
                  'initial' |
+
+                  // DATA FETCHED AND WHITELIST ENABLED
+                 'whitelist' |
                  'wallets_list' |
                  'download_await' |
                  'zerion_connection' |
