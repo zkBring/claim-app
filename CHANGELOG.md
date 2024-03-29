@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.22
+- added fix for network switch
+
 ## 2.2.21
 - added update for dispenser (no address and connect needed)
 
