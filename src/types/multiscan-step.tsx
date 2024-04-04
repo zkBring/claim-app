@@ -6,6 +6,9 @@ type TMultiscanStep =
                   // LINK WITH NO ADDRESS FETCH
                  'initial' |
 
+
+                 'link_received' |
+
                   // DATA FETCHED AND WHITELIST ENABLED
                  'whitelist' |
                  'wallets_list' |

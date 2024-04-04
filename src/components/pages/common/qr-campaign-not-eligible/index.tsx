@@ -10,7 +10,7 @@ import ErrorImg from 'images/error-black.png'
 import { IAppDispatch, RootState } from 'data/store'
 import { connect } from 'react-redux'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useDisconnect } from 'wagmi'
 
 const mapStateToProps = ({
   user: {
