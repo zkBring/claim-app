@@ -9,13 +9,8 @@ export const Container = styled.div`
   margin: 0 auto;
   justify-content: center;
   text-align: center;
+  height: 100%;
 `
-
-export const TokenImageContainer = styled(TokenImage)`
-  margin: 0 auto 25px;
-  background: ${props => props.theme.widgetColor};
-`
-
 
 export const Image = styled.img`
   max-width: 240px;
@@ -31,9 +26,10 @@ export const Title = styled.h2`
 `
 
 export const Subtitle = styled.h3`
-  color: ${props => props.theme.additionalTextColor};
-  font-size: 14px;
+  color: ${props => props.theme.primaryTextColor};
+  font-size: 16px;
   margin: 0 0 40px;
+  font-weight: 400;
 `
 
 export const ButtonStyled = styled(Button)`
@@ -60,4 +56,13 @@ export const LoadingText = styled.p`
   color: ${props => props.theme.additionalTextColor};
   margin: 0;
   text-align: center;
+`
+
+
+export const LinkdropLogo = styled.img`
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 107px;
 `
