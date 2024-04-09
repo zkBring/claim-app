@@ -8,12 +8,14 @@ import {
   Image,
   Title,
   Subtitle,
-  IconContainer,
-  LoadingTitle,
+  LinkdropLogo
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
 import { TDropError, TDropType, TMultiscanStep } from 'types'
+import LinkdropLogoImage from 'images/linkdrop.png'
+import RedirectImg from 'images/redirect-image.png'
+
 import {
   QRNotMapped,
   QRNotFound,
@@ -30,6 +32,7 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { Dispatch } from 'redux'
 import WhitelistDispenser from './components/whitelist'
+import { Loader, Link } from 'components/common'
 
 const mapStateToProps = ({
   user: { initialized, address },
@@ -41,7 +44,8 @@ const mapStateToProps = ({
     type,
     amount,
     whitelistOn,
-    whitelistType
+    whitelistType,
+    multiscanLinkDecrypted
   },
   token: {
     image,
@@ -54,7 +58,9 @@ const mapStateToProps = ({
   amount,
   decimals,
   initialized,
-  error, loading,
+  error,
+  loading,
+  multiscanLinkDecrypted,
   multiscanStep,
   wallet,
   image,
@@ -165,7 +171,8 @@ const Scan: FC<ReduxType> = ({
   getLink,
   error,
   multiscanStep,
-  getMultiQRCampaignData
+  getMultiQRCampaignData,
+  multiscanLinkDecrypted
 }) => {
   const {
     multiscanQRId,
@@ -180,7 +187,6 @@ const Scan: FC<ReduxType> = ({
   const history = useHistory()
 
   useEffect(() => {    
-
     // get campaign data
     getMultiQRCampaignData(
       multiscanQRId,
@@ -194,7 +200,6 @@ const Scan: FC<ReduxType> = ({
   }, [])
 
   useEffect(() => {
-
     // get link
     if (multiscanStep === 'initial') {
       getLink(
@@ -213,16 +218,25 @@ const Scan: FC<ReduxType> = ({
     return <ErrorScreen error={error} />
   }
 
+  if (multiscanStep === 'link_received') {
+    return <Page>
+      <Container>
+        <Image src={RedirectImg} />
+        <Subtitle>
+        You are about to claim tokens with Linkdrop. If you are not automatically redirected, please go <Link href={multiscanLinkDecrypted as string}>here</Link>
+        </Subtitle>
+      </Container>
+    </Page>
+  }
+
   if (
     multiscanStep === 'initial' ||
     multiscanStep === 'not_initialized'
   ) {
     return <Page>
       <Container>
-        <IconContainer>
-          <Icons.LinkdropIcon />
-        </IconContainer>
-        <LoadingTitle>Linkdrop</LoadingTitle>
+        <LinkdropLogo src={LinkdropLogoImage} />
+        <Loader />
       </Container>
     </Page>
   }

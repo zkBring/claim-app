@@ -8,17 +8,13 @@ export const Container = styled.div`
   max-width: 343px;
   margin: 0 auto;
   justify-content: center;
+  height: 100%;
 `
 
-export const IconContainer = styled.div`
-  margin-bottom: 35px;
-  margin-top: 50px;
-`
-
-export const LoadingTitle = styled.h3`
-  font-size: 24px;
-  line-height: 32px;
-  color: ${props => props.theme.primaryTextColor};
-  margin: 0 0 12px;
-  text-align: center;
+export const LinkdropLogo = styled.img`
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 107px;
 `
