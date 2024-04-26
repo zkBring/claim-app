@@ -22,6 +22,7 @@ import {
   CrossmintConnection
 } from 'components/pages/common'
 import ErrorServerFail from './error-server-fail'
+import ErrorRegion from './error-region'
 import ErrorLinkExpired from './error-link-expired'
 import ErrorAlreadyClaimed from './error-already-claimed'
 import ErrorLinkNotFound from './error-link-not-found'
@@ -133,6 +134,8 @@ type TDefineStep = (
       />
     case 'error_transaction':
       return <ErrorTransactionPage />
+    case 'error_region':
+      return <ErrorRegion />
     case 'error_no_connection':
       return <ErrorNoConnectionPage />
     case 'error_server_fail':
