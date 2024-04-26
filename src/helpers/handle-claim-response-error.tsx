@@ -12,14 +12,28 @@ const handleError = (
 ) => {
   if (axios.isAxiosError(error)) {
     if (error.response?.status === 422) {
-      plausibleApi.invokeEvent({
-        eventName: 'error',
-        data: {
-          err_name: 'error_already_claimed',
-          campaignId
+
+      if (error.response.data.errors && error.response.data.errors.length > 0) {
+        if (error.response.data.errors[0] === "CLAIM_LINK_NOT_AVAILABLE_IN_REGION") {
+          plausibleApi.invokeEvent({
+            eventName: 'error',
+            data: {
+              err_name: 'cannot_claim_in_current_region',
+              campaignId
+            }
+          })
+          dispatch(dropActions.setStep('error_region'))
+        } else {
+          plausibleApi.invokeEvent({
+            eventName: 'error',
+            data: {
+              err_name: 'error_already_claimed',
+              campaignId
+            }
+          })
+          dispatch(dropActions.setStep('error_already_claimed'))
         }
-      })
-      dispatch(dropActions.setStep('error_already_claimed'))
+      }
     } else {
       plausibleApi.invokeEvent({
         eventName: 'error',
