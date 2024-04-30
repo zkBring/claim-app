@@ -11,7 +11,7 @@ import Error from 'images/error-black.png'
 const ErrorRegionScreen: FC = () => {
   return <Container>
     <Image src={Error} />
-    <Title>This campaign is not available in your location</Title>
+    <Title>This campaign is not available in your region</Title>
   </Container>
 }
 
