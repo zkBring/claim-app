@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.23
+- added countries whitelist support
+
 ## 2.2.22
 - added fix for network switch
 
