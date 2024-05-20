@@ -6,6 +6,8 @@
     "@auth0/auth0-react": "^2.1.1",
     "@coinbase/wallet-sdk": "^3.6.6",
     "@craco/craco": "^6.4.0",
+    "@datadog/browser-logs": "^5.18.0",
+    "@datadog/browser-rum": "^5.18.0",
     "@ledgerhq/connect-kit-loader": "1.1.8",
     "@linkdrop/contracts": "^1.2.2",
     "@reduxjs/toolkit": "^1.6.2",
