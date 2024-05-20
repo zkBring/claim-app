@@ -4,7 +4,15 @@ import './index.css'
 import App from './components/application'
 import reportWebVitals from './reportWebVitals'
 import { Auth0Provider } from '@auth0/auth0-react'
-const { REACT_APP_AUTH0_DOMAIN, REACT_APP_AUTH0_CLIENT_ID } = process.env
+import { datadogRum } from '@datadog/browser-rum'
+import { datadogLogs } from '@datadog/browser-logs'
+
+const {
+  REACT_APP_AUTH0_DOMAIN,
+  REACT_APP_AUTH0_CLIENT_ID,
+  REACT_APP_DATADOG_CLIENT_TOKEN,
+  REACT_APP_DATADOG_APPLICATION_ID
+} = process.env
 
 ReactDOM.render(
   <React.StrictMode>
@@ -25,3 +33,30 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+datadogRum.init({
+  applicationId: REACT_APP_DATADOG_APPLICATION_ID as string,
+  clientToken: REACT_APP_DATADOG_CLIENT_TOKEN as string,
+  // `site` refers to the Datadog site parameter of your organization
+  // see https://docs.datadoghq.com/getting_started/site/
+  site: 'us3.datadoghq.com',
+  service: 'linkdrop-claim-app',
+  env: '<ENV_NAME>',
+  // Specify a version number to identify the deployed version of your application in Datadog
+  // version: '1.0.0', 
+  sessionSampleRate: 100,
+  sessionReplaySampleRate: 20,
+  trackUserInteractions: true,
+  trackResources: true,
+  trackLongTasks: true,
+  defaultPrivacyLevel: 'mask-user-input',
+  trackSessionAcrossSubdomains: true
+})
+
+datadogLogs.init({
+  clientToken: 'pubb53ed516a62131623aa027c21da2a27b',
+  site: REACT_APP_DATADOG_CLIENT_TOKEN as string,
+  forwardErrorsToLogs: true,
+  sessionSampleRate: 100,
+  trackSessionAcrossSubdomains: true
+})
