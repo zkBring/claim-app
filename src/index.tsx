@@ -54,8 +54,8 @@ datadogRum.init({
 })
 
 datadogLogs.init({
-  clientToken: 'pubb53ed516a62131623aa027c21da2a27b',
-  site: REACT_APP_DATADOG_CLIENT_TOKEN as string,
+  clientToken: REACT_APP_DATADOG_CLIENT_TOKEN as string,
+  site: 'us3.datadoghq.com',
   forwardErrorsToLogs: true,
   sessionSampleRate: 100,
   trackSessionAcrossSubdomains: true
