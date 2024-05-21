@@ -6,6 +6,10 @@ export function setStep(step: TDropStep) {
   return action(Constants.DROP_SET_STEP, { step })
 }
 
+export function setAutoclaim(autoclaim: boolean) {
+  return action(Constants.DROP_SET_AUTOCLAIM, { autoclaim })
+}
+
 export function setMultiscanStep(multiscanStep: TMultiscanStep) {
   return action(Constants.DROP_SET_MULTISCAN_STEP, { multiscanStep })
 }
