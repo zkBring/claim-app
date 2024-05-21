@@ -22,12 +22,32 @@ import { connect } from 'react-redux'
 import { switchNetwork } from 'data/store/reducers/user/async-actions'
 
 const mapStateToProps = ({
-  token: { name, image, decimals },
-  user: { address, chainId: userChainId, userProvider, email, signer },
-  drop: { tokenId, amount, type, isManual, loading, chainId, campaignId }
+  token: {
+    name,
+    image,
+    decimals
+  },
+  user: {
+    address,
+    chainId: userChainId,
+    userProvider,
+    email,
+    signer
+  },
+  drop: {
+    autoclaim,
+    tokenId,
+    amount,
+    type,
+    isManual,
+    loading,
+    chainId,
+    campaignId
+  }
 }: RootState) => ({
   name,
   image,
+  autoclaim,
   type,
   tokenId,
   amount,
@@ -94,10 +114,49 @@ const InitialScreen: FC<ReduxType> = ({
   campaignId,
   decimals,
   userProvider,
-  email
+  email,
+  autoclaim
 }) => {
 
   const system = defineSystem()
+
+  const onClaim = async () => {
+    if (Number(userChainId) !== Number(chainId) && userProvider) {
+      // @ts-ignore
+      if(window && window.ethereum && window.ethereum.isCoinbaseWallet && system !== 'desktop') {
+        if (chainId) {
+          await switchNetwork(userProvider, chainId, campaignId as string, () => {})
+        } else {
+          alert('No chain provided')
+        }
+      } else {
+        return setStep('change_network')
+      }
+    }
+
+    plausibleApi.invokeEvent({
+      eventName: 'claim_initiated',
+      data: {
+        campaignId: campaignId as string,
+      }
+    })
+
+    if (type === 'ERC1155') {
+      return claimERC1155()
+    }
+    if (type === 'ERC721') {
+      return claimERC721()
+    }
+    if (type === 'ERC20') {
+      return claimERC20()
+    }
+  }
+
+  useEffect(() => {
+    if (autoclaim) {
+      onClaim()
+    }
+  }, [])
 
   useEffect(() => {
     plausibleApi.invokeEvent({
@@ -119,37 +178,7 @@ const InitialScreen: FC<ReduxType> = ({
       loading={loading}
       appearance='action'
       title='Claim'
-      onClick={async () => {
-        if (Number(userChainId) !== Number(chainId) && userProvider) {
-          // @ts-ignore
-          if(window && window.ethereum && window.ethereum.isCoinbaseWallet && system !== 'desktop') {
-            if (chainId) {
-              await switchNetwork(userProvider, chainId, campaignId as string, () => {})
-            } else {
-              alert('No chain provided')
-            }
-          } else {
-            return setStep('change_network')
-          }
-        }
-
-        plausibleApi.invokeEvent({
-          eventName: 'claim_initiated',
-          data: {
-            campaignId: campaignId as string,
-          }
-        })
-
-        if (type === 'ERC1155') {
-          return claimERC1155()
-        }
-        if (type === 'ERC721') {
-          return claimERC721()
-        }
-        if (type === 'ERC20') {
-          return claimERC20()
-        }
-      }}
+      onClick={onClaim}
     />
   }
 
