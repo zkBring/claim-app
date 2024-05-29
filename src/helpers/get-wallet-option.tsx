@@ -23,6 +23,7 @@ const getWalletOption: TGetgetWalletOption = (
   preferedWallet
 ) => {
   const deeplink = getWalletDeeplink(walletId, system, redirectUrl, linkChainId)
+
   if (!deeplink) {
     return undefined
   }
