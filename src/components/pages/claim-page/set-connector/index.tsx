@@ -96,7 +96,10 @@ const SetConnector: FC<ReduxType> = ({
     // connect instantly if opened in Coinbase wallet
     if(window &&
       window.ethereum &&
-      window.ethereum.isCoinbaseWallet &&
+      (
+        // @ts-ignore
+        window.ethereum.isCoinbaseWallet || window.ethereum.isOneInchIOSWallet || window.ethereum.isOneInchAndroidWallet
+      ) &&
       system !== 'desktop' && 
       injected &&
       injected.ready

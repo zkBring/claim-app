@@ -122,13 +122,24 @@ const defineOptionsList = (
     icon: <WalletIcon src={ENSIcon} />
   } : undefined
 
+  const walletConnectConnector = connectors.find(connector => connector.id === "walletConnect")
+
   const walletConnectOption = {
     title: 'WalletConnect',
     onClick: () => {
-      open()
+      connect({ connector: walletConnectConnector })
     },
     icon: <WalletIcon src={WalletConnectIcon} />,
     recommended: wallet === 'walletconnect'
+  }
+
+  const wallet1InchOptionDesktop = {
+    title: '1inch',
+    onClick: () => {
+      connect({ connector: walletConnectConnector })
+    },
+    icon: <WalletIcon src={Wallet1inch} />,
+    recommended: wallet === 'wallet_1inch'
   }
 
   const crossmintOption = {
@@ -179,7 +190,8 @@ const defineOptionsList = (
       isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
       isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
       isOptionVisible(ledgerOption, wallet, 'ledger', availableWallets),
-      isOptionVisible(ensOption, wallet, 'manual_address', availableWallets)
+      isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
+      isOptionVisible(wallet1InchOptionDesktop, wallet, 'wallet_1inch', availableWallets)
     ]
 
     return sortWallets(wallets) 
