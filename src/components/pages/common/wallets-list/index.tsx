@@ -7,7 +7,6 @@ import {
   WalletIcon,
   LinkButton
 } from './styled-components'
-import { ethers } from 'ethers'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useWeb3Modal } from "@web3modal/react"
@@ -19,6 +18,7 @@ import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
+import Wallet1inch from 'images/wallet-1inch.png'
 import CrossmintIcon from 'images/crossmint-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
@@ -35,7 +35,6 @@ import LinkdropLogo from 'images/linkdrop.png'
 import LinkdropLogoLight from 'images/linkdrop-light.png'
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import TProps from './types'
-const { REACT_APP_WC_PROJECT_ID } = process.env
 
 const mapStateToProps = ({
   token: {
@@ -199,6 +198,19 @@ const defineOptionsList = (
     wallet
   )
 
+  const wallet1InchOption = getWalletOption(
+    'wallet_1inch',
+    '1inch',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={Wallet1inch} />,
+    deeplinkRedirect,
+    wallet
+  )
+
+  console.log({ wallet1InchOption })
+
   const trustOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'trust',
     'Trust Wallet',
@@ -257,6 +269,7 @@ const defineOptionsList = (
     isOptionVisible(metamaskOption, wallet, 'metamask', availableWallets),
     isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
     isOptionVisible(zerionOption, wallet, 'zerion', availableWallets),
+    isOptionVisible(wallet1InchOption, wallet, 'wallet_1inch', availableWallets),
     isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
     isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
     isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
