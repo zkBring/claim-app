@@ -1,6 +1,5 @@
 import { TSystem, TWalletOption } from 'types'
 import { detect } from 'detect-browser'
-import { Connector } from 'wagmi'
 
 type TDefineInjectedWallet = (
   wallet: string | null,
@@ -8,7 +7,7 @@ type TDefineInjectedWallet = (
   downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
   WalletIcon: JSX.Element,
-  injected?: Connector<any, any>
+  injected?:any
 ) => TWalletOption | undefined
 
 const getInjectedWalletOption: TDefineInjectedWallet = (
@@ -33,7 +32,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 
   if (system === 'desktop') {
     if (
-      !injected || !injected.ready
+      !injected
     ) {
       // has no injected
   
@@ -50,21 +49,18 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
       return undefined
     }
   
-    if (injected.ready) {
-      return {
-        title: 'Browser Wallet',
-        onClick: () => {
-          if (!injected) {
-            return alert('Cannot connect to injected')
-          }
-          connect({ connector: injected })
-        },
-        icon: walletIcon,
-        recommended: wallet === 'metamask'
-      }
+    return {
+      title: 'Browser Wallet',
+      onClick: () => {
+        if (!injected) {
+          return alert('Cannot connect to injected')
+        }
+        connect({ connector: injected })
+      },
+      icon: walletIcon,
+      recommended: wallet === 'metamask'
     }
-    
-    return undefined
+
   }
 
   if (injected && injected.ready) { // mobile

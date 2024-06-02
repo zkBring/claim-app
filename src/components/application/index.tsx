@@ -3,24 +3,20 @@ import { Provider } from 'react-redux'
 import RouterProvider from './router-provider'
 import store from 'data/store'
 import { Container } from './styled-components'
-import { Web3Modal } from "@web3modal/react"
-import { ethereumClient, wagmiConfig } from './connectors/wallet-connect'
-import { WagmiConfig } from "wagmi"
-const { REACT_APP_WC_PROJECT_ID } = process.env
+import { queryClient, config } from './connectors/wallet-connect'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { WagmiProvider } from 'wagmi'
 
-class Application extends React.Component {
-  render () {
-    return <Container>
-      <WagmiConfig config={wagmiConfig}>
-        <Provider store={store}>
-          <RouterProvider />
-        </Provider>
-      </WagmiConfig>
-      <Web3Modal
-        projectId={REACT_APP_WC_PROJECT_ID as string}
-        ethereumClient={ethereumClient}
-      />
-    </Container>
-  }
+function Application () {
+    return <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <Container>
+          <Provider store={store}>
+            <RouterProvider />
+          </Provider>
+      </Container>
+      </QueryClientProvider>
+    </WagmiProvider>
 }
+
 export default Application

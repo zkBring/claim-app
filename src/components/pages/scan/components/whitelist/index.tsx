@@ -403,6 +403,8 @@ const Scan: FC<ReduxType> = ({
   useEffect(() => {
     const init = async () => {
       if(window &&
+
+        //@ts-ignore
         window.ethereum &&
 
         // if not commented - would connect injected only for coinbase
