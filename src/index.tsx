@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './components/application'
 import reportWebVitals from './reportWebVitals'
@@ -16,20 +16,22 @@ const {
   REACT_APP_DATADOG_SITE
 } = process.env
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Auth0Provider
-      domain={REACT_APP_AUTH0_DOMAIN as string}
-      clientId={REACT_APP_AUTH0_CLIENT_ID as string}
-      authorizationParams={{
-        redirect_uri: window.location.origin
-      }}
-    >
-      <App />
-    </Auth0Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+const container = document.getElementById('root') as HTMLElement
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+
+root.render(<React.StrictMode>
+  <Auth0Provider
+    domain={REACT_APP_AUTH0_DOMAIN as string}
+    clientId={REACT_APP_AUTH0_CLIENT_ID as string}
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
+    <App />
+  </Auth0Provider>
+  </React.StrictMode>
 );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

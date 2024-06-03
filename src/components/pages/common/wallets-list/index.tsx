@@ -9,7 +9,7 @@ import {
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { useWeb3Modal } from "@web3modal/react"
+import { useWeb3Modal } from '@web3modal/wagmi/react'
 import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
@@ -101,8 +101,8 @@ const defineOptionsList = (
   type: TDropType | null,
   setStep: (step: TDropStep & TMultiscanStep) => void,
   open: (options?: any | undefined) => Promise<void>,
-  connect: (args: Partial<any> | undefined) => void,
-  connectors: Connector<any, any>[],
+  connect: any,
+  connectors: any,
   wallet: TWalletName | null,
   deeplinkRedirect: (
     deeplink: string,
@@ -122,12 +122,13 @@ const defineOptionsList = (
     icon: <WalletIcon src={ENSIcon} />
   } : undefined
 
-  const walletConnectConnector = connectors.find(connector => connector.id === "walletConnect")
+  // @ts-ignore
+  const walletConnect = connectors.find(connector => connector.id === "walletConnect")
 
   const walletConnectOption = {
     title: 'WalletConnect',
     onClick: () => {
-      connect({ connector: walletConnectConnector })
+      open()
     },
     icon: <WalletIcon src={WalletConnectIcon} />,
     recommended: wallet === 'walletconnect'
@@ -136,7 +137,7 @@ const defineOptionsList = (
   const wallet1InchOptionDesktop = {
     title: '1inch',
     onClick: () => {
-      connect({ connector: walletConnectConnector })
+      open()
     },
     icon: <WalletIcon src={Wallet1inch} />,
     recommended: wallet === 'wallet_1inch'
@@ -150,7 +151,7 @@ const defineOptionsList = (
     icon: <WalletIcon src={CrossmintIcon} />,
     recommended: wallet === 'crossmint'
   }
-
+// @ts-ignore
   const injected = connectors.find(connector => connector.id === "injected")
   const injectedOption = getInjectedWalletOption(
     wallet,
@@ -171,7 +172,9 @@ const defineOptionsList = (
   }
 
   if (system === 'desktop') {
-    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWallet")
+
+    // @ts-ignore
+    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
     const coinbaseOption = {
       title: 'Coinbase Wallet',
       onClick: () => {
@@ -220,8 +223,6 @@ const defineOptionsList = (
     deeplinkRedirect,
     wallet
   )
-
-  console.log({ wallet1InchOption })
 
   const trustOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'trust',
@@ -307,12 +308,13 @@ const WalletsList: FC<ReduxType> = ({
   type
 }) => {
   const { open } = useWeb3Modal()
+  // const open =  async () => alert('sss')
   const { connect, connectors } = useConnect()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
   const injected = connectors.find(connector => connector.id === "injected")
   const configs = defineApplicationConfig()
-
+  console.log({ connectors })
   const options = defineOptionsList(
     type,
     setStep,

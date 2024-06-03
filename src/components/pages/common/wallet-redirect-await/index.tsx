@@ -44,13 +44,13 @@ const WalletRedirectAwait: FC<ReduxType> = ({
     <PreviewImage src={Image} alt='redirect await image' />
     <TitleComponent>Continue in {wallet?.name}</TitleComponent>
     <Subtitle>You will be redirected to the wallet where you will be guided to claim {type === 'ERC20' ? 'tokens' : 'an NFT'}</Subtitle>
-    {walletDeeplink && <ButtonStyled
+    {walletDeeplink ? <ButtonStyled
       href={walletDeeplink}
       target='_blank'
       appearance='action'
     >
       Open in {wallet?.name}
-    </ButtonStyled>}
+    </ButtonStyled> : null}
     <AdditionalNoteComponent
       text='Need help? Read here how to proceed'
       position='bottom'

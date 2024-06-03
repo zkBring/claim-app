@@ -13,7 +13,9 @@ export const Subtitle = styled.h3`
   margin: 0 0 24px;
 `
 
-export const Container = styled.div`
+export const Container = styled.div<{
+  children?: React.ReactNode[]
+}>`
   text-align: center;
   max-width: 343px;
 `

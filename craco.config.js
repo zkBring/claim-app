@@ -1,13 +1,30 @@
-const path = require('path')
-const rewireBabelLoader = require("craco-babel-loader")
-const fs = require("fs")
-const appDirectory = fs.realpathSync(process.cwd());
-const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const webpack = require('webpack')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 module.exports = {
   webpack: {
-    alias: {
-      react: path.resolve('./node_modules/react')
+    plugins: [
+      new NodePolyfillPlugin(),
+      new webpack.ProvidePlugin({
+        process: 'process/browser',
+      })
+    ]
+  },
+  configure: (webpackConfig) => {
+    return {
+      ...webpackConfig,
+      resolve: {
+        ...webpackConfig.resolve,
+        fallback: {
+          ...webpackConfig.resolve.fallback,
+          assert: false,
+          crypto: false,
+          http: false,
+          https: false,
+          os: false,
+          stream: false,
+        }
+      }
     }
   },
   babel: {

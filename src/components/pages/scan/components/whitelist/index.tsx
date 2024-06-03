@@ -403,14 +403,15 @@ const Scan: FC<ReduxType> = ({
   useEffect(() => {
     const init = async () => {
       if(window &&
+
+        //@ts-ignore
         window.ethereum &&
 
         // if not commented - would connect injected only for coinbase
         // window.ethereum.isCoinbaseWallet &&
         // if not commented - would connect injected only for coinbase
         system !== 'desktop' &&
-        injected &&
-        injected.ready
+        injected
       ) {
         connect({ connector: injected })
         setIsInjected(true)
