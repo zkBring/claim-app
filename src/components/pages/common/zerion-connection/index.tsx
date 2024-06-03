@@ -12,7 +12,7 @@ import {
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import ZerionLogo from 'images/zerion.png'
-// import AuthClient, { generateNonce } from "@walletconnect/auth-client"
+import AuthClient, { generateNonce } from "@walletconnect/auth-client"
 import { defineSystem } from 'helpers'
 import { Dispatch } from 'redux'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
@@ -60,7 +60,7 @@ const defineUrlHref = () => {
 }
 
 const defineButton = (
-  // setClient: (client: AuthClient) => void,
+  setClient: (client: AuthClient) => void,
   updateUserData: (
     address: string,
     chainId: number,
@@ -68,43 +68,43 @@ const defineButton = (
   ) => void,
   callback?: (address?: string) => void
 ) => {
-  // return <ScreenButton
-  //   appearance='action'
-  //   onClick={async () => {
-  //     const authClient = await AuthClient.init({
-  //       projectId: REACT_APP_WC_PROJECT_ID as string,
-  //       metadata: {
-  //         name: "Linkdrop",
-  //         description: "A dapp using WalletConnect AuthClient",
-  //         url: window.location.host,
-  //         icons: ["/zerion.png"],
-  //       }
-  //     })
+  return <ScreenButton
+    appearance='action'
+    onClick={async () => {
+      const authClient = await AuthClient.init({
+        projectId: REACT_APP_WC_PROJECT_ID as string,
+        metadata: {
+          name: "Linkdrop",
+          description: "A dapp using WalletConnect AuthClient",
+          url: window.location.host,
+          icons: ["/zerion.png"],
+        }
+      })
 
-  //     setClient(authClient)
-  //     authClient.on("auth_response", ({ params }) => {
-  //       // @ts-ignore
-  //       const validResponse = Boolean(params && params.result && params.result.p)
-  //       if (validResponse) {
-  //         // @ts-ignore
-  //         const { iss } = params.result.p
-  //         const walletData = iss.split(":")
-  //         const walletAddress = walletData[4]
-  //         const walletChainId = walletData[3]
-  //         updateUserData(
-  //           walletAddress,
-  //           walletChainId,
-  //           callback
-  //         )
-  //       } else {
-  //         // @ts-ignore
-  //         console.error(params.message)
-  //       }
-  //     })
-  //   }
-  // }>
-  //   Use Zerion
-  // </ScreenButton>
+      setClient(authClient)
+      authClient.on("auth_response", ({ params }) => {
+        // @ts-ignore
+        const validResponse = Boolean(params && params.result && params.result.p)
+        if (validResponse) {
+          // @ts-ignore
+          const { iss } = params.result.p
+          const walletData = iss.split(":")
+          const walletAddress = walletData[4]
+          const walletChainId = walletData[3]
+          updateUserData(
+            walletAddress,
+            walletChainId,
+            callback
+          )
+        } else {
+          // @ts-ignore
+          console.error(params.message)
+        }
+      })
+    }
+  }>
+    Use Zerion
+  </ScreenButton>
   
 }
 
@@ -126,56 +126,54 @@ const ZerionConnection: FC<ReduxType & TProps> = ({
   type,
   setStepCallback
 }) => {
-  // const [ client, setClient ] = useState<AuthClient | null>()
-  // const [ loading, setLoading ] = useState<boolean>(false)
-  // const handleUpdateUser = (
-  //   address: string,
-  //   chainId: number
-  // ) => {
-  //   updateUserData(
-  //     address,
-  //     chainId,
-  //     () => setStepCallback && setStepCallback(address)
-  //   )
-  // }
-  // useEffect(() => {
-  //   if (!client) { return }
-  //   client
-  //     .request({
-  //       aud: window.location.href,
-  //       domain: window.location.hostname.split(".").slice(-2).join("."),
-  //       chainId: `eip155:${chainId as number}`,
-  //       nonce: generateNonce(),
-  //       statement: "Sign in with Zerion Wallet"
-  //     })
-  //     .then(({ uri }) => {
-  //       if (!uri) { return }
-  //       setLoading(true)
-  //       const href = `zerion://wc?uri=${encodeURIComponent(uri)}`
-  //       window.location.href = href
-  //     })
-  //     .catch(err => {
-  //       setLoading(false)
-  //     })
-  // }, [client])
+  const [ client, setClient ] = useState<AuthClient | null>()
+  const [ loading, setLoading ] = useState<boolean>(false)
+  const handleUpdateUser = (
+    address: string,
+    chainId: number
+  ) => {
+    updateUserData(
+      address,
+      chainId,
+      () => setStepCallback && setStepCallback(address)
+    )
+  }
+  useEffect(() => {
+    if (!client) { return }
+    client
+      .request({
+        aud: window.location.href,
+        domain: window.location.hostname.split(".").slice(-2).join("."),
+        chainId: `eip155:${chainId as number}`,
+        nonce: generateNonce(),
+        statement: "Sign in with Zerion Wallet"
+      })
+      .then(({ uri }) => {
+        if (!uri) { return }
+        setLoading(true)
+        const href = `zerion://wc?uri=${encodeURIComponent(uri)}`
+        window.location.href = href
+      })
+      .catch(err => {
+        setLoading(false)
+      })
+  }, [client])
 
-  // if (loading) {  
-  //   return <ScreenLoader onClose={() => {
-  //     setLoading(false)
-  //   }}/>
-  // }
-  // return <Container> 
-  //   {renderTexts(type as TDropType)}
-  //   {defineButton(
-  //     setClient,
-  //     handleUpdateUser,
-  //     setStepCallback
-  //   )}
-  //   <Hr />
-  //   <AdditionalTextComponent>Once you approve the connection with your wallet, return to this page to claim {type === 'ERC20' ? 'tokens' : 'the NFT'}.</AdditionalTextComponent>
-  // </Container>
-
-  return null
+  if (loading) {  
+    return <ScreenLoader onClose={() => {
+      setLoading(false)
+    }}/>
+  }
+  return <Container> 
+    {renderTexts(type as TDropType)}
+    {defineButton(
+      setClient,
+      handleUpdateUser,
+      setStepCallback
+    )}
+    <Hr />
+    <AdditionalTextComponent>Once you approve the connection with your wallet, return to this page to claim {type === 'ERC20' ? 'tokens' : 'the NFT'}.</AdditionalTextComponent>
+  </Container>
 }
 
 export default connect(mapStateToProps, mapDispatcherToProps)(ZerionConnection)

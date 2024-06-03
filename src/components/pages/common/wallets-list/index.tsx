@@ -150,7 +150,6 @@ const defineOptionsList = (
   }
 // @ts-ignore
   const injected = connectors.find(connector => connector.id === "injected")
-  console.log({ injected })
   const injectedOption = getInjectedWalletOption(
     wallet,
     system,
@@ -159,8 +158,6 @@ const defineOptionsList = (
     <WalletIcon src={BrowserWalletIcon} />,
     injected
   )
-
-  console.log({ injectedOption })
 
   const ledgerOption = {
     title: 'LedgerLive',
@@ -223,8 +220,6 @@ const defineOptionsList = (
     deeplinkRedirect,
     wallet
   )
-
-  console.log({ wallet1InchOption })
 
   const trustOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'trust',
