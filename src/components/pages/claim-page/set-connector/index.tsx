@@ -105,8 +105,7 @@ const SetConnector: FC<ReduxType> = ({
         window.ethereum.isCoinbaseWallet || window.ethereum.isOneInchIOSWallet || window.ethereum.isOneInchAndroidWallet
       ) &&
       system !== 'desktop' && 
-      injected &&
-      injected.ready
+      injected
     ) {
       return connect({ connector: injected })
     } else {
@@ -145,7 +144,6 @@ const SetConnector: FC<ReduxType> = ({
         if (
           !address &&
           injected &&
-          injected.ready &&
           system !== 'desktop' &&
           injected.name !== 'Brave Wallet'
         ) {

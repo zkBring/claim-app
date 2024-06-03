@@ -11,7 +11,6 @@ async function switchNetwork (
   campaignId: string,
   callback: () => void
 ) {
-  console.log({ chainId: toHex(chainId) })
   try {
     await provider.request({
       method: 'wallet_switchEthereumChain',

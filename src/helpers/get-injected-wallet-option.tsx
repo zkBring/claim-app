@@ -63,7 +63,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 
   }
 
-  if (injected && injected.ready) { // mobile
+  if (injected) { // mobile
     return {
       title: 'Injected',
       onClick: () => {

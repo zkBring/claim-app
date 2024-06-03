@@ -411,8 +411,7 @@ const Scan: FC<ReduxType> = ({
         // window.ethereum.isCoinbaseWallet &&
         // if not commented - would connect injected only for coinbase
         system !== 'desktop' &&
-        injected &&
-        injected.ready
+        injected
       ) {
         connect({ connector: injected })
         setIsInjected(true)

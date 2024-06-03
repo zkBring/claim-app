@@ -1,13 +1,20 @@
 import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import { WagmiProvider } from 'wagmi'
-import { mainnet, polygon, sepolia, base, baseGoerli } from 'wagmi/chains'
+import {
+  mainnet,
+  polygon,
+  sepolia,
+  base,
+  baseGoerli,
+  polygonMumbai
+} from 'wagmi/chains'
 import { http } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 // import { metamaskConfig } from './metamask-connect'
 // import { coinbaseConfig } from './coinbase-connector'
 
-import { injected, metaMask, safe, walletConnect } from 'wagmi/connectors'
+import { injected, walletConnect } from 'wagmi/connectors'
 
 const { REACT_APP_WC_PROJECT_ID } = process.env
 
@@ -25,7 +32,15 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
-const chains = [ mainnet, polygon, sepolia, base, baseGoerli ] as const
+const chains = [
+  mainnet,
+  polygon,
+  sepolia,
+  base,
+  baseGoerli,
+  polygonMumbai
+] as const
+
 const config = defaultWagmiConfig({
   chains,
   projectId,
@@ -38,6 +53,9 @@ const config = defaultWagmiConfig({
     [mainnet.id]: http(),
     [sepolia.id]: http(),
     [polygon.id]: http(),
+    [base.id]: http(),
+    [baseGoerli.id]: http(),
+    [polygonMumbai.id]: http(),
   },
 })
 

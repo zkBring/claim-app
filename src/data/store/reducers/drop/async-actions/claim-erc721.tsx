@@ -92,8 +92,6 @@ export default function claimERC721(
       return alert(`wallet is not provided`)
     }
 
-    console.log('here')
-
     if (!address) {
       if (manualAddress) {
         const jsonRpcUrl = defineJSONRpcUrl({ chainId: 1, infuraPk: REACT_APP_INFURA_ID })
