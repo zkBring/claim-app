@@ -18,7 +18,7 @@ import { useConnect } from 'wagmi'
 import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
-// import { useWeb3Modal } from "@web3modal/react"
+import { useWeb3Modal } from "@web3modal/react"
 
 const mapStateToProps = ({
   token: { name, image, decimals, },
@@ -77,8 +77,7 @@ const SetConnector: FC<ReduxType> = ({
   availableWallets
 }) => {
   const { connect, connectors } = useConnect()
-  // const { open } = useWeb3Modal()
-  const open =  async () => alert('sss')
+  const { open } = useWeb3Modal()
 
   const injected = connectors.find(connector => connector.id === 'injected')
   const system = defineSystem()

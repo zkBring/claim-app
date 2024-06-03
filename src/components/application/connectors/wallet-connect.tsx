@@ -26,9 +26,9 @@ const projectId = REACT_APP_WC_PROJECT_ID as string
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: 'Web3Modal',
-  description: 'Web3Modal Example',
-  url: 'https://web3modal.com', // origin must match your domain & subdomain
+  name: 'Linkdrop Claim App',
+  description: 'Linkdrop Claim App',
+  url: 'https://linkdrop.io', // origin must match your domain & subdomain
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
@@ -46,8 +46,10 @@ const config = defaultWagmiConfig({
   projectId,
   metadata,
   connectors: [
-    injected(),
-    walletConnect({ projectId }),
+    walletConnect({
+      projectId
+    }),
+    injected()
   ],
   transports: {
     [mainnet.id]: http(),
@@ -64,7 +66,6 @@ createWeb3Modal({
   wagmiConfig: config,
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
-  enableOnramp: true, // Optional - false as default
 })
 
 

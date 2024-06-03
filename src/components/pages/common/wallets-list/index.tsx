@@ -122,6 +122,9 @@ const defineOptionsList = (
     icon: <WalletIcon src={ENSIcon} />
   } : undefined
 
+  // @ts-ignore
+  const walletConnect = connectors.find(connector => connector.id === "walletConnect")
+
   const walletConnectOption = {
     title: 'WalletConnect',
     onClick: () => {
