@@ -1344,32 +1344,32 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
-"@datadog/browser-core@5.19.0":
-  version "5.19.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-5.19.0.tgz#53e9686e56908b7a38930c27948f9584250fa470"
-  integrity sha512-fFva0D6KRuG1eeNziAEOq3prJpBm3yGOgkMA6FwKP/jelUWVa14oFSvSmV8EBUUCI4HgDOK8XY51C0IPyTQILw==
+"@datadog/browser-core@5.20.0":
+  version "5.20.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-5.20.0.tgz#75274aacbd30354e4ca8de495fdec0f737248dee"
+  integrity sha512-L6GBde9ahUaELExsR9ypPlHiL67rrL+GByupOC7B/tykvu/rMr61URhvPayGODqHMLzTtmeRUYHNO1KICchdOA==
 
 "@datadog/browser-logs@^5.18.0":
-  version "5.19.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-logs/-/browser-logs-5.19.0.tgz#f650eeec92e34973116da25fcf97d213ca57661e"
-  integrity sha512-Fc1uFsJRBxjoAKlxgOIAZCemDCLuMmG7vMlnAh4pQ1hyLOybOAPngafe97TJa+VCCuZPnU7a/ii22ibLUt3eqw==
+  version "5.20.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-logs/-/browser-logs-5.20.0.tgz#88b38e6e3c77dc34bd817c056f3ef55f71b62e52"
+  integrity sha512-J+7nKqwA69HCcESMVQ9UJO/LnmtVkjidbJgvi14Z6vy9JkdEo0wm9+5Pf6Z0LTEvduF7FfOOrtg9l66I1KGKRA==
   dependencies:
-    "@datadog/browser-core" "5.19.0"
+    "@datadog/browser-core" "5.20.0"
 
-"@datadog/browser-rum-core@5.19.0":
-  version "5.19.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-5.19.0.tgz#9e43c8ffbb19b8243b1b293455e54038dbe806bd"
-  integrity sha512-QRXx42POMkc/TsI40PrUsu02+X0qVMUqVAHTuyqcq0A8Bt2aISnsPwsUk0cY4PNMINxhGshBFeAqEJ7l0otSNQ==
+"@datadog/browser-rum-core@5.20.0":
+  version "5.20.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-5.20.0.tgz#75a4ec6e6753dbebc413dab40a5b0c5f6d527b52"
+  integrity sha512-5xiAESkSHEUodMzuRRKT7bd1OVWDmruCpxcdlk2VP9BaYeqNxIRLHSrMh83mPTHFvWbqLmAvRoUp9Gi2cpjS8A==
   dependencies:
-    "@datadog/browser-core" "5.19.0"
+    "@datadog/browser-core" "5.20.0"
 
 "@datadog/browser-rum@^5.18.0":
-  version "5.19.0"
-  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-5.19.0.tgz#278b410d10848b047082f036c769e2595f5b39c2"
-  integrity sha512-2s2ovOqNF7YnwqIlAS6VI0H58fcSvxNE2OHmrzWFWOhgH8Sl8fy1OtXrY6rjmEA9aLQOmfNPr1XzrOfPvJkcbg==
+  version "5.20.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-rum/-/browser-rum-5.20.0.tgz#c20e9e98e69e76ab67e86248f767e0d7950e27f0"
+  integrity sha512-UOH6l/mWPzkoYkL6n+/6/H1fCbjtgRc9HXWCAYRPiO10bn8PLeh0nLDw0AVsC287RDIz2JtqgwDjUvFDg8deLw==
   dependencies:
-    "@datadog/browser-core" "5.19.0"
-    "@datadog/browser-rum-core" "5.19.0"
+    "@datadog/browser-core" "5.20.0"
+    "@datadog/browser-rum-core" "5.20.0"
 
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
@@ -1484,9 +1484,9 @@
     eslint-visitor-keys "^3.3.0"
 
 "@eslint-community/regexpp@^4.4.0", "@eslint-community/regexpp@^4.6.1":
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/@eslint-community/regexpp/-/regexpp-4.10.0.tgz#548f6de556857c8bb73bbee70c35dc82a2e74d63"
-  integrity sha512-Cu96Sd2By9mCNTx2iyKOmq10v22jUVQv0lQnlGNy16oE9589yE+QADPbrMGCkA51cKZSg3Pu/aTJVTGfL/qjUA==
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/@eslint-community/regexpp/-/regexpp-4.10.1.tgz#361461e5cb3845d874e61731c11cfedd664d83a0"
+  integrity sha512-Zm2NGpWELsQAD1xsJzGQpYfvICSsFkEpU0jxBjfdC6uNEWXcHnfs9hScFWtXVDVl+rBQJGrl4g1vcKIejpH9dA==
 
 "@eslint/eslintrc@^2.1.4":
   version "2.1.4"
@@ -8780,9 +8780,9 @@ iterator.prototype@^1.1.2:
     set-function-name "^2.0.1"
 
 jackspeak@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/jackspeak/-/jackspeak-3.1.2.tgz#eada67ea949c6b71de50f1b09c92a961897b90ab"
-  integrity sha512-kWmLKn2tRtfYMF/BakihVVRzBKOxz4gJMiL2Rj91WnAB5TPZumSH99R/Yf1qE1u4uRimvCSJfm6hnxohXeEXjQ==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/jackspeak/-/jackspeak-3.2.0.tgz#54e5abaa1c673bace97873d0599f3dab0e22b850"
+  integrity sha512-eXIwN9gutMuB1AMW241gIHSEeaSMafWnxWXb/JGYWqifway4QgqBJLl7nYlmhGrxnHQ3wNc/QYFZ95aDtHHzpA==
   dependencies:
     "@isaacs/cliui" "^8.0.2"
   optionalDependencies:

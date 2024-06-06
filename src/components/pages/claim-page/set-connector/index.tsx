@@ -79,7 +79,9 @@ const SetConnector: FC<ReduxType> = ({
   const { connect, connectors } = useConnect()
   const { open } = useWeb3Modal()
 
+
   const injected = connectors.find(connector => connector.id === 'injected')
+
   const system = defineSystem()
   const [ initialized, setInitialized ] = useState<boolean>(false)
 
@@ -143,6 +145,7 @@ const SetConnector: FC<ReduxType> = ({
         if (
           !address &&
           injected &&
+          window.ethereum &&
           system !== 'desktop' &&
           injected.name !== 'Brave Wallet'
         ) {

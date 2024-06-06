@@ -14,7 +14,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 // import { metamaskConfig } from './metamask-connect'
 // import { coinbaseConfig } from './coinbase-connector'
 
-import { injected, walletConnect } from 'wagmi/connectors'
+import { injected, walletConnect, coinbaseWallet } from 'wagmi/connectors'
 
 const { REACT_APP_WC_PROJECT_ID } = process.env
 
@@ -45,11 +45,15 @@ const config = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
+  enableEmail: true,
   connectors: [
     walletConnect({
-      projectId
+      projectId,
+      metadata,
+      showQrModal: false
     }),
-    injected()
+    injected(),
+    coinbaseWallet()
   ],
   transports: {
     [mainnet.id]: http(),

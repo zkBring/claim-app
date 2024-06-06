@@ -32,7 +32,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 
   if (system === 'desktop') {
     if (
-      !injected
+      !injected || !window.ethereum
     ) {
       // has no injected
   
@@ -48,22 +48,26 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
     if (browser?.name === 'safari') {
       return undefined
     }
-  
-    return {
-      title: 'Browser Wallet',
-      onClick: () => {
-        if (!injected) {
-          return alert('Cannot connect to injected')
-        }
-        connect({ connector: injected })
-      },
-      icon: walletIcon,
-      recommended: wallet === 'metamask'
+
+    if (window.ethereum) {
+      return {
+        title: 'Browser Wallet',
+        onClick: () => {
+          if (!injected) {
+            return alert('Cannot connect to injected')
+          }
+          connect({ connector: injected })
+        },
+        icon: walletIcon,
+        recommended: wallet === 'metamask'
+      }
     }
+  
+    return undefined
 
   }
 
-  if (injected) { // mobile
+  if (injected && window.ethereum) { // mobile
     return {
       title: 'Injected',
       onClick: () => {
