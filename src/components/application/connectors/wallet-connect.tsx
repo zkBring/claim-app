@@ -45,11 +45,14 @@ const config = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
+  enableEmail: true,
   connectors: [
     walletConnect({
-      projectId
+      projectId,
+      metadata,
+      showQrModal: false
     }),
-    injected()
+    // injected()
   ],
   transports: {
     [mainnet.id]: http(),
