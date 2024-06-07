@@ -8,6 +8,7 @@ import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { alertError, defineJSONRpcUrl } from 'helpers'
 import { TDropType, TPreviewSetting } from 'types'
 import * as asyncActionsDrop from './'
+import axios from 'axios'
 const { REACT_APP_INFURA_ID } = process.env
 
 export default function getCampaignData(
@@ -20,8 +21,8 @@ export default function getCampaignData(
   ) => {
     dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
-    const campaignData = await getMultiQRCampaignData(multiscanQRId)
     try {
+      const campaignData = await getMultiQRCampaignData(multiscanQRId)
       if (campaignData.data.success) {
         const {
           campaign: {
@@ -94,7 +95,15 @@ export default function getCampaignData(
       }
 
     } catch (err) {
-      alertError('Some error occured. Please check console')
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 404) {
+          dispatch(actionsDrop.setError('qr_not_found'))
+        } else {
+          dispatch(actionsDrop.setError('qr_error'))
+        }
+      } else {
+        dispatch(actionsDrop.setError('qr_error'))
+      }
       console.error({ err })
     }
     dispatch(actionsDrop.setLoading(false))

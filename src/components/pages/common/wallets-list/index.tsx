@@ -7,10 +7,9 @@ import {
   WalletIcon,
   LinkButton
 } from './styled-components'
-import { ethers } from 'ethers'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { useWeb3Modal } from "@web3modal/react"
+import { useWeb3Modal } from '@web3modal/wagmi/react'
 import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
@@ -19,6 +18,7 @@ import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import WalletConnectIcon from 'images/walletconnect-wallet.png'
+import Wallet1inch from 'images/wallet-1inch.png'
 import CrossmintIcon from 'images/crossmint-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect, Connector } from 'wagmi'
@@ -35,7 +35,6 @@ import LinkdropLogo from 'images/linkdrop.png'
 import LinkdropLogoLight from 'images/linkdrop-light.png'
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import TProps from './types'
-const { REACT_APP_WC_PROJECT_ID } = process.env
 
 const mapStateToProps = ({
   token: {
@@ -102,8 +101,8 @@ const defineOptionsList = (
   type: TDropType | null,
   setStep: (step: TDropStep & TMultiscanStep) => void,
   open: (options?: any | undefined) => Promise<void>,
-  connect: (args: Partial<any> | undefined) => void,
-  connectors: Connector<any, any>[],
+  connect: any,
+  connectors: any,
   wallet: TWalletName | null,
   deeplinkRedirect: (
     deeplink: string,
@@ -123,6 +122,9 @@ const defineOptionsList = (
     icon: <WalletIcon src={ENSIcon} />
   } : undefined
 
+  // @ts-ignore
+  const walletConnect = connectors.find(connector => connector.id === "walletConnect")
+
   const walletConnectOption = {
     title: 'WalletConnect',
     onClick: () => {
@@ -130,6 +132,15 @@ const defineOptionsList = (
     },
     icon: <WalletIcon src={WalletConnectIcon} />,
     recommended: wallet === 'walletconnect'
+  }
+
+  const wallet1InchOptionDesktop = {
+    title: '1inch',
+    onClick: () => {
+      open()
+    },
+    icon: <WalletIcon src={Wallet1inch} />,
+    recommended: wallet === 'wallet_1inch'
   }
 
   const crossmintOption = {
@@ -140,7 +151,7 @@ const defineOptionsList = (
     icon: <WalletIcon src={CrossmintIcon} />,
     recommended: wallet === 'crossmint'
   }
-
+// @ts-ignore
   const injected = connectors.find(connector => connector.id === "injected")
   const injectedOption = getInjectedWalletOption(
     wallet,
@@ -161,7 +172,9 @@ const defineOptionsList = (
   }
 
   if (system === 'desktop') {
-    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWallet")
+
+    // @ts-ignore
+    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
     const coinbaseOption = {
       title: 'Coinbase Wallet',
       onClick: () => {
@@ -180,7 +193,8 @@ const defineOptionsList = (
       isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
       isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
       isOptionVisible(ledgerOption, wallet, 'ledger', availableWallets),
-      isOptionVisible(ensOption, wallet, 'manual_address', availableWallets)
+      isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
+      isOptionVisible(wallet1InchOptionDesktop, wallet, 'wallet_1inch', availableWallets)
     ]
 
     return sortWallets(wallets) 
@@ -195,6 +209,17 @@ const defineOptionsList = (
     window.location.href, 
     chainId,
     <WalletIcon src={MetamaskIcon} />,
+    deeplinkRedirect,
+    wallet
+  )
+
+  const wallet1InchOption = getWalletOption(
+    'wallet_1inch',
+    '1inch',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={Wallet1inch} />,
     deeplinkRedirect,
     wallet
   )
@@ -257,6 +282,7 @@ const defineOptionsList = (
     isOptionVisible(metamaskOption, wallet, 'metamask', availableWallets),
     isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
     isOptionVisible(zerionOption, wallet, 'zerion', availableWallets),
+    isOptionVisible(wallet1InchOption, wallet, 'wallet_1inch', availableWallets),
     isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
     isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
     isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
@@ -282,12 +308,12 @@ const WalletsList: FC<ReduxType> = ({
   type
 }) => {
   const { open } = useWeb3Modal()
+  // const open =  async () => alert('sss')
   const { connect, connectors } = useConnect()
   const [ showPopup, setShowPopup ] = useState<boolean>(false)
   const system = defineSystem()
   const injected = connectors.find(connector => connector.id === "injected")
   const configs = defineApplicationConfig()
-
   const options = defineOptionsList(
     type,
     setStep,

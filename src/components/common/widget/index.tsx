@@ -3,6 +3,7 @@ import { WidgetContainer, WidgetBody } from './styled-components'
 
 type TProps = {
   image?: React.ReactNode
+  children?: React.ReactNode
 }
 
 const Widget: FC<TProps> = ({ children, image }) => {

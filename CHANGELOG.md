@@ -1,5 +1,11 @@
 # Linkdrop Claim app
 
+## 2.2.24
+- added new version of sdk
+- web3Modal update
+- wagmi update
+- 1inch wallet added
+
 ## 2.2.23
 - added countries whitelist support
 

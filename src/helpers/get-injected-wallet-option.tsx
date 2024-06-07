@@ -1,6 +1,5 @@
 import { TSystem, TWalletOption } from 'types'
 import { detect } from 'detect-browser'
-import { Connector } from 'wagmi'
 
 type TDefineInjectedWallet = (
   wallet: string | null,
@@ -8,7 +7,7 @@ type TDefineInjectedWallet = (
   downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
   WalletIcon: JSX.Element,
-  injected?: Connector<any, any>
+  injected?:any
 ) => TWalletOption | undefined
 
 const getInjectedWalletOption: TDefineInjectedWallet = (
@@ -33,7 +32,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 
   if (system === 'desktop') {
     if (
-      !injected || !injected.ready
+      !injected || !window.ethereum
     ) {
       // has no injected
   
@@ -49,8 +48,8 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
     if (browser?.name === 'safari') {
       return undefined
     }
-  
-    if (injected.ready) {
+
+    if (window.ethereum) {
       return {
         title: 'Browser Wallet',
         onClick: () => {
@@ -63,11 +62,12 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
         recommended: wallet === 'metamask'
       }
     }
-    
+  
     return undefined
+
   }
 
-  if (injected && injected.ready) { // mobile
+  if (injected && window.ethereum) { // mobile
     return {
       title: 'Injected',
       onClick: () => {

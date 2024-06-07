@@ -202,6 +202,40 @@ const wallets: TWallets = {
       }
     },
   },
+  ledger: {
+    id: 'ledger',
+    name: 'Ledger Live',
+    walletURL: 'https://www.ledger.com/ledger-live',
+    dappStoreUrl: null,
+    mobile: {
+      android: {
+        support: false,
+        deepLink: (url: string) => null
+      },
+      ios: {
+        support: false,
+        deepLink: (url: string) => null
+      }
+    },
+    chains: [1, 5, 137, 8453, 84531]
+  },
+  wallet_1inch: {
+    id: 'wallet_1inch',
+    name: '1inch',
+    walletURL: 'https://app.1inch.io/',
+    dappStoreUrl: null,
+    mobile: {
+      android: {
+        support: true,
+        deepLink: (url: string) => `https://wallet.1inch.io/app/w3browser?link=${encodeURIComponent(url)}`
+      },
+      ios: {
+        support: true,
+        deepLink: (url: string) => `https://wallet.1inch.io/app/w3browser?link=${encodeURIComponent(url)}`
+      }
+    },
+    chains: [1, 5, 137, 8453, 80001, 84531]
+  },
 }
 
 export default wallets

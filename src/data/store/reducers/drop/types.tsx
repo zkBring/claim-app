@@ -14,6 +14,7 @@ import {
 export interface DropState {
   step: TDropStep
   multiscanStep: TMultiscanStep
+  autoclaim: boolean
   loading: boolean
   chainId: number | null
   tokenAddress: string | null

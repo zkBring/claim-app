@@ -1,8 +1,8 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import {
   UserAddress
 } from './styled-components'
-
+import { Loader } from 'components/common'
 import {
   Container,
   Image,
@@ -38,8 +38,15 @@ const EligibleToClaim: FC<ReduxType> = ({
   multiscanLinkDecrypted
 }) => {
   const history = useHistory()
+  useEffect(() => {
+    if (!multiscanLinkDecrypted) {
+      return alertError('Link is not available')
+    }
+    history.push(multiscanLinkDecrypted.split('#')[1])
+  }, [])
   return <Container>
-    <Image src={EligibleToClaimImage}/>
+    <Loader />
+    {/* <Image src={EligibleToClaimImage}/>
     <Title>You are eligible to claim</Title>
     <Subtitle>All great, <UserAddress>{shortenString(address)}</UserAddress> is eligible to claim a digital asset</Subtitle>
     <ButtonStyled
@@ -52,7 +59,7 @@ const EligibleToClaim: FC<ReduxType> = ({
       appearance='action'
     >
       Proceed
-    </ButtonStyled>
+    </ButtonStyled> */}
   </Container>
 }
 

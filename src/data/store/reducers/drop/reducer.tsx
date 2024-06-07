@@ -9,6 +9,7 @@ const initialState: DropState = {
   tokenAddress: null,
   tokenId: null,
   amount: null,
+  autoclaim: false,
   hash: null,
   type: null,
   title: null,
@@ -45,6 +46,8 @@ export function dropReducer(
     switch (action.type) {
       case Constants.DROP_SET_STEP:
         return {...state, step: action.payload.step }
+      case Constants.DROP_SET_AUTOCLAIM:
+        return {...state, autoclaim: action.payload.autoclaim }
       case Constants.DROP_SET_MULTISCAN_STEP:
         return {...state, multiscanStep: action.payload.multiscanStep }
       case Constants.DROP_SET_CHAIN_ID:
