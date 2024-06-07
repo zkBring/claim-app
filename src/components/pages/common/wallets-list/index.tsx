@@ -314,7 +314,6 @@ const WalletsList: FC<ReduxType> = ({
   const system = defineSystem()
   const injected = connectors.find(connector => connector.id === "injected")
   const configs = defineApplicationConfig()
-  console.log({ connectors })
   const options = defineOptionsList(
     type,
     setStep,
