@@ -48,7 +48,7 @@ const mapStateToProps = ({
     chainId,
     isManual,
     campaignId,
-    availableWallets
+    availableWallets,
   }
 }: RootState) => ({
   name,
@@ -111,6 +111,7 @@ const defineOptionsList = (
   isManual: boolean,
   chainId: number,
   availableWallets: string[],
+  claimCode: string,
   enableENS?: boolean,
   enableZerion?: boolean
 ) => {
@@ -211,6 +212,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={MetamaskIcon} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -233,6 +235,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={Wallet1inch} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -244,6 +247,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={TrustWalletIcon} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -264,6 +268,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={RainbowWalletIcon} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -275,6 +280,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={ImtokenWalletIcon} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -300,6 +306,7 @@ const WalletsList: FC<ReduxType> = ({
   setStep,
   wallet,
   chainId,
+  claimCode,
   isManual,
   campaignId,
   deeplinkRedirect,
@@ -326,6 +333,7 @@ const WalletsList: FC<ReduxType> = ({
     isManual,
     chainId as number,
     availableWallets,
+    claimCode,
     enableENS,
     enableZerion
   )

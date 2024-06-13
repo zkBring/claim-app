@@ -1,14 +1,16 @@
 
-import { Dispatch } from 'redux';
+import { Dispatch } from 'redux'
 import { DropActions } from '../types'
 import * as actionsDrop from '../actions'
 import * as asyncActionsDrop from '.'
 import axios, { AxiosError } from 'axios'
 import { IAppDispatch } from 'data/store'
 import { plausibleApi } from 'data/api'
+import { TSystem } from 'types'
 
 export default function getLinkFromURL(
   linkCode: string,
+  system: TSystem,
   callback: (location: string) => void
 ) {
   return async (
@@ -18,6 +20,7 @@ export default function getLinkFromURL(
     try {
       await dispatch(asyncActionsDrop.getLinkByCode(
         linkCode,
+        system,
         callback
       ))
     } catch (err: any | AxiosError) {
