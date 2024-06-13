@@ -171,10 +171,11 @@ const defineOptionsList = (
     recommended: wallet === 'ledger'
   }
 
-  if (system === 'desktop') {
+  // @ts-ignore
+  const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+ 
 
-    // @ts-ignore
-    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+  if (system === 'desktop') {
     const coinbaseOption = {
       title: 'Coinbase Wallet',
       onClick: () => {
@@ -186,7 +187,7 @@ const defineOptionsList = (
       icon: <WalletIcon src={CoinabseWalletIcon} />,
       recommended: wallet === 'coinbase_wallet'
     }
-
+  
     const wallets = [
       isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
       isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
@@ -213,6 +214,17 @@ const defineOptionsList = (
     wallet
   )
 
+  const coinbaseOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'coinbase_wallet',
+    'Coinbase Wallet',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={CoinabseWalletIcon} />,
+    deeplinkRedirect,
+    wallet
+  )
+
   const wallet1InchOption = getWalletOption(
     'wallet_1inch',
     '1inch',
@@ -231,17 +243,6 @@ const defineOptionsList = (
     window.location.href, 
     chainId,
     <WalletIcon src={TrustWalletIcon} />,
-    deeplinkRedirect,
-    wallet
-  )
-
-  const coinbaseOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
-    'coinbase_wallet',
-    'Coinbase Wallet',
-    system,
-    window.location.href, 
-    chainId,
-    <WalletIcon src={CoinabseWalletIcon} />,
     deeplinkRedirect,
     wallet
   )
