@@ -173,20 +173,21 @@ const defineOptionsList = (
 
   // @ts-ignore
   const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
-  const coinbaseOption = {
-    title: 'Coinbase Wallet',
-    onClick: () => {
-      if (!coinbaseConnector) {
-        return alert('Cannot connect to Coinbase connector')
-      }
-      connect({ connector: coinbaseConnector })
-    },
-    icon: <WalletIcon src={CoinabseWalletIcon} />,
-    recommended: wallet === 'coinbase_wallet'
-  }
+ 
 
   if (system === 'desktop') {
-
+    const coinbaseOption = {
+      title: 'Coinbase Wallet',
+      onClick: () => {
+        if (!coinbaseConnector) {
+          return alert('Cannot connect to Coinbase connector')
+        }
+        connect({ connector: coinbaseConnector })
+      },
+      icon: <WalletIcon src={CoinabseWalletIcon} />,
+      recommended: wallet === 'coinbase_wallet'
+    }
+  
     const wallets = [
       isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
       isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
@@ -209,6 +210,17 @@ const defineOptionsList = (
     window.location.href, 
     chainId,
     <WalletIcon src={MetamaskIcon} />,
+    deeplinkRedirect,
+    wallet
+  )
+
+  const coinbaseOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'coinbase_wallet',
+    'Coinbase Wallet',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={CoinabseWalletIcon} />,
     deeplinkRedirect,
     wallet
   )

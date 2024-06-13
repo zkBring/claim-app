@@ -10,7 +10,12 @@ import {
 import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { shortenString, defineSystem, getWalletDeeplink } from 'helpers'
+import {
+  shortenString,
+  defineSystem,
+  getWalletDeeplink,
+  defineApplicationConfig
+} from 'helpers'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
@@ -19,6 +24,8 @@ import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { useWeb3Modal } from "@web3modal/react"
+
+const config = defineApplicationConfig()
 
 const mapStateToProps = ({
   token: { name, image, decimals, },
@@ -114,6 +121,9 @@ const SetConnector: FC<ReduxType> = ({
     }
   }, [])
 
+  const tokenTitle = config.primaryText || name
+  const tokenDescription = config.primaryDescription || 'Here is a preview of the NFT you’re about to receive'
+
   const content = type === 'ERC20' ? <ERC20TokenPreview
     name={name}
     image={image as string}
@@ -123,9 +133,9 @@ const SetConnector: FC<ReduxType> = ({
   /> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
     <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
-    <TitleComponent>{name}</TitleComponent>
+    <TitleComponent>{tokenTitle}</TitleComponent>
     <TextComponent>
-      Here is a preview of the NFT you’re about to receive
+      {tokenDescription}
     </TextComponent>
   </>
 
