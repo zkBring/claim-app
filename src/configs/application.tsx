@@ -1,6 +1,7 @@
 import LinkdropLogo from 'images/linkdrop.png'
 import LumasLogo from 'images/lumas.png'
 import AlphemyLogo from 'images/alphemy.png'
+import WeddingImage from 'images/wedding.png'
 
 type TApplicationParams = {
   highlightColor: string
@@ -12,6 +13,9 @@ type TApplicationParams = {
   highlightHoverColor: string
   highlightActiveColor: string
   footerLogoStyle: 'dark' | 'light'
+  primaryText?: string
+  primaryDescription?: string
+  tokenImage?: string
   claimFinishedButton?: {
     title: string
     url: string
@@ -61,10 +65,32 @@ const alphemyParams: TApplicationParams = {
   }
 }
 
+const weddingParams: TApplicationParams = {
+  highlightColor: '#0C5EFF',
+  primaryTextColor: '#121212',
+  footerLogoStyle: 'dark',
+  additionalTextColor: '#9D9D9D',
+  secondaryTextColor: '#FFF',
+  logo: LinkdropLogo,
+  backgroundColor: '#F7F7FB',
+  highlightHoverColor: '#357AFF',
+  highlightActiveColor: '#095AF5',
+
+  primaryText: 'I love you, onchain',
+  primaryDescription: 'Tap to claim an onchain memento of our wedding, as well as 0.001 ETH on Base to get your started exploring onchain.',
+  tokenImage: WeddingImage,
+
+  claimFinishedButton: {
+    title: 'More wedding info',
+    url: 'https://withjoy.com/jesse-and-sara/welcome'
+  }
+}
+
 const applicationParams: TConfig = {
   linkdrop: originalParams,
   lumas: lumasParams,
-  alphemy: alphemyParams
+  alphemy: alphemyParams,
+  wedding: weddingParams
 }
 
 

@@ -1,8 +1,16 @@
 import { ERC1155Contract } from 'abi'
 import { getERC1155TokenData } from 'data/api'
 import { ethers } from 'ethers'
-import { getValidImage, getAlchemyTokenImage, createAlchemyInstance, IPFSRedefineUrl } from 'helpers'
+import {
+  getValidImage,
+  getAlchemyTokenImage,
+  createAlchemyInstance,
+  IPFSRedefineUrl,
+  defineApplicationConfig
+} from 'helpers'
+
 import tokenPlaceholder from 'images/token-placeholder.png'
+const config = defineApplicationConfig()
 
 type TTokenERC1155Data = { name: string, image: string, description: string }
 type TGetTokenERC1155Data = (provider: any, tokenAddress: string, tokenId: string, chainId: number | null) => Promise<TTokenERC1155Data>
@@ -14,7 +22,7 @@ const getTokenData: TGetTokenERC1155Data = async (provider, tokenAddress, tokenI
       throw new Error('No Alchemy instance is created')
     }
     const tokenData = await alchemy.nft.getNftMetadata(tokenAddress, tokenId)
-    const image = await getAlchemyTokenImage(tokenData)
+    const image = config.tokenImage || await getAlchemyTokenImage(tokenData)
     return { name: tokenData.title || 'ERC1155 Token', image, description: tokenData.description }
   } catch (err) {
     try {
@@ -23,7 +31,7 @@ const getTokenData: TGetTokenERC1155Data = async (provider, tokenAddress, tokenI
       
       actualUrl = IPFSRedefineUrl(actualUrl, tokenId)
       const tokenData = await getERC1155TokenData(actualUrl, tokenId)
-      const image = await getValidImage(tokenData.data.animation_url || tokenData.data.image)
+      const image = config.tokenImage || await getValidImage(tokenData.data.animation_url || tokenData.data.image)
       return {
         ...tokenData.data,
         image
@@ -32,7 +40,11 @@ const getTokenData: TGetTokenERC1155Data = async (provider, tokenAddress, tokenI
       // @ts-ignore
       // alert(Object.keys(e.transaction).join(', '))
       console.log({ e })
-      return { name: 'ERC1155 Token', image: tokenPlaceholder, description: '' }
+      return {
+        name: 'ERC1155 Token',
+        image: config.tokenImage || tokenPlaceholder,
+        description: ''
+      }
     }
   }
 }

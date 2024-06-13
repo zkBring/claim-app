@@ -15,11 +15,16 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { TDropStep, TDropType } from 'types'
-import { shortenString, defineSystem } from 'helpers'
+import {
+  shortenString,
+  defineSystem,
+  defineApplicationConfig
+} from 'helpers'
 import { plausibleApi } from 'data/api'
 import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
 import { connect } from 'react-redux'
 import { switchNetwork } from 'data/store/reducers/user/async-actions'
+const config = defineApplicationConfig()
 
 const mapStateToProps = ({
   token: {
@@ -183,6 +188,7 @@ const InitialScreen: FC<ReduxType> = ({
   }
 
   const addressPreview = <UserAddress>{email ? email : shortenString(address, 3)}</UserAddress>
+  const tokenTitle = config.primaryText || name
 
   const content = type === 'ERC20' ? <>
     <ERC20TokenPreview
@@ -198,7 +204,7 @@ const InitialScreen: FC<ReduxType> = ({
   </> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
     <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
-    <TitleComponent>{name}</TitleComponent>
+    <TitleComponent>{tokenTitle}</TitleComponent>
     <TextComponent>
       Here is a preview of the NFT you’re about to receive to: {addressPreview}
     </TextComponent>
