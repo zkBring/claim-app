@@ -78,12 +78,7 @@ const weddingParams: TApplicationParams = {
 
   primaryText: 'I love you, onchain',
   primaryDescription: 'Tap to claim an onchain memento of our wedding, as well as 0.001 ETH on Base to get your started exploring onchain.',
-  tokenImage: WeddingImage,
-
-  claimFinishedButton: {
-    title: 'More wedding info',
-    url: 'https://withjoy.com/jesse-and-sara/welcome'
-  }
+  tokenImage: WeddingImage
 }
 
 const applicationParams: TConfig = {
