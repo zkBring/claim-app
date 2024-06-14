@@ -6,9 +6,11 @@ import * as asyncActionsDrop from '.'
 import axios, { AxiosError } from 'axios'
 import { IAppDispatch } from 'data/store'
 import { plausibleApi } from 'data/api'
+import { TSystem } from 'types';
 
 export default function getLinkFromInput(
   linkCode: string,
+  system: TSystem,
   callback: (location: string) => void
 ) {
   return async (
@@ -18,6 +20,7 @@ export default function getLinkFromInput(
     try {
       const link = await dispatch(asyncActionsDrop.getLinkByCode(
         linkCode,
+        system,
         callback
       ))
       plausibleApi.invokeEvent({
