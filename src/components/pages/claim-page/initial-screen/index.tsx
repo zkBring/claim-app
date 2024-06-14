@@ -8,6 +8,7 @@ import {
   TextComponent,
   UserAddress
 } from './styled-components'
+import { useConnect } from 'wagmi'
 import { RootState, IAppDispatch } from 'data/store'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
@@ -125,13 +126,35 @@ const InitialScreen: FC<ReduxType> = ({
 }) => {
 
   const system = defineSystem()
+  const { connectors } = useConnect()
 
   const onClaim = async () => {
     if (Number(userChainId) !== Number(chainId) && userProvider) {
       // @ts-ignore
-      if(window && window.ethereum && window.ethereum.isCoinbaseWallet && system !== 'desktop') {
+
+      const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+      const isAuthorized = await coinbaseConnector?.isAuthorized()
+      if (isAuthorized) {
+        await switchNetwork(userProvider, chainId as number, campaignId as string, () => {
+          if (type === 'ERC1155') {
+            return claimERC1155()
+          }
+          if (type === 'ERC721') {
+            return claimERC721()
+          }
+          if (type === 'ERC20') {
+            return claimERC20()
+          }
+        })
+      }
+      if(
+        window &&
+        window.ethereum &&
+        window.ethereum.isCoinbaseWallet &&
+        system !== 'desktop'
+      ) {
         if (chainId) {
-          await switchNetwork(userProvider, chainId, campaignId as string, () => {})
+          await switchNetwork(userProvider, chainId as number, campaignId as string, () => {})
         } else {
           alert('No chain provided')
         }
