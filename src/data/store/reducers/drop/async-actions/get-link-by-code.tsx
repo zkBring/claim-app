@@ -53,20 +53,22 @@ export default function getLinkByCode(
         available_wallets
       } : TLinkParams = data
 
-      if (system === 'android' || system === 'ios') {
-        if (
-          available_wallets &&
-          available_wallets.length === 1 &&
-          available_wallets[0] === 'coinbase_wallet'
-        ) {
-          const defineRedirectUrl = COINBASE_CLAIM_URL
-            .replace('<CODE>', linkCode)
-            .replace('<CHAIN_ID>', String(chain_id))
-            .replace('<VERSION>', '3')
-          window.location.href = defineRedirectUrl
-          // alert('REDIRECT SHOULD BE HERE')
-        }
-      }
+
+      // disabled for now
+      // if (system === 'android' || system === 'ios') {
+      //   if (
+      //     available_wallets &&
+      //     available_wallets.length === 1 &&
+      //     available_wallets[0] === 'coinbase_wallet'
+      //   ) {
+      //     const defineRedirectUrl = COINBASE_CLAIM_URL
+      //       .replace('<CODE>', linkCode)
+      //       .replace('<CHAIN_ID>', String(chain_id))
+      //       .replace('<VERSION>', '3')
+      //     window.location.href = defineRedirectUrl
+      //     // alert('REDIRECT SHOULD BE HERE')
+      //   }
+      // }
       
 
       dispatch(actionsDrop.setChainId(Number(chain_id)))

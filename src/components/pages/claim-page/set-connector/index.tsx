@@ -24,6 +24,7 @@ import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { useWeb3Modal } from "@web3modal/react"
+const { REACT_APP_CLIENT} = process.env
 
 const config = defineApplicationConfig()
 
@@ -85,8 +86,6 @@ const SetConnector: FC<ReduxType> = ({
 }) => {
   const { connect, connectors } = useConnect()
   const { open } = useWeb3Modal()
-
-
   const injected = connectors.find(connector => connector.id === 'injected')
 
   const system = defineSystem()
@@ -104,18 +103,38 @@ const SetConnector: FC<ReduxType> = ({
 
   useEffect(() => {
     // connect instantly if opened in Coinbase wallet
-    if(window &&
 
+    if(window &&
       //@ts-ignore
       window.ethereum &&
-      (
-        // @ts-ignore
-        window.ethereum.isCoinbaseWallet || window.ethereum.isOneInchIOSWallet || window.ethereum.isOneInchAndroidWallet
-      ) &&
-      system !== 'desktop' && 
-      injected
+      system !== 'desktop'
     ) {
-      return connect({ connector: injected })
+      if (window.ethereum.isCoinbaseWallet) {
+        if (availableWallets.length === 1) {
+          if (availableWallets[0] === 'coinbase_wallet') {
+            const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+            if (coinbaseConnector) {
+              return connect({ connector: coinbaseConnector })
+            } else {
+              setInitialized(true)
+            }
+          } else {
+            setInitialized(true)
+          }
+        } else {
+          setInitialized(true)
+        }
+      } else if (injected) {
+        if (
+          window.ethereum.isOneInchIOSWallet || window.ethereum.isOneInchAndroidWallet
+        ) {
+          return connect({ connector: injected })
+        } else {
+          setInitialized(true)
+        }
+      } else {
+        setInitialized(true)
+      }
     } else {
       setInitialized(true)
     }
@@ -132,6 +151,8 @@ const SetConnector: FC<ReduxType> = ({
     status='initial'
   /> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
+
+
     <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
     <TitleComponent>{tokenTitle}</TitleComponent>
     <TextComponent>

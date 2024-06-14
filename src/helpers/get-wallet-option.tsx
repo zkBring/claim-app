@@ -26,21 +26,22 @@ const getWalletOption: TGetgetWalletOption = (
   preferedWallet
 ) => {
 
-  if (walletId === 'coinbase_wallet') {
-    const defineRedirectUrl = COINBASE_CLAIM_URL
-      .replace('<CODE>', linkCode)
-      .replace('<CHAIN_ID>', String(linkChainId))
-      .replace('<VERSION>', '3')
+  // disable for now
+  // if (walletId === 'coinbase_wallet') {
+  //   const defineRedirectUrl = COINBASE_CLAIM_URL
+  //     .replace('<CODE>', linkCode)
+  //     .replace('<CHAIN_ID>', String(linkChainId))
+  //     .replace('<VERSION>', '3')
     
-    return {
-      title: walletName,
-      onClick: () => {
-        deeplinkRedirect(defineRedirectUrl, walletId)
-      },
-      icon,
-      recommended: preferedWallet === walletId
-    }
-  }
+  //   return {
+  //     title: walletName,
+  //     onClick: () => {
+  //       deeplinkRedirect(defineRedirectUrl, walletId)
+  //     },
+  //     icon,
+  //     recommended: preferedWallet === walletId
+  //   }
+  // }
 
   const deeplink = getWalletDeeplink(walletId, system, redirectUrl, linkChainId)
 
