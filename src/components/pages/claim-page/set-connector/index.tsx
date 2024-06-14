@@ -97,7 +97,13 @@ const SetConnector: FC<ReduxType> = ({
   }, [])
 
   useEffect(() => {
-    // connect instantly if opened in Coinbase wallet
+    if (
+      availableWallets.length === 1 &&
+      availableWallets[0] === 'coinbase_wallet'
+    ) {
+      return setInitialized(true)
+    }
+
     if(window &&
 
       //@ts-ignore
@@ -159,6 +165,13 @@ const SetConnector: FC<ReduxType> = ({
           availableWallets.includes(wallet) &&
           availableWallets.length === 1
         ) {
+          if (wallet === 'coinbase_wallet') {
+            const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+            if (coinbaseConnector) {
+              return connect({ connector: coinbaseConnector })
+            }
+          }
+
           if (
             wallet !== 'walletconnect' &&
             wallet !== 'manual_address' &&
@@ -179,13 +192,8 @@ const SetConnector: FC<ReduxType> = ({
             return setStep('crossmint_connection')
           } else if (wallet === 'manual_address') {
             return setStep('set_address')
-          } else if (wallet === 'coinbase_wallet') {
-            const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
-            if (coinbaseConnector) {
-              return connect({ connector: coinbaseConnector })
-            }
           }
-        } 
+        }
 
         setStep('choose_wallet')
       }

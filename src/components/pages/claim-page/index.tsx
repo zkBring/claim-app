@@ -45,6 +45,7 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
+const { REACT_APP_CLIENT } = process.env
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -260,7 +261,9 @@ const ClaimPage: FC<ReduxType> = ({
           chainId,
           connector,
           signer,
-          () => setStep('initial')
+          () => {
+            setStep('initial')
+          }
         )
       }
     }
