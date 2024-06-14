@@ -10,12 +10,7 @@ import {
 import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import {
-  shortenString,
-  defineSystem,
-  getWalletDeeplink,
-  defineApplicationConfig
-} from 'helpers'
+import { shortenString, defineSystem, getWalletDeeplink } from 'helpers'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
@@ -24,9 +19,7 @@ import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { useWeb3Modal } from "@web3modal/react"
-const { REACT_APP_CLIENT} = process.env
-
-const config = defineApplicationConfig()
+const { REACT_APP_CLIENT } = process.env
 
 const mapStateToProps = ({
   token: { name, image, decimals, },
@@ -86,6 +79,8 @@ const SetConnector: FC<ReduxType> = ({
 }) => {
   const { connect, connectors } = useConnect()
   const { open } = useWeb3Modal()
+
+
   const injected = connectors.find(connector => connector.id === 'injected')
 
   const system = defineSystem()
@@ -103,45 +98,22 @@ const SetConnector: FC<ReduxType> = ({
 
   useEffect(() => {
     // connect instantly if opened in Coinbase wallet
-
     if(window &&
+
       //@ts-ignore
       window.ethereum &&
-      system !== 'desktop'
+      (
+        // @ts-ignore
+        window.ethereum.isCoinbaseWallet || window.ethereum.isOneInchIOSWallet || window.ethereum.isOneInchAndroidWallet
+      ) &&
+      system !== 'desktop' && 
+      injected
     ) {
-      if (window.ethereum.isCoinbaseWallet) {
-        if (availableWallets.length === 1) {
-          if (availableWallets[0] === 'coinbase_wallet') {
-            const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
-            if (coinbaseConnector) {
-              return connect({ connector: coinbaseConnector })
-            } else {
-              setInitialized(true)
-            }
-          } else {
-            setInitialized(true)
-          }
-        } else {
-          setInitialized(true)
-        }
-      } else if (injected) {
-        if (
-          window.ethereum.isOneInchIOSWallet || window.ethereum.isOneInchAndroidWallet
-        ) {
-          return connect({ connector: injected })
-        } else {
-          setInitialized(true)
-        }
-      } else {
-        setInitialized(true)
-      }
+      return connect({ connector: injected })
     } else {
       setInitialized(true)
     }
   }, [])
-
-  const tokenTitle = config.primaryText || name
-  const tokenDescription = config.primaryDescription || 'Here is a preview of the NFT you’re about to receive'
 
   const content = type === 'ERC20' ? <ERC20TokenPreview
     name={name}
@@ -151,12 +123,10 @@ const SetConnector: FC<ReduxType> = ({
     status='initial'
   /> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
-
-
-    <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
-    <TitleComponent>{tokenTitle}</TitleComponent>
+    {(REACT_APP_CLIENT as string) !== 'wedding' && <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>}
+    <TitleComponent>{name}</TitleComponent>
     <TextComponent>
-      {tokenDescription}
+      Here is a preview of the NFT you’re about to receive
     </TextComponent>
   </>
 
@@ -209,8 +179,12 @@ const SetConnector: FC<ReduxType> = ({
             return setStep('crossmint_connection')
           } else if (wallet === 'manual_address') {
             return setStep('set_address')
+          } else if (wallet === 'coinbase_wallet') {
+            const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+            if (coinbaseConnector) {
+              return connect({ connector: coinbaseConnector })
+            }
           }
-
         } 
 
         setStep('choose_wallet')
