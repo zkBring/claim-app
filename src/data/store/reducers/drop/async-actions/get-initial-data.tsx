@@ -65,8 +65,6 @@ export default function getData(
         )
       }
 
-      
-
       if (Number(expirationTime) < +new Date()) {
         dispatch(actionsDrop.setLoading(false))
         plausibleApi.invokeEvent({
