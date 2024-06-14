@@ -24,6 +24,7 @@ import { plausibleApi } from 'data/api'
 import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
 import { connect } from 'react-redux'
 import { switchNetwork } from 'data/store/reducers/user/async-actions'
+const { REACT_APP_CLIENT} = process.env
 const config = defineApplicationConfig()
 
 const mapStateToProps = ({
@@ -203,7 +204,7 @@ const InitialScreen: FC<ReduxType> = ({
     </TextComponent>
   </> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
-    <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
+    {(REACT_APP_CLIENT as string) !== 'wedding' && <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>}
     <TitleComponent>{tokenTitle}</TitleComponent>
     <TextComponent>
       Here is a preview of the NFT you’re about to receive to: {addressPreview}

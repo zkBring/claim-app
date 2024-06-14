@@ -10,12 +10,7 @@ import {
 import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import {
-  shortenString,
-  defineSystem,
-  getWalletDeeplink,
-  defineApplicationConfig
-} from 'helpers'
+import { shortenString, defineSystem, getWalletDeeplink } from 'helpers'
 import * as dropActions from 'data/store/reducers/drop/actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
@@ -24,8 +19,7 @@ import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { useWeb3Modal } from "@web3modal/react"
-
-const config = defineApplicationConfig()
+const { REACT_APP_CLIENT } = process.env
 
 const mapStateToProps = ({
   token: { name, image, decimals, },
@@ -103,7 +97,13 @@ const SetConnector: FC<ReduxType> = ({
   }, [])
 
   useEffect(() => {
-    // connect instantly if opened in Coinbase wallet
+    if (
+      availableWallets.length === 1 &&
+      availableWallets[0] === 'coinbase_wallet'
+    ) {
+      return setInitialized(true)
+    }
+
     if(window &&
 
       //@ts-ignore
@@ -121,9 +121,6 @@ const SetConnector: FC<ReduxType> = ({
     }
   }, [])
 
-  const tokenTitle = config.primaryText || name
-  const tokenDescription = config.primaryDescription || 'Here is a preview of the NFT you’re about to receive'
-
   const content = type === 'ERC20' ? <ERC20TokenPreview
     name={name}
     image={image as string}
@@ -132,10 +129,10 @@ const SetConnector: FC<ReduxType> = ({
     status='initial'
   /> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
-    <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>
-    <TitleComponent>{tokenTitle}</TitleComponent>
+    {(REACT_APP_CLIENT as string) !== 'wedding' && <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>}
+    <TitleComponent>{name}</TitleComponent>
     <TextComponent>
-      {tokenDescription}
+      Here is a preview of the NFT you’re about to receive
     </TextComponent>
   </>
 
@@ -168,6 +165,13 @@ const SetConnector: FC<ReduxType> = ({
           availableWallets.includes(wallet) &&
           availableWallets.length === 1
         ) {
+          if (wallet === 'coinbase_wallet') {
+            const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+            if (coinbaseConnector) {
+              return connect({ connector: coinbaseConnector })
+            }
+          }
+
           if (
             wallet !== 'walletconnect' &&
             wallet !== 'manual_address' &&
@@ -189,8 +193,7 @@ const SetConnector: FC<ReduxType> = ({
           } else if (wallet === 'manual_address') {
             return setStep('set_address')
           }
-
-        } 
+        }
 
         setStep('choose_wallet')
       }

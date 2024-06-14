@@ -48,7 +48,7 @@ const mapStateToProps = ({
     chainId,
     isManual,
     campaignId,
-    availableWallets
+    availableWallets,
   }
 }: RootState) => ({
   name,
@@ -111,6 +111,7 @@ const defineOptionsList = (
   isManual: boolean,
   chainId: number,
   availableWallets: string[],
+  claimCode: string,
   enableENS?: boolean,
   enableZerion?: boolean
 ) => {
@@ -173,21 +174,18 @@ const defineOptionsList = (
 
   // @ts-ignore
   const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
- 
-
+  const coinbaseOption = {
+    title: 'Coinbase Wallet',
+    onClick: () => {
+      if (!coinbaseConnector) {
+        return alert('Cannot connect to Coinbase connector')
+      }
+      connect({ connector: coinbaseConnector })
+    },
+    icon: <WalletIcon src={CoinabseWalletIcon} />,
+    recommended: wallet === 'coinbase_wallet'
+  }
   if (system === 'desktop') {
-    const coinbaseOption = {
-      title: 'Coinbase Wallet',
-      onClick: () => {
-        if (!coinbaseConnector) {
-          return alert('Cannot connect to Coinbase connector')
-        }
-        connect({ connector: coinbaseConnector })
-      },
-      icon: <WalletIcon src={CoinabseWalletIcon} />,
-      recommended: wallet === 'coinbase_wallet'
-    }
-  
     const wallets = [
       isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
       isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
@@ -211,17 +209,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={MetamaskIcon} />,
     deeplinkRedirect,
-    wallet
-  )
-
-  const coinbaseOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
-    'coinbase_wallet',
-    'Coinbase Wallet',
-    system,
-    window.location.href, 
-    chainId,
-    <WalletIcon src={CoinabseWalletIcon} />,
-    deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -233,6 +221,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={Wallet1inch} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -244,6 +233,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={TrustWalletIcon} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -264,6 +254,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={RainbowWalletIcon} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -275,6 +266,7 @@ const defineOptionsList = (
     chainId,
     <WalletIcon src={ImtokenWalletIcon} />,
     deeplinkRedirect,
+    claimCode,
     wallet
   )
 
@@ -300,6 +292,7 @@ const WalletsList: FC<ReduxType> = ({
   setStep,
   wallet,
   chainId,
+  claimCode,
   isManual,
   campaignId,
   deeplinkRedirect,
@@ -326,6 +319,7 @@ const WalletsList: FC<ReduxType> = ({
     isManual,
     chainId as number,
     availableWallets,
+    claimCode as string,
     enableENS,
     enableZerion
   )
