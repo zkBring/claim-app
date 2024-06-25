@@ -111,7 +111,7 @@ type TDefineStep = (
   setAddressCallback: (address: string) => void
 ) => ReactElement
 
-  const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => {
+const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => {
   switch (step) {
     case 'initial':
       return <InitialScreen />

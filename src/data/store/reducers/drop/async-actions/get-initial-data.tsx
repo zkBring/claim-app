@@ -21,9 +21,18 @@ export default function getData(
     dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch,
     getState: () => RootState
   ) => {
+
+    const {
+      drop: {
+        campaignId
+      }
+    } = getState()
     
     try {
       dispatch(actionsDrop.setLoading(true))
+      if (campaignId === "1718718328066") {
+        alert('GET_INITIAL_DATA_1')
+      }  
 
       await dispatch(asyncActionsUser.initialize(
         onReload,
@@ -32,7 +41,9 @@ export default function getData(
         userChainId,
         userAddress
       ))
-
+      if (campaignId === "1718718328066") {
+        alert('GET_INITIAL_DATA_2')
+      }
       const {
         user: {
           provider,
@@ -47,7 +58,6 @@ export default function getData(
           expirationTime,
           tokenId,
           type,
-          campaignId,
           claimCode
         }
       } = getState()
@@ -55,6 +65,9 @@ export default function getData(
       if (
         type && linkTokenAddress && linkChainId
       ) {
+        if (campaignId === "1718718328066") {
+          alert('GET_INITIAL_DATA_3')
+        }
         await asyncActionsDrop.getTokenData(
           type,
           linkTokenAddress,
@@ -63,6 +76,10 @@ export default function getData(
           provider,
           dispatch
         )
+        if (campaignId === "1718718328066") {
+
+          alert('GET_INITIAL_DATA_4')
+        }
       }
 
       if (Number(expirationTime) < +new Date()) {
@@ -79,9 +96,17 @@ export default function getData(
 
       if (isClaimed) {
         dispatch(actionsDrop.setLoading(false))
+        if (campaignId === "1718718328066") {
+
+          alert('GET_INITIAL_DATA_5')
+        }
         const status = await sdk?.getLinkStatus(claimCode)
         if (status?.txHash) {
           dispatch(actionsDrop.setHash(status.txHash))
+        }
+        if (campaignId === "1718718328066") {
+
+          alert('GET_INITIAL_DATA_6')
         }
         return dispatch(actionsDrop.setStep('already_claimed'))
       }
@@ -96,6 +121,10 @@ export default function getData(
     } catch (
       error: any
     ) {
+      if (campaignId === "1718718328066") {
+        alert('ERROR2')
+        alert( error.statusCode)
+      }
       console.log(error, error.statusCode)
     }
   }
