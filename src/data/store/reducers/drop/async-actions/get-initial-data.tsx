@@ -30,7 +30,7 @@ export default function getData(
     
     try {
       dispatch(actionsDrop.setLoading(true))
-      if (campaignId === "1718718328066") {
+      if (campaignId === "1719334012456") {
         alert('GET_INITIAL_DATA_1')
       }  
 
@@ -41,7 +41,7 @@ export default function getData(
         userChainId,
         userAddress
       ))
-      if (campaignId === "1718718328066") {
+      if (campaignId === "1719334012456") {
         alert('GET_INITIAL_DATA_2')
       }
       const {
@@ -65,7 +65,7 @@ export default function getData(
       if (
         type && linkTokenAddress && linkChainId
       ) {
-        if (campaignId === "1718718328066") {
+        if (campaignId === "1719334012456") {
           alert('GET_INITIAL_DATA_3')
         }
         await asyncActionsDrop.getTokenData(
@@ -76,7 +76,7 @@ export default function getData(
           provider,
           dispatch
         )
-        if (campaignId === "1718718328066") {
+        if (campaignId === "1719334012456") {
 
           alert('GET_INITIAL_DATA_4')
         }
@@ -96,7 +96,7 @@ export default function getData(
 
       if (isClaimed) {
         dispatch(actionsDrop.setLoading(false))
-        if (campaignId === "1718718328066") {
+        if (campaignId === "1719334012456") {
 
           alert('GET_INITIAL_DATA_5')
         }
@@ -104,7 +104,7 @@ export default function getData(
         if (status?.txHash) {
           dispatch(actionsDrop.setHash(status.txHash))
         }
-        if (campaignId === "1718718328066") {
+        if (campaignId === "1719334012456") {
 
           alert('GET_INITIAL_DATA_6')
         }
@@ -121,7 +121,8 @@ export default function getData(
     } catch (
       error: any
     ) {
-      if (campaignId === "1718718328066") {
+      
+      if (campaignId === "1719334012456") {
         alert('ERROR2')
         alert(error.statusCode)
         alert(error.status)

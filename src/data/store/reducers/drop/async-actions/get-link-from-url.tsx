@@ -30,7 +30,7 @@ export default function getLinkFromURL(
         callback
       ))
     } catch (err: any | AxiosError) {
-      if (campaignId === "1718718328066") {
+      if (campaignId === "1719334012456") {
         alert('ERROR1')
         alert(err.message)
       }
