@@ -4,7 +4,7 @@ import { DropActions } from '../types'
 import * as actionsDrop from '../actions'
 import * as asyncActionsDrop from '.'
 import axios, { AxiosError } from 'axios'
-import { IAppDispatch } from 'data/store'
+import { IAppDispatch, RootState } from 'data/store'
 import { plausibleApi } from 'data/api'
 import { TSystem } from 'types'
 
@@ -14,9 +14,15 @@ export default function getLinkFromURL(
   callback: (location: string) => void
 ) {
   return async (
-    dispatch: Dispatch<DropActions> & IAppDispatch
+    dispatch: Dispatch<DropActions> & IAppDispatch,
+    getState: () => RootState
   ) => {
     dispatch(actionsDrop.setError(null))
+    const {
+      drop: {
+        campaignId
+      }
+    } = getState()
     try {
       await dispatch(asyncActionsDrop.getLinkByCode(
         linkCode,
@@ -24,6 +30,10 @@ export default function getLinkFromURL(
         callback
       ))
     } catch (err: any | AxiosError) {
+      if (campaignId === "1718718328066") {
+        alert('ERROR1')
+        alert(err.message)
+      }
       if (axios.isAxiosError(err)) {
         if (err.message === 'Network Error') {
           if (!window.navigator.onLine) {
