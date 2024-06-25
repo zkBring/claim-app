@@ -123,7 +123,10 @@ export default function getData(
     ) {
       if (campaignId === "1718718328066") {
         alert('ERROR2')
-        alert( error.statusCode)
+        alert(error.statusCode)
+        alert(error.status)
+        alert(error.code)
+        alert(error.message)
       }
       console.log(error, error.statusCode)
     }

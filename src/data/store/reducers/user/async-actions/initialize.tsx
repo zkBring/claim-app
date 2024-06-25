@@ -58,8 +58,17 @@ const initialize = (
       return alert('campaignId of link is not provided in store')
     }
 
+    if (campaignId === "1718718328066") {
+      alert('INITIALIZE_1')
+    }
     const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(linkChainId), infuraPk: REACT_APP_INFURA_ID })
+    if (campaignId === "1718718328066") {
+      alert('INITIALIZE_2')
+    }
     const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
+    if (campaignId === "1718718328066") {
+      alert('INITIALIZE_3')
+    }
     dispatch(actions.setProvider(provider))
 
     const claimed = await checkIfClaimed(
@@ -69,6 +78,9 @@ const initialize = (
       linkdropMasterAddress,
       campaignId
     )
+    if (campaignId === "1718718328066") {
+      alert('INITIALIZE_4')
+    }
 
     if (claimed) {
       dispatch(actionsDrop.setIsClaimed(claimed))
