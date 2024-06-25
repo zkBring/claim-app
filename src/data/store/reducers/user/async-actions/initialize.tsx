@@ -92,10 +92,11 @@ const initialize = (
       dispatch(actions.setHasConnector(true))
       dispatch(actions.setAddress(userAddress))
       dispatch(actions.setChainId(userChainId))
-
-      const provider = await connector.getProvider()
+      if (connector.getProvider) {
+        const provider = await connector.getProvider()
+        dispatch(actions.setUserProvider(provider))
+      }
       
-      dispatch(actions.setUserProvider(provider))
       dispatch(actions.setSigner(signer))
     }
 
