@@ -28,8 +28,10 @@ const updateUserData = (
       dispatch(userActions.setAddress(address))
       dispatch(userActions.setChainId(chainId))
       if (connector) {
-        const provider = await connector.getProvider()
-        dispatch(userActions.setUserProvider(provider))
+        if (connector.getProvider) {
+          const provider = await connector.getProvider()
+          dispatch(userActions.setUserProvider(provider))
+        }
       }
       if (signer) {
         dispatch(userActions.setSigner(signer))
