@@ -30,10 +30,6 @@ export default function getLinkFromURL(
         callback
       ))
     } catch (err: any | AxiosError) {
-      if (campaignId === "1719334012456") {
-        alert('ERROR1')
-        alert(err.message)
-      }
       if (axios.isAxiosError(err)) {
         if (err.message === 'Network Error') {
           if (!window.navigator.onLine) {

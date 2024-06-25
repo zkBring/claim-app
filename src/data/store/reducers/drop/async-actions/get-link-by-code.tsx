@@ -90,10 +90,6 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setAvailableWallets(available_wallets || []))
       dispatch(actionsDrop.setLinkKey(linkKey))
 
-      if (campaign_number === "1719334012456") {
-        alert("SUCCESS")
-      }
-
       // if (available_wallets.length === 1 && available_wallets[0] === 'coinbase_wallet') {
       //   dispatch(actionsDrop.setAutoclaim(true))
       // }
