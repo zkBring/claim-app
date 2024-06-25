@@ -90,7 +90,7 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setAvailableWallets(available_wallets || []))
       dispatch(actionsDrop.setLinkKey(linkKey))
 
-      if (campaign_number === "1718718328066") {
+      if (campaign_number === "1719334012456") {
         alert("SUCCESS")
       }
 
