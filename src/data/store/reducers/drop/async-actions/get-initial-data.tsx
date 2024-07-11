@@ -21,10 +21,15 @@ export default function getData(
     dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch,
     getState: () => RootState
   ) => {
+
+    const {
+      drop: {
+        campaignId
+      }
+    } = getState()
     
     try {
       dispatch(actionsDrop.setLoading(true))
-
       await dispatch(asyncActionsUser.initialize(
         onReload,
         connector,
@@ -32,7 +37,6 @@ export default function getData(
         userChainId,
         userAddress
       ))
-
       const {
         user: {
           provider,
@@ -47,7 +51,6 @@ export default function getData(
           expirationTime,
           tokenId,
           type,
-          campaignId,
           claimCode
         }
       } = getState()

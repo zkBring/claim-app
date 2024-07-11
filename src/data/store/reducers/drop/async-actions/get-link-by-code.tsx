@@ -50,6 +50,7 @@ export default function getLinkByCode(
         claiming_finished_description,
         claiming_finished_button_title, 
         claiming_finished_button_url,
+        claiming_finished_button_on,
         available_wallets
       } : TLinkParams = data
 
@@ -95,7 +96,11 @@ export default function getLinkByCode(
       // }
 
     
-      if (claiming_finished_button_title && claiming_finished_button_url) {
+      if (
+        claiming_finished_button_title &&
+        claiming_finished_button_url &&
+        claiming_finished_button_on
+      ) {
         dispatch(actionsDrop.setClaimingFinishedButtonTitle(claiming_finished_button_title))
         dispatch(actionsDrop.setClaimingFinishedButtonURL(claiming_finished_button_url))
       }
