@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { 
   TitleComponent,
   ButtonsContainer,
-  ScreenButton,
   TokenImageLarge,
   TokenImageContainer,
   DoneIcon,
@@ -50,7 +49,6 @@ const mapStateToProps = ({
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
-
 
 const defineTitle = (type: TDropType | null, email?: string, claiming_finished_description?: string) => {
   if (claiming_finished_description) { return claiming_finished_description }
