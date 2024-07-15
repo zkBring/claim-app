@@ -95,6 +95,12 @@ export default function getLinkByCode(
       //   dispatch(actionsDrop.setAutoclaim(true))
       // }
 
+      console.log({
+        claiming_finished_button_title,
+        claiming_finished_button_url,
+        claiming_finished_button_on
+      })
+
     
       if (
         claiming_finished_button_title &&
