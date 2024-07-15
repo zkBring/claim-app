@@ -91,17 +91,6 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setAvailableWallets(available_wallets || []))
       dispatch(actionsDrop.setLinkKey(linkKey))
 
-      // if (available_wallets.length === 1 && available_wallets[0] === 'coinbase_wallet') {
-      //   dispatch(actionsDrop.setAutoclaim(true))
-      // }
-
-      console.log({
-        claiming_finished_button_title,
-        claiming_finished_button_url,
-        claiming_finished_button_on
-      })
-
-    
       if (
         claiming_finished_button_title &&
         claiming_finished_button_url &&
