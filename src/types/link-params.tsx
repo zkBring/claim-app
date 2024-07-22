@@ -18,5 +18,6 @@ export type TLinkParams = {
   claiming_finished_description?: string
   claiming_finished_button_title?: string 
   claiming_finished_button_url?: string
+  claiming_finished_button_on?: boolean
   available_wallets?: string[]
 }
