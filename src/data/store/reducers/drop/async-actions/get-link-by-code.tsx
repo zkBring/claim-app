@@ -5,9 +5,13 @@ import { UserActions } from '../../user/types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
 import * as actionsUser from '../../user/actions'
-import { TLinkParams, TDropType, TWalletName, TSystem } from 'types'
+import {
+  TLinkParams,
+  TDropType,
+  TWalletName,
+  TSystem
+} from 'types'
 import LinkdropSDK from 'linkdrop-sdk'
-import { COINBASE_CLAIM_URL } from 'configs/application'
 
 const {
   REACT_APP_DASHBOARD_SERVER_URL,
@@ -51,7 +55,8 @@ export default function getLinkByCode(
         claiming_finished_button_title, 
         claiming_finished_button_url,
         claiming_finished_button_on,
-        available_wallets
+        available_wallets,
+        available_wallets_on
       } : TLinkParams = data
 
 
@@ -90,6 +95,7 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setLinkId(linkId))
       dispatch(actionsDrop.setAvailableWallets(available_wallets || []))
       dispatch(actionsDrop.setLinkKey(linkKey))
+      dispatch(actionsDrop.setAvailableWalletsOn(Boolean(available_wallets_on)))
 
       if (
         claiming_finished_button_title &&

@@ -16,5 +16,6 @@ type TMultiscanCampaign = {
   redirect_on: string
   whitelist_on: boolean
   whitelist_type: TWhitelistType
+  available_wallets_on?: boolean
 }
 export default TMultiscanCampaign

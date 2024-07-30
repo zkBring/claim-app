@@ -167,7 +167,14 @@ export function setAvailableWallets (available_wallets: string[]) {
   )
 }
 
-
+export function setAvailableWalletsOn (available_wallets_on: boolean) {
+  return action(
+    Constants.DROP_SET_AVAILABLE_WALLETS_ON,
+    {
+      availableWalletsOn: available_wallets_on
+    }
+  )
+}
 
 export function setMultiscanWhitelistOn (whitelist_on: boolean) {
   return action(
