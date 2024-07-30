@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
 import { getMultiQRCampaignData } from 'data/api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
-import { alertError, defineJSONRpcUrl } from 'helpers'
+import { defineJSONRpcUrl } from 'helpers'
 import { TDropType, TPreviewSetting } from 'types'
 import * as asyncActionsDrop from './'
 import axios from 'axios'
@@ -39,9 +39,11 @@ export default function getCampaignData(
             redirect_on,
             redirect_url,
             whitelist_on,
-            whitelist_type
+            whitelist_type,
+            available_wallets_on
           }
         } = campaignData.data
+
         dispatch(actionsDrop.setCampaignId(String(campaign_number)))
         dispatch(actionsDrop.setChainId(Number(chain_id)))
         dispatch(actionsDrop.setTokenAddress(token_address))
@@ -55,6 +57,7 @@ export default function getCampaignData(
         dispatch(actionsDrop.setMultiscanWhitelistOn(whitelist_on))
         dispatch(actionsDrop.setMultiscanWhitelistType(whitelist_type))
         dispatch(actionsDrop.setAvailableWallets(available_wallets))
+        dispatch(actionsDrop.setAvailableWalletsOn(Boolean(available_wallets_on)))
 
         if (preview_setting === 'token') {
           const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(chain_id), infuraPk: REACT_APP_INFURA_ID as string })

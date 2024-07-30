@@ -49,6 +49,7 @@ const mapStateToProps = ({
     isManual,
     campaignId,
     availableWallets,
+    availableWalletsOn
   }
 }: RootState) => ({
   name,
@@ -59,7 +60,8 @@ const mapStateToProps = ({
   chainId,
   isManual,
   campaignId,
-  availableWallets
+  availableWallets,
+  availableWalletsOn
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -113,8 +115,35 @@ const defineOptionsList = (
   availableWallets: string[],
   claimCode: string,
   enableENS?: boolean,
-  enableZerion?: boolean
+  enableZerion?: boolean,
+  availableWalletsOn?: boolean
 ) => {
+
+  if (!availableWalletsOn) {
+
+    // @ts-ignore
+    const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+    const coinbaseOption = {
+      title: 'Create a smart wallet',
+      onClick: () => {
+        connect({ connector: coinbaseConnector })
+      },
+      recommended: false
+    }
+
+    const allWalletsOption = {
+      title: 'Choose wt',
+      onClick: () => {
+        open()
+      },
+      recommended: false
+    }
+
+    return [
+      coinbaseOption,
+      allWalletsOption
+    ]
+  }
 
   const system = defineSystem()
   const ensOption = !isManual && enableENS ? {
@@ -122,9 +151,6 @@ const defineOptionsList = (
     onClick: () => setStep('set_address'),
     icon: <WalletIcon src={ENSIcon} />
   } : undefined
-
-  // @ts-ignore
-  const walletConnect = connectors.find(connector => connector.id === "walletConnect")
 
   const walletConnectOption = {
     title: 'WalletConnect',
@@ -299,7 +325,8 @@ const WalletsList: FC<ReduxType> = ({
   availableWallets,
   enableENS,
   enableZerion,
-  type
+  type,
+  availableWalletsOn
 }) => {
   const { open } = useWeb3Modal()
   // const open =  async () => alert('sss')
