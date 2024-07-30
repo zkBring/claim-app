@@ -36,7 +36,8 @@ const initialState: DropState = {
   previewSetting: undefined,
   whitelistType: null,
   whitelistOn: false,
-  multiscanLinkDecrypted: null
+  multiscanLinkDecrypted: null,
+  availableWalletsOn: false
 }
 
 export function dropReducer(
@@ -108,6 +109,8 @@ export function dropReducer(
         return {...state, claimCode: action.payload.claimCode }
       case Constants.DROP_SET_AVAILABLE_WALLETS:
         return {...state, availableWallets: action.payload.availableWallets }
+      case Constants.DROP_SET_AVAILABLE_WALLETS_ON:
+        return {...state, availableWalletsOn: action.payload.availableWalletsOn }
       case Constants.DROP_SET_MULTISCAN_LINK_DECRYPTED:
         return {...state, multiscanLinkDecrypted: action.payload.multiscanLinkDecrypted }
 
