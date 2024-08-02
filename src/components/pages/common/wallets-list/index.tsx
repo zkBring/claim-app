@@ -5,7 +5,7 @@ import {
   TextComponent,
   OptionsListStyled,
   WalletIcon,
-  LinkButton
+  ImageContainer
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
@@ -17,24 +17,21 @@ import ZerionWalletIcon from 'images/zerion-wallet.png'
 import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
-import WalletConnectIcon from 'images/walletconnect-wallet.png'
 import Wallet1inch from 'images/wallet-1inch.png'
-import CrossmintIcon from 'images/crossmint-wallet.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect } from 'wagmi'
-import { TDropStep, TMultiscanStep, TWalletName, TWalletOption, TDropType } from 'types'
-import { AdditionalNoteComponent } from 'linkdrop-ui'
-import { OverlayScreen } from 'linkdrop-ui'
+import { TDropStep, TMultiscanStep, TWalletName, TDropType, TSystem } from 'types'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
-import { PopupWalletListContents, PopupWhatIsWalletContents } from 'components/pages/common'
-import { defineSystem, sortWallets, getWalletOption, defineApplicationConfig, getInjectedWalletOption } from 'helpers'
-import { plausibleApi } from 'data/api'
-import LinkdropLogo from 'images/linkdrop.png'
-import LinkdropLogoLight from 'images/linkdrop-light.png'
+import {
+  defineSystem,
+  getWalletOption,
+  getInjectedWalletOption
+} from 'helpers'
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import TProps from './types'
+import Icons from 'icons'
 
 const mapStateToProps = ({
   token: {
@@ -48,8 +45,7 @@ const mapStateToProps = ({
     chainId,
     isManual,
     campaignId,
-    availableWallets,
-    availableWalletsOn
+    preferredWalletOn,
   }
 }: RootState) => ({
   name,
@@ -60,8 +56,7 @@ const mapStateToProps = ({
   chainId,
   isManual,
   campaignId,
-  availableWallets,
-  availableWalletsOn
+  preferredWalletOn
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -80,23 +75,70 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps> & TProps
 
-const isOptionVisible = (
-  option: TWalletOption | undefined,
-  preferredWallet: string | null,
-  currentOption: string,
-  availableWallets: string[],
-  additionalCondition?: boolean
+const defineOption = (
+  wallet: TWalletName | null,
+  system: TSystem,
+  metamaskOption: any, // connector
+  coinbaseOption: any, // connector
+  zerionOption: any, // redirect
+  wallet1InchOption: any, // deeplink
+  manualAddressOption: any, // redirect
+  imtokenOption: any, // deeplink
+  trustOption: any, // deeplink
+  rainbowOption: any, // deeplink
+  ledgerOption: any // redirect
 ) => {
-  if (additionalCondition !== undefined && !additionalCondition) {
-    return undefined
+  switch (system) {
+    case 'desktop': {
+      switch (wallet) {
+        case 'metamask':
+          return metamaskOption
+        case 'coinbase_smart_wallet':
+          return coinbaseOption
+        case 'ledger':
+          return ledgerOption
+        case 'manual_address':
+          return manualAddressOption
+        case 'wallet_1inch':
+          return wallet1InchOption
+        default:
+          return coinbaseOption
+      }
+    }
+
+
+    case 'android':
+    case 'ios':
+    default: {
+      switch (wallet) {
+        case 'metamask':
+          return metamaskOption
+        case 'coinbase_smart_wallet':
+          return coinbaseOption
+        case 'zerion':
+          return zerionOption
+        case 'imtoken':
+          return imtokenOption
+        case 'trust':
+          return trustOption
+        case 'rainbow':
+          return rainbowOption
+        case 'ledger':
+          return ledgerOption
+        case 'manual_address':
+          return manualAddressOption
+        case 'wallet_1inch':
+          return wallet1InchOption
+        
+        default:
+          return coinbaseOption
+      }
+    }
+
+
+
   }
-  if (!option) { return undefined }
-  if (!availableWallets || availableWallets.length === 0 || currentOption === preferredWallet) {
-    return option
-  }
-  if (availableWallets && availableWallets.includes(currentOption)) {
-    return option
-  }
+
 }
 
 const defineOptionsList = (
@@ -112,15 +154,21 @@ const defineOptionsList = (
   ) => Promise<void>,
   isManual: boolean,
   chainId: number,
-  availableWallets: string[],
   claimCode: string,
   enableENS?: boolean,
   enableZerion?: boolean,
-  availableWalletsOn?: boolean
+  preferredWalletOn?: boolean
 ) => {
 
-  if (!availableWalletsOn) {
+  const allWalletsOption = {
+    title: 'I already have a wallet',
+    onClick: () => {
+      open()
+    },
+    recommended: false
+  }
 
+  if (!preferredWalletOn) {
     // @ts-ignore
     const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
     const coinbaseOption = {
@@ -131,14 +179,7 @@ const defineOptionsList = (
       recommended: false
     }
 
-    const allWalletsOption = {
-      title: 'Choose wt',
-      onClick: () => {
-        open()
-      },
-      recommended: false
-    }
-
+    // if no preferred wallet chosen
     return [
       coinbaseOption,
       allWalletsOption
@@ -146,38 +187,7 @@ const defineOptionsList = (
   }
 
   const system = defineSystem()
-  const ensOption = !isManual && enableENS ? {
-    title: 'ENS or address',
-    onClick: () => setStep('set_address'),
-    icon: <WalletIcon src={ENSIcon} />
-  } : undefined
 
-  const walletConnectOption = {
-    title: 'WalletConnect',
-    onClick: () => {
-      open()
-    },
-    icon: <WalletIcon src={WalletConnectIcon} />,
-    recommended: wallet === 'walletconnect'
-  }
-
-  const wallet1InchOptionDesktop = {
-    title: '1inch',
-    onClick: () => {
-      open()
-    },
-    icon: <WalletIcon src={Wallet1inch} />,
-    recommended: wallet === 'wallet_1inch'
-  }
-
-  const crossmintOption = {
-    title: 'Sign in with email',
-    onClick: () => {
-      setStep('crossmint_connection')
-    },
-    icon: <WalletIcon src={CrossmintIcon} />,
-    recommended: wallet === 'crossmint'
-  }
 // @ts-ignore
   const injected = connectors.find(connector => connector.id === "injected")
   const injectedOption = getInjectedWalletOption(
@@ -201,7 +211,7 @@ const defineOptionsList = (
   // @ts-ignore
   const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
   const coinbaseOption = {
-    title: 'Coinbase Wallet',
+    title: 'Smart Wallet',
     onClick: () => {
       if (!coinbaseConnector) {
         return alert('Cannot connect to Coinbase connector')
@@ -209,35 +219,24 @@ const defineOptionsList = (
       connect({ connector: coinbaseConnector })
     },
     icon: <WalletIcon src={CoinabseWalletIcon} />,
-    recommended: wallet === 'coinbase_wallet'
+    recommended: wallet === 'coinbase_smart_wallet'
   }
+
+  const ensOption = !isManual && enableENS ? {
+    title: 'ENS or address',
+    onClick: () => setStep('set_address'),
+    icon: <WalletIcon src={ENSIcon} />
+  } : undefined
+
   if (system === 'desktop') {
     const wallets = [
-      isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
-      isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
-      isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
-      isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
-      isOptionVisible(ledgerOption, wallet, 'ledger', availableWallets),
-      isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
-      isOptionVisible(wallet1InchOptionDesktop, wallet, 'wallet_1inch', availableWallets)
+      allWalletsOption
     ]
+    return wallets
 
-    return sortWallets(wallets) 
   }
 
   const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
-
-  const metamaskOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
-    'metamask',
-    'Metamask',
-    system,
-    window.location.href, 
-    chainId,
-    <WalletIcon src={MetamaskIcon} />,
-    deeplinkRedirect,
-    claimCode,
-    wallet
-  )
 
   const wallet1InchOption = getWalletOption(
     'wallet_1inch',
@@ -296,22 +295,26 @@ const defineOptionsList = (
     wallet
   )
 
+  const primaryOption = defineOption(
+    wallet,
+    system,
+    injectedOption,
+    coinbaseOption,
+    zerionOption,
+    wallet1InchOption,
+    ensOption,
+    imtokenOption,
+    trustOption,
+    rainbowOption,
+    ledgerOption
+  )
+
   const wallets = [
-    isOptionVisible(injectedOption, wallet, 'metamask', availableWallets),
-    isOptionVisible(metamaskOption, wallet, 'metamask', availableWallets),
-    isOptionVisible(coinbaseOption, wallet, 'coinbase_wallet', availableWallets),
-    isOptionVisible(zerionOption, wallet, 'zerion', availableWallets),
-    isOptionVisible(wallet1InchOption, wallet, 'wallet_1inch', availableWallets),
-    isOptionVisible(walletConnectOption, wallet, 'walletconnect', availableWallets),
-    isOptionVisible(crossmintOption, wallet, 'crossmint', availableWallets, type !== 'ERC20' && !isManual),
-    isOptionVisible(ensOption, wallet, 'manual_address', availableWallets),
-    isOptionVisible(imtokenOption, wallet, 'imtoken', availableWallets),
-    isOptionVisible(trustOption, wallet, 'trust', availableWallets),
-    isOptionVisible(rainbowOption, wallet, 'rainbow', availableWallets),
-    isOptionVisible(ledgerOption, wallet, 'ledger', availableWallets)
+    primaryOption,
+    allWalletsOption
   ]
 
-  return sortWallets(wallets)
+  return wallets
 }
 
 const WalletsList: FC<ReduxType> = ({
@@ -320,21 +323,15 @@ const WalletsList: FC<ReduxType> = ({
   chainId,
   claimCode,
   isManual,
-  campaignId,
   deeplinkRedirect,
-  availableWallets,
   enableENS,
   enableZerion,
   type,
-  availableWalletsOn
+  preferredWalletOn
 }) => {
   const { open } = useWeb3Modal()
   // const open =  async () => alert('sss')
   const { connect, connectors } = useConnect()
-  const [ showPopup, setShowPopup ] = useState<boolean>(false)
-  const system = defineSystem()
-  const injected = connectors.find(connector => connector.id === "injected")
-  const configs = defineApplicationConfig()
   const options = defineOptionsList(
     type,
     setStep,
@@ -345,51 +342,21 @@ const WalletsList: FC<ReduxType> = ({
     (deeplink: string, walletId: TWalletName) => deeplinkRedirect(deeplink, walletId, () => setStep('wallet_redirect_await')),
     isManual,
     chainId as number,
-    availableWallets,
     claimCode as string,
     enableENS,
-    enableZerion
+    enableZerion,
+    preferredWalletOn
   )
 
   return <Container>
-    <TitleComponent>Connect your wallet</TitleComponent>
+    <TitleComponent>Connect a wallet</TitleComponent>
     <TextComponent>
-      Choose a wallet from the list
+      Select an existing crypto wallet or create a new one to proceed with your claim
     </TextComponent>
-
+    <ImageContainer>
+      <Icons.WalletImageIcon />
+    </ImageContainer>
     <OptionsListStyled options={options} />
-    {system === 'desktop' && !injected && <LinkButton onClick={() => {
-      plausibleApi.invokeEvent({
-        eventName: 'educate_me',
-        data: {
-          campaignId: campaignId as string,
-          screen: 'what_is_a_wallet'
-        }
-      })
-      setShowPopup(true)
-    }}>What is browser wallet?</LinkButton>}
-    {system !== 'desktop' && <AdditionalNoteComponent
-      text='Don’t know what to choose?'
-      position='bottom'
-      onClick={() => {
-        plausibleApi.invokeEvent({
-          eventName: 'educate_me',
-          data: {
-            campaignId: campaignId as string,
-            screen: 'what_is_connection'
-          }
-        })
-        setShowPopup(true)
-      }}
-    />}
-    {showPopup && <OverlayScreen
-      headerLogo={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight}
-      title={system === 'desktop' ? 'What is a Wallet?' : 'Connecting your wallet'}
-      onCloseAction={() => { setShowPopup(false) }}
-      mainAction={() => { setShowPopup(false) }}
-    >
-      {system === 'desktop' ? <PopupWhatIsWalletContents /> : <PopupWalletListContents />}
-    </OverlayScreen>}
   </Container>
 }
 

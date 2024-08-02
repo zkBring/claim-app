@@ -15,7 +15,7 @@ import {
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from 'components/pages/page'
-import { TDropError, TDropType, TMultiscanStep, TWhitelistType } from 'types'
+import { TDropError, TDropType, TMultiscanStep, TWalletName, TWhitelistType } from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -34,7 +34,6 @@ import {
   DownloadAwait,
   ERC20TokenPreview,
   WalletRedirectAwait,
-  CrossmintConnection,
   SignMessage,
   EligibleToClaim,
   QRCampaignNotEligible
@@ -240,17 +239,16 @@ const DefaultScreen: FC<{
 
 const defineBackAction = (
   multiscanStep: TMultiscanStep,
-  wallet: string | null,
+  wallet: TWalletName | null,
   action: (step: TMultiscanStep) => void
 ) => {
   switch (multiscanStep) {
     case 'download_await':
     case 'zerion_connection':
-    case 'crossmint_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':
       // if coinbase - do not show other wallets
-      if (wallet === 'coinbase_wallet') {
+      if (wallet === 'coinbase_smart_wallet') {
         return () => action('whitelist')
       }
       return () => action('wallets_list')
@@ -264,7 +262,7 @@ const defineBackAction = (
 
 const defineHeader = (
   multiscanStep: TMultiscanStep,
-  wallet: string | null,
+  wallet: TWalletName | null,
   action: (step: TMultiscanStep
 ) => void) => {
   const backAction = defineBackAction(multiscanStep, wallet, action)
@@ -273,7 +271,7 @@ const defineHeader = (
 
 const renderContent = (
   multiscanStep: TMultiscanStep,
-  wallet: string | null,
+  wallet: TWalletName | null,
   setMultiscanStep: (multiscanStep: TMultiscanStep) => void,
   image: string | null,
   name: string | null,
@@ -329,9 +327,6 @@ const renderContent = (
       content = <LedgerConnection
         setStepCallback={() => setMultiscanStep('whitelist')}
       />
-      break
-    case 'crossmint_connection':
-      content = <CrossmintConnection />
       break
     case 'wallet_redirect_await':
       content = <WalletRedirectAwait />

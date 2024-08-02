@@ -61,22 +61,7 @@ const ClaimingFinishedButton: FC<ReduxType> = ({
       {claiming_finished_button_title}
     </ButtonStyled>
   }
-  if (email) {
-    return <ButtonStyled
-      onClick={() => {
-        plausibleApi.invokeEvent({
-          eventName: 'open_crossmint',
-          data: {
-            campaignId: campaignId as string,
-          }
-        })
-        window.open('https://www.crossmint.com/user/collection', '_blank')
-      }}
-      appearance='action'
-    >
-      Go to Crossmint
-    </ButtonStyled>
-  }
+  
   if (type === 'ERC20') {
     return null
   }

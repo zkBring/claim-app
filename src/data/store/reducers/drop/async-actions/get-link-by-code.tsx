@@ -55,27 +55,9 @@ export default function getLinkByCode(
         claiming_finished_button_title, 
         claiming_finished_button_url,
         claiming_finished_button_on,
-        available_wallets,
-        available_wallets_on
+        preferred_wallet_on
       } : TLinkParams = data
 
-
-      // disabled for now
-      // if (system === 'android' || system === 'ios') {
-      //   if (
-      //     available_wallets &&
-      //     available_wallets.length === 1 &&
-      //     available_wallets[0] === 'coinbase_wallet'
-      //   ) {
-      //     const defineRedirectUrl = COINBASE_CLAIM_URL
-      //       .replace('<CODE>', linkCode)
-      //       .replace('<CHAIN_ID>', String(chain_id))
-      //       .replace('<VERSION>', '3')
-      //     window.location.href = defineRedirectUrl
-      //     // alert('REDIRECT SHOULD BE HERE')
-      //   }
-      // }
-      
 
       dispatch(actionsDrop.setChainId(Number(chain_id)))
       dispatch(actionsDrop.setTokenAddress(token_address))
@@ -93,9 +75,8 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setLoading(false))
       dispatch(actionsDrop.setClaimCode(linkCode))
       dispatch(actionsDrop.setLinkId(linkId))
-      dispatch(actionsDrop.setAvailableWallets(available_wallets || []))
       dispatch(actionsDrop.setLinkKey(linkKey))
-      dispatch(actionsDrop.setAvailableWalletsOn(Boolean(available_wallets_on)))
+      dispatch(actionsDrop.setPreferredWalletOn(Boolean(preferred_wallet_on)))
 
       if (
         claiming_finished_button_title &&

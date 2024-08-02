@@ -22,9 +22,23 @@ import { useWeb3Modal } from "@web3modal/react"
 const { REACT_APP_CLIENT } = process.env
 
 const mapStateToProps = ({
-  token: { name, image, decimals, },
-  drop: { tokenId, type, campaignId, amount, wallet, chainId, availableWallets },
-  user: { address }
+  token: {
+    name,
+    image,
+    decimals
+  },
+  drop: {
+    tokenId,
+    type,
+    campaignId,
+    amount,
+    wallet,
+    chainId,
+    preferredWalletOn
+  },
+  user: {
+    address
+  }
 }: RootState) => ({
   name,
   image,
@@ -36,7 +50,7 @@ const mapStateToProps = ({
   decimals,
   wallet,
   chainId,
-  availableWallets
+  preferredWalletOn
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -75,7 +89,7 @@ const SetConnector: FC<ReduxType> = ({
   wallet,
   chainId,
   deeplinkRedirect,
-  availableWallets
+  preferredWalletOn
 }) => {
   const { connect, connectors } = useConnect()
   const { open } = useWeb3Modal()
@@ -97,13 +111,6 @@ const SetConnector: FC<ReduxType> = ({
   }, [])
 
   useEffect(() => {
-    if (
-      availableWallets.length === 1 &&
-      availableWallets[0] === 'coinbase_wallet'
-    ) {
-      return setInitialized(true)
-    }
-
     if(window &&
 
       //@ts-ignore
@@ -161,11 +168,9 @@ const SetConnector: FC<ReduxType> = ({
 
         if (
           wallet &&
-          chainId &&
-          availableWallets.includes(wallet) &&
-          availableWallets.length === 1
+          chainId
         ) {
-          if (wallet === 'coinbase_wallet') {
+          if (wallet === 'coinbase_smart_wallet') {
             const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
             if (coinbaseConnector) {
               return connect({ connector: coinbaseConnector })
@@ -173,29 +178,21 @@ const SetConnector: FC<ReduxType> = ({
           }
 
           if (
-            wallet !== 'walletconnect' &&
             wallet !== 'manual_address' &&
-            wallet !== 'crossmint' &&
             wallet !== 'zerion'
           ) {
             const deeplink = getWalletDeeplink(wallet, system, window.location.href, chainId)
             if (deeplink) {
               return deeplinkRedirect(deeplink, wallet, () => setStep('wallet_redirect_await'))
             }
-          } else if (
-            wallet === 'walletconnect'
-          ) {
-            return open()
           } else if (wallet === 'zerion') {
             return setStep('zerion_connection')
-          } else if (wallet === 'crossmint') {
-            return setStep('crossmint_connection')
           } else if (wallet === 'manual_address') {
             return setStep('set_address')
           }
         }
 
-        setStep('choose_wallet')
+        setStep('wallets_list')
       }
     }>
       Claim
