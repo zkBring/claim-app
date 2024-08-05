@@ -37,7 +37,9 @@ export const OptionsListStyled = styled(OptionsList)`
 `
 
 export const WalletIcon = styled.img`
-  max-width: 44px;
+  width: 33px;
+  height: 33px;
+  border-radius: none;
 `
 
 export const ImageContainer = styled.div`
