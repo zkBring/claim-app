@@ -25,6 +25,11 @@ export const OptionsListStyled = styled(OptionsList)`
   margin: 0 0 36px;
   li {
     margin-bottom: 12px;
+    justify-content: center;
+
+    & > div {
+      margin-right: 12px;
+    }
   }
   @media (max-width: 500px) {
     margin: 0 0 150px;
@@ -32,7 +37,9 @@ export const OptionsListStyled = styled(OptionsList)`
 `
 
 export const WalletIcon = styled.img`
-  max-width: 24px;
+  width: 33px;
+  height: 33px;
+  border-radius: none;
 `
 
 export const ImageContainer = styled.div`

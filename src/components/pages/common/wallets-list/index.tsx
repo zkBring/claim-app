@@ -97,8 +97,6 @@ const defineOption = (
           return coinbaseOption
         case 'ledger':
           return ledgerOption
-        case 'manual_address':
-          return manualAddressOption
         case 'wallet_1inch':
           return wallet1InchOption
         default:
@@ -125,8 +123,6 @@ const defineOption = (
           return rainbowOption
         case 'ledger':
           return ledgerOption
-        case 'manual_address':
-          return manualAddressOption
         case 'wallet_1inch':
           return wallet1InchOption
         
@@ -164,8 +160,7 @@ const defineOptionsList = (
     title: 'I already have a wallet',
     onClick: () => {
       open()
-    },
-    recommended: false
+    }
   }
 
   if (!preferredWalletOn) {
@@ -174,9 +169,12 @@ const defineOptionsList = (
     const coinbaseOption = {
       title: 'Create a smart wallet',
       onClick: () => {
+        if (!coinbaseConnector) {
+          return alert('Cannot connect to Coinbase connector')
+        }
         connect({ connector: coinbaseConnector })
       },
-      recommended: false
+      icon: <WalletIcon src={CoinabseWalletIcon} />
     }
 
     // if no preferred wallet chosen
@@ -205,21 +203,19 @@ const defineOptionsList = (
       setStep('ledger_connection')
     },
     icon: <WalletIcon src={LedgerLiveWalletIcon} />,
-    recommended: wallet === 'ledger'
   }
 
   // @ts-ignore
   const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
   const coinbaseOption = {
-    title: 'Smart Wallet',
+    title: 'Create a smart wallet',
     onClick: () => {
       if (!coinbaseConnector) {
         return alert('Cannot connect to Coinbase connector')
       }
       connect({ connector: coinbaseConnector })
     },
-    icon: <WalletIcon src={CoinabseWalletIcon} />,
-    recommended: wallet === 'coinbase_smart_wallet'
+    icon: <WalletIcon src={CoinabseWalletIcon} />
   }
 
   const ensOption = !isManual && enableENS ? {
@@ -227,14 +223,6 @@ const defineOptionsList = (
     onClick: () => setStep('set_address'),
     icon: <WalletIcon src={ENSIcon} />
   } : undefined
-
-  if (system === 'desktop') {
-    const wallets = [
-      allWalletsOption
-    ]
-    return wallets
-
-  }
 
   const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
 
@@ -267,8 +255,7 @@ const defineOptionsList = (
     onClick: async () => {
       setStep('zerion_connection')
     },
-    icon: <WalletIcon src={ZerionWalletIcon} />,
-    recommended: wallet === 'zerion'
+    icon: <WalletIcon src={ZerionWalletIcon} />
   }
 
   const rainbowOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(

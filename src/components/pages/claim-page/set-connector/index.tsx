@@ -178,7 +178,6 @@ const SetConnector: FC<ReduxType> = ({
           }
 
           if (
-            wallet !== 'manual_address' &&
             wallet !== 'zerion'
           ) {
             const deeplink = getWalletDeeplink(wallet, system, window.location.href, chainId)
@@ -187,8 +186,6 @@ const SetConnector: FC<ReduxType> = ({
             }
           } else if (wallet === 'zerion') {
             return setStep('zerion_connection')
-          } else if (wallet === 'manual_address') {
-            return setStep('set_address')
           }
         }
 

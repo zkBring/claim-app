@@ -36,8 +36,7 @@ const getWalletOption: TGetgetWalletOption = (
     onClick: () => {
       deeplinkRedirect(deeplink, walletId)
     },
-    icon,
-    recommended: preferedWallet === walletId
+    icon
   }
 }
 

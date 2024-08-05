@@ -5,6 +5,7 @@ const getMultiQRData = (
   multiscanQRId: string,
   scanId: string,
   scanIdSig: string,
+  chainId?: number,
   receiver?: string,
   whitelistSig?: string
 ) => {
@@ -12,6 +13,7 @@ const getMultiQRData = (
     scan_id: scanId,
     scan_id_sig: scanIdSig,
     receiver,
+    chain_id: chainId ? String(chainId) : undefined,
     whitelist_sig: whitelistSig
   })
 }

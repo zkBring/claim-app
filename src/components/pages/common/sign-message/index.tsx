@@ -16,7 +16,8 @@ const mapStateToProps = ({
 type ReduxType = ReturnType<typeof mapStateToProps> & TProps
 
 const SignMessage: FC<ReduxType> = ({
-  onSubmit
+  onSubmit,
+  loading
 }) => {
   return <Container>
     <Image src={SignMessageImage}/>
@@ -25,6 +26,7 @@ const SignMessage: FC<ReduxType> = ({
     <ButtonStyled
       onClick={onSubmit}
       appearance='action'
+      loading={loading}
     >
       Sign
     </ButtonStyled>
