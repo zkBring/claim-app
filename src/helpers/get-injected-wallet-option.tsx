@@ -20,14 +20,13 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 ) => {
   const browser = detect()
   const installMetamask = {
-    title: 'Browser Wallet',
+    title: 'Metamask',
     onClick: () => {
       window.open('https://metamask.io/download/', '_blank')
       downloadStarted && downloadStarted()
     },
     icon: walletIcon,
-    tag: 'Install MetaMask ->',
-    recommended: wallet === 'metamask'
+    tag: 'Install MetaMask ->'
   }
 
   if (system === 'desktop') {
@@ -51,15 +50,14 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 
     if (window.ethereum) {
       return {
-        title: 'Browser Wallet',
+        title: 'Metamask',
         onClick: () => {
           if (!injected) {
             return alert('Cannot connect to injected')
           }
           connect({ connector: injected })
         },
-        icon: walletIcon,
-        recommended: wallet === 'metamask'
+        icon: walletIcon
       }
     }
   
@@ -76,8 +74,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
         }
         connect({ connector: injected })
       },
-      icon: walletIcon,
-      recommended: wallet !== 'coinbase_smart_wallet' 
+      icon: walletIcon
     }
   }
 
