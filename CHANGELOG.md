@@ -1,5 +1,9 @@
 # Linkdrop Claim app
 
+## 2.2.25
+- added new wallets list
+- bug fix for dispenser message signing
+
 ## 2.2.24
 - added new version of sdk
 - web3Modal update
