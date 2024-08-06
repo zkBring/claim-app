@@ -6,11 +6,13 @@ import plausibleApi from './plausible-api'
 import getMultiQRData from './get-multiqr-data'
 import getMultiQRCampaignData from './get-multiqr-campaign-data'
 import getCrossmintAddress from './get-crossmint-address'
+import nonceApi from './get-nonce'
 
 export {
   getERC1155TokenData,
   getERC721TokenData,
   getQRData,
+  nonceApi,
   getOriginalLink,
   plausibleApi,
   getMultiQRData,
