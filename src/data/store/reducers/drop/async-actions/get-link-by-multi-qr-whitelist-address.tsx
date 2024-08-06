@@ -5,10 +5,30 @@ import { UserActions } from '../../user/types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
 import * as actionsUser from '../../user/actions'
-import { plausibleApi, getMultiQRData } from 'data/api'
+import { plausibleApi, getMultiQRData, nonceApi } from 'data/api'
 import axios, { AxiosError } from 'axios'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { RootState } from 'data/store'
+import { SiweMessage } from 'siwe'
+
+const createSigMessage = (
+  statement: string,
+  nonce: string,
+  address: string,
+  chainId: number
+) => {
+
+  return new SiweMessage({
+    domain: document.location.host,
+    address: address,
+    chainId: chainId as number,
+    uri: document.location.origin,
+    version: '1',
+    statement,
+    nonce
+  })
+
+}
 
 export default function getLinkByMultiQR(
   multiscanQRId: string,
@@ -28,13 +48,26 @@ export default function getLinkByMultiQR(
     dispatch(actionsDrop.setError(null))
 
     try {
-      const signing = await signer.signMessage('I am signing this message to verify my address (claim.linkdrop.io)')
+      const { data: { nonce } } = await nonceApi.get(address)
+      const timestamp = Date.now()
+      const humanReadable = new Date(timestamp).toUTCString()
+      const statement = `I'm signing this message to login to Linkdrop Dashboard at ${humanReadable}`
+      const message = createSigMessage(
+        statement,
+        nonce,
+        address,
+        chainId as number
+      )
+
+      const preparedMessage = message.prepareMessage()
+      const signing = await signer.signMessage(preparedMessage)
       dispatch(actionsUser.setAddress(address))
 
       const { data } = await getMultiQRData(
         multiscanQRId,
         scanId,
         scanIdSig,
+        preparedMessage,
         chainId,
         // params for whitelist
         address,
