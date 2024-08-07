@@ -166,28 +166,28 @@ const SetConnector: FC<ReduxType> = ({
           return connect({ connector: injected })
         }
 
-        if (
-          wallet &&
-          chainId
-        ) {
-          if (wallet === 'coinbase_smart_wallet') {
-            const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
-            if (coinbaseConnector) {
-              return connect({ connector: coinbaseConnector })
-            }
-          }
+        // if (
+        //   wallet &&
+        //   chainId
+        // ) {
+        //   if (wallet === 'coinbase_smart_wallet') {
+        //     const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+        //     if (coinbaseConnector) {
+        //       return connect({ connector: coinbaseConnector })
+        //     }
+        //   }
 
-          if (
-            wallet !== 'zerion'
-          ) {
-            const deeplink = getWalletDeeplink(wallet, system, window.location.href, chainId)
-            if (deeplink) {
-              return deeplinkRedirect(deeplink, wallet, () => setStep('wallet_redirect_await'))
-            }
-          } else if (wallet === 'zerion') {
-            return setStep('zerion_connection')
-          }
-        }
+        //   if (
+        //     wallet !== 'zerion'
+        //   ) {
+        //     const deeplink = getWalletDeeplink(wallet, system, window.location.href, chainId)
+        //     if (deeplink) {
+        //       return deeplinkRedirect(deeplink, wallet, () => setStep('wallet_redirect_await'))
+        //     }
+        //   } else if (wallet === 'zerion') {
+        //     return setStep('zerion_connection')
+        //   }
+        // }
 
         setStep('wallets_list')
       }
