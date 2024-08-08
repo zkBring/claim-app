@@ -12,6 +12,8 @@ import {
   TSystem
 } from 'types'
 import LinkdropSDK from 'linkdrop-sdk'
+import * as actionsToken from '../../token/actions'
+import { TokenActions } from '../../token/types'
 
 const {
   REACT_APP_DASHBOARD_SERVER_URL,
@@ -24,7 +26,7 @@ export default function getLinkByCode(
   callback?: (linkCode: string) => void
 ) {
   return async (
-    dispatch: Dispatch<DropActions> & Dispatch<UserActions>
+    dispatch: Dispatch<DropActions> & Dispatch<UserActions> & Dispatch<TokenActions>
   ) => {
     dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
@@ -55,7 +57,10 @@ export default function getLinkByCode(
         claiming_finished_button_title, 
         claiming_finished_button_url,
         claiming_finished_button_on,
-        preferred_wallet_on
+        preferred_wallet_on,
+        linkdrop_token,
+        token_image,
+        token_name
       } : TLinkParams = data
 
 
@@ -77,6 +82,12 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setLinkId(linkId))
       dispatch(actionsDrop.setLinkKey(linkKey))
       dispatch(actionsDrop.setPreferredWalletOn(Boolean(preferred_wallet_on)))
+
+      if (linkdrop_token) {
+        dispatch(actionsToken.setImage(token_image))
+        dispatch(actionsToken.setName(token_name))
+        dispatch(actionsToken.setLinkdropToken(linkdrop_token))
+      }
 
       if (
         claiming_finished_button_title &&

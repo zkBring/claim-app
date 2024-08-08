@@ -13,6 +13,12 @@ export function setDescription(description: string) {
   })
 }
 
+export function setLinkdropToken(linkdropToken: boolean) {
+  return action(Constants.TOKEN_SET_LINKDROP_TOKEN, {
+    linkdropToken
+  })
+}
+
 export function setImage(image: string) {
   return action(Constants.TOKEN_SET_IMAGE, {
     image

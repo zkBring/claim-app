@@ -6,7 +6,8 @@ const initialState: TokenState = {
   name: '',
   description: '',
   image: null,
-  decimals: 0
+  decimals: 0,
+  linkdropToken: false
 };
 
 export function tokenReducer(
@@ -18,6 +19,8 @@ export function tokenReducer(
           return {...state, name: action.payload.name }
         case Constants.TOKEN_SET_DESCRIPTION:
           return {...state, description: action.payload.description }
+        case Constants.TOKEN_SET_LINKDROP_TOKEN:
+          return {...state, linkdropToken: action.payload.linkdropToken }
         case Constants.TOKEN_SET_IMAGE:
           return {...state, image: action.payload.image }
         case Constants.TOKEN_SET_DECIMALS:

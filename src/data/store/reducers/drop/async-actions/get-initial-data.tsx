@@ -52,6 +52,11 @@ export default function getData(
           tokenId,
           type,
           claimCode
+        },
+        token: {
+          linkdropToken,
+          image,
+          name
         }
       } = getState()
       
@@ -64,6 +69,9 @@ export default function getData(
           tokenId,
           Number(linkChainId),
           provider,
+          linkdropToken,
+          image,
+          name,
           dispatch
         )
       }
