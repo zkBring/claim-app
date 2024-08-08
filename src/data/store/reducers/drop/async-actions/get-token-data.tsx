@@ -2,8 +2,8 @@
 import { Dispatch } from 'redux'
 import * as actionsDrop from '../actions'
 import * as actionsToken from '../../token/actions'
-import { DropActions } from '../types'
 import { TokenActions } from '../../token/types'
+import { DropActions } from '../types'
 import { UserActions } from '../../user/types'
 import getERC1155Data from './get-erc1155-token-data'
 import getERC721Data from './get-erc721-token-data'
@@ -17,15 +17,24 @@ export default async function getTokenData(
   tokenId: string | null,
   chainId: number,
   provider: any,
+  linkdropToken: boolean,
+  tokenImage: string | null,
+  tokenName: string,
   dispatch: Dispatch<DropActions> & Dispatch<TokenActions> & Dispatch<UserActions> & IAppDispatch
 ) {
-    
+  
   try {
     if (tokenType === 'ERC1155' && tokenAddress && tokenId) {
-      const { name, image, description } = await getERC1155Data(provider, tokenAddress, tokenId, chainId)
-      dispatch(actionsToken.setDescription(description))
-      dispatch(actionsToken.setImage(image))
-      dispatch(actionsToken.setName(name))
+
+      if (linkdropToken && tokenImage) {
+        dispatch(actionsToken.setName(tokenName))
+        dispatch(actionsToken.setImage(tokenImage))
+      } else {
+        const { name, image, description } = await getERC1155Data(provider, tokenAddress, tokenId, chainId)
+        dispatch(actionsToken.setDescription(description))
+        dispatch(actionsToken.setImage(image))
+        dispatch(actionsToken.setName(name))
+      }
     }
 
     if (tokenType === 'ERC721' && tokenAddress && tokenId) {
