@@ -10,6 +10,8 @@ import { TDropType, TPreviewSetting } from 'types'
 import * as asyncActionsDrop from './'
 import axios from 'axios'
 const { REACT_APP_INFURA_ID } = process.env
+import * as actionsToken from '../../token/actions'
+import { TokenActions } from '../../token/types'
 
 export default function getCampaignData(
   multiscanQRId: string,
@@ -17,7 +19,7 @@ export default function getCampaignData(
   callback?: (location: string) => void
 ) {
   return async (
-    dispatch: Dispatch<DropActions>,
+    dispatch: Dispatch<DropActions> & Dispatch<TokenActions>,
   ) => {
     dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
@@ -39,9 +41,18 @@ export default function getCampaignData(
             redirect_url,
             whitelist_on,
             whitelist_type,
-            preferred_wallet_on
+            preferred_wallet_on,
+            linkdrop_token,
+            token_image,
+            token_name
           }
         } = campaignData.data
+
+        if (linkdrop_token) {
+          dispatch(actionsToken.setImage(token_image))
+          dispatch(actionsToken.setName(token_name))
+          dispatch(actionsToken.setLinkdropToken(linkdrop_token))
+        }
 
         dispatch(actionsDrop.setCampaignId(String(campaign_number)))
         dispatch(actionsDrop.setChainId(Number(chain_id)))
@@ -69,6 +80,9 @@ export default function getCampaignData(
               token_id,
               chain_id,
               provider,
+              linkdrop_token,
+              token_image,
+              token_name,
               dispatch
             )
           }
