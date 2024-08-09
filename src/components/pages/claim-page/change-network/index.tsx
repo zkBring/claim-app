@@ -46,7 +46,7 @@ const ChangeNetwork: FC<ReduxType> = ({
     <Subtitle>To claim {type === 'ERC20' ? 'tokens' : 'an NFT'} you need to switch your wallet to {networkName} network</Subtitle>
     <ScreenButton onClick={async () => {
       if (chainId) {
-        switchNetwork(userProvider, chainId, campaignId as string, () => {
+        switchNetwork(chainId, () => {
           window.location.reload()
         })
       } else {

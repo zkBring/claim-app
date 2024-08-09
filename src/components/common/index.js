@@ -7,6 +7,7 @@ import FramedIcon from './framed-icon'
 import Widget from './widget'
 import Toast from './toast'
 import Link from './link'
+import MiniPopup from './mini-popup'
 
 export {
   Button,
@@ -14,6 +15,7 @@ export {
   Loader,
   Link,
   Title,
+  MiniPopup,
   TokenImage,
   Text,
   FramedIcon,
