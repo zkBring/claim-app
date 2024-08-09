@@ -75,7 +75,7 @@ const AlreadyClaimed: FC<ReduxType> = ({
      
     </Subtitle>
     <ButtonsContainer>
-      <ClaimingFinishedButton />
+      <ClaimingFinishedButton alreadyClaimed />
       <ClaimingFinishedExplorerButton />
     </ButtonsContainer>
     <PoweredByFooter />

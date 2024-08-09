@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button } from 'components/common'
+import { Button, Loader } from 'components/common'
 
 export const ButtonStyled = styled(Button)`
   width: 100%;
@@ -8,4 +8,8 @@ export const ButtonStyled = styled(Button)`
   &:last-child {
     margin-bottom: 0px;
   }
+`
+
+export const LoaderStyled = styled(Loader)`
+  margin: 0 auto 18px;
 `
