@@ -13,7 +13,8 @@ import defineSystem from './define-system'
 import resolveENS from './resolve-ens'
 import defineNativeTokenSymbol from './define-native-token-symbol'
 import metadataUrlResolve from './metadata-url-resolve'
-import defineRedirectUrl from './define-redirect-url'
+import defineNetworkIcon from './define-network-icon'
+
 import throttling from './throttling'
 import handleClaimResponseError from './handle-claim-response-error'
 import defineRealNetworkName from './define-real-network-name'
@@ -45,6 +46,7 @@ export {
   shortenString,
   defineOpenseaURL,
   getWalletDeeplink,
+  defineNetworkIcon,
   toHex,
   defineNetworkName,
   defineRealNetworkName,
@@ -54,7 +56,6 @@ export {
   defineJSONRpcUrl,
   getHashVariables,
   defineExplorerURL,
-  defineRedirectUrl,
   defineNativeTokenSymbol,
   hexlifyIpfsHash,
   IPFSRedefineUrl,

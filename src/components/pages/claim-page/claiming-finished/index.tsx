@@ -17,7 +17,7 @@ import {
   ERC20TokenPreview,
   ClaimingFinishedButton,
   PoweredByFooter,
-  ClaimingFinishedSecondaryButton
+  ClaimingFinishedExplorerButton
 } from 'components/pages/common'
 import ClaimingFinishedERC20 from 'images/claiming-finished-erc20.png'
 import { TDropType } from 'types'
@@ -105,7 +105,7 @@ const ClaimingFinished: FC<ReduxType> = ({
     </Subtitle>
     <ButtonsContainer>
       <ClaimingFinishedButton />
-      <ClaimingFinishedSecondaryButton />
+      <ClaimingFinishedExplorerButton />
     </ButtonsContainer>
     <PoweredByFooter />
   </Container>

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import {
   TitleComponent,
   Container,
@@ -20,8 +20,16 @@ import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import Wallet1inch from 'images/wallet-1inch.png'
 import ENSIcon from 'images/ens-logo.png'
 import { useConnect } from 'wagmi'
-import { TDropStep, TMultiscanStep, TWalletName, TDropType, TSystem } from 'types'
+import {
+  TDropStep,
+  TMultiscanStep,
+  TWalletName,
+  TDropType,
+  TSystem
+} from 'types'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
+import * as dropActions from 'data/store/reducers/drop/actions'
+
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import {
@@ -69,7 +77,12 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
       deeplink,
       walletId,
       redirectCallback
-    ))
+    )),
+    setAutoclaim: (
+      autoclaim: boolean
+    ) => {
+      dispatch(dropActions.setAutoclaim(autoclaim))
+    }
   }
 }
 
@@ -191,7 +204,9 @@ const defineOptionsList = (
   const injectedOption = getInjectedWalletOption(
     wallet,
     system,
-    () => setStep('download_await'),
+    () => {
+      setStep('download_await')
+    },
     connect,
     <WalletIcon src={BrowserWalletIcon} />,
     injected
@@ -220,7 +235,9 @@ const defineOptionsList = (
 
   const ensOption = !isManual && enableENS ? {
     title: 'ENS or address',
-    onClick: () => setStep('set_address'),
+    onClick: () => {
+      setStep('set_address')
+    },
     icon: <WalletIcon src={ENSIcon} />
   } : undefined
 
@@ -314,11 +331,16 @@ const WalletsList: FC<ReduxType> = ({
   enableENS,
   enableZerion,
   type,
-  preferredWalletOn
+  preferredWalletOn,
+  setAutoclaim
 }) => {
   const { open } = useWeb3Modal()
   // const open =  async () => alert('sss')
   const { connect, connectors } = useConnect()
+
+  useEffect(() => {
+    setAutoclaim(true)
+  }, [])
   const options = defineOptionsList(
     type,
     setStep,

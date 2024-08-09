@@ -1,7 +1,10 @@
 import { FC } from 'react'
 import Icons from 'icons'
-import applicationOptions from 'configs/application'
-import { LinkdropHeaderLogo, LinkdropHeader, LinkdropHeaderBack } from './styled-components'
+import {
+  LinkdropHeaderLogo,
+  LinkdropHeader,
+  LinkdropHeaderBack
+} from './styled-components'
 import TProps from './types'
 
 import { defineApplicationConfig } from 'helpers'

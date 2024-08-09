@@ -1,6 +1,6 @@
 export interface PageProps {
   account?: string,
-  chainId?: number,
+  chainId?: number | null,
   children: React.ReactNode,
   noHeader?: boolean
 }

@@ -6,7 +6,7 @@ import QRCampaignFinished from './qr-campaign-finished'
 import QRIncorrectParameter from './qr-incorrect-parameter'
 import ERC20TokenPreview from './erc20-token-preview'
 import ClaimingFinishedButton from './claiming-finished-button'
-import ClaimingFinishedSecondaryButton from './claiming-finished-secondary-button'
+import ClaimingFinishedExplorerButton from './claiming-finished-explorer-button'
 import PopupWalletListContents from './popup-wallet-list-contents'
 import PopupWhatIsWalletContents from './popup-what-is-wallet-contents'
 import PageHeader from './page-header'
@@ -23,14 +23,18 @@ import EligibleToClaim from './eligible-to-claim'
 import QRCampaignNotEligible from './qr-campaign-not-eligible'
 import ScreenLoader from './screen-loader'
 import LedgerConnection from './ledger-connection'
+import NetworkIndicator from './network-indicator'
+import AppHeader from './app-header'
 
 export {
   QRCampaignNotEligible,
+  AppHeader,
+  NetworkIndicator,
   LedgerConnection,
   ScreenLoader,
   EligibleToClaim,
   SetAddress,
-  ClaimingFinishedSecondaryButton,
+  ClaimingFinishedExplorerButton,
   SignMessage,
   ZerionConnection,
   DownloadAwait,
