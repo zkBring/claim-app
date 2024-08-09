@@ -14,7 +14,7 @@ import {
   ERC20TokenPreview,
   ClaimingFinishedButton,
   PoweredByFooter,
-  ClaimingFinishedSecondaryButton
+  ClaimingFinishedExplorerButton
 } from 'components/pages/common'
 import AlreadyClaimedERC20 from 'images/already-claimed-erc20.png'
 
@@ -75,8 +75,8 @@ const AlreadyClaimed: FC<ReduxType> = ({
      
     </Subtitle>
     <ButtonsContainer>
-      <ClaimingFinishedButton />
-      <ClaimingFinishedSecondaryButton />
+      <ClaimingFinishedButton alreadyClaimed />
+      <ClaimingFinishedExplorerButton />
     </ButtonsContainer>
     <PoweredByFooter />
   </>
