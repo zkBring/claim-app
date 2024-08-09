@@ -11,7 +11,7 @@ export const Header = styled.header`
   margin-bottom: 24px;
   font-size: 24px;
   line-height: 36px;
-  min-height: 45px;
+  min-height: 58px;
   max-width: 1024px;
   margin: 0 auto;
   padding: 10px 20px;
