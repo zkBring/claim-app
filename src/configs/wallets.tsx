@@ -29,7 +29,7 @@ const wallets: TWallets = {
   metamask: {
     id: 'metamask',
     name: 'MetaMask',
-    chains: [1, 5, 137, 80001, 8453, 84531],
+    chains: [1, 137, 8453, 13371],
     mobile: {
       android: {
         support: true,
@@ -44,7 +44,7 @@ const wallets: TWallets = {
   crossmint: {
     id: 'crossmint',
     name: 'Crossmint',
-    chains: [1, 5, 137, 80001, 8453, 84531],
+    chains: [1, 137, 8453, 13371],
     mobile: {
       android: {
         support: false
@@ -69,7 +69,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://get.status.im/browse/${_withoutProtocol(url)}`
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   trust: {
     id: 'trust',
@@ -86,7 +86,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(url)}`
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   opera: {
     id: 'opera',
@@ -104,7 +104,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://operacrypto.page.link/?link=${encodeURIComponent(url)}&efr=1&ibi=com.opera.OperaTouch&isi=1411869974`
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   coinbase_wallet: {
     id: 'coinbase_wallet',
@@ -121,7 +121,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   imtoken: {
     id: 'imtoken',
@@ -140,7 +140,7 @@ const wallets: TWallets = {
           `imtokenv2://navigate/DappView?url=${encodeURIComponent(url)}`
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   zerion: {
     id: 'zerion',
@@ -157,7 +157,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => null
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   rainbow: {
     id: 'rainbow',
@@ -179,7 +179,7 @@ const wallets: TWallets = {
   walletconnect: {
     id: 'walletconnect',
     name: 'WalletConnect',
-    chains: [1, 5, 137, 80001, 8453, 84531],
+    chains: [1, 137, 8453, 13371],
     mobile: {
       android: {
         support: false
@@ -192,7 +192,7 @@ const wallets: TWallets = {
   manual_address: {
     id: 'manual_address',
     name: 'ENS or address',
-    chains: [1, 5, 137, 80001, 8453, 84531],
+    chains: [1, 137, 8453, 13371],
     mobile: {
       android: {
         support: false
@@ -217,7 +217,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => null
       }
     },
-    chains: [1, 5, 137, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   wallet_1inch: {
     id: 'wallet_1inch',
@@ -234,7 +234,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://wallet.1inch.io/app/w3browser?link=${encodeURIComponent(url)}`
       }
     },
-    chains: [1, 5, 137, 8453, 80001, 84531]
+    chains: [1, 137, 8453, 13371],
   },
 }
 
