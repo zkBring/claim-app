@@ -1,8 +1,8 @@
-import { TSystem, TWalletOption } from 'types'
+import { TSystem, TWalletName, TWalletOption } from 'types'
 import { detect } from 'detect-browser'
 
 type TDefineInjectedWallet = (
-  wallet: string | null,
+  wallet: TWalletName | null,
   system: TSystem,
   downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
@@ -36,7 +36,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
     ) {
       // has no injected
   
-      if (wallet !== 'coinbase_wallet') {
+      if (wallet !== 'coinbase_smart_wallet') {
         return installMetamask
       } else {
         return undefined
@@ -77,7 +77,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
         connect({ connector: injected })
       },
       icon: walletIcon,
-      recommended: wallet !== 'walletconnect' && wallet !== 'coinbase_wallet' 
+      recommended: wallet !== 'coinbase_smart_wallet' 
     }
   }
 

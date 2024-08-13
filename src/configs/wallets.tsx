@@ -23,9 +23,10 @@ type TWallet = {
   }
 }
 
-type TWallets = Record<TWalletName, TWallet>
+type TWallets = Record<TWalletName, TWallet | undefined>
 
 const wallets: TWallets = {
+  coinbase_smart_wallet: undefined,
   metamask: {
     id: 'metamask',
     name: 'MetaMask',
@@ -41,19 +42,7 @@ const wallets: TWallets = {
       }
     },
   },
-  crossmint: {
-    id: 'crossmint',
-    name: 'Crossmint',
-    chains: [1, 137, 8453, 13371],
-    mobile: {
-      android: {
-        support: false
-      },
-      ios: {
-        support: false,
-      }
-    },
-  },
+
   status: {
     id: 'status',
     name: 'Status',
@@ -84,41 +73,6 @@ const wallets: TWallets = {
       ios: {
         support: true,
         deepLink: (url: string) => `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(url)}`
-      }
-    },
-    chains: [1, 137, 8453, 13371],
-  },
-  opera: {
-    id: 'opera',
-    name: 'Opera',
-    walletURL: 'https://www.opera.com/mobile/operabrowser',
-    walletURLIos: 'https://www.opera.com/mobile/touch',
-    dappStoreUrl: 'https://www.opera.com/dapps-store',
-    mobile: {
-      android: {
-        support: true,
-        deepLink: (url: string) => `https://operacrypto.page.link/?link=${encodeURIComponent(url)}&efr=1&apn=com.opera.browser`
-      },
-      ios: {
-        support: true,
-        deepLink: (url: string) => `https://operacrypto.page.link/?link=${encodeURIComponent(url)}&efr=1&ibi=com.opera.OperaTouch&isi=1411869974`
-      }
-    },
-    chains: [1, 137, 8453, 13371],
-  },
-  coinbase_wallet: {
-    id: 'coinbase_wallet',
-    name: 'Coinbase Wallet',
-    walletURL: 'https://www.toshi.org',
-    dappStoreUrl: null,
-    mobile: {
-      android: {
-        support: true,
-        deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
-      },
-      ios: {
-        support: true,
-        deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
       }
     },
     chains: [1, 137, 8453, 13371],

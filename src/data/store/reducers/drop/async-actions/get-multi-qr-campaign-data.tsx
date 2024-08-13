@@ -30,7 +30,6 @@ export default function getCampaignData(
             token_standard,
             sponsored,
             wallet,
-            available_wallets,
             chain_id,
             campaign_number,
             token_id,
@@ -40,7 +39,7 @@ export default function getCampaignData(
             redirect_url,
             whitelist_on,
             whitelist_type,
-            available_wallets_on
+            preferred_wallet_on
           }
         } = campaignData.data
 
@@ -53,11 +52,9 @@ export default function getCampaignData(
         dispatch(actionsDrop.setIsManual(!Boolean(sponsored)))
         dispatch(actionsDrop.setType(token_standard as TDropType))
         dispatch(actionsDrop.setPreviewSetting(preview_setting as TPreviewSetting))
-        dispatch(actionsDrop.setAvailableWallets(available_wallets))
         dispatch(actionsDrop.setMultiscanWhitelistOn(whitelist_on))
         dispatch(actionsDrop.setMultiscanWhitelistType(whitelist_type))
-        dispatch(actionsDrop.setAvailableWallets(available_wallets))
-        dispatch(actionsDrop.setAvailableWalletsOn(Boolean(available_wallets_on)))
+        dispatch(actionsDrop.setPreferredWalletOn(Boolean(preferred_wallet_on)))
 
         if (preview_setting === 'token') {
           const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(chain_id), infuraPk: REACT_APP_INFURA_ID as string })
