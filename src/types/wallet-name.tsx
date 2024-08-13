@@ -5,7 +5,6 @@ type TWalletName = 'metamask' |
                    'imtoken' |
                    'zerion' |
                    'rainbow' |
-                   'manual_address' |
                    'ledger' |
                    'wallet_1inch' |
                    'walletconnect'

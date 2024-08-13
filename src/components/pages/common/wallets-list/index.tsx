@@ -97,8 +97,6 @@ const defineOption = (
           return coinbaseOption
         case 'ledger':
           return ledgerOption
-        case 'manual_address':
-          return manualAddressOption
         case 'wallet_1inch':
           return wallet1InchOption
         default:
@@ -125,8 +123,6 @@ const defineOption = (
           return rainbowOption
         case 'ledger':
           return ledgerOption
-        case 'manual_address':
-          return manualAddressOption
         case 'wallet_1inch':
           return wallet1InchOption
         

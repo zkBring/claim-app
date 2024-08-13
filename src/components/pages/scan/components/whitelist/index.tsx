@@ -88,6 +88,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) =>
       scanIdSig: string,
       multiscanQREncCode: string,
       address: string,
+      chainId?: number,
       signer?: any,
       callback?: (location: string) => void
     ) => dispatch(
@@ -97,6 +98,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) =>
         scanIdSig,
         multiscanQREncCode,
         address,
+        chainId,
         signer,
         callback 
       )
@@ -280,6 +282,7 @@ const renderContent = (
   decimals: number,
   whitelistOn: boolean,
   whitelistType: TWhitelistType | null,
+  loading: boolean,
   setAddressCallback: (address?: string) => void
 ) => {
   let content = null
@@ -333,6 +336,7 @@ const renderContent = (
       break
     case 'sign_message':
       content = <SignMessage
+        loading={loading}
         onSubmit={() => setAddressCallback()}
       />
       break
@@ -372,7 +376,7 @@ const Scan: FC<ReduxType> = ({
 }) => {
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
-  const { address, isConnected } = useAccount()
+  const { address, isConnected, chainId } = useAccount()
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
@@ -385,6 +389,7 @@ const Scan: FC<ReduxType> = ({
       scanIdSig,
       multiscanQREncCode,
       addressArg || address as string,
+      chainId,
       signer,
       (location) => {
         setMultiscanStep('eligible_to_claim')
@@ -459,6 +464,7 @@ const Scan: FC<ReduxType> = ({
     decimals,
     whitelistOn,
     whitelistType,
+    loading,
     getLinkCallback
   )
 }

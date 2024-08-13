@@ -143,19 +143,6 @@ const wallets: TWallets = {
       }
     },
   },
-  manual_address: {
-    id: 'manual_address',
-    name: 'ENS or address',
-    chains: [1, 137, 8453, 13371],
-    mobile: {
-      android: {
-        support: false
-      },
-      ios: {
-        support: false,
-      }
-    },
-  },
   ledger: {
     id: 'ledger',
     name: 'Ledger Live',

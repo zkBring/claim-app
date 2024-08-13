@@ -16,6 +16,7 @@ export default function getLinkByMultiQR(
   scanIdSig: string,
   multiscanQREncCode: string,
   address: string,
+  chainId?: number,
   signer?: any,
   callback?: (location: string) => void
 ) {
@@ -34,7 +35,7 @@ export default function getLinkByMultiQR(
         multiscanQRId,
         scanId,
         scanIdSig,
-
+        chainId,
         // params for whitelist
         address,
         signing
@@ -147,6 +148,26 @@ export default function getLinkByMultiQR(
             })
           }
           
+        } else if (err.response?.status === 400) {
+          const { data } = err.response
+          if (data.errors.includes('ERROR_WHITELIST_SIGNATURE_VERIFICATION')) {
+            dispatch(actionsDrop.setError('qr_error'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_error'
+              }
+            })
+            
+          } else {
+            dispatch(actionsDrop.setError('qr_error'))
+            plausibleApi.invokeEvent({
+              eventName: 'error',
+              data: {
+                err_name: 'qr_error'
+              }
+            })
+          }
         }
       } else {
         if (err && err.code === "INVALID_ARGUMENT") {
