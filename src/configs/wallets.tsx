@@ -42,7 +42,6 @@ const wallets: TWallets = {
       }
     },
   },
-
   status: {
     id: 'status',
     name: 'Status',
