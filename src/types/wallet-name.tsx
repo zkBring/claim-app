@@ -6,6 +6,7 @@ type TWalletName = 'metamask' |
                    'zerion' |
                    'rainbow' |
                    'ledger' |
-                   'wallet_1inch'
+                   'wallet_1inch' |
+                   'walletconnect'
 
 export default TWalletName

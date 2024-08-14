@@ -4,10 +4,8 @@ import { WagmiProvider } from 'wagmi'
 import {
   mainnet,
   polygon,
-  sepolia,
   base,
-  baseGoerli,
-  polygonMumbai
+  immutableZkEvm
 } from 'wagmi/chains'
 import { http } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -35,10 +33,8 @@ const metadata = {
 const chains = [
   mainnet,
   polygon,
-  sepolia,
   base,
-  baseGoerli,
-  polygonMumbai
+  immutableZkEvm
 ] as const
 
 const config = defaultWagmiConfig({
@@ -57,11 +53,9 @@ const config = defaultWagmiConfig({
   ],
   transports: {
     [mainnet.id]: http(),
-    [sepolia.id]: http(),
     [polygon.id]: http(),
     [base.id]: http(),
-    [baseGoerli.id]: http(),
-    [polygonMumbai.id]: http(),
+    [immutableZkEvm.id]: http(),
   },
 })
 

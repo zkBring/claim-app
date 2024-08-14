@@ -51,39 +51,21 @@ const chains: TChains = {
       'https://etherscan.io'
     ]
   },
-  5: {
-    chainName: 'Goerli',
-    displayName: 'Goerli',
-    testnet: true,
-    alchemySupport: true,
+  13371: {
+    chainName: 'Immutable zkEVM',
+    displayName: 'Immutable zkEVM',
+    testnet: false,
+    alchemySupport: false,
     nativeCurrency: {
-      name: 'GoerliETH',
-      symbol: 'GoerliETH',
+      name: 'IMX',
+      symbol: 'IMX',
       decimals: 18
     },
     rpcUrls: [
-      `https://goerli.infura.io/v3/${REACT_APP_INFURA_ID}`
+      'https://immutable-zkevm.drpc.org'
     ],
     blockExplorerUrls: [
-      'https://goerli.etherscan.io'
-    ]
-  },
-  80001: {
-    chainName: 'Mumbai',
-    displayName: 'Mumbai',
-    alchemySupport: true,
-    testnet: true,
-    nativeCurrency: {
-      
-      name: 'MATIC',
-      symbol: 'MATIC',
-      decimals: 18
-    },
-    rpcUrls: [
-      'https://endpoints.omniatech.io/v1/matic/mumbai/public'
-    ],
-    blockExplorerUrls: [
-      'https://mumbai.polygonscan.com'
+      'https://explorer.immutable.com'
     ]
   },
   8453: {
@@ -103,23 +85,6 @@ const chains: TChains = {
       'https://basescan.org'
     ]
   },
-  84531: {
-    chainName: 'Base Goerli Testnet',
-    displayName: 'BaseGoerli',
-    testnet: true,
-    alchemySupport: false,
-    nativeCurrency: {
-      name: 'ETH',
-      symbol: 'ETH',
-      decimals: 18
-    },
-    rpcUrls: [
-      'https://base-goerli.public.blastapi.io'
-    ],
-    blockExplorerUrls: [
-      'https://goerli.basescan.org'
-    ]
-  }
 }
 
 export default chains
