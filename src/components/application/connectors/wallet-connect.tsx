@@ -33,7 +33,8 @@ const metadata = {
 const chains = [
   mainnet,
   polygon,
-  base
+  base,
+  immutableZkEvm
 ] as const
 
 const config = defaultWagmiConfig({
