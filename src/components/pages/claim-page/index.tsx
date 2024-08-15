@@ -188,10 +188,6 @@ const defineBackAction = (
     case 'ledger_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':
-      // if coinbase - do not show other wallets
-      if (wallet === 'coinbase_wallet') {
-        return () => action('set_connector')
-      }
       return () => action('wallets_list')
     case 'wallets_list':
       return () => action('set_connector')
