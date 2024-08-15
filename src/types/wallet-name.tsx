@@ -7,6 +7,7 @@ type TWalletName = 'metamask' |
                    'rainbow' |
                    'ledger' |
                    'wallet_1inch' |
-                   'walletconnect'
+                   'walletconnect' |
+                   'coinbase_wallet'
 
 export default TWalletName

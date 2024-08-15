@@ -92,10 +92,10 @@ const defineOption = (
   wallet: TWalletName | null,
   system: TSystem,
   metamaskOption: any, // connector
-  coinbaseOption: any, // connector
+  coinbaseWalletOption: any, // connector
+  coinbaseSmartWalletOption: any, // deeplink
   zerionOption: any, // redirect
   wallet1InchOption: any, // deeplink
-  manualAddressOption: any, // redirect
   imtokenOption: any, // deeplink
   trustOption: any, // deeplink
   rainbowOption: any, // deeplink
@@ -106,14 +106,17 @@ const defineOption = (
       switch (wallet) {
         case 'metamask':
           return metamaskOption
+        case 'coinbase_wallet':
+          return coinbaseWalletOption
         case 'coinbase_smart_wallet':
-          return coinbaseOption
+          return coinbaseSmartWalletOption
         case 'ledger':
           return ledgerOption
         case 'wallet_1inch':
           return wallet1InchOption
+          
         default:
-          return coinbaseOption
+          return coinbaseSmartWalletOption
       }
     }
 
@@ -124,8 +127,10 @@ const defineOption = (
       switch (wallet) {
         case 'metamask':
           return metamaskOption
+        case 'coinbase_wallet':
+          return coinbaseWalletOption
         case 'coinbase_smart_wallet':
-          return coinbaseOption
+          return coinbaseSmartWalletOption
         case 'zerion':
           return zerionOption
         case 'imtoken':
@@ -140,7 +145,7 @@ const defineOption = (
           return wallet1InchOption
         
         default:
-          return coinbaseOption
+          return coinbaseSmartWalletOption
       }
     }
 
@@ -164,7 +169,6 @@ const defineOptionsList = (
   isManual: boolean,
   chainId: number,
   claimCode: string,
-  enableENS?: boolean,
   enableZerion?: boolean,
   preferredWalletOn?: boolean
 ) => {
@@ -222,7 +226,7 @@ const defineOptionsList = (
 
   // @ts-ignore
   const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
-  const coinbaseOption = {
+  const coinbaseSmartWalletOption = {
     title: 'Create a smart wallet',
     onClick: () => {
       if (!coinbaseConnector) {
@@ -233,15 +237,20 @@ const defineOptionsList = (
     icon: <WalletIcon src={CoinabseWalletIcon} />
   }
 
-  const ensOption = !isManual && enableENS ? {
-    title: 'ENS or address',
-    onClick: () => {
-      setStep('set_address')
-    },
-    icon: <WalletIcon src={ENSIcon} />
-  } : undefined
+
 
   const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
+  const coinbaseWalletOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'coinbase_wallet',
+    'Coinbase Wallet App',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={CoinabseWalletIcon} />,
+    deeplinkRedirect,
+    claimCode,
+    wallet
+  )
 
   const wallet1InchOption = getWalletOption(
     'wallet_1inch',
@@ -303,10 +312,10 @@ const defineOptionsList = (
     wallet,
     system,
     injectedOption,
-    coinbaseOption,
+    coinbaseWalletOption,
+    coinbaseSmartWalletOption,
     zerionOption,
     wallet1InchOption,
-    ensOption,
     imtokenOption,
     trustOption,
     rainbowOption,
@@ -328,7 +337,6 @@ const WalletsList: FC<ReduxType> = ({
   claimCode,
   isManual,
   deeplinkRedirect,
-  enableENS,
   enableZerion,
   type,
   preferredWalletOn,
@@ -352,7 +360,6 @@ const WalletsList: FC<ReduxType> = ({
     isManual,
     chainId as number,
     claimCode as string,
-    enableENS,
     enableZerion,
     preferredWalletOn
   )
