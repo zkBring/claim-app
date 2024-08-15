@@ -35,7 +35,9 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
     ) {
       // has no injected
   
-      if (wallet !== 'coinbase_smart_wallet') {
+      if (
+        wallet !== 'coinbase_wallet'
+      ) {
         return installMetamask
       } else {
         return undefined
