@@ -27,6 +27,23 @@ type TWallets = Record<TWalletName, TWallet | undefined>
 
 const wallets: TWallets = {
   coinbase_smart_wallet: undefined,
+  coinbase_wallet: {
+    id: 'coinbase_wallet',
+    name: 'Coinbase Wallet',
+    walletURL: 'https://www.toshi.org',
+    dappStoreUrl: null,
+    mobile: {
+      android: {
+        support: true,
+        deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
+      },
+      ios: {
+        support: true,
+        deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
+      }
+    },
+    chains: [1, 137, 8453, 13371]
+  },
   metamask: {
     id: 'metamask',
     name: 'MetaMask',

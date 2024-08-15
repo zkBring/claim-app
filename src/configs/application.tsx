@@ -88,6 +88,4 @@ const applicationParams: TConfig = {
   wedding: weddingParams
 }
 
-export const COINBASE_CLAIM_URL = 'https://wallet.coinbase.com/claim?tk=code&k=<CODE>&c=<CHAIN_ID>&v=<VERSION>&src=d'
-
 export default applicationParams
