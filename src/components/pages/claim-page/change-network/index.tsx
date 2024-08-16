@@ -7,10 +7,24 @@ import {
   Image
 } from './styled-components'
 import { defineRealNetworkName } from 'helpers'
-import { RootState } from 'data/store'
+import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { switchNetwork } from 'data/store/reducers/user/async-actions'
+import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 import Wrongetwork from 'images/network.png'
+import { Dispatch } from 'redux'
+import { UserActions } from 'data/store/reducers/user/types'
+
+const mapDispatcherToProps = (dispatch: Dispatch<UserActions> & IAppDispatch) => {
+  return {
+      switchNetwork: (
+        chainId: number,
+        callback?: () => void
+      ) => dispatch(userAsyncActions.switchNetwork(
+        chainId,
+        callback
+      ))
+  }
+}
 
 const mapStateToProps = ({
   user: { address, chainId: userChainId, userProvider },
@@ -31,13 +45,14 @@ const mapStateToProps = ({
   campaignId
 })
 
-type ReduxType = ReturnType<typeof mapStateToProps>
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const ChangeNetwork: FC<ReduxType> = ({
   chainId,
   userProvider,
   campaignId,
-  type
+  type,
+  switchNetwork
 }) => {
   const networkName = defineRealNetworkName(chainId)
   return <Container>
@@ -58,4 +73,4 @@ const ChangeNetwork: FC<ReduxType> = ({
   </Container>
 }
 
-export default connect(mapStateToProps)(ChangeNetwork)
+export default connect(mapStateToProps, mapDispatcherToProps)(ChangeNetwork)
