@@ -18,13 +18,26 @@ import { useConnect } from 'wagmi'
 import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
-import { useWeb3Modal } from "@web3modal/react"
 const { REACT_APP_CLIENT } = process.env
 
 const mapStateToProps = ({
-  token: { name, image, decimals, },
-  drop: { tokenId, type, campaignId, amount, wallet, chainId, availableWallets },
-  user: { address }
+  token: {
+    name,
+    image,
+    decimals
+  },
+  drop: {
+    tokenId,
+    type,
+    campaignId,
+    amount,
+    wallet,
+    chainId,
+    preferredWalletOn
+  },
+  user: {
+    address
+  }
 }: RootState) => ({
   name,
   image,
@@ -36,7 +49,7 @@ const mapStateToProps = ({
   decimals,
   wallet,
   chainId,
-  availableWallets
+  preferredWalletOn
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -72,15 +85,8 @@ const SetConnector: FC<ReduxType> = ({
   campaignId,
   amount,
   decimals,
-  wallet,
-  chainId,
-  deeplinkRedirect,
-  availableWallets
 }) => {
   const { connect, connectors } = useConnect()
-  const { open } = useWeb3Modal()
-
-
   const injected = connectors.find(connector => connector.id === 'injected')
 
   const system = defineSystem()
@@ -97,13 +103,6 @@ const SetConnector: FC<ReduxType> = ({
   }, [])
 
   useEffect(() => {
-    if (
-      availableWallets.length === 1 &&
-      availableWallets[0] === 'coinbase_wallet'
-    ) {
-      return setInitialized(true)
-    }
-
     if(window &&
 
       //@ts-ignore
@@ -158,44 +157,7 @@ const SetConnector: FC<ReduxType> = ({
         ) {
           return connect({ connector: injected })
         }
-
-        if (
-          wallet &&
-          chainId &&
-          availableWallets.includes(wallet) &&
-          availableWallets.length === 1
-        ) {
-          if (wallet === 'coinbase_wallet') {
-            const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
-            if (coinbaseConnector) {
-              return connect({ connector: coinbaseConnector })
-            }
-          }
-
-          if (
-            wallet !== 'walletconnect' &&
-            wallet !== 'manual_address' &&
-            wallet !== 'crossmint' &&
-            wallet !== 'zerion'
-          ) {
-            const deeplink = getWalletDeeplink(wallet, system, window.location.href, chainId)
-            if (deeplink) {
-              return deeplinkRedirect(deeplink, wallet, () => setStep('wallet_redirect_await'))
-            }
-          } else if (
-            wallet === 'walletconnect'
-          ) {
-            return open()
-          } else if (wallet === 'zerion') {
-            return setStep('zerion_connection')
-          } else if (wallet === 'crossmint') {
-            return setStep('crossmint_connection')
-          } else if (wallet === 'manual_address') {
-            return setStep('set_address')
-          }
-        }
-
-        setStep('choose_wallet')
+        setStep('wallets_list')
       }
     }>
       Claim

@@ -32,11 +32,11 @@ const initialState: DropState = {
   claiming_finished_button_title: '',
   claiming_finished_button_url: '',
   walletApp: null,
-  availableWallets: [],
   previewSetting: undefined,
   whitelistType: null,
   whitelistOn: false,
-  multiscanLinkDecrypted: null
+  multiscanLinkDecrypted: null,
+  preferredWalletOn: false
 }
 
 export function dropReducer(
@@ -106,8 +106,8 @@ export function dropReducer(
         return {...state, walletApp: action.payload.walletApp }
       case Constants.DROP_SET_CLAIM_CODE:
         return {...state, claimCode: action.payload.claimCode }
-      case Constants.DROP_SET_AVAILABLE_WALLETS:
-        return {...state, availableWallets: action.payload.availableWallets }
+      case Constants.DROP_SET_PREFERRED_WALLET_ON:
+        return {...state, preferredWalletOn: action.payload.preferredWalletOn }
       case Constants.DROP_SET_MULTISCAN_LINK_DECRYPTED:
         return {...state, multiscanLinkDecrypted: action.payload.multiscanLinkDecrypted }
 

@@ -1,15 +1,13 @@
 type TWalletName = 'metamask' |
                    'status' |
                    'trust' |
-                   'opera' |
-                   'coinbase_wallet' |
+                   'coinbase_smart_wallet' |
                    'imtoken' |
                    'zerion' |
                    'rainbow' |
-                   'crossmint' |
-                   'walletconnect' |
-                   'manual_address' |
                    'ledger' |
-                   'wallet_1inch'
+                   'wallet_1inch' |
+                   'walletconnect' |
+                   'coinbase_wallet'
 
 export default TWalletName

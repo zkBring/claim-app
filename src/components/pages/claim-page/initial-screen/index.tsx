@@ -135,7 +135,7 @@ const InitialScreen: FC<ReduxType> = ({
       const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
       const isAuthorized = await coinbaseConnector?.isAuthorized()
       if (isAuthorized) {
-        await switchNetwork(userProvider, chainId as number, campaignId as string, () => {
+        await switchNetwork( chainId as number, () => {
           if (type === 'ERC1155') {
             return claimERC1155()
           }
@@ -154,7 +154,7 @@ const InitialScreen: FC<ReduxType> = ({
         system !== 'desktop'
       ) {
         if (chainId) {
-          await switchNetwork(userProvider, chainId as number, campaignId as string, () => {})
+          await switchNetwork(chainId as number, () => {})
         } else {
           alert('No chain provided')
         }

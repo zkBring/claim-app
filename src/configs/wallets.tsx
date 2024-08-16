@@ -23,13 +23,31 @@ type TWallet = {
   }
 }
 
-type TWallets = Record<TWalletName, TWallet>
+type TWallets = Record<TWalletName, TWallet | undefined>
 
 const wallets: TWallets = {
+  coinbase_smart_wallet: undefined,
+  coinbase_wallet: {
+    id: 'coinbase_wallet',
+    name: 'Coinbase Wallet',
+    walletURL: 'https://www.toshi.org',
+    dappStoreUrl: null,
+    mobile: {
+      android: {
+        support: true,
+        deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
+      },
+      ios: {
+        support: true,
+        deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
+      }
+    },
+    chains: [1, 137, 8453, 13371]
+  },
   metamask: {
     id: 'metamask',
     name: 'MetaMask',
-    chains: [1, 5, 137, 80001, 8453, 84531],
+    chains: [1, 137, 8453, 13371],
     mobile: {
       android: {
         support: true,
@@ -38,19 +56,6 @@ const wallets: TWallets = {
       ios: {
         support: true,
         deepLink: (url: string) => `https://metamask.app.link/dapp/${_withoutProtocol(url)}`
-      }
-    },
-  },
-  crossmint: {
-    id: 'crossmint',
-    name: 'Crossmint',
-    chains: [1, 5, 137, 80001, 8453, 84531],
-    mobile: {
-      android: {
-        support: false
-      },
-      ios: {
-        support: false,
       }
     },
   },
@@ -69,7 +74,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://get.status.im/browse/${_withoutProtocol(url)}`
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   trust: {
     id: 'trust',
@@ -86,42 +91,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://link.trustwallet.com/open_url?coin_id=60&url=${encodeURIComponent(url)}`
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
-  },
-  opera: {
-    id: 'opera',
-    name: 'Opera',
-    walletURL: 'https://www.opera.com/mobile/operabrowser',
-    walletURLIos: 'https://www.opera.com/mobile/touch',
-    dappStoreUrl: 'https://www.opera.com/dapps-store',
-    mobile: {
-      android: {
-        support: true,
-        deepLink: (url: string) => `https://operacrypto.page.link/?link=${encodeURIComponent(url)}&efr=1&apn=com.opera.browser`
-      },
-      ios: {
-        support: true,
-        deepLink: (url: string) => `https://operacrypto.page.link/?link=${encodeURIComponent(url)}&efr=1&ibi=com.opera.OperaTouch&isi=1411869974`
-      }
-    },
-    chains: [1, 5, 137, 80001, 8453, 84531]
-  },
-  coinbase_wallet: {
-    id: 'coinbase_wallet',
-    name: 'Coinbase Wallet',
-    walletURL: 'https://www.toshi.org',
-    dappStoreUrl: null,
-    mobile: {
-      android: {
-        support: true,
-        deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
-      },
-      ios: {
-        support: true,
-        deepLink: (url: string) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`
-      }
-    },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   imtoken: {
     id: 'imtoken',
@@ -140,7 +110,7 @@ const wallets: TWallets = {
           `imtokenv2://navigate/DappView?url=${encodeURIComponent(url)}`
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   zerion: {
     id: 'zerion',
@@ -157,7 +127,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => null
       }
     },
-    chains: [1, 5, 137, 80001, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   rainbow: {
     id: 'rainbow',
@@ -179,20 +149,7 @@ const wallets: TWallets = {
   walletconnect: {
     id: 'walletconnect',
     name: 'WalletConnect',
-    chains: [1, 5, 137, 80001, 8453, 84531],
-    mobile: {
-      android: {
-        support: false
-      },
-      ios: {
-        support: false,
-      }
-    },
-  },
-  manual_address: {
-    id: 'manual_address',
-    name: 'ENS or address',
-    chains: [1, 5, 137, 80001, 8453, 84531],
+    chains: [1, 137, 8453, 13371],
     mobile: {
       android: {
         support: false
@@ -217,7 +174,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => null
       }
     },
-    chains: [1, 5, 137, 8453, 84531]
+    chains: [1, 137, 8453, 13371],
   },
   wallet_1inch: {
     id: 'wallet_1inch',
@@ -234,7 +191,7 @@ const wallets: TWallets = {
         deepLink: (url: string) => `https://wallet.1inch.io/app/w3browser?link=${encodeURIComponent(url)}`
       }
     },
-    chains: [1, 5, 137, 8453, 80001, 84531]
+    chains: [1, 137, 8453, 13371],
   },
 }
 

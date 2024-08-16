@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button, Text, Title } from 'components/common'
+import { Text, Title } from 'components/common'
 import { OptionsList } from 'linkdrop-ui'
 
 export const TitleComponent = styled(Title)`
@@ -15,44 +15,33 @@ export const Container = styled.div`
   width: 100%;
 `
 
-export const ScreenButton = styled(Button)`
-  max-width: 100%;
-  width: 100%;
-  margin-bottom: 20px;
-
-  svg {
-    margin-right: 10px;
-  }
-`
-
 export const TextComponent = styled(Text)`
   text-align: center;
-  margin-bottom: 32px;
-`
-
-export const AdditionalAction = styled.div`
-  color: ${props => props.theme.additionalTextColor};
-  font-size: 16px;
-  text-align: center;
-  cursor: pointer;
+  margin-bottom: 22px;
 `
 
 export const OptionsListStyled = styled(OptionsList)`
   width: 100%;
   margin: 0 0 36px;
+  li {
+    margin-bottom: 12px;
+    justify-content: center;
+
+    & > div {
+      margin-right: 12px;
+    }
+  }
   @media (max-width: 500px) {
     margin: 0 0 150px;
   }    
 `
 
 export const WalletIcon = styled.img`
-  max-width: 24px;
+  width: 33px;
+  height: 33px;
+  border-radius: none;
 `
 
-export const LinkButton = styled.div`
-  cursor: pointer;
-  color: ${props => props.theme.linkColor};
-  font-size: 16px;
-  text-align: center;
-  margin-bottom: 36px;
+export const ImageContainer = styled.div`
+  margin: 0 auto 22px;
 `

@@ -1,8 +1,8 @@
-import { TSystem, TWalletOption } from 'types'
+import { TSystem, TWalletName, TWalletOption } from 'types'
 import { detect } from 'detect-browser'
 
 type TDefineInjectedWallet = (
-  wallet: string | null,
+  wallet: TWalletName | null,
   system: TSystem,
   downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
@@ -20,14 +20,13 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 ) => {
   const browser = detect()
   const installMetamask = {
-    title: 'Browser Wallet',
+    title: 'Metamask',
     onClick: () => {
       window.open('https://metamask.io/download/', '_blank')
       downloadStarted && downloadStarted()
     },
     icon: walletIcon,
-    tag: 'Install MetaMask ->',
-    recommended: wallet === 'metamask'
+    tag: 'Install MetaMask ->'
   }
 
   if (system === 'desktop') {
@@ -36,7 +35,9 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
     ) {
       // has no injected
   
-      if (wallet !== 'coinbase_wallet') {
+      if (
+        wallet !== 'coinbase_wallet'
+      ) {
         return installMetamask
       } else {
         return undefined
@@ -51,15 +52,14 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 
     if (window.ethereum) {
       return {
-        title: 'Browser Wallet',
+        title: 'Metamask',
         onClick: () => {
           if (!injected) {
             return alert('Cannot connect to injected')
           }
           connect({ connector: injected })
         },
-        icon: walletIcon,
-        recommended: wallet === 'metamask'
+        icon: walletIcon
       }
     }
   
@@ -76,8 +76,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
         }
         connect({ connector: injected })
       },
-      icon: walletIcon,
-      recommended: wallet !== 'walletconnect' && wallet !== 'coinbase_wallet' 
+      icon: walletIcon
     }
   }
 

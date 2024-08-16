@@ -20,9 +20,13 @@ import { ReactComponent as LoaderIcon } from './loader-icon.svg';
 import { ReactComponent as ExclamationFilledIcon } from './exclamation-filled-icon.svg'
 import { ReactComponent as LinkdropIcon } from './linkdrop-icon.svg'
 import { ReactComponent as RefreshIcon } from './refresh-icon.svg'
+import { ReactComponent as WalletImageIcon } from './wallet-image-icon.svg'
+import { ReactComponent as LogoutIcon } from './logout-icon.svg'
 
 const Icons = {
   EthereumLogo,
+  LogoutIcon,
+  WalletImageIcon,
   DroplistLogo,
   RefreshIcon,
   LinkdropIcon,

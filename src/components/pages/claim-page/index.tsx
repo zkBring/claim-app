@@ -18,8 +18,7 @@ import {
   PageHeader,
   LedgerConnection,
   DownloadAwait,
-  WalletRedirectAwait,
-  CrossmintConnection
+  WalletRedirectAwait
 } from 'components/pages/common'
 import ErrorServerFail from './error-server-fail'
 import ErrorRegion from './error-region'
@@ -28,7 +27,6 @@ import ErrorAlreadyClaimed from './error-already-claimed'
 import ErrorLinkNotFound from './error-link-not-found'
 import ErrorLinkNoConnection from './error-link-no-connection'
 import ErrorLink from './error-link'
-import ChooseWallet from './choose-wallet'
 import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
 import { Loader } from 'components/common'
@@ -145,8 +143,6 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
       return <ErrorLinkExpired />
     case 'error_already_claimed':
       return <ErrorAlreadyClaimed />
-    case 'choose_wallet':
-      return <ChooseWallet />
     case 'wallets_list':
       return <WalletsListPage
         enableENS
@@ -173,8 +169,6 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
       return <LedgerConnection
         setStepCallback={() => setStep('initial')}
       />
-    case 'crossmint_connection':
-      return <CrossmintConnection />
     case 'wallet_redirect_await':
       return <WalletRedirectAwait />
     default:
@@ -184,7 +178,7 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
 
 const defineBackAction = (
   step: TDropStep,
-  wallet: string | null,
+  wallet: TWalletName | null,
   action: (prevoiusStep: TDropStep) => void
 ) => {
   switch (step) {
@@ -192,24 +186,21 @@ const defineBackAction = (
     case 'download_await':
     case 'zerion_connection':
     case 'ledger_connection':
-    case 'crossmint_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':
-      // if coinbase - do not show other wallets
-      if (wallet === 'coinbase_wallet') {
-        return () => action('set_connector')
-      }
       return () => action('wallets_list')
     case 'wallets_list':
-      return () => action('choose_wallet')
-    case 'choose_wallet':
       return () => action('set_connector')
     default:
       return null
   }
 }
 
-const defineHeader = (step: TDropStep, wallet: string | null, action: (prevStep: TDropStep) => void) => {
+const defineHeader = (
+  step: TDropStep,
+  wallet: TWalletName | null,
+  action: (prevStep: TDropStep) => void
+) => {
   const backAction = defineBackAction(step, wallet, action)
   return <PageHeader backAction={backAction}/>
 }

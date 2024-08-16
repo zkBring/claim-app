@@ -5,9 +5,15 @@ import { UserActions } from '../../user/types'
 import { ethers } from 'ethers'
 import * as actionsDrop from '../actions'
 import * as actionsUser from '../../user/actions'
-import { TLinkParams, TDropType, TWalletName, TSystem } from 'types'
+import {
+  TLinkParams,
+  TDropType,
+  TWalletName,
+  TSystem
+} from 'types'
 import LinkdropSDK from 'linkdrop-sdk'
-import { COINBASE_CLAIM_URL } from 'configs/application'
+import * as actionsToken from '../../token/actions'
+import { TokenActions } from '../../token/types'
 
 const {
   REACT_APP_DASHBOARD_SERVER_URL,
@@ -20,7 +26,7 @@ export default function getLinkByCode(
   callback?: (linkCode: string) => void
 ) {
   return async (
-    dispatch: Dispatch<DropActions> & Dispatch<UserActions>
+    dispatch: Dispatch<DropActions> & Dispatch<UserActions> & Dispatch<TokenActions>
   ) => {
     dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
@@ -51,26 +57,12 @@ export default function getLinkByCode(
         claiming_finished_button_title, 
         claiming_finished_button_url,
         claiming_finished_button_on,
-        available_wallets
+        preferred_wallet_on,
+        linkdrop_token,
+        token_image,
+        token_name
       } : TLinkParams = data
 
-
-      // disabled for now
-      // if (system === 'android' || system === 'ios') {
-      //   if (
-      //     available_wallets &&
-      //     available_wallets.length === 1 &&
-      //     available_wallets[0] === 'coinbase_wallet'
-      //   ) {
-      //     const defineRedirectUrl = COINBASE_CLAIM_URL
-      //       .replace('<CODE>', linkCode)
-      //       .replace('<CHAIN_ID>', String(chain_id))
-      //       .replace('<VERSION>', '3')
-      //     window.location.href = defineRedirectUrl
-      //     // alert('REDIRECT SHOULD BE HERE')
-      //   }
-      // }
-      
 
       dispatch(actionsDrop.setChainId(Number(chain_id)))
       dispatch(actionsDrop.setTokenAddress(token_address))
@@ -88,8 +80,14 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setLoading(false))
       dispatch(actionsDrop.setClaimCode(linkCode))
       dispatch(actionsDrop.setLinkId(linkId))
-      dispatch(actionsDrop.setAvailableWallets(available_wallets || []))
       dispatch(actionsDrop.setLinkKey(linkKey))
+      dispatch(actionsDrop.setPreferredWalletOn(Boolean(preferred_wallet_on)))
+
+      if (linkdrop_token) {
+        dispatch(actionsToken.setImage(token_image))
+        dispatch(actionsToken.setName(token_name))
+        dispatch(actionsToken.setLinkdropToken(linkdrop_token))
+      }
 
       if (
         claiming_finished_button_title &&

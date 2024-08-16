@@ -7,7 +7,6 @@ type TMultiscanCampaign = {
   sponsored: boolean
   wallet: TWalletName
   chain_id: number
-  available_wallets: string[]
   campaign_number: string | number
   token_id: string
   preview_setting?: TPreviewSetting
@@ -16,5 +15,9 @@ type TMultiscanCampaign = {
   redirect_on: string
   whitelist_on: boolean
   whitelist_type: TWhitelistType
+  preferred_wallet_on?: boolean,
+  linkdrop_token: boolean,
+  token_image: string,
+  token_name: string
 }
 export default TMultiscanCampaign

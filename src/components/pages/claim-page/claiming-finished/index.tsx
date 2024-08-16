@@ -17,7 +17,7 @@ import {
   ERC20TokenPreview,
   ClaimingFinishedButton,
   PoweredByFooter,
-  ClaimingFinishedSecondaryButton
+  ClaimingFinishedExplorerButton
 } from 'components/pages/common'
 import ClaimingFinishedERC20 from 'images/claiming-finished-erc20.png'
 import { TDropType } from 'types'
@@ -52,9 +52,6 @@ type ReduxType = ReturnType<typeof mapStateToProps>
 
 const defineTitle = (type: TDropType | null, email?: string, claiming_finished_description?: string) => {
   if (claiming_finished_description) { return claiming_finished_description }
-  if (email) {
-    return <>You can access your NFT by logging in to Crossmint with <UserAddress>{email}</UserAddress></>
-  }
   return `Your ${type === 'ERC20' ? 'tokens' : 'NFT'} will appear in your account in a few minutes`
 }
 
@@ -108,7 +105,7 @@ const ClaimingFinished: FC<ReduxType> = ({
     </Subtitle>
     <ButtonsContainer>
       <ClaimingFinishedButton />
-      <ClaimingFinishedSecondaryButton />
+      <ClaimingFinishedExplorerButton />
     </ButtonsContainer>
     <PoweredByFooter />
   </Container>

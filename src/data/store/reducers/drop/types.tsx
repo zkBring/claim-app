@@ -41,8 +41,8 @@ export interface DropState {
   claiming_finished_description: string
   claiming_finished_button_title: string
   claiming_finished_button_url: string
+  preferredWalletOn: boolean
   walletApp: null | TWalletName
-  availableWallets: string[]
   previewSetting?: TPreviewSetting
   whitelistOn: boolean
   whitelistType: TWhitelistType | null

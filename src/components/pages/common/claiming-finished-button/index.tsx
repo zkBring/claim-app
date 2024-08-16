@@ -1,50 +1,63 @@
-import { FC } from 'react'
-import { ButtonStyled } from './styled-components'
-import { defineOpenseaURL } from 'helpers'
+import {
+  FC,
+  useEffect,
+  useState
+} from 'react'
+import {
+} from 'components/common'
+import { ButtonStyled, LoaderStyled } from './styled-components'
 import { plausibleApi } from 'data/api'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
+import { TProps } from './types' 
+import { useConnect } from 'wagmi'
 
 const mapStateToProps = ({
   drop: {
-    chainId,
-    tokenId,
-    tokenAddress,
     campaignId,
-    type,
     claiming_finished_button_title,
     claiming_finished_button_url,
-    claiming_finished_description
+    wallet
   },
-  user: {
-    address,
-    email
-  }
 }: RootState) => ({
-  chainId,
-  tokenId,
-  type,
-  tokenAddress,
   campaignId,
   claiming_finished_button_title,
   claiming_finished_button_url,
-  claiming_finished_description,
-  address,
-  email
+  wallet
 })
 
 type ReduxType = ReturnType<typeof mapStateToProps>
 
-const ClaimingFinishedButton: FC<ReduxType> = ({
-  tokenId,
-  tokenAddress,
-  chainId,
+const ClaimingFinishedButton: FC<ReduxType & TProps> = ({
   campaignId,
-  type,
   claiming_finished_button_title,
   claiming_finished_button_url,
-  email
+  wallet,
+  alreadyClaimed
 }) => {
+  const { connectors } = useConnect()
+  const [ isSmartWallet, setIsSmartWallet ] = useState<boolean>(false)
+  const [ loading, setLoading ] = useState<boolean>(true)
+
+  useEffect(( ) => {
+    const init = async () => {
+      const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
+      if (coinbaseConnector) {
+        const isAuthorized = await coinbaseConnector?.isAuthorized()
+        setIsSmartWallet(isAuthorized)
+      }
+
+      setLoading(false)
+    }
+
+    init()
+
+  }, [])
+
+  if (loading) {
+    return <LoaderStyled size='small' />
+  }
+
   if (claiming_finished_button_url && claiming_finished_button_title) {
     return <ButtonStyled
       onClick={() => {
@@ -61,48 +74,28 @@ const ClaimingFinishedButton: FC<ReduxType> = ({
       {claiming_finished_button_title}
     </ButtonStyled>
   }
-  if (email) {
+
+  if (alreadyClaimed && wallet === 'coinbase_smart_wallet') {
     return <ButtonStyled
-      onClick={() => {
-        plausibleApi.invokeEvent({
-          eventName: 'open_crossmint',
-          data: {
-            campaignId: campaignId as string,
-          }
-        })
-        window.open('https://www.crossmint.com/user/collection', '_blank')
-      }}
+      href="https://keys.coinbase.com"
+      target='_blank'
       appearance='action'
     >
-      Go to Crossmint
+      See in Wallet
     </ButtonStyled>
   }
-  if (type === 'ERC20') {
-    return null
-  }
-  if (!tokenId || !tokenAddress || !chainId) { return null }
-  const watchTokenUrl = defineOpenseaURL({
-    chainId,
-    tokenAddress,
-    tokenId
-  })
-  if (!watchTokenUrl) {
-    return null
-  }
-  return <ButtonStyled
-    onClick={() => {
-      plausibleApi.invokeEvent({
-        eventName: 'click_redirect_button',
-        data: {
-          campaignId: campaignId as string,
-        }
-      })
-      window.open(watchTokenUrl, '_blank')
-    }}
-    appearance='action'
-  >
-    View on OpenSea
-  </ButtonStyled>
+
+  if (isSmartWallet) {
+    return <ButtonStyled
+      href="https://keys.coinbase.com"
+      target='_blank'
+      appearance='action'
+    >
+      See in Wallet
+    </ButtonStyled>
+  } 
+  
+  return null
 }
 
 export default connect(mapStateToProps)(ClaimingFinishedButton)

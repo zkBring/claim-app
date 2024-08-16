@@ -19,5 +19,8 @@ export type TLinkParams = {
   claiming_finished_button_title?: string 
   claiming_finished_button_url?: string
   claiming_finished_button_on?: boolean
-  available_wallets?: string[]
+  preferred_wallet_on: boolean,
+  linkdrop_token: boolean,
+  token_image: string,
+  token_name: string
 }

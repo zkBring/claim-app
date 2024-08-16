@@ -1,65 +1,70 @@
+import { Dispatch } from 'redux'
+import {
+  UserActions
+} from '../types'
 import { IMetamaskError } from 'types'
 import {
   toHex,
+  alertError
 } from 'helpers'
 import chains from 'configs/chains'
-import { plausibleApi } from 'data/api'
+import { IAppDispatch, RootState } from 'data/store'
+import * as actions from '../actions'
 
-async function switchNetwork (
-	provider: any,
+function switchNetwork (
   chainId: number,
-  campaignId: string,
-  callback: () => void
+  callback?: () => void
 ) {
-  try {
-    await provider.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: toHex(chainId) }],
-    })
-
-    plausibleApi.invokeEvent({
-      eventName: 'netw_switch',
-      data: {
-        campaignId: campaignId,
-      }
-    })
-
-    callback && callback()
-  } catch (err) {
-      const switchError = err as IMetamaskError
-      // if (switchError.code && (switchError.code === 4902 || switchError.code === -32603)) { // 4902 for regular cases, -32603 for metamask
-        try {
-          const chainObj = chains[chainId]
-          if (chainObj) {
-            const data = {
-              chainName: chainObj.chainName,
-              nativeCurrency: chainObj.nativeCurrency,
-              rpcUrls: chainObj.rpcUrls,
-              blockExplorerUrls: chainObj.blockExplorerUrls,
-              chainId: toHex(chainId)
-            }
-
-            await provider.request({
-              method: 'wallet_addEthereumChain',
-              params: [data],
-            })
-
-            plausibleApi.invokeEvent({
-              eventName: 'netw_add',
-              data: {
-                campaignId: campaignId,
+  return async (
+    dispatch: Dispatch<UserActions> & IAppDispatch,
+    getState: () => RootState
+  ) => {
+    dispatch(actions.setLoading(true))
+    const { user: {
+      userProvider
+    } } = getState()
+  
+    if (!chainId) {
+      return alertError('Current chain ID is not provided')
+    }
+    try {
+      const request = await userProvider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{
+          chainId: toHex(chainId)
+        }],
+      })
+      callback && callback()
+    } catch (err) {
+      console.log({ err })
+        const switchError = err as IMetamaskError
+        if (switchError.code) {
+          try {
+            const chainObj = chains[chainId]
+            if (chainObj) {
+              const data = {
+                chainName: chainObj.chainName,
+                nativeCurrency: chainObj.nativeCurrency,
+                rpcUrls: chainObj.rpcUrls,
+                blockExplorerUrls: chainObj.blockExplorerUrls,
+                chainId: toHex(chainId)
               }
-            })
-
-            callback && callback()
+  
+              await userProvider.request({
+                method: 'wallet_addEthereumChain',
+                params: [data],
+              })
+              callback && callback()
+            }
+          } catch (err) {
+            alertError('Check console for more information')
+            console.error({ err })
+            // handle "add" error
           }
-        } catch (addError) {
-          alert('Application cannot switch network')
-          console.error({
-            addError
-          })
-        }
-      // }    
+        }    
+    }
+    dispatch(actions.setLoading(false))
+
   }
 }
 

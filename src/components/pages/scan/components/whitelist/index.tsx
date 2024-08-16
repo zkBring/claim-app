@@ -15,7 +15,7 @@ import {
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from 'components/pages/page'
-import { TDropError, TDropType, TMultiscanStep, TWhitelistType } from 'types'
+import { TDropError, TDropType, TMultiscanStep, TWalletName, TWhitelistType } from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -34,7 +34,6 @@ import {
   DownloadAwait,
   ERC20TokenPreview,
   WalletRedirectAwait,
-  CrossmintConnection,
   SignMessage,
   EligibleToClaim,
   QRCampaignNotEligible
@@ -89,6 +88,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) =>
       scanIdSig: string,
       multiscanQREncCode: string,
       address: string,
+      chainId?: number,
       signer?: any,
       callback?: (location: string) => void
     ) => dispatch(
@@ -98,6 +98,7 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) =>
         scanIdSig,
         multiscanQREncCode,
         address,
+        chainId,
         signer,
         callback 
       )
@@ -240,13 +241,12 @@ const DefaultScreen: FC<{
 
 const defineBackAction = (
   multiscanStep: TMultiscanStep,
-  wallet: string | null,
+  wallet: TWalletName | null,
   action: (step: TMultiscanStep) => void
 ) => {
   switch (multiscanStep) {
     case 'download_await':
     case 'zerion_connection':
-    case 'crossmint_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':
       // if coinbase - do not show other wallets
@@ -264,7 +264,7 @@ const defineBackAction = (
 
 const defineHeader = (
   multiscanStep: TMultiscanStep,
-  wallet: string | null,
+  wallet: TWalletName | null,
   action: (step: TMultiscanStep
 ) => void) => {
   const backAction = defineBackAction(multiscanStep, wallet, action)
@@ -273,7 +273,7 @@ const defineHeader = (
 
 const renderContent = (
   multiscanStep: TMultiscanStep,
-  wallet: string | null,
+  wallet: TWalletName | null,
   setMultiscanStep: (multiscanStep: TMultiscanStep) => void,
   image: string | null,
   name: string | null,
@@ -282,6 +282,7 @@ const renderContent = (
   decimals: number,
   whitelistOn: boolean,
   whitelistType: TWhitelistType | null,
+  loading: boolean,
   setAddressCallback: (address?: string) => void
 ) => {
   let content = null
@@ -330,14 +331,12 @@ const renderContent = (
         setStepCallback={() => setMultiscanStep('whitelist')}
       />
       break
-    case 'crossmint_connection':
-      content = <CrossmintConnection />
-      break
     case 'wallet_redirect_await':
       content = <WalletRedirectAwait />
       break
     case 'sign_message':
       content = <SignMessage
+        loading={loading}
         onSubmit={() => setAddressCallback()}
       />
       break
@@ -377,7 +376,7 @@ const Scan: FC<ReduxType> = ({
 }) => {
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
   const history = useHistory()
-  const { address, isConnected } = useAccount()
+  const { address, isConnected, chainId } = useAccount()
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
   const system = defineSystem()
@@ -390,6 +389,7 @@ const Scan: FC<ReduxType> = ({
       scanIdSig,
       multiscanQREncCode,
       addressArg || address as string,
+      chainId,
       signer,
       (location) => {
         setMultiscanStep('eligible_to_claim')
@@ -464,6 +464,7 @@ const Scan: FC<ReduxType> = ({
     decimals,
     whitelistOn,
     whitelistType,
+    loading,
     getLinkCallback
   )
 }

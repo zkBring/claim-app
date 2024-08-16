@@ -158,16 +158,14 @@ export function setClaimingFinishedButtonURL (claiming_finished_button_url: stri
   )
 }
 
-export function setAvailableWallets (available_wallets: string[]) {
+export function setPreferredWalletOn (preferred_wallet_on: boolean) {
   return action(
-    Constants.DROP_SET_AVAILABLE_WALLETS,
+    Constants.DROP_SET_PREFERRED_WALLET_ON,
     {
-      availableWallets: available_wallets
+      preferredWalletOn: preferred_wallet_on
     }
   )
 }
-
-
 
 export function setMultiscanWhitelistOn (whitelist_on: boolean) {
   return action(
