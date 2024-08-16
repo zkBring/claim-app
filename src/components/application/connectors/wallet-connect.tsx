@@ -31,9 +31,9 @@ const metadata = {
 }
 
 const chains = [
+  base,
   mainnet,
   polygon,
-  base,
   immutableZkEvm
 ] as const
 
@@ -52,9 +52,9 @@ const config = defaultWagmiConfig({
     coinbaseWallet()
   ],
   transports: {
+    [base.id]: http(),
     [mainnet.id]: http(),
     [polygon.id]: http(),
-    [base.id]: http(),
     [immutableZkEvm.id]: http(),
   },
 })
