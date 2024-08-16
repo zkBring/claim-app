@@ -23,7 +23,10 @@ const mapStateToProps = ({
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
-    switchNetwork: (chain: number, callback: () => void) => dispatch(userAsyncActions.switchNetwork(
+    switchNetwork: (
+      chain: number,
+      callback: () => void
+    ) => dispatch(userAsyncActions.switchNetwork(
       chain,
       callback
     )),
