@@ -25,6 +25,10 @@ import { plausibleApi } from 'data/api'
 import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
 import { connect } from 'react-redux'
 import { switchNetwork } from 'data/store/reducers/user/async-actions'
+import { UserActions } from 'data/store/reducers/user/types'
+import * as userAsyncActions from 'data/store/reducers/user/async-actions'
+
+
 const { REACT_APP_CLIENT} = process.env
 const config = defineApplicationConfig()
 
@@ -90,7 +94,14 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
         true
       )
     ),
-    setStep: (step: TDropStep) => dispatch(dropActions.setStep(step))
+    setStep: (step: TDropStep) => dispatch(dropActions.setStep(step)),
+    switchNetwork: (
+      chainId: number,
+      callback?: () => void
+    ) => dispatch(userAsyncActions.switchNetwork(
+      chainId,
+      callback
+    ))
   }
 }
 
@@ -122,7 +133,8 @@ const InitialScreen: FC<ReduxType> = ({
   decimals,
   userProvider,
   email,
-  autoclaim
+  autoclaim,
+  switchNetwork
 }) => {
 
   const system = defineSystem()
@@ -135,7 +147,7 @@ const InitialScreen: FC<ReduxType> = ({
       const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
       const isAuthorized = await coinbaseConnector?.isAuthorized()
       if (isAuthorized) {
-        await switchNetwork( chainId as number, () => {
+        switchNetwork( chainId as number, () => {
           if (type === 'ERC1155') {
             return claimERC1155()
           }
@@ -154,7 +166,17 @@ const InitialScreen: FC<ReduxType> = ({
         system !== 'desktop'
       ) {
         if (chainId) {
-          await switchNetwork(chainId as number, () => {})
+          return switchNetwork(chainId as number, () => {
+            if (type === 'ERC1155') {
+              return claimERC1155()
+            }
+            if (type === 'ERC721') {
+              return claimERC721()
+            }
+            if (type === 'ERC20') {
+              return claimERC20()
+            }
+          })
         } else {
           alert('No chain provided')
         }
