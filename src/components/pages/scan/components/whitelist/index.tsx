@@ -245,8 +245,6 @@ const defineBackAction = (
 ) => {
   switch (multiscanStep) {
     case 'download_await':
-    case 'zerion_connection':
-      return () => action('wallets_list')
     case 'wallet_redirect_await':
       // if coinbase - do not show other wallets
       if (wallet === 'coinbase_wallet') {
@@ -307,15 +305,11 @@ const renderContent = (
       break
     case 'wallets_list':
       content = <WalletsListPage
-        enableZerion={!whitelistOn && !whitelistType}
         setStep={setMultiscanStep}
       />
       break
     case 'download_await':
       content = <DownloadAwait />
-      break
-    case 'zerion_connection':
-      content = null
       break
     case 'ledger_connection':
       content = <LedgerConnection
