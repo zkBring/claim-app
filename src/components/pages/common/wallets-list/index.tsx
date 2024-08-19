@@ -10,15 +10,12 @@ import {
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
-import MetamaskIcon from 'images/metamask-wallet.png'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
-import ZerionWalletIcon from 'images/zerion-wallet.png'
 import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import Wallet1inch from 'images/wallet-1inch.png'
-import ENSIcon from 'images/ens-logo.png'
 import { useConnect } from 'wagmi'
 import {
   TDropStep,
@@ -94,7 +91,6 @@ const defineOption = (
   metamaskOption: any, // connector
   coinbaseWalletOption: any, // connector
   coinbaseSmartWalletOption: any, // deeplink
-  zerionOption: any, // redirect
   wallet1InchOption: any, // deeplink
   imtokenOption: any, // deeplink
   trustOption: any, // deeplink
@@ -131,8 +127,6 @@ const defineOption = (
           return coinbaseWalletOption
         case 'coinbase_smart_wallet':
           return coinbaseSmartWalletOption
-        case 'zerion':
-          return zerionOption
         case 'imtoken':
           return imtokenOption
         case 'trust':
@@ -169,7 +163,6 @@ const defineOptionsList = (
   isManual: boolean,
   chainId: number,
   claimCode: string,
-  enableZerion?: boolean,
   preferredWalletOn?: boolean
 ) => {
 
@@ -276,14 +269,6 @@ const defineOptionsList = (
     wallet
   )
 
-  const zerionOption = ((injectedOption && !injectedOptionIsBrave) || isManual || !enableZerion) ? undefined : {
-    title: 'Zerion',
-    onClick: async () => {
-      setStep('zerion_connection')
-    },
-    icon: <WalletIcon src={ZerionWalletIcon} />
-  }
-
   const rainbowOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'rainbow',
     'Rainbow',
@@ -314,7 +299,6 @@ const defineOptionsList = (
     injectedOption,
     coinbaseWalletOption,
     coinbaseSmartWalletOption,
-    zerionOption,
     wallet1InchOption,
     imtokenOption,
     trustOption,
@@ -337,7 +321,6 @@ const WalletsList: FC<ReduxType> = ({
   claimCode,
   isManual,
   deeplinkRedirect,
-  enableZerion,
   type,
   preferredWalletOn,
   setAutoclaim
@@ -360,7 +343,6 @@ const WalletsList: FC<ReduxType> = ({
     isManual,
     chainId as number,
     claimCode as string,
-    enableZerion,
     preferredWalletOn
   )
 

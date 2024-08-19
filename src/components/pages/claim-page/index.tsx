@@ -144,9 +144,7 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
       return <ErrorAlreadyClaimed />
     case 'wallets_list':
       return <WalletsListPage
-        enableENS
         setStep={setStep}
-        enableZerion
       />
     case 'gas_price_high':
       return <HighGasPrice />
@@ -160,8 +158,6 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
       return <ShortCodeLoading />
     case 'download_await':
       return <DownloadAwait />
-    case 'zerion_connection':
-      return <>not working</>
     case 'ledger_connection':
       return <LedgerConnection
         setStepCallback={() => setStep('initial')}
@@ -181,7 +177,6 @@ const defineBackAction = (
   switch (step) {
     case 'set_address':
     case 'download_await':
-    case 'zerion_connection':
     case 'ledger_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':

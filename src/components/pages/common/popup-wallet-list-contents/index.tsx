@@ -32,11 +32,6 @@ const PopupContents: FC = () => {
       <li>Provides access to professional support and customer service.</li>
       <li>Supports a limited range of cryptocurrencies.</li>
     </OverlayList>
-    <OverlaySubtitle>Zerion Wallet</OverlaySubtitle>
-    <OverlayList>
-      <li>Has a simple and user-friendly interface.</li>
-      <li>Offers a feature called Zerion Dashboard that allows users to track their portfolio and manage investments.</li>
-    </OverlayList>
   </>
 }
 
