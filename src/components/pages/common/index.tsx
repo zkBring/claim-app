@@ -14,7 +14,6 @@ import PoweredByFooter from './powered-by-footer'
 import QRNoLinksToShare from './qr-no-links-to-share'
 import WalletsListPage from './wallets-list'
 import SetAddress from './set-address'
-import ZerionConnection from './zerion-connection'
 import DownloadAwait from './download-await'
 import WalletRedirectAwait from './wallet-redirect-await'
 import QRCampaignNotActive from './qr-campaign-not-active'
@@ -36,7 +35,6 @@ export {
   SetAddress,
   ClaimingFinishedExplorerButton,
   SignMessage,
-  ZerionConnection,
   DownloadAwait,
   QRCampaignNotActive,
   QRNotMapped,
