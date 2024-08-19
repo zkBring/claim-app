@@ -8,7 +8,10 @@ module.exports = {
       new webpack.ProvidePlugin({
         process: 'process/browser',
       })
-    ]
+    ],
+    configure: {
+      ignoreWarnings: [{ module: /node_modules\// }]
+    }
   },
   configure: (webpackConfig) => {
     return {

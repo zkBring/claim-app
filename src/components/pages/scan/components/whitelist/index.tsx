@@ -30,7 +30,6 @@ import {
   QRNoLinksToShare,
   WalletsListPage,
   SetAddress,
-  ZerionConnection,
   DownloadAwait,
   ERC20TokenPreview,
   WalletRedirectAwait,
@@ -316,15 +315,7 @@ const renderContent = (
       content = <DownloadAwait />
       break
     case 'zerion_connection':
-      content = <ZerionConnection
-        setStepCallback={(address) => {
-          if (whitelistOn && whitelistType) {
-            setMultiscanStep('sign_message')
-          } else {
-            setAddressCallback(address)
-          }
-        }}
-      />
+      content = null
       break
     case 'ledger_connection':
       content = <LedgerConnection

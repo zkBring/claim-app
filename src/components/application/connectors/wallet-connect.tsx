@@ -1,6 +1,5 @@
 import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
-import { WagmiProvider } from 'wagmi'
 import {
   mainnet,
   polygon,
@@ -41,7 +40,6 @@ const config = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
-  enableEmail: true,
   connectors: [
     walletConnect({
       projectId,

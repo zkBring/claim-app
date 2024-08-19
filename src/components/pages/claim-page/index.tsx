@@ -13,7 +13,6 @@ import ErrorNoConnectionPage from './error-no-connection'
 import { useEthersSigner } from 'hooks'
 import {
   WalletsListPage,
-  ZerionConnection,
   SetAddress,
   PageHeader,
   LedgerConnection,
@@ -162,9 +161,7 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
     case 'download_await':
       return <DownloadAwait />
     case 'zerion_connection':
-      return <ZerionConnection
-        setStepCallback={() => setStep('initial')}
-      />
+      return <>not working</>
     case 'ledger_connection':
       return <LedgerConnection
         setStepCallback={() => setStep('initial')}
