@@ -140,24 +140,27 @@ const InitialScreen: FC<ReduxType> = ({
   const system = defineSystem()
   const { connectors } = useConnect()
 
-  const onClaim = async () => {
+  const claim = () => {
+    if (type === 'ERC1155') {
+      return claimERC1155()
+    }
+    if (type === 'ERC721') {
+      return claimERC721()
+    }
+    if (type === 'ERC20') {
+      return claimERC20()
+    }
+    alert('Token type is not defined')
+  }
+
+  const claimLink = async () => {
     if (Number(userChainId) !== Number(chainId) && userProvider) {
       // @ts-ignore
 
       const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
       const isAuthorized = await coinbaseConnector?.isAuthorized()
       if (isAuthorized) {
-        switchNetwork( chainId as number, () => {
-          if (type === 'ERC1155') {
-            return claimERC1155()
-          }
-          if (type === 'ERC721') {
-            return claimERC721()
-          }
-          if (type === 'ERC20') {
-            return claimERC20()
-          }
-        })
+        switchNetwork( chainId as number, claim)
       }
       if(
         window &&
@@ -166,17 +169,7 @@ const InitialScreen: FC<ReduxType> = ({
         system !== 'desktop'
       ) {
         if (chainId) {
-          return switchNetwork(chainId as number, () => {
-            if (type === 'ERC1155') {
-              return claimERC1155()
-            }
-            if (type === 'ERC721') {
-              return claimERC721()
-            }
-            if (type === 'ERC20') {
-              return claimERC20()
-            }
-          })
+          return switchNetwork(chainId as number, claim)
         } else {
           alert('No chain provided')
         }
@@ -192,20 +185,12 @@ const InitialScreen: FC<ReduxType> = ({
       }
     })
 
-    if (type === 'ERC1155') {
-      return claimERC1155()
-    }
-    if (type === 'ERC721') {
-      return claimERC721()
-    }
-    if (type === 'ERC20') {
-      return claimERC20()
-    }
+    claim()
   }
 
   useEffect(() => {
     if (autoclaim) {
-      onClaim()
+      claim()
     }
   }, [])
 
@@ -229,7 +214,7 @@ const InitialScreen: FC<ReduxType> = ({
       loading={loading}
       appearance='action'
       title='Claim'
-      onClick={onClaim}
+      onClick={claimLink}
     />
   }
 

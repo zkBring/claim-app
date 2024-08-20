@@ -12,8 +12,8 @@ import Icons from 'icons'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import * as dropActions from 'data/store/reducers/drop/actions'
-import { TDropStep, TSystem } from 'types'
-import { defineSystem } from 'helpers'
+import { TDropStep } from 'types'
+import { useQueryParams } from 'hooks'
 
 const mapStateToProps = ({
   drop: { error }
@@ -23,12 +23,14 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) =>
   return {
     getLink: (
       code: string,
-      system: TSystem,
+      linkAddress: string | null,
+      autoclaim: boolean | null,
       callback: (claimCode: string) => void
     ) => dispatch(
       dropAsyncActions.getLinkFromURL(
         code,
-        system,
+        linkAddress,
+        autoclaim,
         callback
       )
     ),
@@ -43,11 +45,12 @@ const ShortLinkPage: FC<ReduxType> = ({
   setStep
 }) => {
   const params = useParams<{claimCode: string}>()
-  const system = defineSystem()
+  const queryParams = useQueryParams()
   useEffect(() => {
     getLink(
       params.claimCode,
-      system,
+      queryParams.get('dest'),
+      Boolean(queryParams.get('autoclaim')),
       (linkCode) => setStep('loading')
     )    
   }, [])
