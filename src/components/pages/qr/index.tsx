@@ -7,14 +7,17 @@ import {
   Container,
   Image,
   Title,
-  Subtitle,
-  IconContainer,
-  LoadingTitle
+  Subtitle
 } from './styled-components'
+import { Loader } from 'components/common'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
-import { QRNotMapped, QRNotFound, QRNoConnection, QRIncorrectParameter } from 'components/pages/common'
-import Icons from 'icons'
+import {
+  QRNotMapped,
+  QRNotFound,
+  QRNoConnection,
+  QRIncorrectParameter
+} from 'components/pages/common'
 import { alertError } from 'helpers'
 
 const mapStateToProps = ({
@@ -51,10 +54,7 @@ const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
   if (!error) {
     return <Page>
       <Container>
-        <IconContainer>
-          <Icons.LinkdropIcon />
-        </IconContainer>
-        <LoadingTitle>Linkdrop</LoadingTitle>
+        <Loader size='large' />
       </Container>
     </Page>
   }

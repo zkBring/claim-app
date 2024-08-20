@@ -1,14 +1,10 @@
 import { FC, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { IAppDispatch, RootState } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
-import {
-  Container,
-  IconContainer,
-  LoadingTitle
-} from './styled-components'
-import Icons from 'icons'
+import { Container } from './styled-components'
+import { Loader } from 'components/common'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import * as dropActions from 'data/store/reducers/drop/actions'
@@ -56,10 +52,7 @@ const ShortLinkPage: FC<ReduxType> = ({
   }, [])
   
   return <Container>
-    <IconContainer>
-      <Icons.LinkdropIcon />
-    </IconContainer>
-    <LoadingTitle>Linkdrop</LoadingTitle>
+    <Loader size="large" />
   </Container>
 }
 

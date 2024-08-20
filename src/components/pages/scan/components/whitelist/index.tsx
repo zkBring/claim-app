@@ -8,14 +8,19 @@ import {
   Image,
   Title,
   Subtitle,
-  IconContainer,
-  LoadingTitle,
   ButtonStyled,
   TokenImageContainer
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from 'components/pages/page'
-import { TDropError, TDropType, TMultiscanStep, TWalletName, TWhitelistType } from 'types'
+import { Loader } from 'components/common'
+import {
+  TDropError,
+  TDropType,
+  TMultiscanStep,
+  TWalletName,
+  TWhitelistType
+} from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -37,7 +42,6 @@ import {
   EligibleToClaim,
   QRCampaignNotEligible
 } from 'components/pages/common'
-import Icons from 'icons'
 import { defineSystem } from 'helpers'
 import { useAccount, useConnect } from 'wagmi'
 import GiftPreview from 'images/dispenser-preview-image.png'
@@ -426,10 +430,7 @@ const Scan: FC<ReduxType> = ({
   if (!initialized) {
     return <Page>
       <Container>
-        <IconContainer>
-          <Icons.LinkdropIcon />
-        </IconContainer>
-        <LoadingTitle>Linkdrop</LoadingTitle>
+        <Loader size="large" />
       </Container>
     </Page>
   }
