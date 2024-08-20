@@ -1,19 +1,15 @@
 import { FC, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { IAppDispatch, RootState } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
-import {
-  Container,
-  IconContainer,
-  LoadingTitle
-} from './styled-components'
-import Icons from 'icons'
+import { Container } from './styled-components'
+import { Loader } from 'components/common'
 import { Dispatch } from 'redux'
 import { DropActions } from 'data/store/reducers/drop/types'
 import * as dropActions from 'data/store/reducers/drop/actions'
-import { TDropStep, TSystem } from 'types'
-import { defineSystem } from 'helpers'
+import { TDropStep } from 'types'
+import { useQueryParams } from 'hooks'
 
 const mapStateToProps = ({
   drop: { error }
@@ -23,12 +19,14 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & IAppDispatch) =>
   return {
     getLink: (
       code: string,
-      system: TSystem,
+      linkAddress: string | null,
+      autoclaim: boolean | null,
       callback: (claimCode: string) => void
     ) => dispatch(
       dropAsyncActions.getLinkFromURL(
         code,
-        system,
+        linkAddress,
+        autoclaim,
         callback
       )
     ),
@@ -43,20 +41,18 @@ const ShortLinkPage: FC<ReduxType> = ({
   setStep
 }) => {
   const params = useParams<{claimCode: string}>()
-  const system = defineSystem()
+  const queryParams = useQueryParams()
   useEffect(() => {
     getLink(
       params.claimCode,
-      system,
+      queryParams.get('dest'),
+      Boolean(queryParams.get('autoclaim')),
       (linkCode) => setStep('loading')
     )    
   }, [])
   
   return <Container>
-    <IconContainer>
-      <Icons.LinkdropIcon />
-    </IconContainer>
-    <LoadingTitle>Linkdrop</LoadingTitle>
+    <Loader size="large" />
   </Container>
 }
 

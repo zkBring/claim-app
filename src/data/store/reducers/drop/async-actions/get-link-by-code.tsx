@@ -8,8 +8,7 @@ import * as actionsUser from '../../user/actions'
 import {
   TLinkParams,
   TDropType,
-  TWalletName,
-  TSystem
+  TWalletName
 } from 'types'
 import LinkdropSDK from 'linkdrop-sdk'
 import * as actionsToken from '../../token/actions'
@@ -22,7 +21,8 @@ const {
 
 export default function getLinkByCode(
   linkCode: string,
-  system: TSystem,
+  linkAddress?: string | null,
+  autoclaim?: boolean | null,
   callback?: (linkCode: string) => void
 ) {
   return async (
@@ -100,6 +100,15 @@ export default function getLinkByCode(
       if (claiming_finished_description) {
         dispatch(actionsDrop.setClaimingFinishedDescription(claiming_finished_description))
       }
+
+      if (linkAddress) {
+        dispatch(actionsUser.setAddress(linkAddress))
+      }
+
+      if (autoclaim) {
+        dispatch(actionsDrop.setAutoclaim(autoclaim))
+      }
+
       callback && callback(linkCode)
   } 
 }}

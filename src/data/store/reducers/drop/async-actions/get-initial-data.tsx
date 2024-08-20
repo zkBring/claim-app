@@ -30,6 +30,7 @@ export default function getData(
     
     try {
       dispatch(actionsDrop.setLoading(true))
+
       await dispatch(asyncActionsUser.initialize(
         onReload,
         connector,
@@ -37,6 +38,7 @@ export default function getData(
         userChainId,
         userAddress
       ))
+
       const {
         user: {
           provider,

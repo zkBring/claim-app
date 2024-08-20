@@ -15,8 +15,7 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
 import LinkdropLogo from 'images/linkdrop.png'
 import LinkdropLogoLight from 'images/linkdrop-light.png'
-import { defineApplicationConfig, defineSystem } from 'helpers'
-import { TSystem } from 'types'
+import { defineApplicationConfig } from 'helpers'
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -34,12 +33,10 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
     getLink: (
       code: string,
-      system: TSystem,
       callback: (claimCode: string) => void
     ) => dispatch(
       dropAsyncActions.getLinkFromInput(
         code,
-        system,
         callback
       )
     )
@@ -56,10 +53,9 @@ const HomePage: FC<ReduxType> = ({
   const [ code, setCode ] = useState<string>('')
   const [ error, setError ] = useState<string | undefined>(undefined)
   const configs = defineApplicationConfig()
-  const system = defineSystem()
 
   const onClick = async () => {
-    const link = await getLink(code, system, (claimCode) => {
+    const link = await getLink(code, (claimCode) => {
       history.push(`/redeem/${claimCode}`)
     })
     setError(undefined)

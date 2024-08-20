@@ -30,7 +30,7 @@ import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
 import { Loader } from 'components/common'
 import Page from '../page'
-import { TDropStep, TDropType, TWalletName } from 'types'
+import { TDropStep, TWalletName } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { Container } from './styled-components'
@@ -42,7 +42,6 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
-const { REACT_APP_CLIENT } = process.env
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -165,7 +164,7 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
     case 'wallet_redirect_await':
       return <WalletRedirectAwait />
     default:
-      return <Loader />
+      return <Loader size='large'/>
   }
 }
 
@@ -231,7 +230,9 @@ const ClaimPage: FC<ReduxType> = ({
     if (!claimCode) { return }
     if (!initialized) {
       getData(
-        () => { history.push('/') },
+        () => {
+          history.push('/')
+        },
         connector,
         signer,
         chainId,
