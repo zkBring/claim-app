@@ -13,7 +13,7 @@ const defineExplorerUrl: TDefineExplorerURL = (chainId) => {
     }
   }
   const networkName = defineNetworkName(chainId)
-    return `https://${networkName}.etherscan.io` 
+  return `https://${networkName}.etherscan.io` 
 }
 
 export default defineExplorerUrl
