@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { Image } from './styled-components'
 import ExpiredError from 'images/expired-error.png'
+import {Title, Subtitle } from 'components/pages/common/styles/styled-components'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
-import {Title, Subtitle } from 'components/pages/common/styles/styled-components'
 
 const mapStateToProps = ({
   drop: {
