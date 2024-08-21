@@ -15,7 +15,12 @@ const config = defineApplicationConfig()
 type TTokenERC721Data = { name: string, image: string, description: string }
 type TGetTokenERC721Data = (provider: any, tokenAddress: string, tokenId: string, chainId: number | null) => Promise<TTokenERC721Data>
 
-const getTokenData: TGetTokenERC721Data = async (provider, tokenAddress, tokenId, chainId) => {
+const getTokenData: TGetTokenERC721Data = async (
+  provider,
+  tokenAddress,
+  tokenId,
+  chainId
+) => {
   try {
     const alchemy = createAlchemyInstance(chainId)
     if (!alchemy) {

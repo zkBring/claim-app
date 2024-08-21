@@ -8,14 +8,19 @@ import {
   Image,
   Title,
   Subtitle,
-  IconContainer,
-  LoadingTitle,
   ButtonStyled,
   TokenImageContainer
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from 'components/pages/page'
-import { TDropError, TDropType, TMultiscanStep, TWalletName, TWhitelistType } from 'types'
+import { Loader } from 'components/common'
+import {
+  TDropError,
+  TDropType,
+  TMultiscanStep,
+  TWalletName,
+  TWhitelistType
+} from 'types'
 import {
   QRNotMapped,
   QRNotFound,
@@ -30,7 +35,6 @@ import {
   QRNoLinksToShare,
   WalletsListPage,
   SetAddress,
-  ZerionConnection,
   DownloadAwait,
   ERC20TokenPreview,
   WalletRedirectAwait,
@@ -38,7 +42,6 @@ import {
   EligibleToClaim,
   QRCampaignNotEligible
 } from 'components/pages/common'
-import Icons from 'icons'
 import { defineSystem } from 'helpers'
 import { useAccount, useConnect } from 'wagmi'
 import GiftPreview from 'images/dispenser-preview-image.png'
@@ -246,8 +249,6 @@ const defineBackAction = (
 ) => {
   switch (multiscanStep) {
     case 'download_await':
-    case 'zerion_connection':
-      return () => action('wallets_list')
     case 'wallet_redirect_await':
       // if coinbase - do not show other wallets
       if (wallet === 'coinbase_wallet') {
@@ -308,23 +309,11 @@ const renderContent = (
       break
     case 'wallets_list':
       content = <WalletsListPage
-        enableZerion={!whitelistOn && !whitelistType}
         setStep={setMultiscanStep}
       />
       break
     case 'download_await':
       content = <DownloadAwait />
-      break
-    case 'zerion_connection':
-      content = <ZerionConnection
-        setStepCallback={(address) => {
-          if (whitelistOn && whitelistType) {
-            setMultiscanStep('sign_message')
-          } else {
-            setAddressCallback(address)
-          }
-        }}
-      />
       break
     case 'ledger_connection':
       content = <LedgerConnection
@@ -441,10 +430,7 @@ const Scan: FC<ReduxType> = ({
   if (!initialized) {
     return <Page>
       <Container>
-        <IconContainer>
-          <Icons.LinkdropIcon />
-        </IconContainer>
-        <LoadingTitle>Linkdrop</LoadingTitle>
+        <Loader size="large" />
       </Container>
     </Page>
   }

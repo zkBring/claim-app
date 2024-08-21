@@ -13,7 +13,6 @@ import ErrorNoConnectionPage from './error-no-connection'
 import { useEthersSigner } from 'hooks'
 import {
   WalletsListPage,
-  ZerionConnection,
   SetAddress,
   PageHeader,
   LedgerConnection,
@@ -31,7 +30,7 @@ import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
 import { Loader } from 'components/common'
 import Page from '../page'
-import { TDropStep, TDropType, TWalletName } from 'types'
+import { TDropStep, TWalletName } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { Container } from './styled-components'
@@ -43,7 +42,6 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import { TokenActions } from 'data/store/reducers/token/types'
 import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
-const { REACT_APP_CLIENT } = process.env
 
 const mapStateToProps = ({
   user: { address, provider, chainId, initialized },
@@ -145,9 +143,7 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
       return <ErrorAlreadyClaimed />
     case 'wallets_list':
       return <WalletsListPage
-        enableENS
         setStep={setStep}
-        enableZerion
       />
     case 'gas_price_high':
       return <HighGasPrice />
@@ -161,10 +157,6 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
       return <ShortCodeLoading />
     case 'download_await':
       return <DownloadAwait />
-    case 'zerion_connection':
-      return <ZerionConnection
-        setStepCallback={() => setStep('initial')}
-      />
     case 'ledger_connection':
       return <LedgerConnection
         setStepCallback={() => setStep('initial')}
@@ -172,7 +164,7 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
     case 'wallet_redirect_await':
       return <WalletRedirectAwait />
     default:
-      return <Loader />
+      return <Loader size='large'/>
   }
 }
 
@@ -184,7 +176,6 @@ const defineBackAction = (
   switch (step) {
     case 'set_address':
     case 'download_await':
-    case 'zerion_connection':
     case 'ledger_connection':
       return () => action('wallets_list')
     case 'wallet_redirect_await':
@@ -239,7 +230,9 @@ const ClaimPage: FC<ReduxType> = ({
     if (!claimCode) { return }
     if (!initialized) {
       getData(
-        () => { history.push('/') },
+        () => {
+          history.push('/')
+        },
         connector,
         signer,
         chainId,

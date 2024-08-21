@@ -40,7 +40,6 @@ const PageComponent: FC<PageProps & ReduxType> = ({
   children,
   chainId,
   address,
-  switchNetwork,
   logout
 }) => {
   const currentTheme = themes.light

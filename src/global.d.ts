@@ -51,13 +51,13 @@ declare module '@linkdrop/sdk' {
 }
 
 
-declare module '@walletconnect/utils/dist/esm' {
-  type TDecrypt = ({ encoded, symKey } : { encoded: string, symKey: string }) => string
-  const methods: { decrypt: TDecrypt } = {
-    decrypt: ({ encoded, symKey }) => {}
-  }
-  export = methods
-}
+// declare module '@walletconnect/utils/dist/esm' {
+//   type TDecrypt = ({ encoded, symKey } : { encoded: string, symKey: string }) => string
+//   const methods: { decrypt: TDecrypt } = {
+//     decrypt: ({ encoded, symKey }) => {}
+//   }
+//   export = methods
+// }
 
 declare module '@linkdrop/contracts/scripts/utils.js' {
   type Module = {
