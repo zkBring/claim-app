@@ -2,6 +2,9 @@
 
 ## 2.2.26
 - added query params to url (autoclaim and dest)
+- bug fixes
+- wagmi and web3Modal update
+- zerion deleted as option
 
 ## 2.2.25
 - added new wallets list
