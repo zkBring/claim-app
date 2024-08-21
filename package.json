@@ -1,6 +1,6 @@
 {
   "name": "app-claim",
-  "version": "2.2.25-rc.0",
+  "version": "2.2.26-rc.0",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.1.1",
