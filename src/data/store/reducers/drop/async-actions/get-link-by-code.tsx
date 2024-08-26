@@ -10,7 +10,7 @@ import {
   TDropType,
   TWalletName
 } from 'types'
-import LinkdropSDK from 'linkdrop-sdk'
+import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 import * as actionsToken from '../../token/actions'
 import { TokenActions } from '../../token/types'
 
@@ -30,7 +30,7 @@ export default function getLinkByCode(
   ) => {
     dispatch(actionsDrop.setLoading(true))
     dispatch(actionsDrop.setError(null))
-    const sdk = new LinkdropSDK({
+    const sdk = new LinkdropBatchSDK({
       apiHost: REACT_APP_DASHBOARD_SERVER_URL,
       apiKey: REACT_APP_ZUPLO_API_KEY as string
     })
