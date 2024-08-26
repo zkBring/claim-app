@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.27
+- new linkdrop-batch-sdk package
+
 ## 2.2.26
 - added query params to url (autoclaim and dest)
 - bug fixes
