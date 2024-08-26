@@ -1,12 +1,12 @@
 import { ActionType } from 'typesafe-actions'
 import * as actions from './actions'
-import LinkdropSDK from 'linkdrop-sdk'
+import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 
 export interface UserState {
   address: string
   loading: boolean
   chainId: number | null
-  sdk: LinkdropSDK | null
+  sdk: LinkdropBatchSDK | null
   initialized: boolean
   userProvider: any
   signer: any
