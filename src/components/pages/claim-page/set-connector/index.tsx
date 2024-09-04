@@ -60,6 +60,9 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
     setStep: (step: TDropStep) => dispatch(
       dropActions.setStep(step)
     ),
+    setAutoclaim: (autoclaim: boolean) => dispatch(
+      dropActions.setAutoclaim(autoclaim)
+    ),
     deeplinkRedirect: (
       deeplink: string,
       walletId: TWalletName,
@@ -91,7 +94,8 @@ const SetConnector: FC<ReduxType> = ({
   decimals,
   additionalWalletsOn,
   wallet,
-  deeplinkRedirect
+  deeplinkRedirect,
+  setAutoclaim
 }) => {
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
@@ -175,6 +179,7 @@ const SetConnector: FC<ReduxType> = ({
           ) {
             const coinbase = connectors.find(connector => connector.id === 'coinbaseWalletSDK')
             if (coinbase) {
+              setAutoclaim(true)
               return connect({ connector: coinbase })
             }
           }
@@ -182,6 +187,7 @@ const SetConnector: FC<ReduxType> = ({
           if (
             wallet === 'walletconnect'
           ) {
+            setAutoclaim(true)
             return open()
           }
 
@@ -189,6 +195,7 @@ const SetConnector: FC<ReduxType> = ({
             wallet === 'metamask'
           ) {
             if (injected) {
+              setAutoclaim(true)
               return connect({ connector: injected })
             }
           }
