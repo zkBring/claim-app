@@ -26,7 +26,6 @@ import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
 import { connect } from 'react-redux'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 
-
 const { REACT_APP_CLIENT} = process.env
 const config = defineApplicationConfig()
 
