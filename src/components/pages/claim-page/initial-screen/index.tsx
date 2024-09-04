@@ -188,7 +188,7 @@ const InitialScreen: FC<ReduxType> = ({
 
   useEffect(() => {
     if (autoclaim) {
-      claim()
+      claimLink()
     }
   }, [])
 
