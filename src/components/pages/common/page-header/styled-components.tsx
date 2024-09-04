@@ -45,7 +45,7 @@ export const Account = styled.div`
   border: 1px solid ${props => props.theme.primaryBorderColor};
   background: ${props => props.theme.primaryBackgroundColor};
 
-  @media (max-width: 412px) {
+  @media (max-width: 450px) {
     display: none;
   }
 `
