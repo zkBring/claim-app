@@ -24,8 +24,6 @@ import {
 import { plausibleApi } from 'data/api'
 import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
 import { connect } from 'react-redux'
-import { switchNetwork } from 'data/store/reducers/user/async-actions'
-import { UserActions } from 'data/store/reducers/user/types'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 
 

@@ -36,7 +36,8 @@ const initialState: DropState = {
   whitelistType: null,
   whitelistOn: false,
   multiscanLinkDecrypted: null,
-  preferredWalletOn: false
+  preferredWalletOn: false,
+  additionalWalletsOn: false
 }
 
 export function dropReducer(
@@ -88,6 +89,8 @@ export function dropReducer(
         return {...state, whitelistType: action.payload.whitelist_type }
       case Constants.DROP_SET_IS_CLAIMED:
         return {...state, isClaimed: action.payload.isClaimed }
+      case Constants.DROP_SET_ADDITIONAL_WALLETS_ON: 
+        return {...state, additionalWalletsOn: action.payload.additionalWalletsOn }
       case Constants.DROP_SET_LOADING:
         return {...state, loading: action.payload.loading }
       case Constants.DROP_SET_ERROR:

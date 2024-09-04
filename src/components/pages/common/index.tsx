@@ -1,5 +1,6 @@
 import QRNotMapped from './qr-not-mapped'
 import QRNotFound from './qr-not-found'
+import NetworkIndicator from './network-indicator'
 import QRNoConnection from './qr-no-connection'
 import QRCampaignNotStarted from './qr-campaign-not-started'
 import QRCampaignFinished from './qr-campaign-finished'
@@ -22,12 +23,9 @@ import EligibleToClaim from './eligible-to-claim'
 import QRCampaignNotEligible from './qr-campaign-not-eligible'
 import ScreenLoader from './screen-loader'
 import LedgerConnection from './ledger-connection'
-import NetworkIndicator from './network-indicator'
-import AppHeader from './app-header'
 
 export {
   QRCampaignNotEligible,
-  AppHeader,
   NetworkIndicator,
   LedgerConnection,
   ScreenLoader,

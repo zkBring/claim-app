@@ -18,8 +18,9 @@ import { useConnect } from 'wagmi'
 import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
-const { REACT_APP_CLIENT } = process.env
+import { useWeb3Modal } from '@web3modal/wagmi/react'
 
+const { REACT_APP_CLIENT } = process.env
 const mapStateToProps = ({
   token: {
     name,
@@ -33,7 +34,8 @@ const mapStateToProps = ({
     amount,
     wallet,
     chainId,
-    preferredWalletOn
+    preferredWalletOn,
+    additionalWalletsOn
   },
   user: {
     address
@@ -49,7 +51,8 @@ const mapStateToProps = ({
   decimals,
   wallet,
   chainId,
-  preferredWalletOn
+  preferredWalletOn,
+  additionalWalletsOn
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) => {
@@ -83,11 +86,16 @@ const SetConnector: FC<ReduxType> = ({
   address,
   type,
   campaignId,
+  chainId,
   amount,
   decimals,
+  additionalWalletsOn,
+  wallet,
+  deeplinkRedirect
 }) => {
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
+  const { open } = useWeb3Modal()
 
   const system = defineSystem()
   const [ initialized, setInitialized ] = useState<boolean>(false)
@@ -104,12 +112,13 @@ const SetConnector: FC<ReduxType> = ({
 
   useEffect(() => {
     if(window &&
-
       //@ts-ignore
       window.ethereum &&
       (
         // @ts-ignore
-        window.ethereum.isCoinbaseWallet || window.ethereum.isOneInchIOSWallet || window.ethereum.isOneInchAndroidWallet
+        window.ethereum.isCoinbaseWallet ||
+        window.ethereum.isOneInchIOSWallet |
+        window.ethereum.isOneInchAndroidWallet
       ) &&
       system !== 'desktop' && 
       injected
@@ -147,7 +156,8 @@ const SetConnector: FC<ReduxType> = ({
             campaignId: campaignId as string
           }
         })
-        // connect to wallet if has injected
+
+        // connect to wallet if has injected on mobile
         if (
           !address &&
           injected &&
@@ -157,7 +167,63 @@ const SetConnector: FC<ReduxType> = ({
         ) {
           return connect({ connector: injected })
         }
+
+        
+        if (!additionalWalletsOn) {
+          if (
+            wallet === 'coinbase_smart_wallet'
+          ) {
+            const coinbase = connectors.find(connector => connector.id === 'coinbaseWalletSDK')
+            if (coinbase) {
+              return connect({ connector: coinbase })
+            }
+          }
+
+          if (
+            wallet === 'walletconnect'
+          ) {
+            return open()
+          }
+
+          if (
+            wallet === 'metamask'
+          ) {
+            if (injected) {
+              return connect({ connector: injected })
+            }
+          }
+
+          if (
+            [
+              'coinbase_wallet',
+              'wallet_1inch',
+              'trust',
+              'rainbow',
+              'imtoken'
+            ].includes(
+              String(wallet)
+            )
+          ) {
+            const deeplink = getWalletDeeplink(
+              wallet as TWalletName,
+              system,
+              window.location.href,
+              chainId
+            )
+
+            if (deeplink) {
+              return deeplinkRedirect(
+                deeplink,
+                wallet as TWalletName,
+                () => setStep('wallet_redirect_await')
+              )
+            }
+            
+          }
+        }
+
         setStep('wallets_list')
+
       }
     }>
       Claim

@@ -185,6 +185,17 @@ export function setMultiscanWhitelistType (whitelist_type: TWhitelistType) {
   )
 }
 
+export function setAdditionalWalletsOn (additionalWalletsOn: boolean) {
+  return action(
+    Constants.DROP_SET_ADDITIONAL_WALLETS_ON,
+    {
+      additionalWalletsOn
+    }
+  )
+}
+
+
+
 export function setMultiscanLinkDecrypted (multiscanLinkDecrypted: string) {
   return action(
     Constants.DROP_SET_MULTISCAN_LINK_DECRYPTED,
