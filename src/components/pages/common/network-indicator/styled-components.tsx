@@ -8,7 +8,8 @@ export const HeaderNetworkWrapper = styled.div<TProps & {
   position: relative;
   display: flex;
   align-items: center;
-  padding: 0 14px;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   justify-content: center;
   border-radius: 36px;
@@ -26,7 +27,3 @@ export const HeaderNetwork = styled.img`
   max-width: 16px;
 `
 
-export const HeaderChainName = styled.span`
-  margin-left: 8px;
-  font-size: 14px;
-`

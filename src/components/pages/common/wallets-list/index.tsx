@@ -142,11 +142,7 @@ const defineOption = (
           return coinbaseSmartWalletOption
       }
     }
-
-
-
   }
-
 }
 
 const defineOptionsList = (
