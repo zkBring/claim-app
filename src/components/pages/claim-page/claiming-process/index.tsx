@@ -67,6 +67,7 @@ const ClaimingProcess: FC<ReduxType> = ({
     href={explorerUrl}
     loading
     disabled
+    title='Claiming'
     appearance='default'
   /> : null
 

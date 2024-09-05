@@ -26,6 +26,7 @@ export const ScreenButton = styled(Button)`
 
 export const TextComponent = styled(Text)`
   text-align: center;
+  color: ${props => props.theme.primaryTextColor};
   margin-bottom: 32px;
 `
 

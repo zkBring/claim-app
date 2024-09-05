@@ -141,7 +141,6 @@ const SetConnector: FC<ReduxType> = ({
     status='initial'
   /> : <>
     {image && <TokenImageContainer src={image} alt={name} />}
-    {(REACT_APP_CLIENT as string) !== 'wedding' && <Subtitle>{defineTokenId(type, tokenId)}</Subtitle>}
     <TitleComponent>{name}</TitleComponent>
     <TextComponent>
       Here is a preview of the NFT you’re about to receive

@@ -2,6 +2,8 @@
 
 ## 2.2.27
 - new linkdrop-batch-sdk package
+- new logic for wallet connection
+- UI updates for header
 
 ## 2.2.26
 - added query params to url (autoclaim and dest)

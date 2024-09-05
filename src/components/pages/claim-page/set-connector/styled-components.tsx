@@ -34,6 +34,7 @@ export const ScreenButton = styled(Button)<TScreenButton>`
 export const TextComponent = styled(Text)`
   text-align: center;
   margin-bottom: 32px;
+  color: ${props => props.theme.primaryTextColor};
 `
 
 export const TokenImageContainer = styled(TokenImage)`
