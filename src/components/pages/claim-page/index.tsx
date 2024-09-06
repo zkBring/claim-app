@@ -269,12 +269,12 @@ const ClaimPage: FC<ReduxType> = ({
   }, [address, chainId, connector, claimCode, signer])
   
   return <Page>
+    {defineHeader(
+      step,
+      wallet,
+      setStep
+    )}
     <Container>
-      {defineHeader(
-        step,
-        wallet,
-        setStep
-      )}
       {screen}
     </Container> 
   </Page>

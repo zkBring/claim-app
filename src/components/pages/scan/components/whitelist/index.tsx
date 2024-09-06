@@ -346,8 +346,8 @@ const renderContent = (
   }
 
   return <Page>
+    {header}
     <Container>
-      {header}
       {content}
     </Container>
   </Page>
