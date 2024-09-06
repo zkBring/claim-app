@@ -69,14 +69,11 @@ const PageHeader: FC<ReduxType> = ({
     <LinkdropHeaderLogo src={config.logo} alt="Application Logo" />
     
     <Profile>
-      <NetworkIndicator
-        chainId={chainId}
-      />
       {address && <Account>
         <Address loading={loading}>
           {shortenString(address)}
-          <Avatar
-            src={AvatarImage}
+          <NetworkIndicator
+            chainId={chainId}
           />
         </Address>
       </Account>}

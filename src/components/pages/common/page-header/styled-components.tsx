@@ -13,10 +13,11 @@ const backgroundAnimation = keyframes`
 export const LinkdropHeader = styled.header`
   position: relative;
   width: 100%;
+  max-width: 1188px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 24px;
+  margin: 0 auto 24px;
 `
 
 export const LinkdropHeaderLogo = styled.img`

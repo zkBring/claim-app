@@ -73,14 +73,6 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<DropActions>) =>
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
-const defineTokenId = (type: TDropType | null, tokenId?: string | null) => {
-  if (type === 'ERC20' || !tokenId) { return '' }
-  if (tokenId.length > 5) {
-    return ` #${shortenString(tokenId, 3)}`
-  }
-  return ` #${tokenId}`
-}
-
 const SetConnector: FC<ReduxType> = ({
   name,
   tokenId,

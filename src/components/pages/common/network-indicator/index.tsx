@@ -3,7 +3,6 @@ import {
 } from 'react'
 import {
   HeaderNetworkWrapper,
-  HeaderNetwork
 } from './styled-components'
 import {
   defineNetworkIcon,
@@ -17,11 +16,7 @@ const NetworkIndicator: FC<TProps> = ({
   if (!chainId) {
     return null
   }
-  return <HeaderNetworkWrapper
-    className={className}
-  >
-    {chainId && <HeaderNetwork alt="network logo" src={defineNetworkIcon(chainId)} />}
-  </HeaderNetworkWrapper>
+  return <HeaderNetworkWrapper alt="network logo" src={defineNetworkIcon(chainId)} />
 }
 
 export default NetworkIndicator
