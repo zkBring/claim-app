@@ -65,7 +65,6 @@ export default function getData() {
         try {
           dispatch(actionsDrop.setLoading(false))
           const status = await sdk?.getLinkStatus(claimCode)
-          console.log({ status })
           if (claimed) {
             if (status?.txHash) {
               dispatch(actionsDrop.setHash(status.txHash))
