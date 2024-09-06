@@ -64,7 +64,7 @@ const ClaimingProcess: FC<ReduxType> = ({
   const explorerUrl = `${defineExplorerURL(chainId as number)}/tx/${hash}`
 
   const explorerButton = hash ? <ScreenButton
-    href={explorerUrl}
+    onClick={() => window.open(explorerUrl , '_blank')}
     loading
     disabled
     title='Claiming'

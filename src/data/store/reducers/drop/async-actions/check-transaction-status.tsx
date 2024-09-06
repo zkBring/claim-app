@@ -29,7 +29,8 @@ export default function getData() {
           linkKey,
           linkdropMasterAddress,
           chainId,
-          claimCode
+          claimCode,
+          hash
         }
       } = getState()
 
@@ -64,7 +65,7 @@ export default function getData() {
         try {
           dispatch(actionsDrop.setLoading(false))
           const status = await sdk?.getLinkStatus(claimCode)
-          
+          console.log({ status })
           if (claimed) {
             if (status?.txHash) {
               dispatch(actionsDrop.setHash(status.txHash))
@@ -76,8 +77,9 @@ export default function getData() {
 
             return dispatch(actionsDrop.setStep('claiming_finished'))
           } else {
-            if (status?.txHash) {
-              const receipt = await provider.getTransactionReceipt(status?.txHash)
+            const currentHash = status?.txHash || hash
+            if (currentHash) {
+              const receipt = await provider.getTransactionReceipt(currentHash)
               if (receipt && receipt.status !== undefined && receipt.status === 0) {
                 window.clearInterval(interval)
                 plausibleApi.invokeEvent({
@@ -88,6 +90,9 @@ export default function getData() {
                   }
                 })
                 return dispatch(actionsDrop.setStep('error_transaction'))
+              } else if (receipt && receipt.status !== undefined && receipt.status === 1) {
+                window.clearInterval(interval)
+                return dispatch(actionsDrop.setStep('claiming_finished'))
               }
             }
           }
