@@ -85,6 +85,23 @@ const chains: TChains = {
       'https://basescan.org'
     ]
   },
+  196: {
+    chainName: 'X Layer',
+    displayName: 'X Layer',
+    testnet: false,
+    alchemySupport: false,
+    nativeCurrency: {
+      name: 'OKB',
+      symbol: 'OKB',
+      decimals: 18
+    },
+    rpcUrls: [
+      'https://rpc.xlayer.tech'
+    ],
+    blockExplorerUrls: [
+      'https://www.oklink.com/xlayer'
+    ]
+  }
 }
 
 export default chains

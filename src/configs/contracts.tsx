@@ -16,6 +16,9 @@ const contracts: TContracts = {
   },
   13371: {
     factory: '0xb619944Cb20133E4C9A67608845d891A2508c59F'
+  },
+  196: {
+    factory: '0xb619944Cb20133E4C9A67608845d891A2508c59F'
   }
 
 }
