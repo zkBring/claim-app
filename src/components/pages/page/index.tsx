@@ -5,7 +5,6 @@ import {
   Content
 } from './styled-components'
 import { ThemeProvider } from 'styled-components'
-import { AppHeader } from 'components/pages/common'
 import themes from 'themes'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
@@ -23,13 +22,6 @@ const mapStateToProps = ({
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
-    switchNetwork: (
-      chain: number,
-      callback: () => void
-    ) => dispatch(userAsyncActions.switchNetwork(
-      chain,
-      callback
-    )),
     logout: () => dispatch(userAsyncActions.logout())
   }
 }
@@ -46,11 +38,6 @@ const PageComponent: FC<PageProps & ReduxType> = ({
   return <ThemeProvider theme={currentTheme}>
     <Page>
       <MainContent>
-        <AppHeader
-          chainId={chainId}
-          address={address}
-          logout={logout}
-        />
         <Content>
           {children}              
         </Content>

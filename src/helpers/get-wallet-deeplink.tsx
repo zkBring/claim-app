@@ -3,7 +3,12 @@ import wallets from 'configs/wallets'
 
 type TGetWalletDeeplink = (walletId: TWalletName, system: TSystem, redirectUrl: string, linkChainId: number | null) => string | void | null
 
-const getWalletDeeplink: TGetWalletDeeplink = (walletId, system, redirectUrl, linkChainId) => {
+const getWalletDeeplink: TGetWalletDeeplink = (
+  walletId,
+  system,
+  redirectUrl,
+  linkChainId
+) => {
   if (system === 'desktop') {
     return
   }

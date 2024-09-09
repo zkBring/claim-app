@@ -60,7 +60,8 @@ export default function getLinkByCode(
         preferred_wallet_on,
         linkdrop_token,
         token_image,
-        token_name
+        token_name,
+        additional_wallets_on
       } : TLinkParams = data
 
 
@@ -78,6 +79,9 @@ export default function getLinkByCode(
       dispatch(actionsDrop.setType(token_standard as TDropType))
       dispatch(actionsDrop.setAmount(token_amount))
       dispatch(actionsDrop.setLoading(false))
+
+      dispatch(actionsDrop.setAdditionalWalletsOn(additional_wallets_on))
+
       dispatch(actionsDrop.setClaimCode(linkCode))
       dispatch(actionsDrop.setLinkId(linkId))
       dispatch(actionsDrop.setLinkKey(linkKey))

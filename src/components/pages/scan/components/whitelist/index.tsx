@@ -18,8 +18,7 @@ import {
   TDropError,
   TDropType,
   TMultiscanStep,
-  TWalletName,
-  TWhitelistType
+  TWalletName
 } from 'types'
 import {
   QRNotMapped,
@@ -49,9 +48,14 @@ import * as dropActions from 'data/store/reducers/drop/actions'
 import { DropActions } from 'data/store/reducers/drop/types'
 import { Dispatch } from 'redux'
 import { useEthersSigner } from 'hooks'
+import * as userAsyncActions from 'data/store/reducers/user/async-actions'
 
 const mapStateToProps = ({
-  user: { initialized, address },
+  user: {
+    initialized,
+    address,
+    chainId
+  },
   drop: {
     error,
     loading,
@@ -71,6 +75,7 @@ const mapStateToProps = ({
   userAddress: address,
   type,
   amount,
+  chainId,
   decimals,
   initialized,
   error, loading,
@@ -266,10 +271,12 @@ const defineBackAction = (
 const defineHeader = (
   multiscanStep: TMultiscanStep,
   wallet: TWalletName | null,
-  action: (step: TMultiscanStep
-) => void) => {
+  action: (step: TMultiscanStep) => void
+) => {
   const backAction = defineBackAction(multiscanStep, wallet, action)
-  return <PageHeader backAction={backAction}/>
+  return <PageHeader
+    backAction={backAction}
+  />
 }
 
 const renderContent = (
@@ -281,8 +288,6 @@ const renderContent = (
   type: TDropType | null,
   amount: string | null,
   decimals: number,
-  whitelistOn: boolean,
-  whitelistType: TWhitelistType | null,
   loading: boolean,
   setAddressCallback: (address?: string) => void
 ) => {
@@ -290,7 +295,8 @@ const renderContent = (
   const header = defineHeader(
     multiscanStep,
     wallet,
-    () => setMultiscanStep('whitelist'))
+    () => setMultiscanStep('whitelist')
+  )
   switch (multiscanStep) {
     case 'whitelist':
       content = <DefaultScreen
@@ -340,8 +346,8 @@ const renderContent = (
   }
 
   return <Page>
+    {header}
     <Container>
-      {header}
       {content}
     </Container>
   </Page>
@@ -359,12 +365,9 @@ const Scan: FC<ReduxType> = ({
   type,
   amount,
   decimals,
-  whitelistOn,
-  whitelistType,
-  userAddress,
+  whitelistOn
 }) => {
   const { multiscanQRId, scanId, scanIdSig, multiscanQREncCode } = useParams<TParams>()
-  const history = useHistory()
   const { address, isConnected, chainId } = useAccount()
   const [ isInjected, setIsInjected ] = useState<boolean>(false)
   const [ initialized, setInitialized ] = useState<boolean>(false)
@@ -448,8 +451,6 @@ const Scan: FC<ReduxType> = ({
     type,
     amount,
     decimals,
-    whitelistOn,
-    whitelistType,
     loading,
     getLinkCallback
   )

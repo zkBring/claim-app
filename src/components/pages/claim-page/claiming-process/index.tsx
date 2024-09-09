@@ -1,16 +1,39 @@
 import { FC, useEffect } from 'react'
-import { ScreenSubtitle, ScreenTitle, Container, ButtonComponent, IconContainer } from './styled-components'
+import {
+  TitleComponent,
+  ScreenButton,
+  Container,
+  Subtitle,
+  TokenImageContainer
+} from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { defineExplorerURL } from 'helpers'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
-import { Loader } from 'components/common'
+import { ERC20TokenPreview, PoweredByFooter } from 'components/pages/common'
+import { Link } from 'components/common'
 
 const mapStateToProps = ({
-  drop: { hash, chainId }
+  drop: {
+    hash,
+    chainId,
+    type,
+    amount
+  },
+  token: {
+    name,
+    image,
+    decimals,
+    
+  }
 }: RootState) => ({
   hash,
-  chainId
+  chainId,
+  name,
+  image,
+  decimals,
+  type,
+  amount
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
@@ -23,25 +46,48 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
-const ClaimingProcess: FC<ReduxType> = ({ hash, chainId, checkTransactionStatus }) => {
+const ClaimingProcess: FC<ReduxType> = ({
+  hash,
+  chainId,
+  checkTransactionStatus,
+  name,
+  image,
+  amount,
+  decimals,
+  type
+}) => {
   useEffect(() => {
     if (!hash) { return }
     checkTransactionStatus()
   }, [])
 
-  const explorerUrl = chainId && hash ? <ButtonComponent
-    href={`${defineExplorerURL(chainId)}/tx/${hash}`}
-    title='View in explorer'
-    target='_blank'
+  const explorerUrl = `${defineExplorerURL(chainId as number)}/tx/${hash}`
+
+  const explorerButton = hash ? <ScreenButton
+    onClick={() => window.open(explorerUrl , '_blank')}
+    loading
+    disabled
+    title='Claiming'
     appearance='default'
   /> : null
-  return <Container>
-    <IconContainer>
-      <Loader />
-    </IconContainer>
-    <ScreenTitle>Processing Transaction</ScreenTitle>
-    <ScreenSubtitle>This may take a few minutes. You can return to the app later to check on the status</ScreenSubtitle>
-    {explorerUrl} 
+
+  const tokenImage = type === 'ERC20' ?
+    <ERC20TokenPreview
+      name={name}
+      image={image as string}
+      amount={amount as string}
+      decimals={decimals}
+      status='initial'
+    /> : <TokenImageContainer src={image as string} alt={name} />
+
+  return <Container> 
+    {tokenImage}
+    {type !== 'ERC20' && <TitleComponent>{name}</TitleComponent>}
+    <Subtitle>
+      Transaction is in process. View on <Link href={explorerUrl} target="_blank">Explorer</Link>
+    </Subtitle>
+    {explorerButton}
+    <PoweredByFooter />
   </Container>
 }
 

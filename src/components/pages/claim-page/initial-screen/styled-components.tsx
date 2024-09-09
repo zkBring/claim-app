@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 import { Button, Text, TokenImage, Title } from 'components/common'
 
-type TScreenButton = {
-  onClick: () => void
-}
-
 export const TitleComponent = styled(Title)`
   margin: 0 0 12px;
   font-weight: 600;
@@ -22,7 +18,7 @@ export const Container = styled.div`
   max-width: 343px;
 `
 
-export const ScreenButton = styled(Button)<TScreenButton>`
+export const ScreenButton = styled(Button)`
   max-width: 100%;
   width: 100%;
   margin-bottom: 16px;
@@ -30,6 +26,7 @@ export const ScreenButton = styled(Button)<TScreenButton>`
 
 export const TextComponent = styled(Text)`
   text-align: center;
+  color: ${props => props.theme.primaryTextColor};
   margin-bottom: 32px;
 `
 

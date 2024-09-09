@@ -44,8 +44,18 @@ import { UserActions } from 'data/store/reducers/user/types'
 import { useHistory } from 'react-router-dom'
 
 const mapStateToProps = ({
-  user: { address, provider, chainId, initialized },
-  drop: { step, claimCode, wallet, type }
+  user: {
+    address,
+    provider,
+    chainId,
+    initialized
+  },
+  drop: {
+    step,
+    claimCode,
+    wallet,
+    type
+  }
 }: RootState) => ({
   address,
   step,
@@ -95,7 +105,8 @@ const mapDispatcherToProps = (dispatch: Dispatch<DropActions> & Dispatch<TokenAc
       ),
       claimERC20: (address: string) => dispatch(
         dropAsyncActions.claimERC20(address, true)
-      )
+      ),
+      logout: () => dispatch(userAsyncActions.logout())
   }
 }
 
@@ -193,7 +204,9 @@ const defineHeader = (
   action: (prevStep: TDropStep) => void
 ) => {
   const backAction = defineBackAction(step, wallet, action)
-  return <PageHeader backAction={backAction}/>
+  return <PageHeader
+    backAction={backAction}
+  />
 }
 
 const ClaimPage: FC<ReduxType> = ({
@@ -207,7 +220,8 @@ const ClaimPage: FC<ReduxType> = ({
   type,
   claimERC1155,
   claimERC20,
-  claimERC721
+  claimERC721,
+  logout
 }) => {
   const setAddressCallback = (address: string) => {
     if (type === 'ERC1155') {
@@ -255,8 +269,12 @@ const ClaimPage: FC<ReduxType> = ({
   }, [address, chainId, connector, claimCode, signer])
   
   return <Page>
+    {defineHeader(
+      step,
+      wallet,
+      setStep
+    )}
     <Container>
-      {defineHeader(step, wallet, setStep)}
       {screen}
     </Container> 
   </Page>

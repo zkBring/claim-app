@@ -142,11 +142,7 @@ const defineOption = (
           return coinbaseSmartWalletOption
       }
     }
-
-
-
   }
-
 }
 
 const defineOptionsList = (
@@ -229,8 +225,6 @@ const defineOptionsList = (
     },
     icon: <WalletIcon src={CoinabseWalletIcon} />
   }
-
-
 
   const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
   const coinbaseWalletOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
