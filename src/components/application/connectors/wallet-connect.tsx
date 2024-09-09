@@ -4,7 +4,8 @@ import {
   mainnet,
   polygon,
   base,
-  immutableZkEvm
+  immutableZkEvm,
+  xLayer
 } from 'wagmi/chains'
 import { http } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -33,7 +34,8 @@ const chains = [
   base,
   mainnet,
   polygon,
-  immutableZkEvm
+  immutableZkEvm,
+  xLayer
 ] as const
 
 const config = defaultWagmiConfig({
@@ -54,6 +56,7 @@ const config = defaultWagmiConfig({
     [mainnet.id]: http(),
     [polygon.id]: http(),
     [immutableZkEvm.id]: http(),
+    [xLayer.id]: http()
   },
 })
 
