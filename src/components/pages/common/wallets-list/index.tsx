@@ -95,7 +95,8 @@ const defineOption = (
   imtokenOption: any, // deeplink
   trustOption: any, // deeplink
   rainbowOption: any, // deeplink
-  ledgerOption: any // redirect
+  ledgerOption: any, // redirect
+  okxWalletOption: any // deeplink
 ) => {
   switch (system) {
     case 'desktop': {
@@ -110,6 +111,8 @@ const defineOption = (
           return ledgerOption
         case 'wallet_1inch':
           return wallet1InchOption
+        case 'okx_wallet':
+          return okxWalletOption
           
         default:
           return coinbaseSmartWalletOption
@@ -287,6 +290,18 @@ const defineOptionsList = (
     wallet
   )
 
+  const oakXWallet = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+    'okx_wallet',
+    'OKX Wallet',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={ImtokenWalletIcon} />,
+    deeplinkRedirect,
+    claimCode,
+    wallet
+  )
+
   const primaryOption = defineOption(
     wallet,
     system,
@@ -297,7 +312,8 @@ const defineOptionsList = (
     imtokenOption,
     trustOption,
     rainbowOption,
-    ledgerOption
+    ledgerOption,
+    oakXWallet
   )
 
   const wallets = [

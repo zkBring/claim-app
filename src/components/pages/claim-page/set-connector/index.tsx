@@ -197,7 +197,8 @@ const SetConnector: FC<ReduxType> = ({
               'wallet_1inch',
               'trust',
               'rainbow',
-              'imtoken'
+              'imtoken',
+              'okx_wallet'
             ].includes(
               String(wallet)
             )
