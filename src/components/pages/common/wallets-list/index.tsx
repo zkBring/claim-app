@@ -15,6 +15,8 @@ import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
+import OKXWalletIcon from 'images/okx-wallet.png'
+
 import Wallet1inch from 'images/wallet-1inch.png'
 import { useConnect } from 'wagmi'
 import {
@@ -298,7 +300,7 @@ const defineOptionsList = (
     system,
     window.location.href, 
     chainId,
-    <WalletIcon src={ImtokenWalletIcon} />,
+    <WalletIcon src={OKXWalletIcon} />,
     deeplinkRedirect,
     claimCode,
     wallet
