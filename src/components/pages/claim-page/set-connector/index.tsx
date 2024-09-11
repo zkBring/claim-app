@@ -113,8 +113,11 @@ const SetConnector: FC<ReduxType> = ({
       (
         // @ts-ignore
         window.ethereum.isCoinbaseWallet ||
-        window.ethereum.isOneInchIOSWallet |
-        window.ethereum.isOneInchAndroidWallet
+        window.ethereum.isOneInchIOSWallet ||
+        window.ethereum.isOneInchAndroidWallet ||
+        window.ethereum.isOneInchAndroidWallet ||
+        // @ts-ignore
+        window.okxwallet
       ) &&
       system !== 'desktop' && 
       injected
