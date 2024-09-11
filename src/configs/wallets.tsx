@@ -84,11 +84,11 @@ const wallets: TWallets = {
     mobile: {
       android: {
         support: true,
-        deepLink: (url: string) => `https://www.okx.com/download?deeplink=${encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + url)}`
+        deepLink: (url: string) => `https://www.okx.com/download?deeplink=${encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(url))}`
       },
       ios: {
         support: true,
-        deepLink: (url: string) => `https://www.okx.com/download?deeplink=${encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + url)}`
+        deepLink: (url: string) => `https://www.okx.com/download?deeplink=${encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(url))}`
       }
     },
     chains: [196],
