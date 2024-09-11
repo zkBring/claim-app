@@ -140,6 +140,8 @@ const defineOption = (
           return ledgerOption
         case 'wallet_1inch':
           return wallet1InchOption
+        case 'okx_wallet':
+          return okxWalletOption
         
         default:
           return coinbaseSmartWalletOption
@@ -290,7 +292,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const oakXWallet = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const okxWallet = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
     'okx_wallet',
     'OKX Wallet',
     system,
@@ -313,7 +315,7 @@ const defineOptionsList = (
     trustOption,
     rainbowOption,
     ledgerOption,
-    oakXWallet
+    okxWallet
   )
 
   const wallets = [
