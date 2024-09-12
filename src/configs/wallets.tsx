@@ -76,6 +76,23 @@ const wallets: TWallets = {
     },
     chains: [1, 137, 8453, 13371],
   },
+  okx_wallet: {
+    id: 'okx_wallet',
+    name: 'OKX Wallet',
+    walletURL: 'https://www.okx.com/ru/web3/rewritethesystem',
+    dappStoreUrl: null,
+    mobile: {
+      android: {
+        support: true,
+        deepLink: (url: string) => `https://www.okx.com/download?deeplink=${encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(url))}`
+      },
+      ios: {
+        support: true,
+        deepLink: (url: string) => `https://www.okx.com/download?deeplink=${encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(url))}`
+      }
+    },
+    chains: [196],
+  },
   trust: {
     id: 'trust',
     name: 'Trust Wallet',

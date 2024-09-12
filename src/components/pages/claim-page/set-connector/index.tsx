@@ -113,8 +113,11 @@ const SetConnector: FC<ReduxType> = ({
       (
         // @ts-ignore
         window.ethereum.isCoinbaseWallet ||
-        window.ethereum.isOneInchIOSWallet |
-        window.ethereum.isOneInchAndroidWallet
+        window.ethereum.isOneInchIOSWallet ||
+        window.ethereum.isOneInchAndroidWallet ||
+        window.ethereum.isOneInchAndroidWallet ||
+        // @ts-ignore
+        window.okxwallet
       ) &&
       system !== 'desktop' && 
       injected
@@ -151,7 +154,6 @@ const SetConnector: FC<ReduxType> = ({
             campaignId: campaignId as string
           }
         })
-
         // connect to wallet if has injected on mobile
         if (
           !address &&
@@ -197,7 +199,8 @@ const SetConnector: FC<ReduxType> = ({
               'wallet_1inch',
               'trust',
               'rainbow',
-              'imtoken'
+              'imtoken',
+              'okx_wallet'
             ].includes(
               String(wallet)
             )

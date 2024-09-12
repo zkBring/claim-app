@@ -15,6 +15,8 @@ import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
+import OKXWalletIcon from 'images/okx-wallet.png'
+
 import Wallet1inch from 'images/wallet-1inch.png'
 import { useConnect } from 'wagmi'
 import {
@@ -32,7 +34,8 @@ import { DropActions } from 'data/store/reducers/drop/types'
 import {
   defineSystem,
   getWalletOption,
-  getInjectedWalletOption
+  getInjectedWalletOption,
+  defineDefaultWalletApp
 } from 'helpers'
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import TProps from './types'
@@ -88,20 +91,22 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 const defineOption = (
   wallet: TWalletName | null,
   system: TSystem,
-  metamaskOption: any, // connector
+  injectedOption: any, // connector
   coinbaseWalletOption: any, // connector
   coinbaseSmartWalletOption: any, // deeplink
   wallet1InchOption: any, // deeplink
   imtokenOption: any, // deeplink
   trustOption: any, // deeplink
   rainbowOption: any, // deeplink
-  ledgerOption: any // redirect
+  ledgerOption: any, // redirect
+  okxWalletOption: any // deeplink
 ) => {
   switch (system) {
     case 'desktop': {
       switch (wallet) {
         case 'metamask':
-          return metamaskOption
+        case 'okx_wallet':
+          return injectedOption
         case 'coinbase_wallet':
           return coinbaseWalletOption
         case 'coinbase_smart_wallet':
@@ -110,7 +115,6 @@ const defineOption = (
           return ledgerOption
         case 'wallet_1inch':
           return wallet1InchOption
-          
         default:
           return coinbaseSmartWalletOption
       }
@@ -122,7 +126,7 @@ const defineOption = (
     default: {
       switch (wallet) {
         case 'metamask':
-          return metamaskOption
+          return injectedOption
         case 'coinbase_wallet':
           return coinbaseWalletOption
         case 'coinbase_smart_wallet':
@@ -137,6 +141,8 @@ const defineOption = (
           return ledgerOption
         case 'wallet_1inch':
           return wallet1InchOption
+        case 'okx_wallet':
+          return okxWalletOption
         
         default:
           return coinbaseSmartWalletOption
@@ -161,6 +167,7 @@ const defineOptionsList = (
   claimCode: string,
   preferredWalletOn?: boolean
 ) => {
+  const defaultWalletApp = defineDefaultWalletApp(chainId)
 
   const allWalletsOption = {
     title: 'I already have a wallet',
@@ -169,7 +176,31 @@ const defineOptionsList = (
     }
   }
 
+  const system = defineSystem()
+  // @ts-ignore
+  const injected = connectors.find(connector => connector.id === "injected")
+
   if (!preferredWalletOn) {
+    if (defaultWalletApp === 'okx_wallet') {
+      const okxWallet = getInjectedWalletOption(
+        wallet,
+        system,
+        () => {
+          setStep('download_await')
+        },
+        connect,
+        <WalletIcon src={OKXWalletIcon} />,
+        injected,
+        'OKX Wallet'
+      )
+
+      // if no preferred wallet chosen
+      return [
+        okxWallet,
+        allWalletsOption
+      ]
+    }
+
     // @ts-ignore
     const coinbaseConnector = connectors.find(connector => connector.id === "coinbaseWalletSDK")
     const coinbaseOption = {
@@ -189,21 +220,31 @@ const defineOptionsList = (
       allWalletsOption
     ]
   }
-
-  const system = defineSystem()
-
-// @ts-ignore
-  const injected = connectors.find(connector => connector.id === "injected")
-  const injectedOption = getInjectedWalletOption(
-    wallet,
-    system,
-    () => {
-      setStep('download_await')
-    },
-    connect,
-    <WalletIcon src={BrowserWalletIcon} />,
-    injected
-  )
+  let injectedOption
+  if (defaultWalletApp === 'okx_wallet') {
+    injectedOption = getInjectedWalletOption(
+      wallet,
+      system,
+      () => {
+        // setStep('download_await')
+      },
+      connect,
+      <WalletIcon src={OKXWalletIcon} />,
+      injected,
+      'OKX Wallet'
+    )
+  } else {
+    injectedOption = getInjectedWalletOption(
+      wallet,
+      system,
+      () => {
+        setStep('download_await')
+      },
+      connect,
+      <WalletIcon src={BrowserWalletIcon} />,
+      injected
+    )
+  }
 
   const ledgerOption = {
     title: 'LedgerLive',
@@ -226,8 +267,7 @@ const defineOptionsList = (
     icon: <WalletIcon src={CoinabseWalletIcon} />
   }
 
-  const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
-  const coinbaseWalletOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const coinbaseWalletOption = getWalletOption(
     'coinbase_wallet',
     'Coinbase Wallet App',
     system,
@@ -251,7 +291,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const trustOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const trustOption = getWalletOption(
     'trust',
     'Trust Wallet',
     system,
@@ -263,7 +303,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const rainbowOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const rainbowOption = getWalletOption(
     'rainbow',
     'Rainbow',
     system,
@@ -275,13 +315,25 @@ const defineOptionsList = (
     wallet
   )
 
-  const imtokenOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const imtokenOption = getWalletOption(
     'imtoken',
     'ImToken',
     system,
     window.location.href, 
     chainId,
     <WalletIcon src={ImtokenWalletIcon} />,
+    deeplinkRedirect,
+    claimCode,
+    wallet
+  )
+
+  const okxWallet = getWalletOption(
+    'okx_wallet',
+    'OKX Wallet',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={OKXWalletIcon} />,
     deeplinkRedirect,
     claimCode,
     wallet
@@ -297,7 +349,8 @@ const defineOptionsList = (
     imtokenOption,
     trustOption,
     rainbowOption,
-    ledgerOption
+    ledgerOption,
+    okxWallet
   )
 
   const wallets = [
