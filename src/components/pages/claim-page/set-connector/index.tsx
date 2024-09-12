@@ -154,14 +154,12 @@ const SetConnector: FC<ReduxType> = ({
             campaignId: campaignId as string
           }
         })
-
         // connect to wallet if has injected on mobile
         if (
           !address &&
           injected &&
           window.ethereum &&
-          system !== 'desktop' &&
-          injected.name !== 'Brave Wallet'
+          system !== 'desktop'
         ) {
           return connect({ connector: injected })
         }
