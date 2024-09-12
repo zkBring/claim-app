@@ -154,7 +154,6 @@ const SetConnector: FC<ReduxType> = ({
             campaignId: campaignId as string
           }
         })
-
         // connect to wallet if has injected on mobile
         if (
           !address &&

@@ -1,5 +1,9 @@
 # Linkdrop Claim app
 
+## 2.2.28
+- added X Layer network support
+- added OKX Wallet
+
 ## 2.2.27
 - new linkdrop-batch-sdk package
 - new logic for wallet connection
