@@ -9,20 +9,10 @@ const getWalletDeeplink: TGetWalletDeeplink = (
   redirectUrl,
   linkChainId
 ) => {
-  const walletData = wallets[walletId]
-
   if (system === 'desktop') {
-    if (walletId === 'okx_wallet') {
-      if (walletData) {
-        const deeplinkData = walletData.mobile.ios
-        if (deeplinkData && deeplinkData.support && deeplinkData.deepLink) {
-          const link = deeplinkData.deepLink(redirectUrl)
-          return link
-        }
-      }
-    } 
-    return 
+    return
   }
+  const walletData = wallets[walletId]
   if (!walletData) {
     return
   }

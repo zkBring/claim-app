@@ -91,7 +91,7 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 const defineOption = (
   wallet: TWalletName | null,
   system: TSystem,
-  metamaskOption: any, // connector
+  injectedOption: any, // connector
   coinbaseWalletOption: any, // connector
   coinbaseSmartWalletOption: any, // deeplink
   wallet1InchOption: any, // deeplink
@@ -105,7 +105,8 @@ const defineOption = (
     case 'desktop': {
       switch (wallet) {
         case 'metamask':
-          return metamaskOption
+        case 'okx_wallet':
+          return injectedOption
         case 'coinbase_wallet':
           return coinbaseWalletOption
         case 'coinbase_smart_wallet':
@@ -114,9 +115,6 @@ const defineOption = (
           return ledgerOption
         case 'wallet_1inch':
           return wallet1InchOption
-        case 'okx_wallet':
-          return okxWalletOption
-          
         default:
           return coinbaseSmartWalletOption
       }
@@ -128,7 +126,7 @@ const defineOption = (
     default: {
       switch (wallet) {
         case 'metamask':
-          return metamaskOption
+          return injectedOption
         case 'coinbase_wallet':
           return coinbaseWalletOption
         case 'coinbase_smart_wallet':
@@ -169,6 +167,7 @@ const defineOptionsList = (
   claimCode: string,
   preferredWalletOn?: boolean
 ) => {
+  const defaultWalletApp = defineDefaultWalletApp(chainId)
 
   const allWalletsOption = {
     title: 'I already have a wallet',
@@ -178,20 +177,21 @@ const defineOptionsList = (
   }
 
   const system = defineSystem()
+  // @ts-ignore
+  const injected = connectors.find(connector => connector.id === "injected")
 
   if (!preferredWalletOn) {
-    const defaultWalletApp = defineDefaultWalletApp(chainId)
     if (defaultWalletApp === 'okx_wallet') {
-      const okxWallet = getWalletOption(
-        'okx_wallet',
-        'OKX Wallet',
+      const okxWallet = getInjectedWalletOption(
+        wallet,
         system,
-        window.location.href, 
-        chainId,
+        () => {
+          setStep('download_await')
+        },
+        connect,
         <WalletIcon src={OKXWalletIcon} />,
-        deeplinkRedirect,
-        claimCode,
-        wallet
+        injected,
+        'OKX Wallet'
       )
 
       // if no preferred wallet chosen
@@ -220,19 +220,31 @@ const defineOptionsList = (
       allWalletsOption
     ]
   }
-
-// @ts-ignore
-  const injected = connectors.find(connector => connector.id === "injected")
-  const injectedOption = getInjectedWalletOption(
-    wallet,
-    system,
-    () => {
-      setStep('download_await')
-    },
-    connect,
-    <WalletIcon src={BrowserWalletIcon} />,
-    injected
-  )
+  let injectedOption
+  if (defaultWalletApp === 'okx_wallet') {
+    injectedOption = getInjectedWalletOption(
+      wallet,
+      system,
+      () => {
+        // setStep('download_await')
+      },
+      connect,
+      <WalletIcon src={OKXWalletIcon} />,
+      injected,
+      'OKX Wallet'
+    )
+  } else {
+    injectedOption = getInjectedWalletOption(
+      wallet,
+      system,
+      () => {
+        setStep('download_await')
+      },
+      connect,
+      <WalletIcon src={BrowserWalletIcon} />,
+      injected
+    )
+  }
 
   const ledgerOption = {
     title: 'LedgerLive',
@@ -255,7 +267,6 @@ const defineOptionsList = (
     icon: <WalletIcon src={CoinabseWalletIcon} />
   }
 
-  const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
   const coinbaseWalletOption = getWalletOption(
     'coinbase_wallet',
     'Coinbase Wallet App',
