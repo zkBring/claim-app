@@ -226,7 +226,7 @@ const defineOptionsList = (
       wallet,
       system,
       () => {
-        setStep('download_await')
+        // setStep('download_await')
       },
       connect,
       <WalletIcon src={OKXWalletIcon} />,
