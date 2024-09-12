@@ -159,7 +159,8 @@ const SetConnector: FC<ReduxType> = ({
           !address &&
           injected &&
           window.ethereum &&
-          system !== 'desktop'
+          system !== 'desktop' &&
+          injected.name !== 'Brave Wallet'
         ) {
           return connect({ connector: injected })
         }
