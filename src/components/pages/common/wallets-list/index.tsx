@@ -219,8 +219,6 @@ const defineOptionsList = (
       coinbaseOption,
       allWalletsOption
     ]
-
-    
   }
 
 // @ts-ignore
@@ -258,7 +256,7 @@ const defineOptionsList = (
   }
 
   const injectedOptionIsBrave = injected && injected.name === 'Brave Wallet'
-  const coinbaseWalletOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const coinbaseWalletOption = getWalletOption(
     'coinbase_wallet',
     'Coinbase Wallet App',
     system,
@@ -282,7 +280,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const trustOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const trustOption = getWalletOption(
     'trust',
     'Trust Wallet',
     system,
@@ -294,7 +292,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const rainbowOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const rainbowOption = getWalletOption(
     'rainbow',
     'Rainbow',
     system,
@@ -306,7 +304,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const imtokenOption = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const imtokenOption = getWalletOption(
     'imtoken',
     'ImToken',
     system,
@@ -318,7 +316,7 @@ const defineOptionsList = (
     wallet
   )
 
-  const okxWallet = (injectedOption && !injectedOptionIsBrave) ? undefined : getWalletOption(
+  const okxWallet = getWalletOption(
     'okx_wallet',
     'OKX Wallet',
     system,
