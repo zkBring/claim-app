@@ -7,7 +7,8 @@ type TDefineInjectedWallet = (
   downloadStarted: (() => void) | null,
   connect: (args: Partial<any> | undefined) => void,
   WalletIcon: JSX.Element,
-  injected?:any
+  injected?:any,
+  title?: string
 ) => TWalletOption | undefined
 
 const getInjectedWalletOption: TDefineInjectedWallet = (
@@ -16,11 +17,48 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
   downloadStarted,
   connect,
   walletIcon,
-  injected
+  injected,
+  title
 ) => {
   const browser = detect()
+  if (browser?.name === 'safari') {
+    return undefined
+  }
+
+  const connectToInjected = {
+    title: 'Connect wallet',
+    onClick: () => {
+      if (!injected) {
+        return alert('Cannot connect to injected')
+      }
+      connect({ connector: injected })
+    },
+    icon: walletIcon
+  }
+
+  if (wallet === 'okx_wallet') {
+    const installOkx = {
+      title: 'Get OKX Wallet',
+      onClick: () => {
+        window.open('https://www.okx.com/web3', '_blank')
+        downloadStarted && downloadStarted()
+      },
+      icon: walletIcon
+    }
+
+    if (system === 'desktop') {
+      if (
+        !injected || !window.ethereum
+      ) {
+        return installOkx
+      } else {
+        return connectToInjected
+      }
+    }
+  }
+
   const installMetamask = {
-    title: 'Metamask',
+    title: 'Get Metamask',
     onClick: () => {
       window.open('https://metamask.io/download/', '_blank')
       downloadStarted && downloadStarted()
@@ -43,41 +81,10 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
         return undefined
       }
     }
-  
-    // has injected
-  
-    if (browser?.name === 'safari') {
-      return undefined
-    }
-
-    if (window.ethereum) {
-      return {
-        title: 'Metamask',
-        onClick: () => {
-          if (!injected) {
-            return alert('Cannot connect to injected')
-          }
-          connect({ connector: injected })
-        },
-        icon: walletIcon
-      }
-    }
-  
-    return undefined
-
   }
 
-  if (injected && window.ethereum) { // mobile
-    return {
-      title: 'Injected',
-      onClick: () => {
-        if (!injected) {
-          return alert('Cannot connect to injected')
-        }
-        connect({ connector: injected })
-      },
-      icon: walletIcon
-    }
+  if (injected && window.ethereum) {
+    return connectToInjected
   }
 
   return undefined 
