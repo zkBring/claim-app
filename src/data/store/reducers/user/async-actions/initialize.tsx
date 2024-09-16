@@ -3,12 +3,11 @@ import * as actions from '../actions'
 import { UserActions } from '../types'
 import { RootState } from 'data/store'
 import { ethers } from 'ethers'
-import checkIfClaimed from '../../drop/async-actions/check-if-claimed'
-import * as actionsDrop from '../../drop/actions'
 import { DropActions } from '../../drop/types'
 import {
   defineJSONRpcUrl,
 } from 'helpers'
+
 const { REACT_APP_INFURA_ID } = process.env
 
 const initialize = (
@@ -30,7 +29,8 @@ const initialize = (
         chainId: linkChainId,
         campaignId,
         linkdropMasterAddress,
-        linkId
+        linkId,
+        factoryAddress
       }
     } = getState()
 
@@ -61,18 +61,6 @@ const initialize = (
     const jsonRpcUrl = defineJSONRpcUrl({ chainId: Number(linkChainId), infuraPk: REACT_APP_INFURA_ID })
     const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
     dispatch(actions.setProvider(provider))
-
-    const claimed = await checkIfClaimed(
-      provider,
-      Number(linkChainId),
-      linkId,
-      linkdropMasterAddress,
-      campaignId
-    )
-
-    if (claimed) {
-      dispatch(actionsDrop.setIsClaimed(claimed))
-    }
 
     if (!userChainId || !userAddress || !connector) {
       dispatch(actions.setHasConnector(false))

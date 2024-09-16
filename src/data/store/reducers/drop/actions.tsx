@@ -195,6 +195,16 @@ export function setAdditionalWalletsOn (additionalWalletsOn: boolean) {
 }
 
 
+export function setFactoryAddress (factoryAddress: string) {
+  return action(
+    Constants.DROP_SET_FACTORY_ADDRESS,
+    {
+      factoryAddress
+    }
+  )
+}
+
+
 
 export function setMultiscanLinkDecrypted (multiscanLinkDecrypted: string) {
   return action(
