@@ -3,13 +3,17 @@ import { Dispatch } from 'redux';
 import { DropActions } from '../types'
 import { ethers, BigNumber } from 'ethers'
 import { RootState } from 'data/store'
-import contracts from 'configs/contracts'
 import LinkdropFactory from 'abi/linkdrop-factory.json'
 import { signReceiverAddress } from '@linkdrop/contracts/scripts/utils.js'
 import * as dropActions from '../actions'
 import * as userActions from '../../user/actions'
 import { UserActions } from '../../user/types'
-import { resolveENS, defineJSONRpcUrl, handleClaimResponseError } from 'helpers'
+import {
+  resolveENS,
+  defineJSONRpcUrl,
+  handleClaimResponseError,
+  alertError
+} from 'helpers'
 import { AxiosError } from 'axios'
 import gasPriceLimits from 'configs/gas-price-limits'
 import { plausibleApi } from 'data/api'
@@ -29,8 +33,7 @@ export default function claimERC20(
         sdk,
         address,
         provider,
-        signer,
-        email
+        signer
       },
       drop: {
         campaignId,
@@ -44,7 +47,8 @@ export default function claimERC20(
         linkdropMasterAddress,
         linkdropSignerSignature,
         chainId,
-        claimCode
+        claimCode,
+        factoryAddress
       }
     } = getState()
 
@@ -139,6 +143,7 @@ export default function claimERC20(
           linkdropMasterAddress,
           campaignId,
           linkdropSignerSignature,
+          factoryAddress,
           dispatch
         )
 
@@ -188,15 +193,17 @@ const claimManually = async (
   linkdropMasterAddress: string,
   campaignId: string,
   linkdropSignerSignature: string,
+  factoryAddress: string | null,
   dispatch: Dispatch<DropActions> & Dispatch<UserActions>,
 ) => {
-
+  if (!factoryAddress) {
+    return alertError('Factory address is not defined')
+  }
   try {
-    const factoryItem = contracts[chainId]
     const linkId = new ethers.Wallet(linkKey).address
     const receiverSignature = await signReceiverAddress(linkKey, address)
     const contract = new ethers.Contract(
-      factoryItem.factory,
+      factoryAddress,
       LinkdropFactory.abi,
       signer
     )

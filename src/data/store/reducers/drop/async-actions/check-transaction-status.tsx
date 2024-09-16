@@ -30,7 +30,8 @@ export default function getData() {
           linkdropMasterAddress,
           chainId,
           claimCode,
-          hash
+          hash,
+          factoryAddress
         }
       } = getState()
 
@@ -57,10 +58,10 @@ export default function getData() {
       const interval = window.setInterval(async () => {
         const claimed = await checkIfClaimed(
           provider,
-          Number(chainId),
           linkId,
           linkdropMasterAddress,
-          campaignId
+          campaignId,
+          factoryAddress
         )
         try {
           dispatch(actionsDrop.setLoading(false))

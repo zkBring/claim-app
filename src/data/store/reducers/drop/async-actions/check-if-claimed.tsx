@@ -1,17 +1,18 @@
 import { ethers } from 'ethers'
 import LinkdropFactory from 'abi/linkdrop-factory.json'
-import contracts from 'configs/contracts'
 
 export default async function checkIfClaimed(
   provider: any,
-  chainId: number,
-  linkId: string,
-  linkdropMasterAddress: string,
-  campaignId: string
+  linkId: string | null,
+  linkdropMasterAddress: string | null,
+  campaignId: string | null,
+  factoryAddress: string | null
 ) {
   try {
-    const factoryItem = contracts[chainId]
-    const factoryContract = await new ethers.Contract(factoryItem.factory, LinkdropFactory.abi, provider)
+    if (!factoryAddress) {
+      throw new Error('Factory address is not valid')
+    }
+    const factoryContract = new ethers.Contract(factoryAddress, LinkdropFactory.abi, provider)
     return await factoryContract.isClaimedLink(linkdropMasterAddress, campaignId, linkId)
   } catch (err) {
     // @ts-ignore

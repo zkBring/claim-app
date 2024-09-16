@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.29
+- factory configs removed
+
 ## 2.2.28
 - added X Layer network support
 - added OKX Wallet

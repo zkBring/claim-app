@@ -48,6 +48,7 @@ export interface DropState {
   whitelistType: TWhitelistType | null
   multiscanLinkDecrypted: null | string
   additionalWalletsOn: boolean
+  factoryAddress: string | null
 }
 
 
