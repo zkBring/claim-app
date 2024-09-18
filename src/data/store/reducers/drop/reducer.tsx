@@ -37,7 +37,8 @@ const initialState: DropState = {
   whitelistOn: false,
   multiscanLinkDecrypted: null,
   preferredWalletOn: false,
-  additionalWalletsOn: false
+  additionalWalletsOn: false,
+  factoryAddress: null
 }
 
 export function dropReducer(
@@ -47,6 +48,8 @@ export function dropReducer(
     switch (action.type) {
       case Constants.DROP_SET_STEP:
         return {...state, step: action.payload.step }
+      case Constants.DROP_SET_FACTORY_ADDRESS:
+        return {...state, factoryAddress: action.payload.factoryAddress }
       case Constants.DROP_SET_AUTOCLAIM:
         return {...state, autoclaim: action.payload.autoclaim }
       case Constants.DROP_SET_MULTISCAN_STEP:

@@ -16,9 +16,11 @@ export default function computeScanAddress(
     dispatch: Dispatch<DropActions> & IAppDispatch
   ) => {
     dispatch(actionsDrop.setError(null))
+
     try {
       const linkKey = ethers.utils.id(qrSecret)
       const qrKeysPair = new ethers.Wallet(linkKey)
+      
       const MULTISCAN_QR_ID = qrKeysPair.address.toLowerCase()
       const inLocalStorage = checkIfMultiscanIsPresented(MULTISCAN_QR_ID)
 

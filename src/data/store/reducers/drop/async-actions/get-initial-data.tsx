@@ -47,13 +47,15 @@ export default function getData(
           sdk
         },
         drop: {
-          isClaimed,
           tokenAddress: linkTokenAddress,
           chainId: linkChainId,
           expirationTime,
           tokenId,
           type,
-          claimCode
+          claimCode,
+          linkId,
+          linkdropMasterAddress,
+          factoryAddress
         },
         token: {
           linkdropToken,
@@ -90,7 +92,16 @@ export default function getData(
         return dispatch(actionsDrop.setStep('link_expired'))
       }
 
+      const isClaimed = await asyncActionsDrop.checkIfClaimed(
+        provider,
+        linkId,
+        linkdropMasterAddress,
+        campaignId,
+        factoryAddress
+      )
+  
       if (isClaimed) {
+        dispatch(actionsDrop.setIsClaimed(true))
         dispatch(actionsDrop.setLoading(false))
         const status = await sdk?.getLinkStatus(claimCode)
         if (status?.txHash) {

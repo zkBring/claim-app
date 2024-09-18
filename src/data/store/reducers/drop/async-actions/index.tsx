@@ -14,10 +14,12 @@ import getLinkByMultiQRWhitelistAddress from './get-link-by-multi-qr-whitelist-a
 import getTokenData from './get-token-data'
 import getMultiQRCampaignData from './get-multi-qr-campaign-data'
 import resetEligibilityCheck from './reset-eligibility-check'
+import checkIfClaimed from './check-if-claimed'
 
 export {
   claimERC1155,
   resetEligibilityCheck,
+  checkIfClaimed,
   getLinkByMultiQRWhitelistAddress,
   getMultiQRCampaignData,
   getTokenData,
