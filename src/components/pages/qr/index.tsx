@@ -46,8 +46,13 @@ const QR: FC<ReduxType> = ({ getLink, initialized, error }) => {
   useEffect(() => {
     if (!qrId) { return alertError('QR_ID is not found in URL') }
     getLink(qrId, (location) => {
-      const path = location.split('/#')[1]
-      history.push(path)
+      if (location.includes('#')) {
+        const path = location.split('/#')[1]
+        history.push(path)
+      } else {
+        window.location.href = location
+      }
+      
     })
   }, [])
 
