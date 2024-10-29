@@ -36,5 +36,9 @@ export type TClaimLinkERC1155 = {
 }
 
 export type TClaimResult = {
-  success: boolean, errors: string[], txHash: string, message: string, alreadyClaimed: boolean
+  success: boolean,
+  errors: string[],
+  txHash: string,
+  message: string,
+  alreadyClaimed: boolean
 }

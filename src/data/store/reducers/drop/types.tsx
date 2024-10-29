@@ -41,6 +41,7 @@ export interface DropState {
   claiming_finished_description: string
   claiming_finished_button_title: string
   claiming_finished_button_url: string
+  claiming_finished_auto_redirect: boolean,
   preferredWalletOn: boolean
   walletApp: null | TWalletName
   previewSetting?: TPreviewSetting
