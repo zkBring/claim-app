@@ -31,6 +31,7 @@ const initialState: DropState = {
   claiming_finished_description: '',
   claiming_finished_button_title: '',
   claiming_finished_button_url: '',
+  claiming_finished_auto_redirect: false,
   walletApp: null,
   previewSetting: undefined,
   whitelistType: null,
@@ -108,6 +109,8 @@ export function dropReducer(
         return {...state, claiming_finished_button_title: action.payload.claiming_finished_button_title }
       case Constants.DROP_SET_CLAIMING_FINISHED_BUTTON_URL:
         return {...state, claiming_finished_button_url: action.payload.claiming_finished_button_url }
+      case Constants.DROP_SET_CLAIMING_FINISHED_AUTO_REDIRECT:
+        return {...state, claiming_finished_auto_redirect: action.payload.claiming_finished_auto_redirect }
       case Constants.DROP_SET_WALLET_APP:
         return {...state, walletApp: action.payload.walletApp }
       case Constants.DROP_SET_CLAIM_CODE:

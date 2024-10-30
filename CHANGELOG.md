@@ -1,5 +1,8 @@
 # Linkdrop Claim app
 
+## 2.2.30
+- claiming_finished_auto_redirect property support
+
 ## 2.2.29
 - factory configs removed
 

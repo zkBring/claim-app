@@ -158,6 +158,15 @@ export function setClaimingFinishedButtonURL (claiming_finished_button_url: stri
   )
 }
 
+export function setClaimingFinishedAutoRedirect (claiming_finished_auto_redirect: boolean) {
+  return action(
+    Constants.DROP_SET_CLAIMING_FINISHED_AUTO_REDIRECT,
+    {
+      claiming_finished_auto_redirect
+    }
+  )
+}
+
 export function setPreferredWalletOn (preferred_wallet_on: boolean) {
   return action(
     Constants.DROP_SET_PREFERRED_WALLET_ON,

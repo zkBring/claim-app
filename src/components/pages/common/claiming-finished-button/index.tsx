@@ -17,12 +17,14 @@ const mapStateToProps = ({
     campaignId,
     claiming_finished_button_title,
     claiming_finished_button_url,
+    claiming_finished_auto_redirect,
     wallet
   },
 }: RootState) => ({
   campaignId,
   claiming_finished_button_title,
   claiming_finished_button_url,
+  claiming_finished_auto_redirect,
   wallet
 })
 
@@ -32,6 +34,7 @@ const ClaimingFinishedButton: FC<ReduxType & TProps> = ({
   campaignId,
   claiming_finished_button_title,
   claiming_finished_button_url,
+  claiming_finished_auto_redirect,
   wallet,
   alreadyClaimed
 }) => {
@@ -47,18 +50,25 @@ const ClaimingFinishedButton: FC<ReduxType & TProps> = ({
         setIsSmartWallet(isAuthorized)
       }
 
+      if (claiming_finished_auto_redirect) {
+        if (claiming_finished_button_url) {
+          window.location.href = claiming_finished_button_url
+  
+          return
+        }
+      }
+
       setLoading(false)
     }
 
     init()
-
   }, [])
 
   if (loading) {
     return <LoaderStyled size='small' />
   }
 
-  if (claiming_finished_button_url && claiming_finished_button_title) {
+  if (claiming_finished_button_url) {
     return <ButtonStyled
       onClick={() => {
         plausibleApi.invokeEvent({
@@ -71,7 +81,7 @@ const ClaimingFinishedButton: FC<ReduxType & TProps> = ({
       }}
       appearance='action'
     >
-      {claiming_finished_button_title}
+      {claiming_finished_button_title || 'Redirect'}
     </ButtonStyled>
   }
 

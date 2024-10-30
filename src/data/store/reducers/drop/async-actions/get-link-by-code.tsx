@@ -57,6 +57,7 @@ export default function getLinkByCode(
         claiming_finished_button_title, 
         claiming_finished_button_url,
         claiming_finished_button_on,
+        claiming_finished_auto_redirect,
         preferred_wallet_on,
         linkdrop_token,
         token_image,
@@ -102,7 +103,10 @@ export default function getLinkByCode(
       ) {
         dispatch(actionsDrop.setClaimingFinishedButtonTitle(claiming_finished_button_title))
         dispatch(actionsDrop.setClaimingFinishedButtonURL(claiming_finished_button_url))
+        dispatch(actionsDrop.setClaimingFinishedAutoRedirect(claiming_finished_auto_redirect))
       }
+
+      
       if (claiming_finished_description) {
         dispatch(actionsDrop.setClaimingFinishedDescription(claiming_finished_description))
       }
