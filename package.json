@@ -102,6 +102,7 @@
     "ejs": "^3.1.7",
     "browserslist": "^4.16.5",
     "@types/react": "^18.0.21",
+    "@coinbase/wallet-sdk": "^4.2.1",
     "react-error-overlay": "6.0.9"
   },
   "devDependencies": {
