@@ -1,6 +1,8 @@
 import { createAppKit } from '@reown/appkit/react'
-import { coinbaseWallet } from './coinbase-wallet-wagmi-connector'
+// import { coinbaseWallet } from './coinbase-wallet-wagmi-connector'
 import { WagmiProvider } from 'wagmi'
+import { coinbaseWallet } from 'wagmi/connectors'
+
 import {
   polygon,
   immutableZkEvm,
@@ -42,19 +44,19 @@ const wagmiAdapter = new WagmiAdapter({
   projectId,
   ssr: true,
   connectors: [
-    coinbaseWallet({
-      appName: 'Claim App'
-    })
-  ]
+    coinbaseWallet()
+  ],
 })
 
 // 5. Create modal
 createAppKit({
-  adapters: [wagmiAdapter],
+  adapters: [
+    wagmiAdapter
+  ],
+  featuredWalletIds: ['fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa'],
   // @ts-ignore
   networks,
   projectId,
-  enableCoinbase: true,
   metadata,
   features: {
     analytics: true, // Optional - defaults to your Cloud configuration
