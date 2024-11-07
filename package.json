@@ -70,7 +70,8 @@
     "start": "DISABLE_ESLINT_PLUGIN=true craco --openssl-legacy-provider start",
     "build": "DISABLE_ESLINT_PLUGIN=true craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "npx patch-package"
   },
   "eslintConfig": {
     "extends": [
