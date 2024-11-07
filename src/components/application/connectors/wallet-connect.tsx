@@ -8,11 +8,12 @@ import {
   xLayer
 } from 'wagmi/chains'
 import { http } from 'wagmi'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
 // import { metamaskConfig } from './metamask-connect'
 // import { coinbaseConfig } from './coinbase-connector'
 
-import { injected, walletConnect, coinbaseWallet } from 'wagmi/connectors'
+import { injected, walletConnect } from 'wagmi/connectors'
+import { coinbaseWallet } from './coinbase-wallet-wagmi-connector'
 
 const { REACT_APP_WC_PROJECT_ID } = process.env
 

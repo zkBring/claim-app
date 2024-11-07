@@ -14,6 +14,7 @@ module.exports = {
     }
   },
   configure: (webpackConfig) => {
+    webpackConfig.resolve.extensions.push('.mjs', '.cjs')
     return {
       ...webpackConfig,
       resolve: {
@@ -31,6 +32,9 @@ module.exports = {
     }
   },
   babel: {
-    plugins: ["@babel/plugin-proposal-nullish-coalescing-operator", "@babel/plugin-proposal-optional-chaining"],
+    plugins: [
+      "@babel/plugin-proposal-nullish-coalescing-operator", 
+      "@babel/plugin-proposal-optional-chaining"
+    ],
   },
 }
