@@ -54,9 +54,10 @@ createAppKit({
   // @ts-ignore
   networks,
   projectId,
+  enableCoinbase: true,
   metadata,
   features: {
-    analytics: true // Optional - defaults to your Cloud configuration
+    analytics: true, // Optional - defaults to your Cloud configuration
   }
 })
 
