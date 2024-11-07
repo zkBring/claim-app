@@ -1,5 +1,4 @@
 import { createWeb3Modal } from '@web3modal/wagmi/react'
-import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import {
   mainnet,
   polygon,
@@ -7,7 +6,7 @@ import {
   immutableZkEvm,
   xLayer
 } from 'wagmi/chains'
-import { http } from 'wagmi'
+import { createConfig, http } from 'wagmi'
 import { QueryClient } from '@tanstack/react-query'
 // import { metamaskConfig } from './metamask-connect'
 // import { coinbaseConfig } from './coinbase-connector'
@@ -39,10 +38,8 @@ const chains = [
   xLayer
 ] as const
 
-const config = defaultWagmiConfig({
+const config = createConfig({
   chains,
-  projectId,
-  metadata,
   connectors: [
     walletConnect({
       projectId,

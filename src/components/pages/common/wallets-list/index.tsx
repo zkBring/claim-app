@@ -18,7 +18,7 @@ import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import OKXWalletIcon from 'images/okx-wallet.png'
 
 import Wallet1inch from 'images/wallet-1inch.png'
-import { useConnect } from 'wagmi'
+import { Config, useConnect } from 'wagmi'
 import {
   TDropStep,
   TMultiscanStep,
@@ -40,6 +40,7 @@ import {
 import BrowserWalletIcon from 'images/browser-wallet.png'
 import TProps from './types'
 import Icons from 'icons'
+import { config } from 'components/application/connectors/wallet-connect'
 
 const mapStateToProps = ({
   token: {
@@ -396,11 +397,13 @@ const WalletsList: FC<ReduxType> = ({
 }) => {
   const { open } = useWeb3Modal()
   // const open =  async () => alert('sss')
-  const { connect, connectors } = useConnect()
+  // @ts-ignore
+  const { connect, connectors } = useConnect(config as unknown as Config)
 
   useEffect(() => {
     setAutoclaim(true)
   }, [])
+
   const options = defineOptionsList(
     type,
     setStep,
