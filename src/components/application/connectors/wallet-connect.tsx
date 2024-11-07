@@ -1,5 +1,5 @@
 import { createAppKit } from '@reown/appkit/react'
-
+import { coinbaseWallet } from './coinbase-wallet-wagmi-connector'
 import { WagmiProvider } from 'wagmi'
 import {
   polygon,
@@ -42,7 +42,9 @@ const wagmiAdapter = new WagmiAdapter({
   projectId,
   ssr: true,
   connectors: [
-
+    coinbaseWallet({
+      appName: 'Claim App'
+    })
   ]
 })
 
