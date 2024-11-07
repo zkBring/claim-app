@@ -1,6 +1,4 @@
 import { createAppKit } from '@reown/appkit/react'
-// import { coinbaseWallet } from './coinbase-wallet-wagmi-connector'
-import { WagmiProvider } from 'wagmi'
 import { coinbaseWallet } from 'wagmi/connectors'
 
 import {
@@ -12,6 +10,10 @@ import {
 } from '@reown/appkit/networks'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
+
+import {
+  zeroChain
+} from 'configs/chains'
 
 // 0. Setup queryClient
 const queryClient = new QueryClient()
@@ -34,7 +36,8 @@ const networks = [
   mainnet,
   polygon,
   immutableZkEvm,
-  xLayer
+  xLayer,
+  zeroChain
 ]
 
 
