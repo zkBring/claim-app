@@ -42,7 +42,6 @@ const networks = [
 const wagmiAdapter = new WagmiAdapter({
   networks,
   projectId,
-  ssr: true,
   connectors: [
     coinbaseWallet()
   ],
@@ -57,10 +56,7 @@ createAppKit({
   // @ts-ignore
   networks,
   projectId,
-  metadata,
-  features: {
-    analytics: true, // Optional - defaults to your Cloud configuration
-  }
+  metadata
 })
 
 
