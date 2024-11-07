@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.1.1",
-    "@coinbase/wallet-sdk": "^3.6.6",
+    "@coinbase/wallet-sdk": "^4.2.1",
     "@craco/craco": "^7.1.0",
     "@datadog/browser-logs": "^5.18.0",
     "@datadog/browser-rum": "^5.18.0",
@@ -70,7 +70,8 @@
     "start": "DISABLE_ESLINT_PLUGIN=true craco --openssl-legacy-provider start",
     "build": "DISABLE_ESLINT_PLUGIN=true craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "npx patch-package"
   },
   "eslintConfig": {
     "extends": [
@@ -117,5 +118,6 @@
   },
   "browser": {
     "crypto": false
-  }
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
