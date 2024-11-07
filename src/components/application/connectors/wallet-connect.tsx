@@ -50,7 +50,9 @@ const config = defaultWagmiConfig({
       showQrModal: false
     }),
     injected(),
-    coinbaseWallet()
+    coinbaseWallet({
+      appName: 'Claim App',
+    })
   ],
   transports: {
     [base.id]: http(),
@@ -67,7 +69,6 @@ createWeb3Modal({
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
 })
-
 
 export {
   config,
