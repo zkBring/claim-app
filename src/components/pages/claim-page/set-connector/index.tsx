@@ -18,7 +18,7 @@ import { useConnect } from 'wagmi'
 import { TDropStep, TDropType, TWalletName } from 'types'
 import { plausibleApi } from 'data/api'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
-import { useWeb3Modal } from '@web3modal/wagmi/react'
+import { useAppKit } from '@reown/appkit/react'
 
 const { REACT_APP_CLIENT } = process.env
 const mapStateToProps = ({
@@ -91,7 +91,7 @@ const SetConnector: FC<ReduxType> = ({
 }) => {
   const { connect, connectors } = useConnect()
   const injected = connectors.find(connector => connector.id === 'injected')
-  const { open } = useWeb3Modal()
+  const { open } = useAppKit()
 
   const system = defineSystem()
   const [ initialized, setInitialized ] = useState<boolean>(false)
@@ -113,8 +113,11 @@ const SetConnector: FC<ReduxType> = ({
       (
         // @ts-ignore
         window.ethereum.isCoinbaseWallet ||
+        // @ts-ignore
         window.ethereum.isOneInchIOSWallet ||
+        // @ts-ignore
         window.ethereum.isOneInchAndroidWallet ||
+        // @ts-ignore
         window.ethereum.isOneInchAndroidWallet ||
         // @ts-ignore
         window.okxwallet
@@ -158,6 +161,7 @@ const SetConnector: FC<ReduxType> = ({
         if (
           !address &&
           injected &&
+          // @ts-ignore
           window.ethereum &&
           system !== 'desktop' &&
           injected.name !== 'Brave Wallet'

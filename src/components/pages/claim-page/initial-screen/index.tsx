@@ -151,7 +151,9 @@ const InitialScreen: FC<ReduxType> = ({
       }
       if(
         window &&
+        // @ts-ignore
         window.ethereum &&
+        // @ts-ignore
         window.ethereum.isCoinbaseWallet &&
         system !== 'desktop'
       ) {
