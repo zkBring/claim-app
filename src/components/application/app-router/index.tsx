@@ -2,8 +2,7 @@ import { FC } from 'react'
 import {
   Route,
   Switch,
-  HashRouter,
-  BrowserRouter
+  HashRouter
 } from 'react-router-dom'
 import {
   NotFound,
