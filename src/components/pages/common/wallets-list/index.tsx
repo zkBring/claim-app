@@ -9,7 +9,7 @@ import {
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { useWeb3Modal } from '@web3modal/wagmi/react'
+import { useAppKit } from '@reown/appkit/react'
 import TrustWalletIcon from 'images/trust-wallet.png'
 import CoinabseWalletIcon from 'images/coinbase-wallet.png'
 import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
@@ -18,7 +18,7 @@ import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import OKXWalletIcon from 'images/okx-wallet.png'
 
 import Wallet1inch from 'images/wallet-1inch.png'
-import { useConnect } from 'wagmi'
+import { Config, useConnect } from 'wagmi'
 import {
   TDropStep,
   TMultiscanStep,
@@ -394,13 +394,15 @@ const WalletsList: FC<ReduxType> = ({
   preferredWalletOn,
   setAutoclaim
 }) => {
-  const { open } = useWeb3Modal()
+  const { open } = useAppKit()
   // const open =  async () => alert('sss')
+  // @ts-ignore
   const { connect, connectors } = useConnect()
 
   useEffect(() => {
     setAutoclaim(true)
   }, [])
+
   const options = defineOptionsList(
     type,
     setStep,

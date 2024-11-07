@@ -1,26 +1,24 @@
-import { createWeb3Modal } from '@web3modal/wagmi/react'
-import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
+import { createAppKit } from '@reown/appkit/react'
+// import { coinbaseWallet } from './coinbase-wallet-wagmi-connector'
+import { WagmiProvider } from 'wagmi'
+import { coinbaseWallet } from 'wagmi/connectors'
+
 import {
-  mainnet,
   polygon,
-  base,
   immutableZkEvm,
-  xLayer
-} from 'wagmi/chains'
-import { http } from 'wagmi'
-import { QueryClient } from '@tanstack/react-query'
-// import { metamaskConfig } from './metamask-connect'
-// import { coinbaseConfig } from './coinbase-connector'
-
-import { injected, walletConnect } from 'wagmi/connectors'
-import { coinbaseWallet } from './coinbase-wallet-wagmi-connector'
-
-const { REACT_APP_WC_PROJECT_ID } = process.env
+  xLayer,
+  mainnet,
+  base
+} from '@reown/appkit/networks'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 
 // 0. Setup queryClient
 const queryClient = new QueryClient()
 
-// 1. Get projectId at https://cloud.walletconnect.com
+// 1. Get projectId from https://cloud.reown.com
+
+const { REACT_APP_WC_PROJECT_ID } = process.env
 const projectId = REACT_APP_WC_PROJECT_ID as string
 
 // 2. Create wagmiConfig
@@ -31,46 +29,38 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
-const chains = [
+const networks = [
   base,
   mainnet,
   polygon,
   immutableZkEvm,
   xLayer
-] as const
+]
 
-const config = defaultWagmiConfig({
-  chains,
+
+// @ts-ignore
+const wagmiAdapter = new WagmiAdapter({
+  networks,
   projectId,
-  metadata,
   connectors: [
-    walletConnect({
-      projectId,
-      metadata,
-      showQrModal: false
-    }),
-    injected(),
-    coinbaseWallet({
-      appName: 'Claim App',
-    })
+    coinbaseWallet()
   ],
-  transports: {
-    [base.id]: http(),
-    [mainnet.id]: http(),
-    [polygon.id]: http(),
-    [immutableZkEvm.id]: http(),
-    [xLayer.id]: http()
-  },
 })
 
-// 3. Create modal
-createWeb3Modal({
-  wagmiConfig: config,
+// 5. Create modal
+createAppKit({
+  adapters: [
+    wagmiAdapter
+  ],
+  featuredWalletIds: ['fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa'],
+  // @ts-ignore
+  networks,
   projectId,
-  enableAnalytics: true, // Optional - defaults to your Cloud configuration
+  metadata
 })
+
 
 export {
-  config,
+  wagmiAdapter,
   queryClient
 }

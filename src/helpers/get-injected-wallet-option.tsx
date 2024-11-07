@@ -48,6 +48,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 
     if (system === 'desktop') {
       if (
+        // @ts-ignore
         !injected || !window.ethereum
       ) {
         return installOkx
@@ -69,6 +70,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
 
   if (system === 'desktop') {
     if (
+      // @ts-ignore
       !injected || !window.ethereum
     ) {
       // has no injected
@@ -82,7 +84,7 @@ const getInjectedWalletOption: TDefineInjectedWallet = (
       }
     }
   }
-
+  // @ts-ignore
   if (injected && window.ethereum) {
     return connectToInjected
   }
