@@ -114,6 +114,8 @@ const defineOption = (
           return coinbaseSmartWalletOption
         case 'ledger':
           return ledgerOption
+        case 'zerion':
+          return zerionWallet
         case 'wallet_1inch':
           return wallet1InchOption
         default:
