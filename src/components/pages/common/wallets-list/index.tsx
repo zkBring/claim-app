@@ -140,6 +140,8 @@ const defineOption = (
           return trustOption
         case 'rainbow':
           return rainbowOption
+        case 'zerion':
+          return zerionWallet
         case 'ledger':
           return ledgerOption
         case 'wallet_1inch':
