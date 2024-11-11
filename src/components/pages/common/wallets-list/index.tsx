@@ -16,6 +16,7 @@ import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import OKXWalletIcon from 'images/okx-wallet.png'
+import ZerionWallet from 'images/zerion-wallet.png'
 
 import Wallet1inch from 'images/wallet-1inch.png'
 import { Config, useConnect } from 'wagmi'
@@ -373,7 +374,7 @@ const defineOptionsList = (
     system,
     window.location.href, 
     chainId,
-    <WalletIcon src={OKXWalletIcon} />,
+    <WalletIcon src={ZerionWallet} />,
     deeplinkRedirect,
     claimCode,
     wallet
