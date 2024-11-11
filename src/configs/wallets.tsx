@@ -176,6 +176,23 @@ const wallets: TWallets = {
     },
     chains: [1, 137, 8453, 13371, 543210],
   },
+  zerion: {
+    id: 'zerion',
+    name: 'Zerion Wallet',
+    walletURL: 'https://zerion.io/',
+    dappStoreUrl: null,
+    mobile: {
+      android: {
+        support: true,
+        deepLink: (url: string) => `https://link.zerion.io?url=${encodeURIComponent(url)}`
+      },
+      ios: {
+        support: true,
+        deepLink: (url: string) => `https://link.zerion.io?url=${encodeURIComponent(url)}`
+      }
+    },
+    chains: [1, 137, 8453, 13371, 543210],
+  },
   wallet_1inch: {
     id: 'wallet_1inch',
     name: '1inch',
