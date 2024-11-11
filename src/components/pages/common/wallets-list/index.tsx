@@ -99,7 +99,8 @@ const defineOption = (
   trustOption: any, // deeplink
   rainbowOption: any, // deeplink
   ledgerOption: any, // redirect
-  okxWalletOption: any // deeplink
+  okxWalletOption: any, // deeplink
+  zerionWallet: any // deeplink
 ) => {
   switch (system) {
     case 'desktop': {
@@ -362,6 +363,18 @@ const defineOptionsList = (
     wallet
   )
 
+  const zerionWallet = getWalletOption(
+    'zerion',
+    'Zerion Wallet',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={OKXWalletIcon} />,
+    deeplinkRedirect,
+    claimCode,
+    wallet
+  )
+
   const primaryOption = defineOption(
     wallet,
     system,
@@ -373,7 +386,8 @@ const defineOptionsList = (
     trustOption,
     rainbowOption,
     ledgerOption,
-    okxWallet
+    okxWallet,
+    zerionWallet
   )
 
   const wallets = [
