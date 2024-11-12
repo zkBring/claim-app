@@ -8,6 +8,7 @@ type TWalletName = 'metamask' |
                    'wallet_1inch' |
                    'walletconnect' |
                    'coinbase_wallet' |
-                   'okx_wallet'
+                   'okx_wallet' |
+                   'zerion'
 
 export default TWalletName

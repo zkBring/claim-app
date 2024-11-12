@@ -16,6 +16,7 @@ import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import OKXWalletIcon from 'images/okx-wallet.png'
+import ZerionWallet from 'images/zerion-wallet.png'
 
 import Wallet1inch from 'images/wallet-1inch.png'
 import { Config, useConnect } from 'wagmi'
@@ -99,7 +100,8 @@ const defineOption = (
   trustOption: any, // deeplink
   rainbowOption: any, // deeplink
   ledgerOption: any, // redirect
-  okxWalletOption: any // deeplink
+  okxWalletOption: any, // deeplink
+  zerionWallet: any // deeplink
 ) => {
   switch (system) {
     case 'desktop': {
@@ -113,6 +115,8 @@ const defineOption = (
           return coinbaseSmartWalletOption
         case 'ledger':
           return ledgerOption
+        case 'zerion':
+          return zerionWallet
         case 'wallet_1inch':
           return wallet1InchOption
         default:
@@ -137,6 +141,8 @@ const defineOption = (
           return trustOption
         case 'rainbow':
           return rainbowOption
+        case 'zerion':
+          return zerionWallet
         case 'ledger':
           return ledgerOption
         case 'wallet_1inch':
@@ -179,7 +185,6 @@ const defineOptionsList = (
   const system = defineSystem()
   // @ts-ignore
   const injected = connectors.find(connector => connector.id === "injected")
-  
   if (!preferredWalletOn) {
     if (defaultWalletApp === 'okx_wallet') {
       if (system === 'desktop') {
@@ -220,6 +225,44 @@ const defineOptionsList = (
         ]
       }
       
+    } else if (defaultWalletApp === 'zerion') {
+      if (system === 'desktop') {
+        const zerionWallet = getInjectedWalletOption(
+          wallet,
+          system,
+          () => {
+            setStep('download_await')
+          },
+          connect,
+          <WalletIcon src={ZerionWallet} />,
+          injected,
+          'Zerion Wallet'
+        )
+  
+        // if no preferred wallet chosen
+        return [
+          zerionWallet,
+          allWalletsOption
+        ]
+      } else {
+        const zerionWallet = getWalletOption(
+          'zerion',
+          'Zerion Wallet',
+          system,
+          window.location.href, 
+          chainId,
+          <WalletIcon src={ZerionWallet} />,
+          deeplinkRedirect,
+          claimCode,
+          wallet
+        )
+  
+        // if no preferred wallet chosen
+        return [
+          zerionWallet,
+          allWalletsOption
+        ]
+      }
     }
 
     // @ts-ignore
@@ -288,6 +331,7 @@ const defineOptionsList = (
     },
     icon: <WalletIcon src={CoinabseWalletIcon} />
   }
+  
 
   const coinbaseWalletOption = getWalletOption(
     'coinbase_wallet',
@@ -361,6 +405,18 @@ const defineOptionsList = (
     wallet
   )
 
+  const zerionWallet = getWalletOption(
+    'zerion',
+    'Zerion Wallet',
+    system,
+    window.location.href, 
+    chainId,
+    <WalletIcon src={ZerionWallet} />,
+    deeplinkRedirect,
+    claimCode,
+    wallet
+  )
+
   const primaryOption = defineOption(
     wallet,
     system,
@@ -372,7 +428,8 @@ const defineOptionsList = (
     trustOption,
     rainbowOption,
     ledgerOption,
-    okxWallet
+    okxWallet,
+    zerionWallet
   )
 
   const wallets = [
