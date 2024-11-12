@@ -16,6 +16,7 @@ import LedgerLiveWalletIcon from 'images/ledgerlive-wallet.png'
 import RainbowWalletIcon from 'images/rainbow-wallet.png'
 import ImtokenWalletIcon from 'images/imtoken-wallet.png'
 import OKXWalletIcon from 'images/okx-wallet.png'
+import ZerionWallet from 'images/zerion-wallet.png'
 
 import Wallet1inch from 'images/wallet-1inch.png'
 import { Config, useConnect } from 'wagmi'
@@ -184,7 +185,6 @@ const defineOptionsList = (
   const system = defineSystem()
   // @ts-ignore
   const injected = connectors.find(connector => connector.id === "injected")
-  
   if (!preferredWalletOn) {
     if (defaultWalletApp === 'okx_wallet') {
       if (system === 'desktop') {
@@ -225,6 +225,44 @@ const defineOptionsList = (
         ]
       }
       
+    } else if (defaultWalletApp === 'zerion') {
+      if (system === 'desktop') {
+        const zerionWallet = getInjectedWalletOption(
+          wallet,
+          system,
+          () => {
+            setStep('download_await')
+          },
+          connect,
+          <WalletIcon src={ZerionWallet} />,
+          injected,
+          'Zerion Wallet'
+        )
+  
+        // if no preferred wallet chosen
+        return [
+          zerionWallet,
+          allWalletsOption
+        ]
+      } else {
+        const zerionWallet = getWalletOption(
+          'zerion',
+          'Zerion Wallet',
+          system,
+          window.location.href, 
+          chainId,
+          <WalletIcon src={ZerionWallet} />,
+          deeplinkRedirect,
+          claimCode,
+          wallet
+        )
+  
+        // if no preferred wallet chosen
+        return [
+          zerionWallet,
+          allWalletsOption
+        ]
+      }
     }
 
     // @ts-ignore
@@ -373,7 +411,7 @@ const defineOptionsList = (
     system,
     window.location.href, 
     chainId,
-    <WalletIcon src={OKXWalletIcon} />,
+    <WalletIcon src={ZerionWallet} />,
     deeplinkRedirect,
     claimCode,
     wallet
