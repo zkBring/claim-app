@@ -185,7 +185,7 @@ const defineOptionsList = (
   const system = defineSystem()
   // @ts-ignore
   const injected = connectors.find(connector => connector.id === "injected")
-  
+  console.log({ preferredWalletOn, defaultWalletApp })
   if (!preferredWalletOn) {
     if (defaultWalletApp === 'okx_wallet') {
       if (system === 'desktop') {
@@ -226,6 +226,44 @@ const defineOptionsList = (
         ]
       }
       
+    } else if (defaultWalletApp === 'zerion') {
+      if (system === 'desktop') {
+        const zerionWallet = getInjectedWalletOption(
+          wallet,
+          system,
+          () => {
+            setStep('download_await')
+          },
+          connect,
+          <WalletIcon src={ZerionWallet} />,
+          injected,
+          'Zerion Wallet'
+        )
+  
+        // if no preferred wallet chosen
+        return [
+          zerionWallet,
+          allWalletsOption
+        ]
+      } else {
+        const zerionWallet = getWalletOption(
+          'zerion',
+          'Zerion Wallet',
+          system,
+          window.location.href, 
+          chainId,
+          <WalletIcon src={ZerionWallet} />,
+          deeplinkRedirect,
+          claimCode,
+          wallet
+        )
+  
+        // if no preferred wallet chosen
+        return [
+          zerionWallet,
+          allWalletsOption
+        ]
+      }
     }
 
     // @ts-ignore

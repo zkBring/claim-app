@@ -138,7 +138,7 @@ const chains: TChains = {
   },
   543210: {
     chainName: 'ZERϴ Network',
-    defaultWalletApp: 'coinbase_smart_wallet',
+    defaultWalletApp: 'zerion',
     displayName: 'ZERϴ Network',
     testnet: false,
     alchemySupport: false,
