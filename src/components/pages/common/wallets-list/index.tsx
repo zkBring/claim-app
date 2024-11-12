@@ -185,7 +185,6 @@ const defineOptionsList = (
   const system = defineSystem()
   // @ts-ignore
   const injected = connectors.find(connector => connector.id === "injected")
-  console.log({ preferredWalletOn, defaultWalletApp })
   if (!preferredWalletOn) {
     if (defaultWalletApp === 'okx_wallet') {
       if (system === 'desktop') {
