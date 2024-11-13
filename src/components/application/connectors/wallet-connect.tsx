@@ -36,7 +36,7 @@ const networks = [
   base,
   polygon,
   immutableZkEvm,
-  // xLayer,
+  xLayer,
   zeroChain
 ]
 
