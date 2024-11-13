@@ -63,7 +63,10 @@ createAppKit({
   // @ts-ignore
   networks,
   projectId,
-  metadata
+  metadata,
+  features: {
+
+  }
 })
 
 
