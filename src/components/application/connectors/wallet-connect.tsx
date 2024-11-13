@@ -32,8 +32,8 @@ const metadata = {
 }
 
 const networks = [
-  base,
   mainnet,
+  base,
   polygon,
   immutableZkEvm,
   xLayer,
