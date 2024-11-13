@@ -1,15 +1,12 @@
-import React, { useState,useEffect  } from 'react'
+import React, { useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './components/application'
 import reportWebVitals from './reportWebVitals'
-import { Auth0Provider } from '@auth0/auth0-react'
 import { datadogRum } from '@datadog/browser-rum'
 import { datadogLogs } from '@datadog/browser-logs'
 
 const {
-  REACT_APP_AUTH0_DOMAIN,
-  REACT_APP_AUTH0_CLIENT_ID,
   REACT_APP_DATADOG_CLIENT_TOKEN,
   REACT_APP_DATADOG_APPLICATION_ID,
   REACT_APP_DATADOG_SERVICE,
@@ -21,15 +18,7 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 
 const AppInit = () => {
   return <React.StrictMode>
-    <Auth0Provider
-      domain={REACT_APP_AUTH0_DOMAIN as string}
-      clientId={REACT_APP_AUTH0_CLIENT_ID as string}
-      authorizationParams={{
-        redirect_uri: window.location.origin
-      }}
-    >
-      <App />
-    </Auth0Provider>
+    <App />
   </React.StrictMode>
 }
 
@@ -46,7 +35,8 @@ if (
   REACT_APP_DATADOG_APPLICATION_ID &&
   REACT_APP_DATADOG_SERVICE &&
   REACT_APP_DATADOG_SITE
-) {  datadogRum.init({
+) {
+  datadogRum.init({
     applicationId: REACT_APP_DATADOG_APPLICATION_ID as string,
     clientToken: REACT_APP_DATADOG_CLIENT_TOKEN as string,
     // `site` refers to the Datadog site parameter of your organization
