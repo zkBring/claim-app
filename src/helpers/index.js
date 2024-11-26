@@ -31,9 +31,11 @@ import checkIfMultiscanIsPresented from './check-if-multiscan-qr-id-presented-in
 import getWalletOption from './get-wallet-option'
 import getInjectedWalletOption from './get-injected-wallet-option'
 import defineApplicationConfig from './define-application-config'
+import defineApiHeaders from './define-api-headers'
 
 export {
   copyToClipboard,
+  defineApiHeaders,
   defineApplicationConfig,
   getInjectedWalletOption,
   getWalletOption,
