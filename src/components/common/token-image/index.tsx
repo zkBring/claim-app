@@ -8,7 +8,7 @@ type TProps = {
 }
 
 const TokenImageComponent: FC<TProps> = ({ src, alt, className }) => {
-  if (src.includes('.mp4')) {
+  if (src.includes('.mp4') || src.includes('video/mp4')) {
     return <TokenVideo muted autoPlay className={className} loop playsInline>
       <TokenVideoSource src={src} type="video/mp4"/>
       Your browser does not support the video tag.
