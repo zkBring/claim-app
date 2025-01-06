@@ -3,7 +3,7 @@ import {
   Container,
   Image,
   Title,
-  Subtitle,
+  Subtitle
 } from 'components/pages/common/styles/styled-components'
 import Error from 'images/error-black.png'
 
