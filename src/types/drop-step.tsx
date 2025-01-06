@@ -25,6 +25,7 @@ type TDropStep = 'loading' |
                  'download_await' |
                  'ledger_connection' |
                  'wallet_redirect_await' |
-                 'crossmint_connection' 
+                 'crossmint_connection' |
+                 'error_multiple_claims_forbidden'
 
 export default TDropStep

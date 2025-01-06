@@ -25,6 +25,7 @@ import ErrorLinkExpired from './error-link-expired'
 import ErrorAlreadyClaimed from './error-already-claimed'
 import ErrorLinkNotFound from './error-link-not-found'
 import ErrorLinkNoConnection from './error-link-no-connection'
+import ErrorMultipleClaimsForbidden from './error-multiple-claims-forbidden'
 import ErrorLink from './error-link'
 import ShortCodeLoading from './short-code-loading'
 import HighGasPrice from './high-gas-price'
@@ -144,6 +145,8 @@ const defineCurrentScreen: TDefineStep = (step, setStep, setAddressCallback) => 
       return <ErrorTransactionPage />
     case 'error_region':
       return <ErrorRegion />
+    case 'error_multiple_claims_forbidden':
+      return <ErrorMultipleClaimsForbidden /> 
     case 'error_no_connection':
       return <ErrorNoConnectionPage />
     case 'error_server_fail':

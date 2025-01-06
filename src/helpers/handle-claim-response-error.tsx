@@ -12,7 +12,6 @@ const handleError = (
 ) => {
   if (axios.isAxiosError(error)) {
     if (error.response?.status === 422) {
-
       if (error.response.data.errors && error.response.data.errors.length > 0) {
         if (error.response.data.errors[0] === "CLAIM_LINK_NOT_AVAILABLE_IN_REGION") {
           plausibleApi.invokeEvent({
@@ -35,6 +34,13 @@ const handleError = (
         }
       }
     } else {
+      if (error.response && error.response.data.errors && error.response.data.errors.length > 0) {
+        if (error.response.data.errors[0] === "MULTIPLE_CLAIMS_FORBIDDEN") {
+          dispatch(dropActions.setStep('error_multiple_claims_forbidden'))
+          return
+        }
+      }
+
       plausibleApi.invokeEvent({
         eventName: 'error',
         data: {
