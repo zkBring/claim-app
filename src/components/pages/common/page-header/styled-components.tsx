@@ -63,7 +63,7 @@ export const Address = styled.div<TAccount>`
   height: 28px;
   border-radius: 28px;
   background: ${props => props.theme.secondaryColor};
-  color: ${props => props.theme.primaryTextColor};
+  color: ${props => props.theme.secondaryTextColor};
   padding: 4px 8px;
   display: flex;
   align-items: center;
