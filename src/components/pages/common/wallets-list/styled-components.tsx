@@ -26,6 +26,7 @@ export const OptionsListStyled = styled(OptionsList)`
   li {
     margin-bottom: 12px;
     justify-content: center;
+    background-color: ${props => props.theme.buttonActionBackgroundColor};
 
     & > div {
       margin-right: 12px;
