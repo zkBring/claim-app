@@ -10,7 +10,7 @@ export const Container = styled.div`
   height: 100%;
 `
 
-export const LinkdropLogo = styled.img`
+export const BringLogo = styled.img`
   position: absolute;
   top: 24px;
   left: 50%;

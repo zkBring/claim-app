@@ -8,12 +8,12 @@ import {
   Image,
   Title,
   Subtitle,
-  LinkdropLogo
+  BringLogo
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
 import { TDropError, TDropType, TMultiscanStep } from 'types'
-import LinkdropLogoImage from 'images/linkdrop.png'
+import BringLogoImage from 'images/bring-fun.png'
 import RedirectImg from 'images/redirect-image.png'
 
 import {
@@ -235,7 +235,7 @@ const Scan: FC<ReduxType> = ({
   ) {
     return <Page>
       <Container>
-        <LinkdropLogo src={LinkdropLogoImage} />
+        <BringLogo src={BringLogoImage} />
         <Loader />
       </Container>
     </Page>

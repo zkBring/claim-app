@@ -5,6 +5,7 @@ export const Page = styled.div`
   min-height: 100vh;
   position: relative;
   background: ${props => props.theme.blankColor};
+  color: ${props => props.theme.primaryTextColor};
   overflow-y: scroll;
 `
 

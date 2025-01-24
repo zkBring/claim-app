@@ -3,8 +3,7 @@ import {
   PoweredBy,
   PoweredByImage
 } from './styled-components'
-import LinkdropLogo from 'images/linkdrop.png'
-import LinkdropLogoLight from 'images/linkdrop-light.png'
+import BringLogo from 'images/bring-fun.png'
 import { plausibleApi } from 'data/api'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
@@ -32,7 +31,7 @@ const PoweredByFooter: FC<ReduxType> = ({
     })
   }}>
     Powered by
-    <PoweredByImage src={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight} alt="Linkdrop Logo"/>
+    <PoweredByImage src={BringLogo} alt="Linkdrop Logo"/>
   </PoweredBy>
 }
 

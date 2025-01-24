@@ -1,20 +1,12 @@
 @font-face {
-  font-family: 'Inter';
-  font-weight: 500;
-  src: url('vendor/fonts/Inter-Medium.woff2') format('woff2'),
-       url('vendor/fonts/Inter-Medium.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-weight: 600;
-  src: url('vendor/fonts/Inter-SemiBold.woff2') format('woff2'),
-       url('vendor/fonts/Inter-SemiBold.woff') format('woff');
+  font-family: 'FK Raster Roman Compact';
+  font-weight: 400;
+  src: url('vendor/fonts/FKRasterRomanCompact-Sharp.ttf') format('truetype');
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: 'FK Raster Roman Compact', 'Helvetica Neue', sans-serif;
   touch-action: pan-x pan-y;
   font-weight: 500;
 }

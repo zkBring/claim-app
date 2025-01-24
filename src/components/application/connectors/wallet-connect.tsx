@@ -25,9 +25,9 @@ const projectId = REACT_APP_WC_PROJECT_ID as string
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: 'Linkdrop Claim App',
-  description: 'Linkdrop Claim App',
-  url: 'https://linkdrop.io', // origin must match your domain & subdomain
+  name: 'Bring Claim App',
+  description: 'Bring Claim App',
+  url: 'https://zkbring.com', // origin must match your domain & subdomain
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 

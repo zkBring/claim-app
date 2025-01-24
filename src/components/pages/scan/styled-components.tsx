@@ -59,7 +59,7 @@ export const LoadingText = styled.p`
 `
 
 
-export const LinkdropLogo = styled.img`
+export const BringLogo = styled.img`
   position: absolute;
   top: 24px;
   left: 50%;
