@@ -13,8 +13,8 @@ import Page from '../page'
 import { IAppDispatch, RootState } from 'data/store'
 import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
-import LinkdropLogo from 'images/linkdrop.png'
-import LinkdropLogoLight from 'images/linkdrop-light.png'
+import BringLogo from 'images/bring-fun.png'
+
 import { defineApplicationConfig } from 'helpers'
 
 const mapStateToProps = ({
@@ -82,7 +82,7 @@ const HomePage: FC<ReduxType> = ({
   return <Page>
     <Container>
       <LinkdropHeader>
-        <LinkdropHeaderLogo src={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight} alt="Linkdrop Logo" />
+        <LinkdropHeaderLogo src={BringLogo} alt="Bring Logo" />
       </LinkdropHeader>
       <Title>Enter the code</Title>
       <Description>Please enter the code to continue the claiming process</Description>

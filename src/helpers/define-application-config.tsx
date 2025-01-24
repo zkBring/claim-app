@@ -3,7 +3,7 @@ const { REACT_APP_CLIENT } = process.env
 
 
 const defineApplicationConfig = () => {
-  return applicationOptions[REACT_APP_CLIENT || 'linkdrop']
+  return applicationOptions[REACT_APP_CLIENT || 'zkbring']
 }
 
 export default defineApplicationConfig

@@ -9,8 +9,8 @@ import {
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import { AdditionalNoteComponent, OverlayScreen } from 'linkdrop-ui'
-import LinkdropLogo from 'images/linkdrop.png'
-import LinkdropLogoLight from 'images/linkdrop-light.png'
+import BringLogo from 'images/bring-fun.png'
+
 import { PopupContents } from './components'
 import Image from 'images/redirect-await.png'
 import { getWalletDeeplink, defineSystem, defineApplicationConfig } from 'helpers'
@@ -59,7 +59,7 @@ const WalletRedirectAwait: FC<ReduxType> = ({
       }}
     />
     {showPopup && <OverlayScreen
-      headerLogo={configs.footerLogoStyle === 'dark' ? LinkdropLogo : LinkdropLogoLight}
+      headerLogo={BringLogo}
       title='Need Help?'
       onCloseAction={() => { setShowPopup(false) }}
       mainAction={() => { setShowPopup(false) }}

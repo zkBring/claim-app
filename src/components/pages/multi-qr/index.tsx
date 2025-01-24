@@ -4,13 +4,13 @@ import * as dropAsyncActions from 'data/store/reducers/drop/async-actions'
 import { connect } from 'react-redux'
 import {
   Container,
-  LinkdropLogo
+  BringLogo
 } from './styled-components'
 import { useParams, useHistory } from 'react-router-dom'
 import Page from '../page'
 import { QRIncorrectParameter } from 'components/pages/common'
 import { alertError } from 'helpers'
-import LinkdropLogoImage from 'images/linkdrop.png'
+import BringLogoImage from 'images/bring-fun.png'
 import { Loader } from 'components/common'
 
 const mapStateToProps = ({
@@ -63,7 +63,7 @@ const MultiQR: FC<ReduxType> = ({ computeScanAddress, initialized, error }) => {
 
   return <Page>
     <Container>
-      <LinkdropLogo src={LinkdropLogoImage} />
+      <BringLogo src={BringLogoImage} />
       <Loader />
     </Container>
   </Page>

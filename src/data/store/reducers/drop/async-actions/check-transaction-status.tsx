@@ -48,7 +48,7 @@ export default function getData() {
       }
 
       if (!chainId) {
-        return alert('campaignId is not provided')
+        return alert('chainId is not provided')
       }
 
 

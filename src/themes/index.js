@@ -17,11 +17,11 @@ const themes = {
     additionalBorderColor: '#272727',
     primaryColor: config.backgroundColor, // main color of bg
     secondaryColor: '#F7F8FA', // secondary coplor of bg
-    blankColor: '#FFF', // secondary coplor of bg
+    blankColor: config.backgroundColor, // secondary coplor of bg
     menuItemActive: '#3E4049',
     primaryHighlightColor: config.highlightColor,
     loaderPrimaryColor: '#000',
-    widgetColor: '#FFF',
+    widgetColor: config.backgroundColor,
     loadingBackgroundColor: 'linear-gradient(to right, #00B2FF 0%, #FA00FF 50%, #00B2FF 100%)',
     
 
