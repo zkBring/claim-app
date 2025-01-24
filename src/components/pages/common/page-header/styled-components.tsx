@@ -39,7 +39,7 @@ export const Account = styled.div`
   display: flex;
   align-items: center;
   padding: 0 2px 0 2px;
-  color: ${props => props.theme.primaryTextColor};
+  color: ${props => props.theme.secondaryTextColor};
   justify-content: center;
   font-size: 14px;
   border-radius: 36px;
